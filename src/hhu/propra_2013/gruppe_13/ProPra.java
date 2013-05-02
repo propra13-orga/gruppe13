@@ -1,6 +1,6 @@
 package hhu.propra_2013.gruppe_13;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 public class ProPra {
 
@@ -21,10 +21,4 @@ public class ProPra {
 		
 		Menu.showMenu(gameWindow);
 	}
-	
-	//setter method for the JPanel
-	/*protected static void setPanel(JPanel inPanel) {
-		gamePanel = inPanel;
-	}*/
-
 }
