@@ -24,31 +24,6 @@ class Wall extends GameGraphics {
 		return Rad;
 	}
 
-	void setPosX(double tempdouble) {
-		// TODO Auto-generated method stub
-		PosX = tempdouble;
-		return;
-	}
 
-	@Override
-	void setPosY(double tempdouble) {
-		// TODO Auto-generated method stub
-		PosY = tempdouble;
-		return;
-	}
-
-	@Override
-	void setRad(double tempdouble) {
-		// TODO Auto-generated method stub
-		Rad = tempdouble;
-		return;
-	}
-
-	@Override
-	void setHP(int tempint) {
-		// TODO Auto-generated method stub
-		HP = tempint;
-		return;
-	}
 
 }
