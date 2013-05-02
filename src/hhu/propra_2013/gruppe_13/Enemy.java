@@ -21,20 +21,20 @@ class Enemy extends GameGraphics {
 		return r;
 	}
 	
-	void setPosX(){
-		x=1;
+	void setPosX(double inX){
+		x = inX;
 	}
 	
-	void setPosY(){
-		y=1;
+	void setPosY(double inY){
+		y = inY;
 	}
 	
-	void setRad(){
-		r=1;
+	void setRad(double inR){
+		r = inR;
 	}
 	
-	void setHP(){
-		hp=1;
+	void setHP(int inHP){
+		hp = inHP;
 	}
 	
 }

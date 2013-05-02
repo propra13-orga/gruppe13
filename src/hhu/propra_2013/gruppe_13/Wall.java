@@ -2,28 +2,50 @@ package hhu.propra_2013.gruppe_13;
 
 class Wall extends GameGraphics {
 
-	int HP = 0;
-	double PosX = 0;
-	double PosY = 0;
-	double Rad = 0;
-	
-	
+	int 	hp;
+	double 	x,y,r;
+
 	int getHP() {
-		return HP;
+		return hp;
 	}
 
 	double getPosX() {
-		return PosX;
+		return x;
 	}
 
 	double getPosY() {
-		return PosY;
+		return y;
 	}
 
 	double getRad() {
-		return Rad;
+		return r;
 	}
 
+	void setPosX(double inX) {
+
+		x = inX;
+		return;
+	}
+
+	void setPosY(double inY) {
+
+		y = inY;
+		return;
+	}
+
+
+	void setRad(double inR) {
+
+		r = inR;
+		return;
+	}
+
+
+	void setHP(int inHP) {
+
+		hp = inHP;
+		return;
+	}
 
 
 }
