@@ -3,27 +3,32 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.*;
 import javax.swing.*;
 
-public abstract class GameGraphics {
+class GameGraphics {
 	protected void draw() {
 	}
-	int hp;
 	
-	double x,y,r;
+	int getHP() {
+		return -1;
+	}
 	
-	abstract int getHP();
+	double getPosX() {
+		return -1;
+	}
 	
-	abstract double getPosX();
+	double getPosY() {
+		return -1;
+	}
 	
-	abstract double getPosY();
+	double getRad() {
+		return -1;
+	}
 	
-	abstract double getRad();
+	void setPosX() {}
 	
-	abstract void setPosX();
+	void setPosY() {}
 	
-	abstract void setPosY();
+	void setRad() {}
 	
-	abstract void setRad();
-	
-	abstract void setHP();
+	void setHP() {}
 	
 }

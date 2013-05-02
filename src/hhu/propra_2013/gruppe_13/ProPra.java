@@ -5,7 +5,7 @@ import javax.swing.*;
 
 public class ProPra {
 
-	protected static JFrame gameWindow;
+	static JFrame gameWindow;
 
 	public static void main(String[] args) {
 		/* TODO: Zum testen wärs nicht schlecht wählen zu können ob man das Menü oder das Spiel entwickeln möchte. 

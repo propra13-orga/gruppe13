@@ -1,6 +1,6 @@
 package hhu.propra_2013.gruppe_13;
 
-public class Wall extends GameGraphics {
+class Wall extends GameGraphics {
 
 	int HP = 0;
 	double PosX = 0;

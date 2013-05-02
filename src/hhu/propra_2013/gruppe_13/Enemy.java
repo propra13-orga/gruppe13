@@ -1,7 +1,10 @@
 package hhu.propra_2013.gruppe_13;
 
-public class Enemy extends GameGraphics {
+class Enemy extends GameGraphics {
 
+	int hp;
+	double x, y, r;
+	
 	int getHP(){
 		return hp;
 	}

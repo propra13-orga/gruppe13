@@ -1,8 +1,8 @@
 package hhu.propra_2013.gruppe_13;
 
-public class O_Game {
+class O_Game {
 	
-	protected static GameGraphics graphics;
+	static GameGraphics graphics;
 	protected static Logic logic;
 	
 	// Initialize method for the actual game
