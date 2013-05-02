@@ -1,11 +1,9 @@
 package hhu.propra_2013.gruppe_13;
 
-class Logic {
-
-	GameGraphics graphics;
+class Logic implements Runnable {
 	
-	// use constructor to set gameGraphics object
-	Logic(GameGraphics inGraphics) {
-		graphics = inGraphics;
+	@Override
+	public void run() {
+		
 	}
 }
