@@ -6,8 +6,6 @@ public class Wall extends GameGraphics {
 	double PosX = 0;
 	double PosY = 0;
 	double Rad = 0;
-	int tempint = 0;
-	double tempdouble = 0;
 	
 	
 	int getHP() {
@@ -26,28 +24,28 @@ public class Wall extends GameGraphics {
 		return Rad;
 	}
 
-	void setPosX(tempdouble) {
+	void setPosX(double tempdouble) {
 		// TODO Auto-generated method stub
 		PosX = tempdouble;
 		return;
 	}
 
 	@Override
-	void setPosY(tempdouble) {
+	void setPosY(double tempdouble) {
 		// TODO Auto-generated method stub
 		PosY = tempdouble;
 		return;
 	}
 
 	@Override
-	void setRad(tempdouble) {
+	void setRad(double tempdouble) {
 		// TODO Auto-generated method stub
 		Rad = tempdouble;
 		return;
 	}
 
 	@Override
-	void setHP(tempint) {
+	void setHP(int tempint) {
 		// TODO Auto-generated method stub
 		HP = tempint;
 		return;
