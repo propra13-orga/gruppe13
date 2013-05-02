@@ -1,11 +1,11 @@
 package hhu.propra_2013.gruppe_13;
 
-public class Logic {
+class Logic {
 
-	protected GameGraphics graphics;
+	GameGraphics graphics;
 	
 	// use constructor to set gameGraphics object
-	protected Logic(GameGraphics inGraphics) {
+	Logic(GameGraphics inGraphics) {
 		graphics = inGraphics;
 	}
 }

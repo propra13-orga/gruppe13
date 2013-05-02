@@ -8,9 +8,10 @@ package hhu.propra_2013.gruppe_13;
  * Radius
  */
 
-public class Figure extends GameGraphics {
+class Figure extends GameGraphics {
 	
-	int x,y,r,hp;
+	int 	hp;
+	double 	x,y,r;
 	
 	
 	
