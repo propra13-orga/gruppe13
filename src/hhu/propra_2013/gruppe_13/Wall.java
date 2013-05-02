@@ -2,43 +2,55 @@ package hhu.propra_2013.gruppe_13;
 
 public class Wall extends GameGraphics {
 
+	int HP = 0;
+	double PosX = 0;
+	double PosY = 0;
+	double Rad = 0;
+	int tempint = 0;
+	double tempdouble = 0;
+	
+	
 	int getHP() {
-		return 0;
+		return HP;
 	}
 
 	double getPosX() {
-		return 0;
+		return PosX;
 	}
 
 	double getPosY() {
-		return 0;
+		return PosY;
 	}
 
 	double getRad() {
-		return 0;
+		return Rad;
 	}
 
-	void setPosX() {
+	void setPosX(tempdouble) {
 		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void setPosY() {
-		// TODO Auto-generated method stub
-		
+		PosX = tempdouble;
+		return;
 	}
 
 	@Override
-	void setRad() {
+	void setPosY(tempdouble) {
 		// TODO Auto-generated method stub
-		
+		PosY = tempdouble;
+		return;
 	}
 
 	@Override
-	void setHP() {
+	void setRad(tempdouble) {
 		// TODO Auto-generated method stub
-		
+		Rad = tempdouble;
+		return;
+	}
+
+	@Override
+	void setHP(tempint) {
+		// TODO Auto-generated method stub
+		HP = tempint;
+		return;
 	}
 
 }
