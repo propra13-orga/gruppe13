@@ -21,10 +21,4 @@ public class ProPra {
 		
 		Menu.showMenu(gameWindow);
 	}
-	
-	//setter method for the JPanel
-	/*protected static void setPanel(JPanel inPanel) {
-		gamePanel = inPanel;
-	}*/
-
 }
