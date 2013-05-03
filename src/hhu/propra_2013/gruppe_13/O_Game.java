@@ -1,7 +1,6 @@
 package hhu.propra_2013.gruppe_13;
 
 import java.util.ArrayList;
-
 import javax.swing.JFrame;
 
 

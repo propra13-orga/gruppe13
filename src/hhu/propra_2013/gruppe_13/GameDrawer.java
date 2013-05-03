@@ -35,7 +35,8 @@ class GameDrawer implements Runnable {
 				}
 		};
 		
-		//game.addKeyListener(new Game_IO(inLogic));
+		// add KeyListener with appropriate logic object to the panel
+		game.addKeyListener(new Game_IO(inLogic));
 		return game;
 	}
 	
