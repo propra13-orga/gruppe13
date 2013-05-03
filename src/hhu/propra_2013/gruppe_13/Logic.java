@@ -16,5 +16,16 @@ class Logic implements Runnable {
 	public void run() {
 		
 	}
-	
+	void setMoveX(boolean walkX){
+		moveX = walkX;
+	}
+	void setMoveXn(boolean walkXn){
+		moveXn = walkXn;
+	}
+	void setMoveY(boolean walkY){
+		moveY = walkY;
+	}
+	void setMoveYn(boolean walkYn){
+		moveYn = walkYn;
+	}
 }
