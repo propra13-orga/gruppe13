@@ -23,7 +23,7 @@ class O_Game {
 		// TODO: make that shit better!!
 		for (int i=0; i<3; i++) {
 			ArrayList<GameObjects> temp = new ArrayList<GameObjects>();
-			temp.add(0, new Figure(0, 0, 1));
+			temp.add(0, new Figure(0, 0, 1, inFrame));
 			// TODO: Build cool shit for reading levels
 			rooms.add(i, temp);
 		}

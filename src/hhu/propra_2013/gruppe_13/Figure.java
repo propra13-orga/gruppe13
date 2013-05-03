@@ -2,6 +2,8 @@ package hhu.propra_2013.gruppe_13;
 
 import java.awt.Graphics2D;
 
+import javax.swing.JFrame;
+
 /*
  * Wir brauchen:
  * Position
@@ -13,17 +15,19 @@ import java.awt.Graphics2D;
 class Figure extends GameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
 	// Hitpoints, position, collision radius and constructor
-	int hp;
-	double x, y, r;
-	double v_x, v_y;
+	private int hp;
+	private double x, y, r;
+	private double v_x, v_y;
+	JFrame window;
 	
-	Figure(double initX, double initY, double initRadius) {
+	Figure(double initX, double initY, double initRadius, JFrame inFrame) {
 		x = initX;
 		y = initY;
 		v_x = 1;
 		v_y = 1;
 		r = initRadius;
 		hp = 1;
+		window = inFrame;
 	}
 	
 	// Getter and Setter methods for above variables
@@ -73,7 +77,7 @@ class Figure extends GameObjects {
 	
 	/*-----------------------------------------------------------------------------------------------*/
 	void draw(Graphics2D g) {
-		
+		g.drawRect((int)x , (int)y , window.getWidth()/100 , window.getHeight()/100);
 	}
 	
 	void attack() {
