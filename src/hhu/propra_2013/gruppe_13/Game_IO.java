@@ -21,21 +21,22 @@ class Game_IO implements KeyListener{
 		 case 65: 
 			 logic.setMoveYn(true);  
 			 break;
+		 }
 	    } 
 		 
 	 public void keyReleased(KeyEvent e) {
 		 switch (e.getKeyCode()) {
 		 case 87: 
-			 Logic.setMoveXn(false);  
+			 logic.setMoveXn(false);  
 			 break;
 		 case 83: 
-			 Logic.setMoveX(false);
+			 logic.setMoveX(false);
 			 break;
 		 case 68: 
-			 Logic.setMoveY(false);  
+			 logic.setMoveY(false);  
 			 break;
 		 case 65: 
-			 Logic.setMoveYn(false);  
+			 logic.setMoveYn(false);  
 			 break;
 		 }
 	    }
