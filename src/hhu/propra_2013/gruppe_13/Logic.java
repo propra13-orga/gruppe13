@@ -14,7 +14,8 @@ import java.util.ArrayList;
 
 class Logic implements Runnable {
 	
-	private boolean moveX, moveXn, moveY, moveYn;
+	private boolean moveX, moveXn, moveY, moveYn ,freeX, freeY, freeYn, freeXn;
+	private int location;
 	void setMoveX(boolean in){
 		moveX = in;
 	}
@@ -28,6 +29,7 @@ class Logic implements Runnable {
 		moveYn = in;
 	}
 	
+	
 	// List of all Objects within the game
 	ArrayList<ArrayList<GameObjects>> rooms;
 	
@@ -40,8 +42,48 @@ class Logic implements Runnable {
 	public void run() {
 		// game loop
 		while (true) {
-			
+			this.checkDistance();
+			this.checkCollision(moveX,moveXn,moveY,moveYn);
+			this.moveFigure(moveX,moveXn,moveY,moveYn);
+			this.moveEnemy(moveX,moveXn,moveY,moveYn);
 		}
+	}
+	private void checkDistance() {
+				
+	}
+	private void moveEnemy(boolean moveX2, boolean moveXn2, boolean moveY2,
+			boolean moveYn2) {
+		// TODO Auto-generated method stub
+		
+	}
+	private void checkCollision(boolean moveX2, boolean moveXn2,
+			boolean moveY2, boolean moveYn2) {
+		// TODO Auto-generated method stub
+		
+	}
+	private void moveFigure(boolean moveX2, boolean moveXn2, boolean moveY2,
+			boolean moveYn2) {
+		if(moveX2 && !moveXn2){
+			if(freeX){
+				
+			}
+		}
+		if(moveXn2 && !moveX2){
+			if(freeXn){
+				
+			}
+		}
+		if(moveY2 && !moveYn2){
+			if(freeY){
+				
+			}
+		}
+		if(moveYn2 && !moveY2){
+			if(freeYn){
+				
+			}
+		}
+		
 	}
 
 }

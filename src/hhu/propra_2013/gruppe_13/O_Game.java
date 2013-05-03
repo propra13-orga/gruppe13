@@ -22,7 +22,7 @@ class O_Game {
 		// iterate over all objects and rooms within the level, all objects run within [0...800)x[0...600)
 		for (int i=0; i<3; i++) {
 			ArrayList<GameObjects> temp = new ArrayList<GameObjects>();
-			temp.add(0, new Figure(0, 0, 1));
+			temp.add(0, new Figure(0, 0, 1, inFrame));
 			// TODO: Build cool shit for reading levels
 			rooms.add(i, temp);
 		}
