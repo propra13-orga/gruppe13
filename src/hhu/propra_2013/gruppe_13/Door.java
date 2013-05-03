@@ -1,5 +1,7 @@
 package hhu.propra_2013.gruppe_13;
 
+import java.awt.Graphics;
+
 class Door extends GameObjects {
 
 	@Override
@@ -63,7 +65,7 @@ class Door extends GameObjects {
 	}
 
 	@Override
-	void draw() {
+	void draw(Graphics g) {
 		// TODO Auto-generated method stub
 
 	}

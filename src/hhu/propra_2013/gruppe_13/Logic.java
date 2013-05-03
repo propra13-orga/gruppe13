@@ -1,5 +1,7 @@
 package hhu.propra_2013.gruppe_13;
 
+import java.util.ArrayList;
+
 
 /*
  * Ablauf: 	Logik bekommt die Bewegungsbefehle von der IO
@@ -12,9 +14,20 @@ package hhu.propra_2013.gruppe_13;
 
 class Logic implements Runnable {
 	
-	@Override
+	// List of all Objects within the game
+	ArrayList<ArrayList<GameObjects>> rooms;
+	
+	// Initiate the current objects variables
+	void init(ArrayList<ArrayList<GameObjects>> objectsInit) {
+		rooms = objectsInit;
+	}
+	
+	@Override //Override run method from interface, this will have the game loop
 	public void run() {
-		
+		// game loop
+		while (true) {
+			
+		}
 	}
 	
 }

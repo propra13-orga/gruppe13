@@ -1,5 +1,7 @@
 package hhu.propra_2013.gruppe_13;
 
+import java.awt.Graphics;
+
 /*
  * Wir brauchen:
  * Position
@@ -70,7 +72,7 @@ class Figure extends GameObjects {
 	
 	
 	/*-----------------------------------------------------------------------------------------------*/
-	void draw() {
+	void draw(Graphics g) {
 		
 	}
 	
