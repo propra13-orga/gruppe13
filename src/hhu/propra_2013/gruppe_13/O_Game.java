@@ -23,5 +23,11 @@ class O_Game {
 			
 			rooms.add(i, temp);
 		}
+		
+		// Initialize Logic and Graphics
+		logic.init(rooms);
+		graphics.init(rooms);
+		
+		
 	}
 }

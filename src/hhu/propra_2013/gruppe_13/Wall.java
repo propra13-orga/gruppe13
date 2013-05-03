@@ -1,5 +1,7 @@
 package hhu.propra_2013.gruppe_13;
 
+import java.awt.Graphics;
+
 class Wall extends GameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
 	// Hitpoints, position and collision radius
@@ -62,7 +64,7 @@ class Wall extends GameObjects {
 	
 	
 	/*-----------------------------------------------------------------------------------------------*/
-	void draw() {
+	void draw(Graphics g) {
 		
 	}
 	
