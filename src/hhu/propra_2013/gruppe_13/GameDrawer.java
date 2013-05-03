@@ -1,6 +1,7 @@
 package hhu.propra_2013.gruppe_13;
 
 import java.awt.Graphics;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -13,12 +14,15 @@ class GameDrawer implements Runnable {
 	private int room;
 	
 	// Initiate current objects variables
-	void init(ArrayList<ArrayList<GameObjects>> objectsInit) {
+	JPanel init(ArrayList<ArrayList<GameObjects>> objectsInit, Logic inLogic) {
 		rooms = objectsInit;
 		
 		// Build a new panel, override paint method
 		game = new JPanel() {
+			// Serial-ID in order to appease Eclipse
 			private static final long serialVersionUID = 1L;
+			
+				// Actual paint method is great for painting stuff... and cookies
 				protected void paintComponent(Graphics g) {
 					super.paintComponent(g);
 					
@@ -30,13 +34,16 @@ class GameDrawer implements Runnable {
 					
 				}
 		};
+		
+		// add KeyListener with appropriate logic object to the panel
+		game.addKeyListener(new Game_IO(inLogic));
+		return game;
 	}
 	
 	@Override // Override Thread method run, this will implement the game loop
 	public void run() {
 		// game loop, TODO: repaint on screen synchronization
 		while (true) {
-			
 		}
 	}
 }

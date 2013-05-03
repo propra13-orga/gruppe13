@@ -1,17 +1,21 @@
 package hhu.propra_2013.gruppe_13;
 
 import java.util.ArrayList;
+import javax.swing.JFrame;
 
 
 class O_Game {
 	
+	// Frame, graphic,logic and graphic objects for the actual game
+	JFrame gameWindow;
 	Logic logic;
 	GameDrawer graphics;
 	ArrayList<ArrayList<GameObjects>> rooms;
 	
 	// Initialize method for the actual game
-	void init() {
+	void init(JFrame inFrame) {
 		// Initiate object variables
+		gameWindow = inFrame;
 		logic = new Logic();
 		graphics = new GameDrawer();
 		rooms = new ArrayList<ArrayList<GameObjects>>();
@@ -24,10 +28,8 @@ class O_Game {
 			rooms.add(i, temp);
 		}
 		
-		// Initialize Logic and Graphics
+		// Initialize Logic and Graphics, set contentPane to JPanel returned by GameDrawer
 		logic.init(rooms);
-		graphics.init(rooms);
-		
-		
+		gameWindow.setContentPane(graphics.init(rooms, logic));
 	}
 }
