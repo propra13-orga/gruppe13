@@ -14,6 +14,20 @@ import java.util.ArrayList;
 
 class Logic implements Runnable {
 	
+	private boolean moveX, moveXn, moveY, moveYn;
+	void setMoveX(boolean in){
+		moveX = in;
+	}
+	void setMoveXn(boolean in){
+		moveXn = in;
+	}
+	void setMoveY(boolean in){
+		moveY = in;
+	}
+	void setMoveYn(boolean in){
+		moveYn = in;
+	}
+	
 	// List of all Objects within the game
 	ArrayList<ArrayList<GameObjects>> rooms;
 	
@@ -29,16 +43,5 @@ class Logic implements Runnable {
 			
 		}
 	}
-	void setMoveX(boolean walkX){
-		moveX = walkX;
-	}
-	void setMoveXn(boolean walkXn){
-		moveXn = walkXn;
-	}
-	void setMoveY(boolean walkY){
-		moveY = walkY;
-	}
-	void setMoveYn(boolean walkYn){
-		moveYn = walkYn;
-	}
+
 }
