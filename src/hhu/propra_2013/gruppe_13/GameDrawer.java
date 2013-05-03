@@ -32,7 +32,6 @@ class GameDrawer implements Runnable {
 				super.paintComponent(g);
 				Graphics2D g2d = (Graphics2D) g;
 				
-				setBackground(new Color((int)(256*Math.random()), (int)(256*Math.random()), (int)(256*Math.random())));
 				// Iterate over all objects and call draw method
 				ArrayList<GameObjects> list = rooms.get(room);
 				for(GameObjects  toDraw : list) {
@@ -52,6 +51,7 @@ class GameDrawer implements Runnable {
 		// game loop, TODO: repaint on screen synchronization
 		while (true) {
 			game.setSize(gameWindow.getSize());
+			game.repaint();
 			try {
 				Thread.sleep(200);
 			} catch (InterruptedException e) {
