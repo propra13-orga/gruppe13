@@ -5,8 +5,7 @@ import javax.swing.JFrame;
 
 
 class O_Game {
-	
-	// Frame, graphic,logic and graphic objects for the actual game
+	// Frame, graphic, logic and graphic objects for the actual game
 	JFrame gameWindow;
 	Logic logic;
 	GameDrawer graphics;
@@ -24,12 +23,21 @@ class O_Game {
 		for (int i=0; i<3; i++) {
 			ArrayList<GameObjects> temp = new ArrayList<GameObjects>();
 			temp.add(0, new Figure(0, 0, 1));
-			
+			// TODO: Build cool shit for reading levels
 			rooms.add(i, temp);
 		}
 		
 		// Initialize Logic and Graphics, set contentPane to JPanel returned by GameDrawer
 		logic.init(rooms);
 		gameWindow.setContentPane(graphics.init(rooms, logic));
+	}
+	
+	void start() {
+		// Build two new threads, one for logic and one for graphics
+		Thread logicThread = new Thread(logic);
+		Thread graphicThread = new Thread(graphics);
+		
+		logicThread.start();
+		graphicThread.start();
 	}
 }

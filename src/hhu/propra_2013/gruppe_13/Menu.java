@@ -31,7 +31,7 @@ public class Menu{
 		JButton startGame	= new JButton("May the coding begin...");
 		
 		
-		// implement action listeners to end and start the game
+		// implement action listeners to start and end the game
 		startGame.addActionListener(new ActionListener() {
 			
 			@Override	// initiate the game

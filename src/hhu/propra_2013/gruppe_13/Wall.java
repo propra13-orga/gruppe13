@@ -1,6 +1,6 @@
 package hhu.propra_2013.gruppe_13;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 class Wall extends GameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
@@ -64,7 +64,7 @@ class Wall extends GameObjects {
 	
 	
 	/*-----------------------------------------------------------------------------------------------*/
-	void draw(Graphics g) {
+	void draw(Graphics2D g) {
 		
 	}
 	

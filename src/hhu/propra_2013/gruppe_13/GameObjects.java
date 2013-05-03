@@ -1,6 +1,6 @@
 package hhu.propra_2013.gruppe_13;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 abstract class GameObjects {
 	// Getter and Setter methods for Objects used by Logic and GameDrawer classes
@@ -17,6 +17,6 @@ abstract class GameObjects {
 	abstract void setHP(int inHP);
 	
 	// Draw and Attack methods for all inheriting classes
-	abstract void draw(Graphics g);
+	abstract void draw(Graphics2D g);
 	abstract void attack();
 }

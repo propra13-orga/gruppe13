@@ -11,6 +11,7 @@ public class ProPra {
 		System.out.println("Initiate game");
 		O_Game game = new O_Game();
 		game.init(gameWindow);
+		game.start();
 	}
 
 	public static void main(String[] args) {
