@@ -20,6 +20,7 @@ class O_Game {
 		rooms = new ArrayList<ArrayList<GameObjects>>();
 		
 		// iterate over all objects and rooms within the level, all objects run within [0...800)x[0...600)
+		// TODO: make that shit better!!
 		for (int i=0; i<3; i++) {
 			ArrayList<GameObjects> temp = new ArrayList<GameObjects>();
 			temp.add(0, new Figure(0, 0, 1));
@@ -29,14 +30,14 @@ class O_Game {
 		
 		// Initialize Logic and Graphics, set contentPane to JPanel returned by GameDrawer
 		logic.init(rooms);
-		gameWindow.setContentPane(graphics.init(rooms, logic));
+		gameWindow.setContentPane(graphics.init(rooms, logic, gameWindow));
 	}
 	
-	void start() {
+	void go() {
 		// Build two new threads, one for logic and one for graphics
 		Thread logicThread = new Thread(logic);
 		Thread graphicThread = new Thread(graphics);
-		
+
 		logicThread.start();
 		graphicThread.start();
 	}

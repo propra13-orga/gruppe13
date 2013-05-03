@@ -40,7 +40,6 @@ class Logic implements Runnable {
 	public void run() {
 		// game loop
 		while (true) {
-			
 		}
 	}
 
