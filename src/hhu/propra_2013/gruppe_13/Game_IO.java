@@ -5,7 +5,11 @@ import java.awt.event.KeyListener;
 
 class Game_IO {
 	
+	// Logic used by the class, set within the constructor
 	Logic logic;
+	Game_IO(Logic inLogic) {
+		logic =inLogic;
+	}
 	
 	public void keyPressed(KeyEvent e) {
 		 switch (e.getKeyCode()) {
@@ -29,16 +33,16 @@ class Game_IO {
 	    } 
 	 public void keyReleased(KeyEvent e) {
 		 if(e.getKeyCode() == 87){ 
-			 Logic.setMoveXn(false);  
+			 logic.setMoveXn(false);  
 		 }
 		 if(e.getKeyCode() == 83){ 
-			 Logic.setMoveX(false);  
+			 logic.setMoveX(false);  
 		 }
 		 if(e.getKeyCode() == 68){ 
-			 Logic.setMoveY(false);  
+			 logic.setMoveY(false);  
 		 }
 		 if(e.getKeyCode() == 65){ 
-			 Logic.setMoveYn(false);  
+			 logic.setMoveYn(false);  
 		 }
 	    }
 	
