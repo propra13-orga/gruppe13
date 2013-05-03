@@ -55,7 +55,6 @@ public class Menu{
 		GridBagConstraints cButtons = new GridBagConstraints();
 		cButtons.gridheight = 2;
 		cButtons.gridwidth	= 3;
-		cButtons.insets = new Insets(100, 0, 0, 0);
 		cButtons.gridx = 1;
 		cButtons.gridy = 0;
 		content.add(startGame, cButtons);

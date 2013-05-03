@@ -1,5 +1,6 @@
 package hhu.propra_2013.gruppe_13;
 
+
 /*
  * Ablauf: 	Logik bekommt die Bewegungsbefehle von der IO
  * 			Logik kennt die (Liste) der Objekte
@@ -8,13 +9,12 @@ package hhu.propra_2013.gruppe_13;
  * 			Logik gibt den Objekten ihre neuen Positionen
  */
 
-class Logic {
 
-	GameGraphics graphics;
+class Logic implements Runnable {
 	
-	// use constructor to set gameGraphics object
-	Logic(GameGraphics inGraphics) {
-		graphics = inGraphics;
+	@Override
+	public void run() {
+		
 	}
 	
 }
