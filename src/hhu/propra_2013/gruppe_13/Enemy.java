@@ -35,15 +35,6 @@ class Enemy extends GameObjects {
 		return r;
 	}
 	
-	double getVX() {
-		return v_x;
-	}
-	
-	double getVY() {
-		return v_y;
-	}
-	
-	
 	void setPos(double inX, double inY) {
 		x = inX;
 		y = inY;
@@ -70,6 +61,43 @@ class Enemy extends GameObjects {
 	
 	void attack() {
 		
+	}
+
+	/*-----------------------------------------------------------------------------------------------*/
+	@Override
+	void incX() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void decX() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void incY() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void decY() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	double getVX() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	double getVY() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }

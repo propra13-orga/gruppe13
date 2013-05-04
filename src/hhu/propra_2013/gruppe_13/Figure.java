@@ -83,4 +83,26 @@ class Figure extends GameObjects {
 	void attack() {
 		
 	}
+	
+	/*-----------------------------------------------------------------------------------------------*/
+	// increasing or decreasing x and y variables
+	@Override
+	void incX() {
+		x += v_x;
+	}
+	
+	@Override
+	void decX() {
+		x -= v_x;
+	}
+	
+	@Override
+	void incY() {
+		y += v_y;
+	}
+	
+	@Override
+	void decY() {
+		y -= v_y;
+	}
 }

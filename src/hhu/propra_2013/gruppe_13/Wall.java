@@ -35,14 +35,17 @@ class Wall extends GameObjects {
 		return r;
 	}
 	
+	@Override
 	double getVX() {
-		return v_x;
+		// TODO Auto-generated method stub
+		return 0;
 	}
-	
+
+	@Override
 	double getVY() {
-		return v_y;
+		// TODO Auto-generated method stub
+		return 0;
 	}
-	
 	
 	void setPos(double inX, double inY) {
 		x = inX;
@@ -70,5 +73,22 @@ class Wall extends GameObjects {
 	
 	void attack() {
 		
+	}
+
+	/*-----------------------------------------------------------------------------------------------*/
+	@Override
+	void incX() {		
+	}
+
+	@Override
+	void decX() {		
+	}
+
+	@Override
+	void incY() {		
+	}
+
+	@Override
+	void decY() {		
 	}
 }

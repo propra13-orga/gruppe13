@@ -29,18 +29,6 @@ class Door extends GameObjects {
 	}
 
 	@Override
-	double getVX() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	double getVY() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
 	void setPos(double inX, double inY) {
 		// TODO Auto-generated method stub
 
@@ -74,6 +62,42 @@ class Door extends GameObjects {
 	void attack() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	void incX() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void decX() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void incY() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	void decY() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	double getVX() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	double getVY() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

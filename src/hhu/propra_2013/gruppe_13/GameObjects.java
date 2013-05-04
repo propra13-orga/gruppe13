@@ -16,6 +16,12 @@ abstract class GameObjects {
 	abstract void setRad(double inR);
 	abstract void setHP(int inHP);
 	
+	// methods to move the object
+	abstract void incX();
+	abstract void decX();
+	abstract void incY();
+	abstract void decY();
+	
 	// Draw and Attack methods for all inheriting classes
 	abstract void draw(Graphics2D g);
 	abstract void attack();

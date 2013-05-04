@@ -1,6 +1,5 @@
 package hhu.propra_2013.gruppe_13;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -50,13 +49,13 @@ class GameDrawer implements Runnable {
 	public void run() {
 		// game loop, TODO: repaint on screen synchronization
 		while (true) {
+			// Find out window size and repaint the game
 			game.setSize(gameWindow.getSize());
 			game.repaint();
 			try {
-				Thread.sleep(200);
+				Thread.sleep(20);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//TODO: find out whether anything needs to be done
 			}
 		}
 	}
