@@ -29,9 +29,14 @@ class O_Game {
 			// TODO: Build cool shit for reading levels
 			rooms.add(i, temp);
 		}
-		
+
 		// Initialize Logic and Graphics, set contentPane to JPanel returned by GameDrawer
 		logic.init(rooms, figure);
+		
+		for (ArrayList<GameObjects> array: rooms) {
+			array.add(figure);
+		}
+		
 		gameWindow.setContentPane(graphics.init(rooms, logic, gameWindow));
 	}
 	

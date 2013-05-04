@@ -20,6 +20,10 @@ class Logic implements Runnable {
 	private int 		location;
 	private GameObjects figure;
 	
+	// List of all Objects within the game
+	private ArrayList<ArrayList<GameObjects>> 	rooms;
+	private ArrayList<GameObjects> 				currentRoom;
+
 	// Setter methods to determine whether a movement shall be initiated 
 	void setMoveX(boolean in){
 		moveX = in;
@@ -36,10 +40,6 @@ class Logic implements Runnable {
 	void setMoveYn(boolean in){
 		moveYn = in;
 	}
-	
-	
-	// List of all Objects within the game
-	ArrayList<ArrayList<GameObjects>> rooms;
 	
 	// Initiate the current objects variables
 	void init(ArrayList<ArrayList<GameObjects>> objectsInit, Figure inFigure) {
@@ -66,7 +66,25 @@ class Logic implements Runnable {
 	}
 	
 	private void checkCollision() {
-		// TODO Auto-generated method stub
+		double figR 	= figure.getRad();
+		double posX		= figure.getPosX();
+		double posY		= figure.getPosY();
+		
+		double objX;
+		double objY;
+		double objR;
+		
+		// TODO Auto-generated method stub, hier muss noch genau festgelegt werden, wie wir Kollisionen feststellen wollen
+		// iterate over all objects within the room
+		for(GameObjects collidable: currentRoom) {
+			objX = collidable.getPosX();
+			objY = collidable.getPosY();
+			objR = collidable.getRad();
+			
+			if (Math.sqrt((objX-posX)*(objX-posX)+(objY-posY)*(objY-posY)) < figR+objR) {
+				// TODO: figure out an ingenious collision detection algorithm
+			}
+		}
 	}
 	
 	private void moveFigure() {
@@ -89,6 +107,7 @@ class Logic implements Runnable {
 	
 	@Override //Override run method from interface, this will have the game loop
 	public void run() {
+		currentRoom = rooms.get(0);
 		// game loop
 		while (true) {
 			this.checkDistance();

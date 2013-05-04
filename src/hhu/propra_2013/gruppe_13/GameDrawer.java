@@ -47,15 +47,26 @@ class GameDrawer implements Runnable {
 	
 	@Override // Override Thread method run, this will implement the game loop
 	public void run() {
-		// game loop, TODO: repaint on screen synchronization
+		long 	time;
+		long 	temp;
+		
+		// game loop, TODO: repaint on screen synchronization (not sure if this is possible with our library)
 		while (true) {
+			// get current system time, this will determine fps
+			time = System.currentTimeMillis();
 			// Find out window size and repaint the game
 			game.setSize(gameWindow.getSize());
 			game.repaint();
+			
 			try {
-				Thread.sleep(20);
+				// tries to set the draw method at 50fps
+				if((temp = System.currentTimeMillis()-time) < 20)	
+					Thread.sleep(20-temp);
+				else
+					game.repaint();
+				
 			} catch (InterruptedException e) {
-				//TODO: find out whether anything needs to be done
+				System.err.println("Graphics Thread interrupted, continuing execution. ");
 			}
 		}
 	}
