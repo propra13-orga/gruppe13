@@ -7,10 +7,11 @@ import javax.swing.JFrame;
 class Enemy extends GameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
 	// Hitpoints, position and collision radius
-	int hp;
-	double x, y, r;
-	double v_x, v_y;
-	JFrame window;
+	int 	hp;
+	double 	x, y;
+	double	r;
+	double 	v_x, v_y;
+	JFrame 	window;
 	
 	Enemy(double initX, double initY, double initRadius, JFrame inFrame) {
 		//zum kurzen anzeigen mal was ;)
@@ -26,46 +27,56 @@ class Enemy extends GameObjects {
 	}
 	
 	// Getter and Setter methods for above variables
+	@Override
 	int getHP(){
 		return hp;
 	}
 	
+	@Override
 	double getPosX() {
 		return x;
 	}
 	
+	@Override
 	double getPosY() {
 		return y;
 	}
 	
+	@Override
 	double getRad() {
 		return r;
 	}
 	
+	@Override
 	void setPos(double inX, double inY) {
 		x = inX;
 		y = inY;
 	}
 	
+	@Override
 	void setSpeed(double inVX, double inVY) {
 		v_x = inVX;
 		v_y = inVY;
 	}
 	
+	@Override
 	void setRad(double inR) {
 		r = inR;
 	}
 	
+	@Override
 	void setHP(int inHP) {
 		hp = inHP;
 	}
 	
 	
 	/*-----------------------------------------------------------------------------------------------*/
+	@Override
 	void draw(Graphics2D g) {
 		g.fillOval((int)x , (int)y , window.getWidth()/25 ,  window.getWidth()/25);
 	}
 	
+	@Override
 	void attack() {
 		
 	}

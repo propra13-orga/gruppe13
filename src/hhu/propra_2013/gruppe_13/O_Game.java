@@ -12,12 +12,15 @@ class O_Game {
 	ArrayList<ArrayList<GameObjects>> rooms;
 	Figure 		figure;
 	
+	void setRoom(int inRoom) {
+		graphics.setRoom(inRoom);
+	}
+	
 	// Initialize method for the actual game
 	void init(JFrame inFrame) {
 		// Initiate object variables
 		gameWindow 	= inFrame;
 		logic 		= new Logic();
-		graphics 	= new GameDrawer();
 		rooms 		= new ArrayList<ArrayList<GameObjects>>();
 		figure 		= new Figure(0, 0, 1, gameWindow);
 		
@@ -31,13 +34,14 @@ class O_Game {
 		}
 
 		// Initialize Logic and Graphics, set contentPane to JPanel returned by GameDrawer
-		logic.init(rooms, figure);
+		graphics 	= new GameDrawer(rooms, gameWindow);
+		logic.init(rooms, figure, this);
 		
 		for (ArrayList<GameObjects> array: rooms) {
 			array.add(figure);
 		}
 		
-		gameWindow.setContentPane(graphics.init(rooms, logic, gameWindow));
+		gameWindow.setContentPane(graphics.init(logic));
 	}
 	
 	void start() {

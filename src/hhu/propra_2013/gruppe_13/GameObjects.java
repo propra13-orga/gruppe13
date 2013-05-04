@@ -4,7 +4,7 @@ import java.awt.Graphics2D;
 
 abstract class GameObjects {
 	// Getter and Setter methods for Objects used by Logic and GameDrawer classes
-	abstract int getHP();	
+	abstract int 	getHP();	
 	abstract double getPosX();
 	abstract double getPosY();
 	abstract double getRad();

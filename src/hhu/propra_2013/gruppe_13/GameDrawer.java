@@ -9,18 +9,20 @@ import javax.swing.JPanel;
 
 class GameDrawer implements Runnable {
 	
-	// List of all Objects within the game, JPanel and the number of rooms
+	// List of all Objects within the game, JPanel and the number of locations
 	private ArrayList<ArrayList<GameObjects>> rooms;
 	private JPanel game;
 	private JFrame gameWindow;
-	private int room;
+	private int location;
 	
-	// Initiate current objects variables, returns constructed JPanel
-	JPanel init(ArrayList<ArrayList<GameObjects>> objectsInit, Logic inLogic, JFrame inFrame) {
-		
+	GameDrawer(ArrayList<ArrayList<GameObjects>> objectsInit, JFrame inFrame) {
 		rooms = objectsInit;
 		gameWindow = inFrame;
-		
+		location = 0;
+	}
+	
+	// Initiate current objects variables, returns constructed JPanel
+	JPanel init(Logic inLogic) {		
 		// Build a new panel, override paint method
 		game = new JPanel() {
 			// Serial-ID in order to appease Eclipse
@@ -32,8 +34,8 @@ class GameDrawer implements Runnable {
 				Graphics2D g2d = (Graphics2D) g;
 				
 				// Iterate over all objects and call draw method
-				ArrayList<GameObjects> list = rooms.get(room);
-				for(GameObjects  toDraw : list) {
+				ArrayList<GameObjects> list = rooms.get(location);
+				for(GameObjects toDraw : list) {
 					toDraw.draw(g2d);
 				}
 			}
@@ -43,6 +45,11 @@ class GameDrawer implements Runnable {
 		game.addKeyListener(new Game_IO(inLogic));
 		game.setSize(gameWindow.getSize());
 		return game;
+	}
+	
+	// Tell the draw methods which location to draw
+	void setRoom(int inlocation) {
+		location = inlocation;
 	}
 	
 	@Override // Override Thread method run, this will implement the game loop

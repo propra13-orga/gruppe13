@@ -19,6 +19,7 @@ class Logic implements Runnable {
 	private boolean 	freeX, freeY, freeYn, freeXn;
 	private int 		location;
 	private GameObjects figure;
+	private O_Game		game;
 	
 	// List of all Objects within the game
 	private ArrayList<ArrayList<GameObjects>> 	rooms;
@@ -42,9 +43,10 @@ class Logic implements Runnable {
 	}
 	
 	// Initiate the current objects variables
-	void init(ArrayList<ArrayList<GameObjects>> objectsInit, Figure inFigure) {
+	void init(ArrayList<ArrayList<GameObjects>> objectsInit, Figure inFigure, O_Game inGame) {
 		rooms 	= objectsInit;
 		figure 	= inFigure;
+		game	= inGame;
 		
 		moveX 	= false;
 		moveXn	= false;
@@ -55,6 +57,10 @@ class Logic implements Runnable {
 		freeXn	= true;
 		freeY	= true;
 		freeYn	= true;
+	}
+	
+	private void setRoom(int newLocation) {
+		game.setRoom(newLocation);
 	}
 	
 	private void checkDistance() {
