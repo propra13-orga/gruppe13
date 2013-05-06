@@ -34,7 +34,7 @@ class O_Game {
 		for (int i=0; i<3; i++) {
 			ArrayList<GameObjects> temp = new ArrayList<GameObjects>();
 			
-			try {
+			/*try {
 				InputStream roomStream = new FileInputStream("raum"+i+".txt");
 				Reader roomReader = new InputStreamReader (roomStream);
 				
@@ -64,8 +64,9 @@ class O_Game {
 				
 				} catch (IOException e) {
 				// TODO Auto-generated catch block
+				System.out.println("File not found, system exiting.");
 				System.exit(1);
-			}
+			}*/
 			
 			
 			

@@ -20,6 +20,7 @@ class Figure extends GameObjects {
 	private double v_x, v_y;
 	JFrame window;
 	
+	// class constructor
 	Figure(double initX, double initY, double initRadius, JFrame inFrame) {
 		x = initX;
 		y = initY;
@@ -30,6 +31,8 @@ class Figure extends GameObjects {
 		window = inFrame;
 	}
 	
+	
+	/*-----------------------------------------------------------------------------------------------*/
 	// Getter and Setter methods for above variables
 	int getHP(){
 		return hp;
@@ -56,6 +59,7 @@ class Figure extends GameObjects {
 	}
 	
 	
+	/*-----------------------------------------------------------------------------------------------*/
 	void setPos(double inX, double inY) {
 		x = inX;
 		y = inY;
@@ -74,15 +78,6 @@ class Figure extends GameObjects {
 		hp = inHP;
 	}
 	
-	
-	/*-----------------------------------------------------------------------------------------------*/
-	void draw(Graphics2D g, int xOffset, int yOffset, int height) {
-		g.fillRect((int)x + xOffset + height/15 , (int)y + yOffset , height/20 ,  height/20);
-	}
-	
-	void attack() {
-		
-	}
 	
 	/*-----------------------------------------------------------------------------------------------*/
 	// increasing or decreasing x and y variables
@@ -104,5 +99,15 @@ class Figure extends GameObjects {
 	@Override
 	void decY() {
 		y -= v_y;
+	}
+	
+	
+	/*-----------------------------------------------------------------------------------------------*/
+	void draw(Graphics2D g, int xOffset, int yOffset, int step) {
+		g.fillRect(xOffset+(int)x,  yOffset+(int)y, step, step);
+	}
+	
+	void attack() {
+		
 	}
 }

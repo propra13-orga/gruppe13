@@ -14,17 +14,17 @@ class GameDrawer implements Runnable {
 	
 	// List of all Objects within the game, JPanel and the number of locations
 	private ArrayList<ArrayList<GameObjects>> rooms;
-	private JPanel game;
-	private final JFrame gameWindow;
-	private int location;
-	//private int height;
+	private JPanel 	game;
+	private final 	JFrame gameWindow;
+	private int 	location;	
+	private final 	Image background;
 	
-	private final Image background = Toolkit.getDefaultToolkit().getImage("Layout.jpg");
-	
+	// Constructor for class
 	GameDrawer(ArrayList<ArrayList<GameObjects>> objectsInit, JFrame inFrame) {
-		rooms = objectsInit;
-		gameWindow = inFrame;
-		location = 0;
+		rooms 		= objectsInit;
+		gameWindow 	= inFrame;
+		location 	= 0;
+		background 	= Toolkit.getDefaultToolkit().getImage("Layout.jpg");
 	}
 	
 	// Initiate current objects variables, returns constructed JPanel
@@ -32,46 +32,61 @@ class GameDrawer implements Runnable {
 		// Build a new panel, override paint method
 		game = new JPanel() {
 			// Serial-ID in order to appease Eclipse
-			private static final long serialVersionUID = 1L;
-			private int xOffset, yOffset;
-			private int x0, y0, xMax, yMax;
-			private int height;
+			private static final long 	serialVersionUID = 1L;
+			private int 				x0, y0, xMax, yMax;
+			private int 				height, width;
+			private double 				step;
 			
 			// Actual paint method, is great for painting stuff... and cookies
 			protected void paintComponent(Graphics g) {
-				Graphics2D g2d = (Graphics2D) g; //strategy.getDrawGraphics();
+				Graphics2D g2d = (Graphics2D) g;
 				super.paintComponent(g2d);
-				
 				this.setBackground(Color.BLACK);
 				
+				// height und width speichern die innere Fenstergröße, x0,y0 sind für die Bildposition
 				height 	= gameWindow.getContentPane().getHeight();
-				//x,yoffset sind fuer die bildposition
-				xOffset = (int)(0.5*(gameWindow.getContentPane().getWidth()-height*4/3));
-				yOffset = (int)(height/15);
-				//x0 und co sind fuer die 0-position der zeichenfläche(TODO:finde die richtige position)
-				x0		= (height*4/3)/24;
-				y0		= x0;
-				xMax	= height*4/3/24*22;
-				yMax	= height/18*14;
-				//male den Hintergrund
-				g.drawImage(background, xOffset, 0, height*4/3, height, this);
+				width	= gameWindow.getContentPane().getWidth();
 				
-				//versuch die korrekte position der zeichenfläche festzulegen(wird bald wegfallen)
+				
+				// Abhängig von der Höhe und Breite des Fensters muss das Spielfeld entsprechend angepasst werden
+				x0 = (int)Math.round(0.5*(width-height*4/3.));
+				
+				if (x0 < 0) {							// Fenster ist höher als breit
+					x0 = 0;
+					y0 = (int)Math.round(0.5*(height-3/4.*width));
+					step = width/24.;
+					
+					// male den Hintergrund
+					g.drawImage(background, x0, y0, width, (int)(width*3/4.), this);
+				} else {								// Fenster ist breiter als hoch
+					y0 = 0;
+					step = height/18.;					// entspricht 4/3*1/24*height
+
+					// male den Hintergrund
+					g.drawImage(background, x0, y0, (int)(height*4/3.), height, this);
+				}
+				
+				// Setze nun den Startpunkt auf die linke obere  Ecke im Spielfeld
+				x0 += step;
+				y0 += step;
+
+				// versuch die korrekte position der zeichenfläche festzulegen(wird bald wegfallen)
+				// TODO: entfernen, nachdem es Benes "Seal of Approval" erhält
+				xMax = (int)Math.round(22*step);
+				yMax = (int)Math.round(13*step);
 				g.setColor(Color.LIGHT_GRAY);
 				g.fillRect(x0, y0, xMax, yMax);
 				g.setColor(Color.black);
-				
+
 				// Iterate over all objects and call draw method
 				ArrayList<GameObjects> list = rooms.get(location);
 				for(GameObjects toDraw : list) {
-					toDraw.draw(g2d, x0, y0, height);
+					toDraw.draw(g2d, x0, y0, (int)step);
 				}
 			}
 		};
 
-		// add KeyListener with appropriate logic object to the panel
-		/*height = gameWindow.getContentPane().getHeight();
-		game.setSize(height*4/3, height);*/
+		// initialize the game panel at an appropriate size, return to caller
 		game.setSize(gameWindow.getContentPane().getSize());
 		return game;
 	}
@@ -91,6 +106,8 @@ class GameDrawer implements Runnable {
 		long 	time;
 		long 	temp;
 		
+
+		
 		// game loop, TODO: repaint on screen synchronization (not sure if this is possible with our library)
 		while (true) {
 			// get current system time, this will determine fps
@@ -98,22 +115,14 @@ class GameDrawer implements Runnable {
 			
 			// Repaint the game and wait
 			game.repaint();
-			
-			//game.setSize(gameWindow.getContentPane().getSize());
-			
+						
 			try {
 				// tries to set the draw method at 62.5fps
 				if((temp = System.currentTimeMillis()-time) < 16)	
-					Thread.sleep(16-temp);
-				else
-					game.repaint();
-				
+					Thread.sleep(16-temp);				
 			} catch (InterruptedException e) {
 				System.err.println("Graphics Thread interrupted, continuing execution. ");
 			}
-			
-			//System.err.println(((double)(System.currentTimeMillis()-time)));
-
 		}
 	}
 }

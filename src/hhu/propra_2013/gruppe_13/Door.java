@@ -6,6 +6,8 @@ class Door extends GameObjects {
 	double 		x,y,r;
 	boolean 	o;
 	int 		d;
+	
+	
 	Door (double initX, double initY, double initRadius, boolean open, int destination){
 		x 	= initX;
 		y 	= initY;
@@ -14,10 +16,6 @@ class Door extends GameObjects {
 		d	= destination;
 	}
 
-	
-	
-	
-	
 	@Override
 	int getHP() {
 		// TODO Auto-generated method stub

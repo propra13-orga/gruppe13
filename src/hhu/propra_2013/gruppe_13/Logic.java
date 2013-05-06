@@ -84,18 +84,20 @@ class Logic implements Runnable {
 		down	= false;
 		right	= false;
 		left	= false;
+		
 		punch	= false;
 		use		= false;
 		bomb	= false;
+		
 		north	= false;
 		east	= false;
 		south	= false;
 		west	= false;
+		
 		northwest= false;
 		northeast= false;
 		southwest= false;
 		southeast= false;
-		
 		
 		freeright	= true;
 		freeleft	= true;
@@ -159,16 +161,25 @@ class Logic implements Runnable {
 	@Override //Override run method from interface, this will have the game loop
 	public void run() {
 		currentRoom = rooms.get(0);
+		long time;
+		long temp;
+		
 		// game loop
 		while (true) {
-			System.err.println(right+" "+left+" "+up+" "+down);
+			time = System.currentTimeMillis();
 
 			this.checkDistance();
 			this.checkCollision();
 			this.moveFigure();
 			this.moveEnemy();
+			
+			try {
+				if((temp=System.currentTimeMillis()-time)<20)
+				Thread.sleep(16-temp);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
-
-
 }
