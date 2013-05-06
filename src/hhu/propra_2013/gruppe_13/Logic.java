@@ -43,7 +43,7 @@ class Logic implements Runnable {
 	}
 	
 	// Initiate the current objects variables
-	void init(ArrayList<ArrayList<GameObjects>> objectsInit, Figure inFigure, O_Game inGame) {
+	Logic(ArrayList<ArrayList<GameObjects>> objectsInit, Figure inFigure, O_Game inGame) {
 		rooms 	= objectsInit;
 		figure 	= inFigure;
 		game	= inGame;
@@ -117,6 +117,7 @@ class Logic implements Runnable {
 		currentRoom = rooms.get(0);
 		// game loop
 		while (true) {
+			System.err.println(moveX+" "+moveXn+" "+moveY+" "+moveYn);
 			this.checkDistance();
 			this.checkCollision();
 			this.moveFigure();
