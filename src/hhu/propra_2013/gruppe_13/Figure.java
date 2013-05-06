@@ -76,8 +76,8 @@ class Figure extends GameObjects {
 	
 	
 	/*-----------------------------------------------------------------------------------------------*/
-	void draw(Graphics2D g) {
-		g.drawRect((int)x , (int)y , window.getWidth()/25 ,  window.getWidth()/25);
+	void draw(Graphics2D g, int xOffset, int yOffset, int height) {
+		g.fillRect((int)x + xOffset + height/15 , (int)y + yOffset , height/20 ,  height/20);
 	}
 	
 	void attack() {

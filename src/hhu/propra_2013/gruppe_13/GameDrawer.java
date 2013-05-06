@@ -1,7 +1,10 @@
 package hhu.propra_2013.gruppe_13;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -12,8 +15,11 @@ class GameDrawer implements Runnable {
 	// List of all Objects within the game, JPanel and the number of locations
 	private ArrayList<ArrayList<GameObjects>> rooms;
 	private JPanel game;
-	private JFrame gameWindow;
+	private final JFrame gameWindow;
 	private int location;
+	//private int height;
+	
+	private final Image background = Toolkit.getDefaultToolkit().getImage("Layout.jpg");
 	
 	GameDrawer(ArrayList<ArrayList<GameObjects>> objectsInit, JFrame inFrame) {
 		rooms = objectsInit;
@@ -27,22 +33,35 @@ class GameDrawer implements Runnable {
 		game = new JPanel() {
 			// Serial-ID in order to appease Eclipse
 			private static final long serialVersionUID = 1L;
-
+			private int xOffset;
+			private int yOffset;
+			private int height;
+			
 			// Actual paint method, is great for painting stuff... and cookies
 			protected void paintComponent(Graphics g) {
 				Graphics2D g2d = (Graphics2D) g; //strategy.getDrawGraphics();
 				super.paintComponent(g2d);
 				
+				this.setBackground(Color.BLACK);
+				
+				height 	= gameWindow.getContentPane().getHeight();
+				xOffset = (int)(0.5*(gameWindow.getContentPane().getWidth()-height*4/3));
+				yOffset = (int)(height/15);
+				g.drawImage(background, xOffset, 0, height*4/3, height, this);
+				g.drawRect(xOffset+height/15, yOffset, height*4/3-(2*height/15), height*9/12-yOffset);
+				
 				// Iterate over all objects and call draw method
 				ArrayList<GameObjects> list = rooms.get(location);
 				for(GameObjects toDraw : list) {
-					toDraw.draw(g2d);
+					toDraw.draw(g2d, xOffset, yOffset, height);
 				}
 			}
 		};
 
 		// add KeyListener with appropriate logic object to the panel
-		game.setSize(gameWindow.getSize());
+		/*height = gameWindow.getContentPane().getHeight();
+		game.setSize(height*4/3, height);*/
+		game.setSize(gameWindow.getContentPane().getSize());
 		return game;
 	}
 	
@@ -65,9 +84,12 @@ class GameDrawer implements Runnable {
 		while (true) {
 			// get current system time, this will determine fps
 			time = System.currentTimeMillis();
-			// Find out window size and repaint the game
-			game.setSize(gameWindow.getSize());
+			
+			// Repaint the game and wait
 			game.repaint();
+			
+			//game.setSize(gameWindow.getContentPane().getSize());
+			
 			try {
 				// tries to set the draw method at 62.5fps
 				if((temp = System.currentTimeMillis()-time) < 16)	

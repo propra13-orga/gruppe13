@@ -1,5 +1,6 @@
 package hhu.propra_2013.gruppe_13;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
@@ -72,8 +73,9 @@ class Enemy extends GameObjects {
 	
 	/*-----------------------------------------------------------------------------------------------*/
 	@Override
-	void draw(Graphics2D g) {
-		g.fillOval((int)x , (int)y , window.getWidth()/25 ,  window.getWidth()/25);
+	void draw(Graphics2D g, int xOffset, int yOffset, int height) {
+		g.setColor(Color.blue);
+		g.fillOval((int)x + xOffset , (int)y + yOffset , window.getWidth()/25 ,  window.getWidth()/25);
 	}
 	
 	@Override
