@@ -5,29 +5,73 @@ import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import java.io.*;
+
 class O_Game {
 	// Frame, graphic, logic and a figure for the actual game
 	JFrame 		gameWindow;
 	Logic 		logic;
 	GameDrawer 	graphics;
 	Figure 		figure;
+		
 	
 	// Build two lists, the graphics component will also receive the figure, which has a special function in the logic class
 	ArrayList<ArrayList<GameObjects>> graphicsRooms;
 	ArrayList<ArrayList<GameObjects>> logicsRooms;
 	
 	// Initialize method for the actual game
-	O_Game(JFrame inFrame) {
+	O_Game(JFrame inFrame) throws FileNotFoundException {
 		// Initiate object variables
 		gameWindow 		= inFrame;
 		graphicsRooms 	= new ArrayList<ArrayList<GameObjects>>();
 		logicsRooms 	= new ArrayList<ArrayList<GameObjects>>();
 		figure 			= new Figure(0, 0, 1, gameWindow);
+		int element, line, column; //for room generation, saves the current char (as int),the line its from, and the column its in
+		
+		
 		
 		// iterate over all objects and rooms within the level, all objects run within [0...800)x[0...600)
 		// TODO: make that shit better!!, implement the current level
 		for (int i=0; i<3; i++) {
 			ArrayList<GameObjects> temp = new ArrayList<GameObjects>();
+			
+			try {
+				InputStream roomStream = new FileInputStream("raum"+i+".txt");
+				Reader roomReader = new InputStreamReader (roomStream);
+				
+				element = 0;
+				column = 0;
+				line = 0;
+				
+				while ((element = roomReader.read()) != -1){ //Goes trough the whole raumX.txt, and spawn Objects at their Positions
+				
+					switch (element) { 	//ASCII: W=87 F=70 D=68 E=69
+					case 87:			//In order of probability
+						new Wall(column, line, 0.5, 1);
+						break;
+					case 69:
+						new Enemy(column, line, 0.5, gameWindow);
+						break;
+					case 68:
+					//	new Door()
+						break;
+					case 70:
+						new Figure(column, line, 0.5, gameWindow);
+						break;	
+					}
+					column++;
+						if (column==14){
+							column = 0;
+							line++;
+						}
+					}
+				
+				} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.exit(1);
+			}
+			
+			
 			
 			// TODO: Build cool shit for reading levels
 			logicsRooms.add(i, temp);
@@ -36,7 +80,7 @@ class O_Game {
 		
 		for (ArrayList<GameObjects> array: graphicsRooms) {
 			array.add(figure);
-		}
+		} 
 
 		// Initialize Logic and Graphics
 		graphics 	= new GameDrawer(graphicsRooms, gameWindow);
