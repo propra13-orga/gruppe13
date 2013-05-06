@@ -19,16 +19,16 @@ class Game_IO implements KeyEventDispatcher {
 
 			switch (e.getKeyCode()) {
 			case 87:									//87='w'
-				logic.setMoveXn(true);
+				logic.setUp(true);
 				break;
 			case 83:									//83='s'
-			 	logic.setMoveX(true);  
+			 	logic.setDown(true);  
 			 	break;
 			case 68: 									//68='d'
-				logic.setMoveY(true);  
+				logic.setRight(true);  
 				break;
 			case 65: 									//65='a'
-				logic.setMoveYn(true);  
+				logic.setLeft(true);  
 				break;
 			case 17:									//17='ctrl'
 				logic.setHit(true);						//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
@@ -50,19 +50,19 @@ class Game_IO implements KeyEventDispatcher {
 		
 		else if (e.getID() == KeyEvent.KEY_RELEASED) {
 			System.err.println("released");
-
+			
 			switch (e.getKeyCode()) {
 			case 87:									//87='w'
-				logic.setMoveXn(false);
+				logic.setUp(false);
 				break;
 			case 83:									//83='s'
-			 	logic.setMoveX(false);  
+			 	logic.setDown(false);  
 			 	break;
 			case 68: 									//68='d'
-				logic.setMoveY(false);  
+				logic.setRight(false);  
 				break;
 			case 65: 									//65='a'
-				logic.setMoveYn(false);  
+				logic.setLeft(false);  
 				break;
 
 			}

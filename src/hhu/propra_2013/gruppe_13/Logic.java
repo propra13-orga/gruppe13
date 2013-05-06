@@ -15,7 +15,7 @@ import java.util.ArrayList;
 class Logic implements Runnable {
 	
 	// Boolean variables for movement and collision detection, location counter for the room
-	private boolean 	moveX, moveXn, moveY, moveYn, hit, use, bomb;
+	private boolean 	down, up, right, left, hit, use, bomb;
 	private boolean 	freeX, freeY, freeYn, freeXn;
 	private int 		location;
 	private GameObjects figure;
@@ -26,20 +26,20 @@ class Logic implements Runnable {
 	private ArrayList<GameObjects> 				currentRoom;
 
 	// Setter methods to determine whether a movement shall be initiated 
-	void setMoveX(boolean in){
-		moveX = in;
+	void setDown(boolean in){
+		down = in;
 	}
 	
-	void setMoveXn(boolean in){
-		moveXn = in;
+	void setUp(boolean in){
+		up = in;
 	}
 	
-	void setMoveY(boolean in){
-		moveY = in;
+	void setRight(boolean in){
+		right = in;
 	}
 	
-	void setMoveYn(boolean in){
-		moveYn = in;
+	void setLeft(boolean in){
+		left = in;
 	}
 	
 	public void setHit(boolean in) {
@@ -59,11 +59,11 @@ class Logic implements Runnable {
 		rooms 	= objectsInit;
 		figure 	= inFigure;
 		game	= inGame;
-		
-		moveX 	= false;
-		moveXn	= false;
-		moveY	= false;
-		moveYn	= false;
+
+		up 		= false;
+		down	= false;
+		right	= false;
+		left	= false;
 		
 		freeX	= true;
 		freeXn	= true;
@@ -107,19 +107,19 @@ class Logic implements Runnable {
 	}
 	
 	private void moveFigure() {
-		if(moveX && !moveXn && freeX){
+		if(right && !left && freeX){
 			figure.incX();
 		}
 		
-		if(moveXn && !moveX && freeXn){
+		if(left && !right && freeXn){
 			
 		}
 		
-		if(moveY && !moveYn && freeY){
+		if(up && !down && freeY){
 			
 		}
 		
-		if(moveYn && !moveY && freeYn){
+		if(down && !up && freeYn){
 		
 		}
 	}
@@ -129,7 +129,7 @@ class Logic implements Runnable {
 		currentRoom = rooms.get(0);
 		// game loop
 		while (true) {
-			System.err.println(moveX+" "+moveXn+" "+moveY+" "+moveYn);
+			System.err.println(right+" "+left+" "+up+" "+down);
 			this.checkDistance();
 			this.checkCollision();
 			this.moveFigure();
