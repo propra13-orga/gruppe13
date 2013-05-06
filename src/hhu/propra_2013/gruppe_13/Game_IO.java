@@ -62,17 +62,32 @@ class Game_IO implements KeyEventDispatcher {
 			//System.err.println("pressed");
 
 			switch (e.getKeyCode()) {
-			case 87:
+			case 87:									//87='w'
 				logic.setMoveXn(true);
 				break;
-			case 83:
+			case 83:									//83='s'
 			 	logic.setMoveX(true);  
 			 	break;
-			case 68: 
+			case 68: 									//68='d'
 				logic.setMoveY(true);  
 				break;
-			case 65: 
+			case 65: 									//65='a'
 				logic.setMoveYn(true);  
+				break;
+			case 17:									//17='ctrl'
+				logic.setHit(true);						//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
+				break;
+			case 69:									//96='e'
+				logic.setUse(true);						//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
+				break;
+			case 32:									//32='space'
+				logic.setBomb(true);					//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
+				break;
+			case 79:									//79='o'
+				logic.setBomb(true);					//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
+				break;
+			case 101:									//101='numpad 5'
+				logic.setBomb(true);					//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
 				break;
 			}
 		} 
@@ -81,18 +96,19 @@ class Game_IO implements KeyEventDispatcher {
 			//System.err.println("released");
 
 			switch (e.getKeyCode()) {
-			case 87: 
-				logic.setMoveXn(false);  
+			case 87:									//87='w'
+				logic.setMoveXn(false);
 				break;
-			case 83: 
-				logic.setMoveX(false);
-				break;
-			case 68: 
+			case 83:									//83='s'
+			 	logic.setMoveX(false);  
+			 	break;
+			case 68: 									//68='d'
 				logic.setMoveY(false);  
 				break;
-			case 65: 
+			case 65: 									//65='a'
 				logic.setMoveYn(false);  
 				break;
+
 			}
 		}
 		return false;
