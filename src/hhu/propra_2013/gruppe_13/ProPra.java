@@ -1,14 +1,12 @@
 package hhu.propra_2013.gruppe_13;
 
-import java.awt.image.BufferStrategy;
-
 import javax.swing.JFrame;
 
 public class ProPra {
-
 	// the entire game will run here
 	static JFrame gameWindow;
 	
+	// initializer method
 	static void initGame() {
 		System.out.println("Initiate game");
 		O_Game game = new O_Game(gameWindow);
