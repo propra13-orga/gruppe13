@@ -34,6 +34,7 @@ class GameDrawer implements Runnable {
 			// Serial-ID in order to appease Eclipse
 			private static final long serialVersionUID = 1L;
 			private int xOffset;
+			private int yOffset;
 			private int height;
 			
 			// Actual paint method, is great for painting stuff... and cookies
@@ -45,12 +46,14 @@ class GameDrawer implements Runnable {
 				
 				height 	= gameWindow.getContentPane().getHeight();
 				xOffset = (int)(0.5*(gameWindow.getContentPane().getWidth()-height*4/3));
+				yOffset = (int)(height/15);
 				g.drawImage(background, xOffset, 0, height*4/3, height, this);
+				g.drawRect(xOffset+height/15, yOffset, height*4/3-(2*height/15), height*9/12-yOffset);
 				
 				// Iterate over all objects and call draw method
 				ArrayList<GameObjects> list = rooms.get(location);
 				for(GameObjects toDraw : list) {
-					toDraw.draw(g2d);
+					toDraw.draw(g2d, xOffset, yOffset, height);
 				}
 			}
 		};

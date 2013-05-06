@@ -53,7 +53,7 @@ class Door extends GameObjects {
 	}
 
 	@Override
-	void draw(Graphics2D g) {
+	void draw(Graphics2D g, int xOffset, int yOffset, int height) {
 		// TODO Auto-generated method stub
 
 	}
