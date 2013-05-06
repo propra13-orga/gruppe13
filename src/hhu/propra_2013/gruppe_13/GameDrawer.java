@@ -42,7 +42,7 @@ class GameDrawer implements Runnable {
 		};
 
 		// add KeyListener with appropriate logic object to the panel
-		game.addKeyListener(new Game_IO(inLogic));
+		//game.addKeyListener(new Game_IO(inLogic));
 		game.setSize(gameWindow.getSize());
 		return game;
 	}
@@ -66,9 +66,9 @@ class GameDrawer implements Runnable {
 			game.repaint();
 			
 			try {
-				// tries to set the draw method at 50fps
-				if((temp = System.currentTimeMillis()-time) < 20)	
-					Thread.sleep(20-temp);
+				// tries to set the draw method at 62.5fps
+				if((temp = System.currentTimeMillis()-time) < 16)	
+					Thread.sleep(16-temp);
 				else
 					game.repaint();
 				

@@ -9,8 +9,7 @@ public class ProPra {
 	
 	static void initGame() {
 		System.out.println("Initiate game");
-		O_Game game = new O_Game();
-		game.init(gameWindow);
+		O_Game game = new O_Game(gameWindow);
 		game.start();
 	}
 
