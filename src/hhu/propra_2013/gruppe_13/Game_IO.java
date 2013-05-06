@@ -9,11 +9,14 @@ class Game_IO implements KeyListener {
 	Logic logic;
 	Game_IO(Logic inLogic) {
 		logic =inLogic;
+		System.err.println("blub");
+
 	}
 	
 	@Override // Move the figure as long as a key is pressed 
 	public void keyPressed(KeyEvent e) {
-
+		System.err.println("blub" +Integer.toString(e.getKeyCode()));
+		
 		switch (e.getKeyCode()) {
 		case 87:
 			logic.setMoveXn(true);

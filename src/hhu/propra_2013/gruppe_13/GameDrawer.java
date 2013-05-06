@@ -2,7 +2,12 @@ package hhu.propra_2013.gruppe_13;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+//import java.awt.Toolkit;
+//import java.awt.image.BufferStrategy;
+//import java.awt.Toolkit;
+//import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
+//import java.util.Timer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -22,7 +27,11 @@ class GameDrawer implements Runnable {
 	}
 	
 	// Initiate current objects variables, returns constructed JPanel
-	JPanel init(Logic inLogic) {		
+	JPanel init(Logic inLogic) {	
+		//gameWindow.createBufferStrategy(3);
+		//gameWindow.setIgnoreRepaint(true);
+		//final BufferStrategy strategy = gameWindow.getBufferStrategy();
+		//System.setProperty("sun.java2d.opengl", "True");
 		// Build a new panel, override paint method
 		game = new JPanel() {
 			// Serial-ID in order to appease Eclipse
@@ -30,14 +39,17 @@ class GameDrawer implements Runnable {
 
 			// Actual paint method, is great for painting stuff... and cookies
 			protected void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				Graphics2D g2d = (Graphics2D) g;
+				Graphics2D g2d = (Graphics2D) g; //strategy.getDrawGraphics();
+				super.paintComponent(g2d);
 				
 				// Iterate over all objects and call draw method
 				ArrayList<GameObjects> list = rooms.get(location);
 				for(GameObjects toDraw : list) {
 					toDraw.draw(g2d);
 				}
+				
+				//strategy.show();
+				//Toolkit.getDefaultToolkit().sync();
 			}
 		};
 
@@ -45,6 +57,11 @@ class GameDrawer implements Runnable {
 		game.addKeyListener(new Game_IO(inLogic));
 		game.setSize(gameWindow.getSize());
 		return game;
+	}
+	
+	// remove a drawable object, thus not every enemy and wall needs to be called if it has been destroyed
+	void removeDrawableObject (GameObjects toRemove) {
+		rooms.get(location).remove(toRemove);
 	}
 	
 	// Tell the draw methods which location to draw
@@ -64,17 +81,19 @@ class GameDrawer implements Runnable {
 			// Find out window size and repaint the game
 			game.setSize(gameWindow.getSize());
 			game.repaint();
-			
 			try {
-				// tries to set the draw method at 50fps
-				if((temp = System.currentTimeMillis()-time) < 20)	
-					Thread.sleep(20-temp);
+				// tries to set the draw method at 60fps
+				if((temp = System.currentTimeMillis()-time) < 16)	
+					Thread.sleep(16-temp);
 				else
 					game.repaint();
 				
 			} catch (InterruptedException e) {
 				System.err.println("Graphics Thread interrupted, continuing execution. ");
 			}
+			
+			//System.err.println(((double)(System.currentTimeMillis()-time)));
+
 		}
 	}
 }
