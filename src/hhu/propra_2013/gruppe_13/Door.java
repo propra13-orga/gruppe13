@@ -4,14 +4,14 @@ import java.awt.Graphics2D;
 
 class Door extends GameObjects {
 	double 		x,y,r;
-	boolean 	o;
-	int 		d;
-	Door (double initX, double initY, double initRadius, boolean open, int destination){
-		x 	= initX;
-		y 	= initY;
-		r	= initRadius;
-		o 	= open;
-		d	= destination;
+	boolean 	open;
+	int 		destination;
+	Door (double initX, double initY, double initRadius, boolean inOpen, int inDestination){
+		x 			= initX;
+		y 			= initY;
+		r			= initRadius;
+		open		= inOpen;
+		destination	= inDestination;
 	}
 
 	
