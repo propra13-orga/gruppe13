@@ -15,8 +15,10 @@ import java.util.ArrayList;
 class Logic implements Runnable {
 	
 	// Boolean variables for movement and collision detection, location counter for the room
-	private boolean 	moveX, moveXn, moveY, moveYn, hit, use, bomb;
-	private boolean 	freeX, freeY, freeYn, freeXn;
+	private boolean 	down, up, right, left;								//für die Bewegungsrichtungen
+	private boolean		punch, use, bomb;									//für Aktionen
+	private boolean		north, east, south, west, northwest, northeast, southwest, southeast;		//zum schießen in die Himmelsrichtungen
+	private boolean 	freeright, freeup, freedown, freeleft;
 	private int 		location;
 	private GameObjects figure;
 	private O_Game		game;
@@ -26,49 +28,79 @@ class Logic implements Runnable {
 	private ArrayList<GameObjects> 				currentRoom;
 
 	// Setter methods to determine whether a movement shall be initiated 
-	void setMoveX(boolean in){
-		moveX = in;
+	void setDown(boolean in){
+		down = in;
 	}
-	
-	void setMoveXn(boolean in){
-		moveXn = in;
+	void setUp(boolean in){
+		up = in;
 	}
-	
-	void setMoveY(boolean in){
-		moveY = in;
+	void setRight(boolean in){
+		right = in;
 	}
-	
-	void setMoveYn(boolean in){
-		moveYn = in;
+	void setLeft(boolean in){
+		left = in;
 	}
-	
-	public void setHit(boolean in) {
-		hit = in;		
+	void setPunch(boolean in) {
+		punch = in;		
 	}
-
-	public void setUse(boolean in) {
+	void setUse(boolean in) {
 		use = in;		
 	}
-
-	public void setBomb(boolean in) {
+	void setBomb(boolean in) {
 		bomb = in;		
 	}
-	
+	void setNorth(boolean in) {
+		north = in;		
+	}
+	void setEast(boolean in) {
+		east = in;		
+	}
+	void setSouth(boolean in) {
+		south = in;		
+	}
+	public void setWest(boolean in) {
+		west = in;		
+	}
+	public void setNorthwest(boolean in) {
+		northwest = in;		
+	}
+	public void setNortheast(boolean in) {
+		northeast = in;		
+	}
+	public void setSouthwest(boolean in) {
+		southwest = in;		
+	}
+	public void setSoutheast(boolean in) {
+		southeast = in;		
+	}
+
 	// Initiate the current objects variables
 	Logic(ArrayList<ArrayList<GameObjects>> objectsInit, Figure inFigure, O_Game inGame) {
 		rooms 	= objectsInit;
 		figure 	= inFigure;
 		game	= inGame;
+
+		up 		= false;
+		down	= false;
+		right	= false;
+		left	= false;
+		punch	= false;
+		use		= false;
+		bomb	= false;
+		north	= false;
+		east	= false;
+		south	= false;
+		west	= false;
+		northwest= false;
+		northeast= false;
+		southwest= false;
+		southeast= false;
 		
-		moveX 	= false;
-		moveXn	= false;
-		moveY	= false;
-		moveYn	= false;
 		
-		freeX	= true;
-		freeXn	= true;
-		freeY	= true;
-		freeYn	= true;
+		freeright	= true;
+		freeleft	= true;
+		freeup		= true;
+		freedown	= true;
 	}
 	
 	private void setRoom(int newLocation) {
@@ -107,19 +139,19 @@ class Logic implements Runnable {
 	}
 	
 	private void moveFigure() {
-		if(moveX && !moveXn && freeX){
+		if(right && !left && freeright){
 			figure.incX();
 		}
 		
-		if(moveXn && !moveX && freeXn){
+		if(left && !right && freeleft){
 			
 		}
 		
-		if(moveY && !moveYn && freeY){
+		if(up && !down && freeup){
 			
 		}
 		
-		if(moveYn && !moveY && freeYn){
+		if(down && !up && freedown){
 		
 		}
 	}
@@ -129,7 +161,11 @@ class Logic implements Runnable {
 		currentRoom = rooms.get(0);
 		// game loop
 		while (true) {
+<<<<<<< HEAD
 			//System.err.println(moveX+" "+moveXn+" "+moveY+" "+moveYn);
+=======
+			System.err.println(right+" "+left+" "+up+" "+down);
+>>>>>>> 85680adaaa6889907b6207bb443529f69ed4d007
 			this.checkDistance();
 			this.checkCollision();
 			this.moveFigure();
