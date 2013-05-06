@@ -43,7 +43,7 @@ class O_Game {
 				column = 0;
 				line = 0;
 				
-				while ((element = roomReader.read()) != -1){ //Goes trough the whole raumX.txt, and spawn Objects at their Positions
+				while ((element = roomReader.read()) != -1){ //Goes trough the whole raumX.txt, and spawns Objects at their Positions
 				
 					switch (element) { 	//ASCII: W=87 F=70 D=68 E=69
 					case 87:			//In order of probability
