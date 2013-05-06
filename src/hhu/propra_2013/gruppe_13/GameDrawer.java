@@ -47,7 +47,6 @@ class GameDrawer implements Runnable {
 				height 	= gameWindow.getContentPane().getHeight();
 				width	= gameWindow.getContentPane().getWidth();
 				
-				
 				// Abhängig von der Höhe und Breite des Fensters muss das Spielfeld entsprechend angepasst werden
 				x0 = (int)Math.round(0.5*(width-height*4/3.));
 				

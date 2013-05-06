@@ -67,7 +67,7 @@ class Wall extends GameObjects {
 	
 	
 	/*-----------------------------------------------------------------------------------------------*/
-	void draw(Graphics2D g, int xOffset, int yOffset, int height) {
+	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
 		
 	}
 	

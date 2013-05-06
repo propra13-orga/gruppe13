@@ -76,28 +76,28 @@ class Logic implements Runnable {
 
 	// Initiate the current objects variables
 	Logic(ArrayList<ArrayList<GameObjects>> objectsInit, Figure inFigure, O_Game inGame) {
-		rooms 	= objectsInit;
-		figure 	= inFigure;
-		game	= inGame;
+		rooms 		= objectsInit;
+		figure 		= inFigure;
+		game		= inGame;
 
-		up 		= false;
-		down	= false;
-		right	= false;
-		left	= false;
+		up 			= false;
+		down		= false;
+		right		= false;
+		left		= false;
 		
-		punch	= false;
-		use		= false;
-		bomb	= false;
+		punch		= false;
+		use			= false;
+		bomb		= false;
 		
-		north	= false;
-		east	= false;
-		south	= false;
-		west	= false;
+		north		= false;
+		east		= false;
+		south		= false;
+		west		= false;
 		
-		northwest= false;
-		northeast= false;
-		southwest= false;
-		southeast= false;
+		northwest	= false;
+		northeast	= false;
+		southwest	= false;
+		southeast	= false;
 		
 		freeright	= true;
 		freeleft	= true;
@@ -146,15 +146,15 @@ class Logic implements Runnable {
 		}
 		
 		if(left && !right && freeleft){
-			
+			figure.decX();
 		}
 		
 		if(up && !down && freeup){
-			
+			figure.decY();
 		}
 		
 		if(down && !up && freedown){
-		
+			figure.incY();
 		}
 	}
 	

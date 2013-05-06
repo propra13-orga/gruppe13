@@ -23,6 +23,6 @@ abstract class GameObjects {
 	abstract void decY();
 	
 	// Draw and Attack methods for all inheriting classes
-	abstract void draw(Graphics2D g, int xOffset, int yOffset, int height);
+	abstract void draw(Graphics2D g, int xOffset, int yOffset, double step);
 	abstract void attack();
 }

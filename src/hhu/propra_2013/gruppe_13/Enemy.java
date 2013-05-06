@@ -73,7 +73,7 @@ class Enemy extends GameObjects {
 	
 	/*-----------------------------------------------------------------------------------------------*/
 	@Override
-	void draw(Graphics2D g, int xOffset, int yOffset, int height) {
+	void draw(Graphics2D g, int xOffset, int yOffset, double  step) {
 		g.setColor(Color.blue);
 		g.fillOval((int)x + xOffset , (int)y + yOffset , window.getWidth()/25 ,  window.getWidth()/25);
 	}
