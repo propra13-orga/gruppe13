@@ -89,6 +89,7 @@ class Logic implements Runnable {
 			
 			if (Math.sqrt((objX-posX)*(objX-posX)+(objY-posY)*(objY-posY)) < figR+objR) {
 				// TODO: figure out an ingenious collision detection algorithm
+				
 			}
 		}
 	}
