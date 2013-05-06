@@ -45,6 +45,7 @@ class Game_IO implements KeyEventDispatcher {
 			case 101:									//101='numpad 5'
 				logic.setBomb(true);					//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
 				break;
+				
 			}
 		} 
 		

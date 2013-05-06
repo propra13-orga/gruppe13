@@ -15,8 +15,8 @@ import java.util.ArrayList;
 class Logic implements Runnable {
 	
 	// Boolean variables for movement and collision detection, location counter for the room
-	private boolean 	down, up, right, left, hit, use, bomb;
-	private boolean 	freeX, freeY, freeYn, freeXn;
+	private boolean 	down, up, right, left, hit, use, bomb, north, east, south, west, northwest, northeast, southwest, southeast;
+	private boolean 	freeright, freeup, freedown, freeleft;
 	private int 		location;
 	private GameObjects figure;
 	private O_Game		game;
@@ -29,31 +29,49 @@ class Logic implements Runnable {
 	void setDown(boolean in){
 		down = in;
 	}
-	
 	void setUp(boolean in){
 		up = in;
 	}
-	
 	void setRight(boolean in){
 		right = in;
 	}
-	
 	void setLeft(boolean in){
 		left = in;
 	}
-	
-	public void setHit(boolean in) {
+	void setHit(boolean in) {
 		hit = in;		
 	}
-
-	public void setUse(boolean in) {
+	void setUse(boolean in) {
 		use = in;		
 	}
-
-	public void setBomb(boolean in) {
+	void setBomb(boolean in) {
 		bomb = in;		
 	}
-	
+	void setNorth(boolean in) {
+		north = in;		
+	}
+	void setEast(boolean in) {
+		east = in;		
+	}
+	void setSouth(boolean in) {
+		south = in;		
+	}
+	public void setWest(boolean in) {
+		west = in;		
+	}
+	public void setNorthwest(boolean in) {
+		northwest = in;		
+	}
+	public void setNortheast(boolean in) {
+		northeast = in;		
+	}
+	public void setSouthwest(boolean in) {
+		southwest = in;		
+	}
+	public void setSoutheast(boolean in) {
+		southeast = in;		
+	}
+
 	// Initiate the current objects variables
 	Logic(ArrayList<ArrayList<GameObjects>> objectsInit, Figure inFigure, O_Game inGame) {
 		rooms 	= objectsInit;
@@ -64,11 +82,23 @@ class Logic implements Runnable {
 		down	= false;
 		right	= false;
 		left	= false;
+		hit		= false;
+		use		= false;
+		bomb	= false;
+		north	= false;
+		east	= false;
+		south	= false;
+		west	= false;
+		northwest= false;
+		northeast= false;
+		southwest= false;
+		southeast= false;
 		
-		freeX	= true;
-		freeXn	= true;
-		freeY	= true;
-		freeYn	= true;
+		
+		freeright	= true;
+		freeleft	= true;
+		freeup		= true;
+		freedown	= true;
 	}
 	
 	private void setRoom(int newLocation) {
@@ -107,19 +137,19 @@ class Logic implements Runnable {
 	}
 	
 	private void moveFigure() {
-		if(right && !left && freeX){
+		if(right && !left && freeright){
 			figure.incX();
 		}
 		
-		if(left && !right && freeXn){
+		if(left && !right && freeleft){
 			
 		}
 		
-		if(up && !down && freeY){
+		if(up && !down && freeup){
 			
 		}
 		
-		if(down && !up && freeYn){
+		if(down && !up && freedown){
 		
 		}
 	}
