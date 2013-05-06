@@ -21,6 +21,7 @@ class O_Game {
 		// Initiate object variables
 		gameWindow 		= inFrame;
 		graphicsRooms 	= new ArrayList<ArrayList<GameObjects>>();
+		logicsRooms 	= new ArrayList<ArrayList<GameObjects>>();
 		figure 			= new Figure(0, 0, 1, gameWindow);
 		
 		// iterate over all objects and rooms within the level, all objects run within [0...800)x[0...600)

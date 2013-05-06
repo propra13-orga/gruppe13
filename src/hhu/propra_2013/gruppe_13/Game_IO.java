@@ -11,59 +11,11 @@ class Game_IO implements KeyEventDispatcher {
 	Game_IO(Logic inLogic) {
 		logic =inLogic;
 	}
-	
-	/*@Override // Move the figure as long as a key is pressed 
-	public void keyPressed(KeyEvent e) {
-<<<<<<< HEAD
-		System.err.println("blub" +Integer.toString(e.getKeyCode()));
-		
-=======
-		System.err.println("blub");
->>>>>>> 346b0745333d1c9cd403c446caeced5f2d863f00
-		switch (e.getKeyCode()) {
-		case 87:
-			logic.setMoveXn(true);
-			break;
-		case 83:
-		 	logic.setMoveX(true);  
-		 	break;
-		case 68: 
-			logic.setMoveY(true);  
-			break;
-		case 65: 
-			logic.setMoveYn(true);  
-			break;
-		}
-	} 
-	
-	@Override	// Stop movement if a key is released
-	public void keyReleased(KeyEvent e) {
-		switch (e.getKeyCode()) {
-		case 87: 
-			logic.setMoveXn(false);  
-			break;
-		case 83: 
-			logic.setMoveX(false);
-			break;
-		case 68: 
-			logic.setMoveY(false);  
-			break;
-		case 65: 
-			logic.setMoveYn(false);  
-			break;
-		}
-	}
-
-	@Override
-	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-		
-	}*/
 
 	@Override
 	public boolean dispatchKeyEvent(KeyEvent e) {
 		if (e.getID() == KeyEvent.KEY_PRESSED) {
-			//System.err.println("pressed");
+			System.err.println("pressed");
 
 			switch (e.getKeyCode()) {
 			case 87:									//87='w'
@@ -97,7 +49,7 @@ class Game_IO implements KeyEventDispatcher {
 		} 
 		
 		else if (e.getID() == KeyEvent.KEY_RELEASED) {
-			//System.err.println("released");
+			System.err.println("released");
 
 			switch (e.getKeyCode()) {
 			case 87:									//87='w'
