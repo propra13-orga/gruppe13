@@ -15,7 +15,9 @@ import java.util.ArrayList;
 class Logic implements Runnable {
 	
 	// Boolean variables for movement and collision detection, location counter for the room
-	private boolean 	down, up, right, left, hit, use, bomb, north, east, south, west, northwest, northeast, southwest, southeast;
+	private boolean 	down, up, right, left;								//für die Bewegungsrichtungen
+	private boolean		punch, use, bomb;									//für Aktionen
+	private boolean		north, east, south, west, northwest, northeast, southwest, southeast;		//zum schießen in die Himmelsrichtungen
 	private boolean 	freeright, freeup, freedown, freeleft;
 	private int 		location;
 	private GameObjects figure;
@@ -38,8 +40,8 @@ class Logic implements Runnable {
 	void setLeft(boolean in){
 		left = in;
 	}
-	void setHit(boolean in) {
-		hit = in;		
+	void setPunch(boolean in) {
+		punch = in;		
 	}
 	void setUse(boolean in) {
 		use = in;		
@@ -82,7 +84,7 @@ class Logic implements Runnable {
 		down	= false;
 		right	= false;
 		left	= false;
-		hit		= false;
+		punch	= false;
 		use		= false;
 		bomb	= false;
 		north	= false;

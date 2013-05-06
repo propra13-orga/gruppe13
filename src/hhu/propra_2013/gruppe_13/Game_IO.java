@@ -31,7 +31,7 @@ class Game_IO implements KeyEventDispatcher {
 				logic.setLeft(true);  
 				break;
 			case 17:									//17='ctrl'
-				logic.setHit(true);						//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
+				logic.setPunch(true);					//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
 				break;
 			case 69:									//96='e'
 				logic.setUse(true);						//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
