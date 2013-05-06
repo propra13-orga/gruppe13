@@ -3,7 +3,21 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Graphics2D;
 
 class Door extends GameObjects {
+	double 		x,y,r;
+	boolean 	o;
+	int 		d;
+	Door (double initX, double initY, double initRadius, boolean open, int destination){
+		x 	= initX;
+		y 	= initY;
+		r	= initRadius;
+		o 	= open;
+		d	= destination;
+	}
 
+	
+	
+	
+	
 	@Override
 	int getHP() {
 		// TODO Auto-generated method stub
@@ -13,23 +27,25 @@ class Door extends GameObjects {
 	@Override
 	double getPosX() {
 		// TODO Auto-generated method stub
-		return 0;
+		return x;
 	}
 
 	@Override
 	double getPosY() {
 		// TODO Auto-generated method stub
-		return 0;
+		return y;
 	}
 
 	@Override
 	double getRad() {
 		// TODO Auto-generated method stub
-		return 0;
+		return r;
 	}
 
 	@Override
 	void setPos(double inX, double inY) {
+		x = inX;
+		y = inY;
 		// TODO Auto-generated method stub
 
 	}
@@ -43,7 +59,7 @@ class Door extends GameObjects {
 	@Override
 	void setRad(double inR) {
 		// TODO Auto-generated method stub
-
+		r = inR;
 	}
 
 	@Override

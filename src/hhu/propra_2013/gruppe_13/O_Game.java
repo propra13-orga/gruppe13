@@ -20,13 +20,13 @@ class O_Game {
 	ArrayList<ArrayList<GameObjects>> logicsRooms;
 	
 	// Initialize method for the actual game
-	O_Game(JFrame inFrame) throws FileNotFoundException {
+	O_Game(JFrame inFrame) {
 		// Initiate object variables
 		gameWindow 		= inFrame;
 		graphicsRooms 	= new ArrayList<ArrayList<GameObjects>>();
 		logicsRooms 	= new ArrayList<ArrayList<GameObjects>>();
 		figure 			= new Figure(0, 0, 1, gameWindow);
-		int element, line, column; //for room generation, saves the current char (as int),the line its from, and the column its in
+		int element, line, column, dest; //for room generation, saves the current char (as int),the line its from, and the column its in
 		
 		
 		
@@ -42,21 +42,18 @@ class O_Game {
 				element = 0;
 				column = 0;
 				line = 0;
-				
+				dest = 0;
 				while ((element = roomReader.read()) != -1){ //Goes trough the whole raumX.txt, and spawns Objects at their Positions
 				
-					switch (element) { 	//ASCII: W=87 F=70 D=68 E=69
+					switch (element) { 	//ASCII: W=87 D=68 E=69
 					case 87:			//In order of probability
-						new Wall(column, line, 0.5, 1);
+						temp.add(new Wall(column, line, 0.5, 1));
 						break;
 					case 69:
-						new Enemy(column, line, 0.5, gameWindow);
+						temp.add(new Enemy(column, line, 0.5, gameWindow));
 						break;
 					case 68:
-					//	new Door()
-						break;
-					case 70:
-						new Figure(column, line, 0.5, gameWindow);
+						new Door(column, line, 0.5, true, dest);
 						break;	
 					}
 					column++;
