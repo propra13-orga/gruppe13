@@ -2,12 +2,7 @@ package hhu.propra_2013.gruppe_13;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-//import java.awt.Toolkit;
-//import java.awt.image.BufferStrategy;
-//import java.awt.Toolkit;
-//import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
-//import java.util.Timer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -28,10 +23,6 @@ class GameDrawer implements Runnable {
 	
 	// Initiate current objects variables, returns constructed JPanel
 	JPanel init(Logic inLogic) {	
-		//gameWindow.createBufferStrategy(3);
-		//gameWindow.setIgnoreRepaint(true);
-		//final BufferStrategy strategy = gameWindow.getBufferStrategy();
-		//System.setProperty("sun.java2d.opengl", "True");
 		// Build a new panel, override paint method
 		game = new JPanel() {
 			// Serial-ID in order to appease Eclipse
@@ -47,14 +38,10 @@ class GameDrawer implements Runnable {
 				for(GameObjects toDraw : list) {
 					toDraw.draw(g2d);
 				}
-				
-				//strategy.show();
-				//Toolkit.getDefaultToolkit().sync();
 			}
 		};
 
 		// add KeyListener with appropriate logic object to the panel
-		//game.addKeyListener(new Game_IO(inLogic));
 		game.setSize(gameWindow.getSize());
 		return game;
 	}
