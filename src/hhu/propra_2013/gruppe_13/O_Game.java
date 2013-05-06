@@ -4,7 +4,6 @@ import java.awt.KeyboardFocusManager;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
-
 import java.io.*;
 
 class O_Game {

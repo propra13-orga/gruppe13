@@ -1,7 +1,7 @@
 
 
 Aufbau der raumX.txt damit sie vom Spiel gelesen werden können:
-aktuelle Größe: 23x14 Felder (21x12 begehbar, und an den Rändern Platz um Türen in die Wände einfügen zu können)
+aktuelle Größe: 24x15 Felder (22x13 begehbar, und an den Rändern Platz um Türen in die Wände einfügen zu können)
 Zeichen:
 	-X = Rand des Spielfeldes, nicht begehbar
 	-D = Tür, wechselt den Raum
