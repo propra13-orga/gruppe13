@@ -33,8 +33,8 @@ class GameDrawer implements Runnable {
 		game = new JPanel() {
 			// Serial-ID in order to appease Eclipse
 			private static final long serialVersionUID = 1L;
-			private int xOffset;
-			private int yOffset;
+			private int xOffset, yOffset;
+			private int x0, y0, xMax, yMax;
 			private int height;
 			
 			// Actual paint method, is great for painting stuff... and cookies
@@ -45,15 +45,26 @@ class GameDrawer implements Runnable {
 				this.setBackground(Color.BLACK);
 				
 				height 	= gameWindow.getContentPane().getHeight();
+				//x,yoffset sind fuer die bildposition
 				xOffset = (int)(0.5*(gameWindow.getContentPane().getWidth()-height*4/3));
 				yOffset = (int)(height/15);
+				//x0 und co sind fuer die 0-position der zeichenfläche(TODO:finde die richtige position)
+				x0		= (height*4/3)/24;
+				y0		= x0;
+				xMax	= height*4/3/24*22;
+				yMax	= height/18*14;
+				//male den Hintergrund
 				g.drawImage(background, xOffset, 0, height*4/3, height, this);
-				g.drawRect(xOffset+height/15, yOffset, height*4/3-(2*height/15), height*9/12-yOffset);
+				
+				//versuch die korrekte position der zeichenfläche festzulegen(wird bald wegfallen)
+				g.setColor(Color.LIGHT_GRAY);
+				g.fillRect(x0, y0, xMax, yMax);
+				g.setColor(Color.black);
 				
 				// Iterate over all objects and call draw method
 				ArrayList<GameObjects> list = rooms.get(location);
 				for(GameObjects toDraw : list) {
-					toDraw.draw(g2d, xOffset, yOffset, height);
+					toDraw.draw(g2d, x0, y0, height);
 				}
 			}
 		};
