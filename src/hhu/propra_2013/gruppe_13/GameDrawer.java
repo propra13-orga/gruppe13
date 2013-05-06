@@ -45,16 +45,22 @@ class GameDrawer implements Runnable {
 				this.setBackground(Color.BLACK);
 				
 				height 	= gameWindow.getContentPane().getHeight();
+				//x,yoffset sind fuer die bildposition
 				xOffset = (int)(0.5*(gameWindow.getContentPane().getWidth()-height*4/3));
 				yOffset = (int)(height/15);
+				//x0 und co sind fuer die 0-position der zeichenfläche(TODO:finde die richtige position)
 				x0		= (height*4/3)/24;
 				y0		= x0;
 				xMax	= height*4/3/24*22;
 				yMax	= height/18*14;
+				//male den Hintergrund
 				g.drawImage(background, xOffset, 0, height*4/3, height, this);
+				
+				//versuch die korrekte position der zeichenfläche festzulegen(wird bald wegfallen)
 				g.setColor(Color.LIGHT_GRAY);
 				g.fillRect(x0, y0, xMax, yMax);
 				g.setColor(Color.black);
+				
 				// Iterate over all objects and call draw method
 				ArrayList<GameObjects> list = rooms.get(location);
 				for(GameObjects toDraw : list) {
