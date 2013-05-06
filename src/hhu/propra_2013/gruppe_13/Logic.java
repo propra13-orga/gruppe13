@@ -161,11 +161,8 @@ class Logic implements Runnable {
 		currentRoom = rooms.get(0);
 		// game loop
 		while (true) {
-<<<<<<< HEAD
-			//System.err.println(moveX+" "+moveXn+" "+moveY+" "+moveYn);
-=======
 			System.err.println(right+" "+left+" "+up+" "+down);
->>>>>>> 85680adaaa6889907b6207bb443529f69ed4d007
+
 			this.checkDistance();
 			this.checkCollision();
 			this.moveFigure();
