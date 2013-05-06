@@ -15,7 +15,7 @@ import java.util.ArrayList;
 class Logic implements Runnable {
 	
 	// Boolean variables for movement and collision detection, location counter for the room
-	private boolean 	moveX, moveXn, moveY, moveYn;
+	private boolean 	moveX, moveXn, moveY, moveYn, hit, use, bomb;
 	private boolean 	freeX, freeY, freeYn, freeXn;
 	private int 		location;
 	private GameObjects figure;
@@ -40,6 +40,18 @@ class Logic implements Runnable {
 	
 	void setMoveYn(boolean in){
 		moveYn = in;
+	}
+	
+	public void setHit(boolean in) {
+		hit = in;		
+	}
+
+	public void setUse(boolean in) {
+		use = in;		
+	}
+
+	public void setBomb(boolean in) {
+		bomb = in;		
 	}
 	
 	// Initiate the current objects variables
@@ -89,6 +101,7 @@ class Logic implements Runnable {
 			
 			if (Math.sqrt((objX-posX)*(objX-posX)+(objY-posY)*(objY-posY)) < figR+objR) {
 				// TODO: figure out an ingenious collision detection algorithm
+				
 			}
 		}
 	}
@@ -123,4 +136,6 @@ class Logic implements Runnable {
 			this.moveEnemy();
 		}
 	}
+
+
 }
