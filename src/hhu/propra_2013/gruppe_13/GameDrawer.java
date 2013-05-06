@@ -22,7 +22,7 @@ class GameDrawer implements Runnable {
 	}
 	
 	// Initiate current objects variables, returns constructed JPanel
-	JPanel init(Logic inLogic) {		
+	JPanel init(Logic inLogic) {	
 		// Build a new panel, override paint method
 		game = new JPanel() {
 			// Serial-ID in order to appease Eclipse
@@ -30,8 +30,8 @@ class GameDrawer implements Runnable {
 
 			// Actual paint method, is great for painting stuff... and cookies
 			protected void paintComponent(Graphics g) {
-				super.paintComponent(g);
-				Graphics2D g2d = (Graphics2D) g;
+				Graphics2D g2d = (Graphics2D) g; //strategy.getDrawGraphics();
+				super.paintComponent(g2d);
 				
 				// Iterate over all objects and call draw method
 				ArrayList<GameObjects> list = rooms.get(location);
@@ -42,9 +42,13 @@ class GameDrawer implements Runnable {
 		};
 
 		// add KeyListener with appropriate logic object to the panel
-		//game.addKeyListener(new Game_IO(inLogic));
 		game.setSize(gameWindow.getSize());
 		return game;
+	}
+	
+	// remove a drawable object, thus not every enemy and wall needs to be called if it has been destroyed
+	void removeDrawableObject (GameObjects toRemove) {
+		rooms.get(location).remove(toRemove);
 	}
 	
 	// Tell the draw methods which location to draw
@@ -64,7 +68,6 @@ class GameDrawer implements Runnable {
 			// Find out window size and repaint the game
 			game.setSize(gameWindow.getSize());
 			game.repaint();
-			
 			try {
 				// tries to set the draw method at 62.5fps
 				if((temp = System.currentTimeMillis()-time) < 16)	
@@ -75,6 +78,9 @@ class GameDrawer implements Runnable {
 			} catch (InterruptedException e) {
 				System.err.println("Graphics Thread interrupted, continuing execution. ");
 			}
+			
+			//System.err.println(((double)(System.currentTimeMillis()-time)));
+
 		}
 	}
 }

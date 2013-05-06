@@ -10,12 +10,16 @@ class Game_IO implements KeyEventDispatcher {
 	Logic logic;
 	Game_IO(Logic inLogic) {
 		logic =inLogic;
-		System.err.println("test");
 	}
 	
 	/*@Override // Move the figure as long as a key is pressed 
 	public void keyPressed(KeyEvent e) {
+<<<<<<< HEAD
+		System.err.println("blub" +Integer.toString(e.getKeyCode()));
+		
+=======
 		System.err.println("blub");
+>>>>>>> 346b0745333d1c9cd403c446caeced5f2d863f00
 		switch (e.getKeyCode()) {
 		case 87:
 			logic.setMoveXn(true);
