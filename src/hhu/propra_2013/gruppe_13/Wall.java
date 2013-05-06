@@ -9,13 +9,13 @@ class Wall extends GameObjects {
 	double x, y, r;
 	double v_x, v_y;
 	
-	Wall(double initX, double initY, double initRadius) {
+	Wall(double initX, double initY, double initRadius, int inHP) {
 		x = initX;
 		y = initY;
 		v_x = 0;
 		v_y = 0;
 		r = initRadius;
-		hp = 1;
+		hp = inHP;
 	}
 	
 	// Getter and Setter methods for above variables
