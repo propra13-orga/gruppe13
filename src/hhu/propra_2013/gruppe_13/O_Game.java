@@ -52,7 +52,7 @@ class O_Game {
 						temp.add(new Enemy(column, line, 0.5, gameWindow));
 						break;
 					case 68:
-						new Door(column, line, 0.5, true, dest);
+						new Door(column, line, 0.5, true, true, dest);
 						break;	
 					}
 					column++;
