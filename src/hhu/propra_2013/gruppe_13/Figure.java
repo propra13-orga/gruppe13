@@ -24,8 +24,8 @@ class Figure extends GameObjects {
 	Figure(double initX, double initY, double initRadius, JFrame inFrame) {
 		x = initX;
 		y = initY;
-		v_x = 0.3;
-		v_y = 0.3;
+		v_x = 0.7;
+		v_y = 0.7;
 		r = initRadius;
 		hp = 1;
 		window = inFrame;
@@ -106,7 +106,7 @@ class Figure extends GameObjects {
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
 		// TODO: hier muss die grafik noch angepasst werden, dass sie auf das Feld skaliert
-		g.fillRect(xOffset+(int)(x*step),  yOffset+(int)(y*step), (int)step, (int)step);
+		g.fillRect(xOffset+(int)(x),  yOffset+(int)(y), (int)step, (int)step);
 	}
 	
 	@Override
