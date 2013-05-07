@@ -1,5 +1,6 @@
 package hhu.propra_2013.gruppe_13;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 class Wall extends GameObjects {
@@ -68,7 +69,8 @@ class Wall extends GameObjects {
 	
 	/*-----------------------------------------------------------------------------------------------*/
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		
+		g.setColor(Color.GREEN);
+		g.fillRect(xOffset+(int)Math.round(x*step),  yOffset+(int)Math.round(y*step), (int)Math.round(step), (int)Math.round(step));
 	}
 	
 	void attack() {

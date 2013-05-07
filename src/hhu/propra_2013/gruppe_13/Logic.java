@@ -17,7 +17,7 @@ class Logic implements Runnable {
 	private static final double SQRT_2 = 	1.41421356237309504880168872420969807856967187537694807317667973799;	// http://en.wikipedia.org/wiki/Square_root_of_2
 	
 	// Boolean variables for movement and collision detection, location counter for the room
-	private boolean 	down, up, right, left;								//für die Bewegungsrichtungen
+	private boolean 	down, up, right, left;														//für die Bewegungsrichtungen
 	private boolean		north, east, south, west, northwest, northeast, southwest, southeast;		//zum schießen in die Himmelsrichtungen
 	
 	private boolean 	freeright, freeup, freedown, freeleft;
@@ -133,7 +133,7 @@ class Logic implements Runnable {
 		freedown	= true;
 		
 		double figR 	= figure.getRad();
-		double tmp;
+		double tmpX, tmpY;
 		
 		double objX;
 		double objY;
@@ -147,36 +147,36 @@ class Logic implements Runnable {
 			objX = collidable.get(i).getPosX();
 			objY = collidable.get(i).getPosY();
 			objR = collidable.get(i).getRad();
-			System.out.println(collidable.get(i));
 			
 			// First check whether the objects are close enough to encounter one another within the next couple of moves, use squares, saves a couple of sqrt calls
 			if (((objX-figX)*(objX-figX)+(objY-figY)*(objY-figY)) < ((figR+objR)*(figR+objR))) {
-				
+				tmpX = figX-objX;
+				tmpY = figY-objY;
 				/* Reference point for all objects is the top left corner, as drawing exclusively starts here
 				 * First of all we check, whether the object in question is on a collidable course in x or y direction, 
 				 * once that is done, the remaining distance between the two objects will be computed and saved in a 
 				 * corresponding double value.
 				 * 
 				 *  Start with collisions in y-direction */
-				if((tmp=figX-objX) > -1 && tmp < 1) {
+				if(tmpX > -1 && tmpX < 1) {
 					// check whether the object is to the left or right of the figure and whether the figure could reach it within one step
-					if(((tmp=figY-objY) > 0) && (figVY > tmp)) {
+					if(((tmpY) > 0) && (figVY > tmpY-1)) {
 						// set remaining distance and checking variable
-						distUp = tmp - 1;
+						distUp = tmpY - 1;
 						freeup = false;
-					} else if ((tmp < 0) && (figVY > tmp)) {
-						distDown = -tmp - 1;
+					} else if ((tmpY < 0) && (figVY > tmpY)) {
+						distDown = -tmpY - 1;
 						freedown = false;
 					}
 				} 
 				
 				// this will cover collision detection in x-direction, analogous to above
-				if((tmp=figY-objY) > -1 && tmp < 1) {
-					if(((tmp=figX-objX) > 0) && (figVX > tmp)) {
-						distLeft = tmp - 1;
+				if((tmpY) > -1 && tmpY < 1) {
+					if((tmpX > 0) && (figVX > tmpX-1)) {
+						distLeft = tmpX - 1;
 						freeleft = false;
-					} else if ((tmp < 0) && (figVX > tmp)) {
-						distRight = -tmp - 1;
+					} else if ((tmpX < 0) && (figVX > tmpX)) {
+						distRight = -tmpX - 1;
 						freeright = false;
 					}
 				} 

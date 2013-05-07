@@ -1,5 +1,6 @@
 package hhu.propra_2013.gruppe_13;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
@@ -109,7 +110,7 @@ class Figure extends GameObjects {
 		/* Durch die Variable step ist eine Umrechnung auf den Screen möglich, ansonsten würde das Spiel immer unterschiedlich angezeigt werden, 
 		 * allerdings ist zu beachten, dass durch den Gebrauch von Math.round() eine Verzeichnung um einen Pixel unten oder rechts nicht Auftritt, 
 		 * wie es bei einem cast auf int passieren kann.  */
-		
+		g.setColor(Color.BLUE);
 		g.fillRect(xOffset+(int)Math.round(x*step),  yOffset+(int)Math.round(y*step), (int)Math.round(step), (int)Math.round(step));
 		// TODO: bilder anstelle des quadrats malen
 

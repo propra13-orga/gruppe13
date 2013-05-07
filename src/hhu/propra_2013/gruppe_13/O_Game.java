@@ -66,7 +66,7 @@ class O_Game {
 				System.exit(1);
 			}*/
 			
-			
+			temp.add(new Wall(14, 5, 2, 1));
 			// TODO: Build cool shit for reading levels
 			rooms.add(i, temp);
 		}
