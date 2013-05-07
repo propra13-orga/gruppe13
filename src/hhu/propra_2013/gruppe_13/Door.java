@@ -4,17 +4,29 @@ import java.awt.Graphics2D;
 
 class Door extends GameObjects {
 	double 		x,y,r;
-	boolean 	open;
+	boolean 	open, enabled;
 	int 		destination;
 	
-	Door (double initX, double initY, double initRadius, boolean inOpen, int inDestination){
+	Door (double initX, double initY, double initRadius, boolean inOpen, boolean inEnabled, int inDestination){
 		x 			= initX;
 		y 			= initY;
 		r			= initRadius;
 		open		= inOpen;
 		destination	= inDestination;
+		enabled		= inEnabled;
 	}
 
+	void setEnabled(boolean in){
+		enabled = in;
+	}
+	
+	
+	boolean isEnabled(){
+		return enabled;
+	}
+	
+	
+	
 	@Override
 	int getHP() {
 		// TODO Auto-generated method stub
