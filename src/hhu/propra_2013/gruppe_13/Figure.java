@@ -21,12 +21,12 @@ class Figure extends GameObjects {
 	JFrame window;
 	
 	// class constructor
-	Figure(double initX, double initY, double initRadius, JFrame inFrame) {
+	Figure(double initX, double initY, JFrame inFrame) {
 		x = initX;
 		y = initY;
 		v_x = 0.3;
 		v_y = 0.3;
-		r = initRadius;
+		r = 1+v_x*v_x+v_y*v_y;
 		hp = 1;
 		window = inFrame;
 	}
@@ -105,8 +105,11 @@ class Figure extends GameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		// TODO: hier muss die grafik noch angepasst werden, dass sie auf das Feld skaliert
-		g.fillRect(xOffset+(int)(x*step),  yOffset+(int)(y*step), (int)step, (int)step);
+		/* Durch die Variable step ist eine Umrechnung auf den Screen möglich, ansonsten würde das Spiel immer unterschiedlich angezeigt werden, 
+		 * allerdings ist zu beachten, dass durch den Gebrauch von Math.round() eine Verzeichnung um einen Pixel unten oder rechts nicht Auftritt, 
+		 * wie es bei einem cast auf int passieren kann.  */
+		
+		g.fillRect(xOffset+(int)Math.round(x*step),  yOffset+(int)Math.round(y*step), (int)Math.round(step), (int)Math.round(step));
 	}
 	
 	@Override

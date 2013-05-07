@@ -14,14 +14,23 @@ import java.util.ArrayList;
 
 class Logic implements Runnable {
 	
+	private static final double SQRT_2 = 	1.41421356237309504880168872420969807856967187537694807317667973799;	// http://en.wikipedia.org/wiki/Square_root_of_2
+	
 	// Boolean variables for movement and collision detection, location counter for the room
 	private boolean 	down, up, right, left;								//für die Bewegungsrichtungen
-	private boolean		punch, use, bomb;									//für Aktionen
 	private boolean		north, east, south, west, northwest, northeast, southwest, southeast;		//zum schießen in die Himmelsrichtungen
+	
 	private boolean 	freeright, freeup, freedown, freeleft;
+	private double 		distDown, distUp, distRight, distLeft;
+	
 	private int 		location;
 	private GameObjects figure;
 	private O_Game		game;
+	
+	private double 		figX, figY;
+	private double 		figVX, figVY;
+	private boolean		punch, use, bomb;									//für Aktionen
+
 	
 	// List of all Objects within the game
 	private ArrayList<ArrayList<GameObjects>> 	rooms;
@@ -58,19 +67,19 @@ class Logic implements Runnable {
 	void setSouth(boolean in) {
 		south = in;		
 	}
-	public void setWest(boolean in) {
+	void setWest(boolean in) {
 		west = in;		
 	}
-	public void setNorthwest(boolean in) {
+	void setNorthwest(boolean in) {
 		northwest = in;		
 	}
-	public void setNortheast(boolean in) {
+	void setNortheast(boolean in) {
 		northeast = in;		
 	}
-	public void setSouthwest(boolean in) {
+	void setSouthwest(boolean in) {
 		southwest = in;		
 	}
-	public void setSoutheast(boolean in) {
+	void setSoutheast(boolean in) {
 		southeast = in;		
 	}
 
@@ -118,44 +127,96 @@ class Logic implements Runnable {
 	}
 	
 	private void checkCollision() {
+		freeright	= true;
+		freeleft	= true;
+		freeup		= true;
+		freedown	= true;
+		
 		double figR 	= figure.getRad();
-		double posX		= figure.getPosX();
-		double posY		= figure.getPosY();
+		double tmp;
 		
 		double objX;
 		double objY;
 		double objR;
 		
+		ArrayList<GameObjects> collidable = rooms.get(location);
+		
 		// TODO Auto-generated method stub, hier muss noch genau festgelegt werden, wie wir Kollisionen feststellen wollen
-		// iterate over all objects within the room
-		for(GameObjects collidable: currentRoom) {
-			objX = collidable.getPosX();
-			objY = collidable.getPosY();
-			objR = collidable.getRad();
+		// iterate over all objects within the room, excepting the figure, of course
+		for(int i=1; i<collidable.size(); i++) {
+			objX = collidable.get(i).getPosX();
+			objY = collidable.get(i).getPosY();
+			objR = collidable.get(i).getRad();
+			System.out.println(collidable.get(i));
 			
-			if (Math.sqrt((objX-posX)*(objX-posX)+(objY-posY)*(objY-posY)) < figR+objR) {
-				// TODO: figure out an ingenious collision detection algorithm
+			// First check whether the objects are close enough to encounter one another within the next couple of moves, use squares, saves a couple of sqrt calls
+			if (((objX-figX)*(objX-figX)+(objY-figY)*(objY-figY)) < ((figR+objR)*(figR+objR))) {
 				
+				/* Reference point for all objects is the top left corner, as drawing exclusively starts here
+				 * First of all we check, whether the object in question is on a collidable course in x or y direction, 
+				 * once that is done, the remaining distance between the two objects will be computed and saved in a 
+				 * corresponding double value.
+				 * 
+				 *  Start with collisions in y-direction */
+				if((tmp=figX-objX) > -1 && tmp < 1) {
+					// check whether the object is to the left or right of the figure and whether the figure could reach it within one step
+					if(((tmp=figY-objY) >= 1) && (figVY > tmp)) {
+						// set remaining distance and checking variable
+						distUp = tmp - 1;
+						freeup = false;
+					} else if ((tmp <= -1) && (figVY > tmp)) {
+						distDown = -tmp - 1;
+						freedown = false;
+					}
+				} 
+				
+				// this will cover collision detection in x-direction, analogous to above
+				if((tmp=figY-objY) > -1 && tmp < 1) {
+					if(((tmp=figX-objX) >= 1) && (figVX > tmp)) {
+						distLeft = tmp - 1;
+						freeleft = false;
+					} else if ((tmp <= -1) && (figVX > tmp)) {
+						distRight = -tmp - 1;
+						freeright = false;
+					}
+				} 
 			}
 		}
 	}
 	
+	
+	/* This is the actual movement method, which checks for all directions whether the figure needs to be moved.
+	 * Additionally the method checks whether the figure has reached a boundary and will prevent it from moving out of the gaming area.  */	
 	private void moveFigure() {
-		if(right && !left && freeright){
-			figure.incX();
+		if(right && !left){
+			if(freeright){
+				if (figX+figVX >= 21) 	figX = 21;
+				else					figX += figVX;
+			} else 						figX += distRight;
 		}
 		
-		if(left && !right && freeleft){
-			figure.decX();
+		if(left && !right){
+			if(freeleft) {				
+				if (figX-figVX <= 0) 	figX = 0;
+				else					figX -= figVX;
+			} else	 					figX -= distLeft;
 		}
 		
-		if(up && !down && freeup){
-			figure.decY();
+		if(up && !down){
+			if(freeup) {
+				if (figY-figVY <= 0) 	figY = 0;
+				else					figY -= figVY;
+			} else						figY -= distUp;
 		}
 		
-		if(down && !up && freedown){
-			figure.incY();
+		if(down && !up){
+			if(freedown) {
+				if (figY+figVY >= 12) 	figY = 12;
+				else					figY += figVY;
+			} else						figY += distDown;
 		}
+		
+		figure.setPos(figX, figY);
 	}
 	
 	@Override //Override run method from interface, this will have the game loop
@@ -163,18 +224,39 @@ class Logic implements Runnable {
 		currentRoom = rooms.get(0);
 		long time;
 		long temp;
+		int count;
 		
 		// game loop
 		while (true) {
 			time = System.currentTimeMillis();
 
+			figX 	= figure.getPosX();
+			figY 	= figure.getPosY();
+			figVX	= figure.getVX();
+			figVY	= figure.getVY();
+			
+			// diagonal velocity is slowed, so that diagonal and straight movement seem to have the same speed.  
+			count = 0;
+			if(up)		count++;
+			if(down)	count++;
+			if(right)	count++;
+			if(left)	count++;
+			
+			// if exactly two key are pressed the figure either doesn't move (opposing key) or it moves diagonal			
+			if(count == 2) {
+				figVX /= SQRT_2;
+				figVY /= SQRT_2;
+			}
+			
+			// do the actual logic in this game
 			this.checkDistance();
 			this.checkCollision();
 			this.moveFigure();
 			this.moveEnemy();
 			
+			// set the thread asleep, we don't need it too often
 			try {
-				if((temp=System.currentTimeMillis()-time)<20)
+				if((temp=System.currentTimeMillis()-time) < 16)
 				Thread.sleep(16-temp);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -182,4 +264,5 @@ class Logic implements Runnable {
 			}
 		}
 	}
+
 }

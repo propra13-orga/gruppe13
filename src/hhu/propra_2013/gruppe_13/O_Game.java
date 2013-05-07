@@ -15,24 +15,22 @@ class O_Game {
 		
 	
 	// Build two lists, the graphics component will also receive the figure, which has a special function in the logic class
-	ArrayList<ArrayList<GameObjects>> graphicsRooms;
-	ArrayList<ArrayList<GameObjects>> logicsRooms;
+	ArrayList<ArrayList<GameObjects>> rooms;
 	
 	// Initialize method for the actual game
 	O_Game(JFrame inFrame) {
 		// Initiate object variables
 		gameWindow 		= inFrame;
-		graphicsRooms 	= new ArrayList<ArrayList<GameObjects>>();
-		logicsRooms 	= new ArrayList<ArrayList<GameObjects>>();
-		figure 			= new Figure(0, 0, 1, gameWindow);
+		rooms 	= new ArrayList<ArrayList<GameObjects>>();
+		figure 			= new Figure(0, 0, gameWindow);
 		int element, line, column, dest; //for room generation, saves the current char (as int),the line its from, and the column its in
-		
 		
 		
 		// iterate over all objects and rooms within the level, all objects run within [0...800)x[0...600)
 		// TODO: make that shit better!!, implement the current level
 		for (int i=0; i<3; i++) {
 			ArrayList<GameObjects> temp = new ArrayList<GameObjects>();
+			temp.add(figure);
 			
 			/*try {
 				InputStream roomStream = new FileInputStream("raum"+i+".txt");
@@ -69,19 +67,13 @@ class O_Game {
 			}*/
 			
 			
-			
 			// TODO: Build cool shit for reading levels
-			logicsRooms.add(i, temp);
-			graphicsRooms.add(i, temp);
+			rooms.add(i, temp);
 		}
-		
-		for (ArrayList<GameObjects> array: graphicsRooms) {
-			array.add(figure);
-		} 
 
 		// Initialize Logic and Graphics
-		graphics 	= new GameDrawer(graphicsRooms, gameWindow);
-		logic 		= new Logic(logicsRooms, figure, this);
+		graphics 	= new GameDrawer(rooms, gameWindow);
+		logic 		= new Logic(rooms, figure, this);
 		
 		// set contentPane to JPanel returned by GameDrawer, set GameIO as keyboard manager
 		gameWindow.setContentPane(graphics.init(logic));

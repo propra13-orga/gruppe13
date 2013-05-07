@@ -2,7 +2,6 @@ package hhu.propra_2013.gruppe_13;
 
 import java.awt.KeyEventDispatcher;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 
 class Game_IO implements KeyEventDispatcher {
@@ -12,10 +11,9 @@ class Game_IO implements KeyEventDispatcher {
 		logic =inLogic;
 	}
 
-	@Override
+	@Override //reacts to any key event no matter where the focus is. Thus it doesn't matter in what order objects are drawn to the screen
 	public boolean dispatchKeyEvent(KeyEvent e) {
 		if (e.getID() == KeyEvent.KEY_PRESSED) {
-			System.err.println("pressed");
 
 			switch (e.getKeyCode()) {
 			case 87:									//87='w'
@@ -50,7 +48,6 @@ class Game_IO implements KeyEventDispatcher {
 		} 
 		
 		else if (e.getID() == KeyEvent.KEY_RELEASED) {
-			System.err.println("released");
 			
 			switch (e.getKeyCode()) {
 			case 87:									//87='w'

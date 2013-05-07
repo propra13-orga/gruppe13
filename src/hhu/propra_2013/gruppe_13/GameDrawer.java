@@ -28,7 +28,7 @@ class GameDrawer implements Runnable {
 	}
 	
 	// Initiate current objects variables, returns constructed JPanel
-	JPanel init(Logic inLogic) {	
+	JPanel init(Logic inLogic) {
 		// Build a new panel, override paint method
 		game = new JPanel() {
 			// Serial-ID in order to appease Eclipse
@@ -56,13 +56,13 @@ class GameDrawer implements Runnable {
 					step = width/24.;
 					
 					// male den Hintergrund
-					g.drawImage(background, x0, y0, width, (int)(width*3/4.), this);
+					g2d.drawImage(background, x0, y0, width, (int)(width*3/4.), this);
 				} else {								// Fenster ist breiter als hoch
 					y0 = 0;
 					step = height/18.;					// entspricht 4/3*1/24*height
 
 					// male den Hintergrund
-					g.drawImage(background, x0, y0, (int)(height*4/3.), height, this);
+					g2d.drawImage(background, x0, y0, (int)(height*4/3.), height, this);
 				}
 				
 				// Setze nun den Startpunkt auf die linke obere  Ecke im Spielfeld
@@ -73,14 +73,14 @@ class GameDrawer implements Runnable {
 				// TODO: entfernen, nachdem es Benes "Seal of Approval" erhält
 				xMax = (int)Math.round(22*step);
 				yMax = (int)Math.round(13*step);
-				g.setColor(Color.LIGHT_GRAY);
-				g.fillRect(x0, y0, xMax, yMax);
-				g.setColor(Color.black);
+				g2d.setColor(Color.LIGHT_GRAY);
+				g2d.fillRect(x0, y0, xMax, yMax);
+				g2d.setColor(Color.black);
 
 				// Iterate over all objects and call draw method
 				ArrayList<GameObjects> list = rooms.get(location);
 				for(GameObjects toDraw : list) {
-					toDraw.draw(g2d, x0, y0, (int)step);
+					toDraw.draw(g2d, x0, y0, step);
 				}
 			}
 		};
