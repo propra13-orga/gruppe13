@@ -10,6 +10,7 @@ import javax.swing.JFrame;
  * Hitpoints
  * Richtung
  * Radius
+ * TODO implement picturecycle for movement
  */
 
 class Figure extends GameObjects {
@@ -105,10 +106,9 @@ class Figure extends GameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		// TODO: hier muss die grafik noch angepasst werden, dass sie auf das Feld skaliert
 		g.fillRect(xOffset+(int)(x),  yOffset+(int)(y), (int)step, (int)step);
+		// TODO: bilder anstelle des quadrats malen
 	}
-	
 	@Override
 	void attack() {
 		
