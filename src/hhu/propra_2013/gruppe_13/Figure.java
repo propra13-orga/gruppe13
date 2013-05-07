@@ -10,6 +10,7 @@ import javax.swing.JFrame;
  * Hitpoints
  * Richtung
  * Radius
+ * TODO implement picturecycle for movement
  */
 
 class Figure extends GameObjects {
@@ -24,8 +25,8 @@ class Figure extends GameObjects {
 	Figure(double initX, double initY, JFrame inFrame) {
 		x = initX;
 		y = initY;
-		v_x = 0.3;
-		v_y = 0.3;
+		v_x = 0.7;
+		v_y = 0.7;
 		r = 1+v_x*v_x+v_y*v_y;
 		hp = 1;
 		window = inFrame;
@@ -110,6 +111,8 @@ class Figure extends GameObjects {
 		 * wie es bei einem cast auf int passieren kann.  */
 		
 		g.fillRect(xOffset+(int)Math.round(x*step),  yOffset+(int)Math.round(y*step), (int)Math.round(step), (int)Math.round(step));
+		// TODO: bilder anstelle des quadrats malen
+
 	}
 	
 	@Override

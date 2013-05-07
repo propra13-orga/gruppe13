@@ -21,7 +21,7 @@ class O_Game {
 	O_Game(JFrame inFrame) {
 		// Initiate object variables
 		gameWindow 		= inFrame;
-		rooms 	= new ArrayList<ArrayList<GameObjects>>();
+		rooms 			= new ArrayList<ArrayList<GameObjects>>();
 		figure 			= new Figure(0, 0, gameWindow);
 		int element, line, column, dest; //for room generation, saves the current char (as int),the line its from, and the column its in
 		
@@ -50,7 +50,7 @@ class O_Game {
 						temp.add(new Enemy(column, line, 0.5, gameWindow));
 						break;
 					case 68:
-						new Door(column, line, 0.5, true, dest);
+						new Door(column, line, 0.5, true, true, dest);
 						break;	
 					}
 					column++;
