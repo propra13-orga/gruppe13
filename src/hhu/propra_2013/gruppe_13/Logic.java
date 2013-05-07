@@ -160,11 +160,11 @@ class Logic implements Runnable {
 				 *  Start with collisions in y-direction */
 				if((tmp=figX-objX) > -1 && tmp < 1) {
 					// check whether the object is to the left or right of the figure and whether the figure could reach it within one step
-					if(((tmp=figY-objY) >= 1) && (figVY > tmp)) {
+					if(((tmp=figY-objY) > 0) && (figVY > tmp)) {
 						// set remaining distance and checking variable
 						distUp = tmp - 1;
 						freeup = false;
-					} else if ((tmp <= -1) && (figVY > tmp)) {
+					} else if ((tmp < 0) && (figVY > tmp)) {
 						distDown = -tmp - 1;
 						freedown = false;
 					}
@@ -172,10 +172,10 @@ class Logic implements Runnable {
 				
 				// this will cover collision detection in x-direction, analogous to above
 				if((tmp=figY-objY) > -1 && tmp < 1) {
-					if(((tmp=figX-objX) >= 1) && (figVX > tmp)) {
+					if(((tmp=figX-objX) > 0) && (figVX > tmp)) {
 						distLeft = tmp - 1;
 						freeleft = false;
-					} else if ((tmp <= -1) && (figVX > tmp)) {
+					} else if ((tmp < 0) && (figVX > tmp)) {
 						distRight = -tmp - 1;
 						freeright = false;
 					}
