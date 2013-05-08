@@ -16,8 +16,8 @@ class Enemy extends GameObjects {
 	
 	Enemy(double initX, double initY, double initRadius, JFrame inFrame) {
 		//zum kurzen anzeigen mal was ;)
-		initX = window.getWidth()/2;
-		initY = window.getHeight()/2;
+		//initX = window.getWidth()/2;
+		//initY = window.getHeight()/2;
 		x = initX;
 		y = initY;
 		v_x = 0;

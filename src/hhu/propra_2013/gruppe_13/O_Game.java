@@ -47,7 +47,7 @@ class O_Game {
 						temp.add(new Wall(column-1, line-1, 0.5, 1)); 	//-1 because the top left corner seems to have
 						break;											//the coordinates 1:1
 					case 69:
-					//	temp.add(new Enemy(column, line, 0.5, gameWindow));
+						temp.add(new Enemy(column-1, line-1, 0.5, gameWindow));
 						break;
 					case 68:
 						new Door(column-1, line-1, 0.5, true, true, dest);
