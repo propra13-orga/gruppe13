@@ -15,18 +15,26 @@ class Game_IO implements KeyEventDispatcher {
 	public boolean dispatchKeyEvent(KeyEvent e) {
 		if (e.getID() == KeyEvent.KEY_PRESSED) {
 
+			boolean up = false;
+			boolean down = false;
+			boolean left = false;
+			boolean right = false;
 			switch (e.getKeyCode()) {
 			case 87:									//87='w'
-				logic.setUp(true);
+				up =true;
+				//logic.setUp(true);
 				break;
 			case 83:									//83='s'
-			 	logic.setDown(true);  
+				down=true;
+			 	//logic.setDown(true);  
 			 	break;
 			case 68: 									//68='d'
-				logic.setRight(true);  
+				right=true;
+				//logic.setRight(true);  
 				break;
 			case 65: 									//65='a'
-				logic.setLeft(true);  
+				left=true;
+//				logic.setLeft(true);  
 				break;
 			case 17:									//17='ctrl'
 				logic.setPunch(true);					//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
@@ -45,6 +53,10 @@ class Game_IO implements KeyEventDispatcher {
 				break;
 				
 			}
+			if(up)logic.setUp(true);
+			if(down)logic.setDown(true);
+			if(right)logic.setRight(true);
+			if(left) logic.setLeft(true);
 		} 
 		
 		else if (e.getID() == KeyEvent.KEY_RELEASED) {

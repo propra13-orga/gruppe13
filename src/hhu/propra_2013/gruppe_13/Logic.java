@@ -17,10 +17,11 @@ class Logic implements Runnable {
 	private static final double SQRT_2 = 	1.41421356237309504880168872420969807856967187537694807317667973799;	// http://en.wikipedia.org/wiki/Square_root_of_2
 	
 	// Boolean variables for movement and collision detection, location counter for the room
-	private boolean 	down, up, right, left;														//für die Bewegungsrichtungen
+	private boolean 	down, up, right, left, upLeft, upRight , downLeft, downRight;														//für die Bewegungsrichtungen
 	private boolean		north, east, south, west, northwest, northeast, southwest, southeast;		//zum schießen in die Himmelsrichtungen
 	
-	private boolean 	freeright, freeup, freedown, freeleft;
+	private boolean 	freeRight, freeUp, freeDown, freeLeft;
+	private boolean 	freeUpRight, freeUpLeft, freeDownRight, freeDownLeft;
 	private double 		distDown, distUp, distRight, distLeft;
 	
 	private int 		location;
@@ -94,6 +95,11 @@ class Logic implements Runnable {
 		right		= false;
 		left		= false;
 		
+		upLeft		= false;
+		upRight 	= false;
+		downLeft	= false;
+		downRight	= false;
+		
 		punch		= false;
 		use			= false;
 		bomb		= false;
@@ -108,10 +114,15 @@ class Logic implements Runnable {
 		southwest	= false;
 		southeast	= false;
 		
-		freeright	= true;
-		freeleft	= true;
-		freeup		= true;
-		freedown	= true;
+		freeRight	= true;
+		freeLeft	= true;
+		freeUp		= true;
+		freeDown	= true;
+		
+		freeUpRight 	= true;
+		freeUpLeft		= true; 
+		freeDownRight 	= true; 
+		freeDownLeft	= true;
 	}
 	
 	private void setRoom(int newLocation) {
@@ -127,11 +138,18 @@ class Logic implements Runnable {
 	}
 	
 	private void checkCollision() {
-		freeright	= true;
-		freeleft	= true;
-		freeup		= true;
-		freedown	= true;
+		// reset colliosion values
+		freeRight		= true;
+		freeLeft		= true;
+		freeUp			= true;
+		freeDown		= true;
 		
+		freeUpRight 	= true;
+		freeUpLeft		= true; 
+		freeDownRight 	= true; 
+		freeDownLeft	= true;
+		
+		// method variables for 
 		double figR 	= figure.getRad();
 		double tmpX, tmpY;
 		
@@ -163,10 +181,10 @@ class Logic implements Runnable {
 					if(((tmpY) > 0) && (figVY > tmpY-1)) {
 						// set remaining distance and checking variable
 						distUp = tmpY - 1;
-						freeup = false;
-					} else if ((tmpY < 0) && (figVY > tmpY)) {
+						freeUp = false;
+					} else if ((tmpY < 0) && (figVY > -tmpY-1)) {
 						distDown = -tmpY - 1;
-						freedown = false;
+						freeDown = false;
 					}
 				} 
 				
@@ -174,43 +192,47 @@ class Logic implements Runnable {
 				if((tmpY) > -1 && tmpY < 1) {
 					if((tmpX > 0) && (figVX > tmpX-1)) {
 						distLeft = tmpX - 1;
-						freeleft = false;
-					} else if ((tmpX < 0) && (figVX > tmpX)) {
+						freeLeft = false;
+					} else if ((tmpX < 0) && (figVX > -tmpX-1)) {
 						distRight = -tmpX - 1;
-						freeright = false;
+						freeRight = false;
 					}
 				} 
 			}
 		}
 	}
 	
+	private void setDirection() {
+		
+	}
 	
 	/* This is the actual movement method, which checks for all directions whether the figure needs to be moved.
 	 * Additionally the method checks whether the figure has reached a boundary and will prevent it from moving out of the gaming area.  */	
 	private void moveFigure() {
+
 		if(right && !left){
-			if(freeright){
+			if(freeRight){
 				if (figX+figVX >= 21) 	figX = 21;
 				else					figX += figVX;
 			} else 						figX += distRight;
 		}
 		
 		if(left && !right){
-			if(freeleft) {				
+			if(freeLeft) {				
 				if (figX-figVX <= 0) 	figX = 0;
 				else					figX -= figVX;
 			} else	 					figX -= distLeft;
 		}
 		
 		if(up && !down){
-			if(freeup) {
+			if(freeUp) {
 				if (figY-figVY <= 0) 	figY = 0;
 				else					figY -= figVY;
 			} else						figY -= distUp;
 		}
 		
 		if(down && !up){
-			if(freedown) {
+			if(freeDown) {
 				if (figY+figVY >= 12) 	figY = 12;
 				else					figY += figVY;
 			} else						figY += distDown;

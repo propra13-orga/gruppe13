@@ -26,8 +26,8 @@ class Figure extends GameObjects {
 	Figure(double initX, double initY, JFrame inFrame) {
 		x = initX;
 		y = initY;
-		v_x = 0.7;
-		v_y = 0.7;
+		v_x = 0.3;
+		v_y = 0.3;
 		r = 1+v_x*v_x+v_y*v_y;
 		hp = 1;
 		window = inFrame;
