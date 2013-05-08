@@ -50,6 +50,18 @@ class Logic implements Runnable {
 	void setLeft(boolean in){
 		left = in;
 	}
+	void setUpRight(boolean in) {
+		upRight = in;
+	}
+	void setUpLeft(boolean in) {
+		upLeft = in;
+	}
+	void setDownRight(boolean in) {
+		downRight = in;		
+	}
+	void setDownLeft(boolean in) {
+		downLeft = in;	
+	}
 	void setPunch(boolean in) {
 		punch = in;		
 	}
@@ -286,5 +298,6 @@ class Logic implements Runnable {
 			}
 		}
 	}
+
 
 }
