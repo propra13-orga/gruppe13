@@ -59,21 +59,18 @@ class O_Game {
 						new Door(column-1, line-1, 0.5, true, true, dest); //creating door with correct destination
 						break;	
 					}
-					column++;
-						if (column==25){
+					column++; //sets column up for the next cycle of the switch-case
+						if (column==25){ //since we use 0-24 chars per line, the 25th should trigger the next line
 							column = 0;
 							line++;
 						}
 					}
 				
 				} catch (IOException e) {
-				// TODO Auto-generated catch block
 				System.out.println("File not found, system exiting.");
 				System.exit(1);
 			}
 			
-			//temp.add(new Wall(14, 5, 2, 1));
-			// TODO: Build cool shit for reading levels
 			rooms.add(i, temp);
 		}
 
