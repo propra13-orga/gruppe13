@@ -32,8 +32,8 @@ class O_Game {
 			ArrayList<GameObjects> temp = new ArrayList<GameObjects>();
 			temp.add(figure);
 			
-			/*try {
-				InputStream roomStream = new FileInputStream("raum"+i+".txt");
+			try {
+				InputStream roomStream = new FileInputStream("Level/raum"+i+".txt");
 				Reader roomReader = new InputStreamReader (roomStream);
 				
 				element = 0;
@@ -41,7 +41,7 @@ class O_Game {
 				line = 0;
 				dest = 0;
 				while ((element = roomReader.read()) != -1){ //Goes trough the whole raumX.txt, and spawns Objects at their Positions
-				
+					
 					switch (element) { 	//ASCII: W=87 D=68 E=69
 					case 87:			//In order of probability
 						temp.add(new Wall(column, line, 0.5, 1));
@@ -54,7 +54,7 @@ class O_Game {
 						break;	
 					}
 					column++;
-						if (column==14){
+						if (column==25){
 							column = 0;
 							line++;
 						}
@@ -64,9 +64,9 @@ class O_Game {
 				// TODO Auto-generated catch block
 				System.out.println("File not found, system exiting.");
 				System.exit(1);
-			}*/
+			}
 			
-			temp.add(new Wall(14, 5, 2, 1));
+			//temp.add(new Wall(14, 5, 2, 1));
 			// TODO: Build cool shit for reading levels
 			rooms.add(i, temp);
 		}
