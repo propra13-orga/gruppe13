@@ -12,7 +12,7 @@ class Door extends GameObjects {
 		y 			= initY;
 		r			= initRadius;
 		open		= inOpen;
-		destination	= inDestination;
+		destination	= inDestination; //Destination stores where the door leads to. 1=goes up 2=goes right 3= goes down 4= goes left
 		enabled		= inEnabled;
 	}
 

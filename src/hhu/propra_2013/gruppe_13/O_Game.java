@@ -37,7 +37,7 @@ class O_Game {
 				Reader roomReader = new InputStreamReader (roomStream);
 				
 				element = 0;
-				column =0; 
+				column = 0; 
 				line = 0;	
 				dest = 0;
 				while ((element = roomReader.read()) != -1){ //Goes trough the whole raumX.txt, and spawns Objects at their Positions
@@ -49,8 +49,14 @@ class O_Game {
 					case 69:
 						temp.add(new Enemy(column-1, line-1, 0.5, gameWindow));
 						break;
-					case 68:
-						new Door(column-1, line-1, 0.5, true, true, dest);
+					case 68: //looks where the door is, then sets destination accordingly
+						
+						if (line-1 == 0) 	{dest = 1;} //Door is on the upper edge of the field, door should lead up
+						if (line-1 == 14) 	{dest = 3;} //Door is on the bottom edge of the field, door should lead down
+						if (column-1==24)	{dest = 2;} //Door is on the right edge of the field, door should lead right
+						if (column-1==0) 	{dest = 4;} //Door is on the left edge of the field, door should lead left
+						
+						new Door(column-1, line-1, 0.5, true, true, dest); //creating door with correct destination
 						break;	
 					}
 					column++;
