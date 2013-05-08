@@ -37,20 +37,20 @@ class O_Game {
 				Reader roomReader = new InputStreamReader (roomStream);
 				
 				element = 0;
-				column = 0;
-				line = 0;
+				column =0; 
+				line = 0;	
 				dest = 0;
 				while ((element = roomReader.read()) != -1){ //Goes trough the whole raumX.txt, and spawns Objects at their Positions
 					
 					switch (element) { 	//ASCII: W=87 D=68 E=69
 					case 87:			//In order of probability
-						temp.add(new Wall(column, line, 0.5, 1));
-						break;
+						temp.add(new Wall(column-1, line-1, 0.5, 1)); 	//-1 because the top left corner seems to have
+						break;											//the coordinates 1:1
 					case 69:
 					//	temp.add(new Enemy(column, line, 0.5, gameWindow));
 						break;
 					case 68:
-						new Door(column, line, 0.5, true, true, dest);
+						new Door(column-1, line-1, 0.5, true, true, dest);
 						break;	
 					}
 					column++;
