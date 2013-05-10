@@ -1,5 +1,6 @@
 package hhu.propra_2013.gruppe_13;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 
 class Door extends GameObjects {
@@ -80,7 +81,8 @@ class Door extends GameObjects {
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
 		// TODO Auto-generated method stub
-
+		g.setColor(Color.RED);
+		g.fillRect(xOffset+(int)Math.round(x*step),  yOffset+(int)Math.round(y*step), (int)Math.round(step), (int)Math.round(step));
 	}
 
 	@Override
