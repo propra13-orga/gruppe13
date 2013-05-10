@@ -55,43 +55,33 @@ class Game_IO implements KeyEventDispatcher {
 				break;
 				
 			}
-			if (up){
-				if (right && !left){
-					logic.setUpRight(true);
-				}
+			if (up && !down){
 				if (left && !right){
 					logic.setUpLeft(true);
+					right = false;
+					up = false;
+				}else if (right && !left){
+					logic.setUpRight(true);
+					left = false;
+					up = false;
 				}
-				if (!right & !left){
-					logic.setUp(true);
-				}
-			} else
-			if (down){
-				if (right && !left){
-					logic.setDownRight(true);
-				}
+			}else if (down && !up){
 				if (left && !right){
 					logic.setDownLeft(true);
+					right = false;
+					down = false;
+				}else if (right && !left){
+					logic.setDownRight(true);
+					left = false;
+					down = false;
 				}
-				if (!right & !left){
-					logic.setDown(true);
+			}else if (!down && !up){
+				if (left && !right){
+					logic.setLeft(true);
+				}else if (right && !left){
+					logic.setRight(true);
 				}
-			}else
-			if (right & !left){
-				logic.setRight(true);
-			}else if (left & !right){
-				logic.setLeft(true);
 			}
-				
-			
-			//if(up && !right && !left)logic.setUp(true);
-			//if(down && !right && !left)logic.setDown(true);
-			//if(right && !up && !down)logic.setRight(true);
-			//if(left && !up && !down) logic.setLeft(true);
-			//if(up && right)logic.setUpRight(true);
-			//if(up && left)logic.setUpLeft(true);
-			//if(down && right)logic.setDownRight(true);
-			//if(down && left)logic.setDownLeft(true);
 		} 
 		
 		else if (e.getID() == KeyEvent.KEY_RELEASED) {

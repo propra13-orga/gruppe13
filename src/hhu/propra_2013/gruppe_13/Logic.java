@@ -37,6 +37,7 @@ class Logic implements Runnable {
 	private ArrayList<ArrayList<GameObjects>> 	rooms;
 	private ArrayList<GameObjects> 				currentRoom;
 
+
 	// Setter methods to determine whether a movement shall be initiated 
 	void setDown(boolean in){
 		down = in;
