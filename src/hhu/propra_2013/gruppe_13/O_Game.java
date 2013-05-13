@@ -65,7 +65,7 @@ class O_Game {
 							line++;
 						}
 					}
-				
+
 				} catch (IOException e) {
 				System.out.println("File not found, system exiting.");
 				System.exit(1);
