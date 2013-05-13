@@ -60,12 +60,12 @@ class Game_IO implements KeyEventDispatcher {
 					if (left && !right){
 						logic.setUpLeft(true);
 						upleft = true;
-						right = false;
+						left = false;
 						up = false;
 					}else if (right && !left){
 						logic.setUpRight(true);
 						upright = true;
-						left = false;
+						right = false;
 						up = false;
 					}else if (!right && !left){
 						logic.setUp(true);
@@ -74,12 +74,12 @@ class Game_IO implements KeyEventDispatcher {
 					if (left && !right){
 						logic.setDownLeft(true);
 						downleft = true;
-						right = false;
+						left = false;
 						down = false;
 					}else if (right && !left){
 						logic.setDownRight(true);
 						downright = true;
-						left = false;
+						right = false;
 						down = false;
 					}else if (!right && !left){
 						logic.setDown(true);
