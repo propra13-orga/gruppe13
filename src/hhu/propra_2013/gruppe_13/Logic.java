@@ -41,27 +41,35 @@ class Logic implements Runnable {
 	// Setter methods to determine whether a movement shall be initiated 
 	void setDown(boolean in){
 		down = in;
+		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
 	}
 	void setUp(boolean in){
 		up = in;
+		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
 	}
 	void setRight(boolean in){
 		right = in;
+		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
 	}
 	void setLeft(boolean in){
 		left = in;
+		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
 	}
 	void setUpRight(boolean in) {
 		upRight = in;
+		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
 	}
 	void setUpLeft(boolean in) {
 		upLeft = in;
+		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
 	}
 	void setDownRight(boolean in) {
 		downRight = in;		
+		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
 	}
 	void setDownLeft(boolean in) {
 		downLeft = in;	
+		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
 	}
 	void setPunch(boolean in) {
 		punch = in;		

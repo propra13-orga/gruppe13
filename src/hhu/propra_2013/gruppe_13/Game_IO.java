@@ -5,6 +5,14 @@ import java.awt.event.KeyEvent;
 
 
 class Game_IO implements KeyEventDispatcher {
+	private boolean up = false;
+	private boolean down = false;
+	private boolean left = false;
+	private boolean right = false;
+	private boolean upright = false;
+	private boolean upleft = false;
+	private boolean downright = false;
+	private boolean downleft = false;
 	// Logic used by the class, set within the constructor
 	Logic logic;
 	Game_IO(Logic inLogic) {
@@ -14,14 +22,7 @@ class Game_IO implements KeyEventDispatcher {
 	@Override //reacts to any key event no matter where the focus is. Thus it doesn't matter in what order objects are drawn to the screen
 	public boolean dispatchKeyEvent(KeyEvent e) {
 
-		boolean up = false;
-		boolean down = false;
-		boolean left = false;
-		boolean right = false;
-		boolean upright = false;
-		boolean upleft = false;
-		boolean downright = false;
-		boolean downleft = false;
+	
 		
 		if (e.getID() == KeyEvent.KEY_PRESSED) {
 
