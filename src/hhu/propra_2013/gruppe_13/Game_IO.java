@@ -102,28 +102,37 @@ class Game_IO implements KeyEventDispatcher {
 		} 
 		
 		else if (e.getID() == KeyEvent.KEY_RELEASED) {
+
+			boolean reup = true;
+			boolean redown = true;
+			boolean releft = true;
+			boolean reright = true;
 			
 			switch (e.getKeyCode()) {
 			case 87:									//87='w'
 				up = false;
+				reup = false;
 				logic.setUp(false);
 				break;
 			case 83:									//83='s'
 			 	down = false;
+			 	redown = false;
 				logic.setDown(false);  
 			 	break;
 			case 68: 									//68='d'
 				right = false;
+				reright = false;
 				logic.setRight(false);  
 				break;
 			case 65: 									//65='a'
 				left = false;
+				releft = false;
 				logic.setLeft(false);  
 				break;
 			}
 			
 			if (upright){
-				if (!right){
+				if (!reright){
 					logic.setUpRight(false);  
 					logic.setUp(true);
 					upright = false;
@@ -135,7 +144,7 @@ class Game_IO implements KeyEventDispatcher {
 					right = true;
 				}
 			}else if (upleft){
-				if (!left){
+				if (!releft){
 					logic.setUpLeft(false);  
 					logic.setUp(true);
 					upleft = false;
@@ -147,7 +156,7 @@ class Game_IO implements KeyEventDispatcher {
 					left = true;
 				}
 			}else if (downright){
-				if (!right){
+				if (!reright){
 					logic.setDownRight(false);  
 					logic.setDown(true);
 					downright = false;
@@ -159,7 +168,7 @@ class Game_IO implements KeyEventDispatcher {
 					right = true;
 				}
 			}else if (downleft){
-				if (!left){
+				if (!releft){
 					logic.setDownLeft(false);  
 					logic.setDown(true);
 					downleft = false;
