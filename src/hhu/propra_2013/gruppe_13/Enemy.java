@@ -8,13 +8,14 @@ import javax.swing.JFrame;
 class Enemy extends GameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
 	// Hitpoints, position and collision radius
-	int 	hp;
-	double 	x, y;
-	double	r;
-	double 	v_x, v_y;
-	JFrame 	window;
+	private int 	hp;
+	private double 	x, y;
+	private double	r;
+	private double 	v_x, v_y;
+	private double 	height, width;
+	private JFrame 	window;
 	
-	Enemy(double initX, double initY, double initRadius, JFrame inFrame) {
+	Enemy(double initX, double initY, double initHeight, double initWidth, double initRadius, JFrame inFrame) {
 		//zum kurzen anzeigen mal was ;)
 		//initX = window.getWidth()/2;
 		//initY = window.getHeight()/2;
@@ -22,6 +23,9 @@ class Enemy extends GameObjects {
 		y = initY;
 		v_x = 0;
 		v_y = 0;
+		
+		width = initWidth;
+		height = initHeight;
 		r = initRadius;
 		hp = 1;
 		window = inFrame;
@@ -46,6 +50,16 @@ class Enemy extends GameObjects {
 	@Override
 	double getRad() {
 		return r;
+	}
+	
+	@Override
+	double getWidth() {
+		return width;
+	}
+
+	@Override
+	double getHeight() {
+		return height;
 	}
 	
 	@Override
@@ -75,7 +89,7 @@ class Enemy extends GameObjects {
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double  step) {
 		g.setColor(Color.red);
-		g.fillOval(xOffset+(int)Math.round(x*step),  yOffset+(int)Math.round(y*step), (int)Math.round(step), (int)Math.round(step));
+		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 	}
 	
 	@Override

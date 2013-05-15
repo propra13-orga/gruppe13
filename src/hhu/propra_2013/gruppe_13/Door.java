@@ -4,14 +4,19 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 class Door extends GameObjects {
-	double 		x,y,r;
-	boolean 	open, enabled;
-	int 		destination;
+	private double 		x,y,r;
+	private double 		height, width;
+	private boolean 	open, enabled;
+	private int 		destination;
 	
-	Door (double initX, double initY, double initRadius, boolean inOpen, boolean inEnabled, int inDestination){
+	Door (double initX, double initY, double initWidth, double initHeight, double initRadius, boolean inOpen, boolean inEnabled, int inDestination){
 		x 			= initX;
 		y 			= initY;
 		r			= initRadius;
+		
+		width 		= initWidth;
+		height		= initHeight;
+		
 		open		= inOpen;
 		destination	= inDestination; //Destination stores where the door leads to. 1=goes up 2=goes right 3= goes down 4= goes left
 		enabled		= inEnabled;
@@ -51,6 +56,16 @@ class Door extends GameObjects {
 		// TODO Auto-generated method stub
 		return r;
 	}
+	
+	@Override
+	double getWidth() {
+		return width;
+	}
+
+	@Override
+	double getHeight() {
+		return height;
+	}
 
 	@Override
 	void setPos(double inX, double inY) {
@@ -82,7 +97,7 @@ class Door extends GameObjects {
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
 		// TODO Auto-generated method stub
 		g.setColor(Color.RED);
-		g.fillRect(xOffset+(int)Math.round(x*step),  yOffset+(int)Math.round(y*step), (int)Math.round(step), (int)Math.round(step));
+		g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 	}
 
 	@Override

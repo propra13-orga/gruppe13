@@ -6,15 +6,20 @@ import java.awt.Graphics2D;
 class Wall extends GameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
 	// Hitpoints, position and collision radius
-	int hp;
-	double x, y, r;
-	double v_x, v_y;
+	private int 	hp;
+	private double 	x, y, r;
+	private double 	height, width;
+	private double 	v_x, v_y;
 	
-	Wall(double initX, double initY, double initRadius, int inHP) {
+	Wall(double initX, double initY, double initWidth, double initHeight, double initRadius, int inHP) {
 		x = initX;
 		y = initY;
 		v_x = 0;
 		v_y = 0;
+		
+		width = initWidth;
+		height = initHeight;
+		
 		r = initRadius;
 		hp = inHP;
 	}
@@ -48,6 +53,16 @@ class Wall extends GameObjects {
 		return 0;
 	}
 	
+	@Override
+	double getWidth() {
+		return width;
+	}
+
+	@Override
+	double getHeight() {
+		return height;
+	}
+	
 	void setPos(double inX, double inY) {
 		x = inX;
 		y = inY;
@@ -70,7 +85,7 @@ class Wall extends GameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
 		g.setColor(Color.GREEN);
-		g.fillRect(xOffset+(int)Math.round(x*step),  yOffset+(int)Math.round(y*step), (int)Math.round(step), (int)Math.round(step));
+		g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 	}
 	
 	void attack() {

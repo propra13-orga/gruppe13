@@ -41,35 +41,35 @@ class Logic implements Runnable {
 	// Setter methods to determine whether a movement shall be initiated 
 	void setDown(boolean in){
 		down = in;
-		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
+//		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
 	}
 	void setUp(boolean in){
 		up = in;
-		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
+//		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
 	}
 	void setRight(boolean in){
 		right = in;
-		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
+//		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
 	}
 	void setLeft(boolean in){
 		left = in;
-		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
+//		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
 	}
 	void setUpRight(boolean in) {
 		upRight = in;
-		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
+//		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
 	}
 	void setUpLeft(boolean in) {
 		upLeft = in;
-		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
+//		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
 	}
 	void setDownRight(boolean in) {
 		downRight = in;		
-		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
+//		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
 	}
 	void setDownLeft(boolean in) {
 		downLeft = in;	
-		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
+//		System.out.println( "down    "+down+"    up    "+up+"    right    "+right+"    left    "+left+"    upright    "+upRight+"    upleft    "+upLeft+"    downright    "+downRight+"    downleft    "+downLeft);
 	}
 	void setPunch(boolean in) {
 		punch = in;		
@@ -171,21 +171,25 @@ class Logic implements Runnable {
 		freeDownLeft	= true;
 		
 		// method variables for 
-		double figR 	= figure.getRad();
+		double figR 		= figure.getRad();
+		double figWidth 	= figure.getWidth();
+		double figHeigth 	= figure.getHeight();
 		double tmpX, tmpY;
 		
-		double objX;
-		double objY;
+		double objX, objY;
 		double objR;
+		double objWidth, objHeight;
 		
 		ArrayList<GameObjects> collidable = rooms.get(location);
 		
-		// TODO Auto-generated method stub, hier muss noch genau festgelegt werden, wie wir Kollisionen feststellen wollen
 		// iterate over all objects within the room, excepting the figure, of course
 		for(int i=1; i<collidable.size(); i++) {
-			objX = collidable.get(i).getPosX();
-			objY = collidable.get(i).getPosY();
-			objR = collidable.get(i).getRad();
+			objX 		= collidable.get(i).getPosX();
+			objY 		= collidable.get(i).getPosY();
+			objR 		= collidable.get(i).getRad();
+			
+			objWidth 	= collidable.get(i).getWidth();
+			objHeight 	= collidable.get(i).getHeight();
 			
 			// First check whether the objects are close enough to encounter one another within the next couple of moves, use squares, saves a couple of sqrt calls
 			if (((objX-figX)*(objX-figX)+(objY-figY)*(objY-figY)) < ((figR+objR)*(figR+objR))) {
@@ -267,7 +271,7 @@ class Logic implements Runnable {
 		currentRoom = rooms.get(0);
 		long time;
 		long temp;
-		int count;
+//		int count;
 		
 		// game loop
 		while (true) {
@@ -279,17 +283,17 @@ class Logic implements Runnable {
 			figVY	= figure.getVY();
 			
 			// diagonal velocity is slowed, so that diagonal and straight movement seem to have the same speed.  
-			count = 0;
-			if(up)		count++;
-			if(down)	count++;
-			if(right)	count++;
-			if(left)	count++;
+//			count = 0;
+//			if(up)		count++;
+//			if(down)	count++;
+//			if(right)	count++;
+//			if(left)	count++;
 			
 			// if exactly two key are pressed the figure either doesn't move (opposing key) or it moves diagonal			
-			if(count == 2) {
-				figVX /= SQRT_2;
-				figVY /= SQRT_2;
-			}
+//			if(count == 2) {
+//				figVX /= SQRT_2;
+//				figVY /= SQRT_2;
+//			}
 			
 			// do the actual logic in this game
 			this.checkDistance();
@@ -307,6 +311,4 @@ class Logic implements Runnable {
 			}
 		}
 	}
-
-
 }

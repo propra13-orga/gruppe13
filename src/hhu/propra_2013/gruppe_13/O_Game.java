@@ -22,7 +22,7 @@ class O_Game {
 		// Initiate object variables
 		gameWindow 		= inFrame;
 		rooms 			= new ArrayList<ArrayList<GameObjects>>();
-		figure 			= new Figure(0, 0, gameWindow);
+		figure 			= new Figure(0.5, 0.5, 1, 1, gameWindow);
 		int element, line, column, dest; //for room generation, saves the current char (as int),the line its from, and the column its in
 		
 		
@@ -44,10 +44,10 @@ class O_Game {
 					
 					switch (element) { 	//ASCII: W=87 D=68 E=69
 					case 87:			//In order of probability
-						temp.add(new Wall(column-1, line-1, 0.5, 1)); 	//-1 because the top left corner seems to have
+						temp.add(new Wall(column-1+0.5, line-1+0.5, 1, 1, 0.5, 1)); 	//-1 because the top left corner seems to have
 						break;											//the coordinates 1:1
 					case 69:
-						temp.add(new Enemy(column-1, line-1, 0.5, gameWindow));
+						temp.add(new Enemy(column-1+0.5, line-1+0.5, 1, 1, 0.5, gameWindow));
 						break;
 					case 68: //looks where the door is, then sets destination accordingly
 						
@@ -56,17 +56,21 @@ class O_Game {
 						if (column-1==24)	{dest = 2;} //Door is on the right edge of the field, door should lead right
 						if (column-1==0) 	{dest = 4;} //Door is on the left edge of the field, door should lead left
 						
-						temp.add(new Door(column-1, line-1, 0.5, true, true, dest)); //creating door with correct destination
+						temp.add(new Door(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, true, dest)); //creating door with correct destination
 						break;	
 					}
 					column++; //sets column up for the next cycle of the switch-case
-						if (column==25){ //since we use 0-24 chars per line, the 25th should trigger the next line
-							column = 0;
-							line++;
-						}
+						
+					if (column==25){ //since we use 0-24 chars per line, the 25th should trigger the next line
+						column = 0;
+						line++;
 					}
-
-				} catch (IOException e) {
+				}
+				
+				roomReader.close();
+				roomStream.close();
+				
+			} catch (IOException e) {
 				System.out.println("File not found, system exiting.");
 				System.exit(1);
 			}
