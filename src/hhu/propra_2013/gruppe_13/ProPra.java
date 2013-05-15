@@ -12,7 +12,9 @@ public class ProPra {
 		O_Game game = new O_Game(gameWindow);
 		game.start();
 	}
-
+	static void blueScreen(){
+		Maria.showBlueScreen(gameWindow);
+	}
 	/*-----------------------------------------------------------------------------------------------*/
 	public static void main(String[] args) {
 		// Initiate a new window to run the game in, default parameters are 800x600 and title "Propra 2013"

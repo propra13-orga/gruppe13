@@ -31,7 +31,7 @@ class Logic implements Runnable {
 	private double 		figX, figY;
 	private double 		figVX, figVY;
 	private boolean		punch, use, bomb;									//für Aktionen
-
+	private int			figHP;
 	
 	// List of all Objects within the game
 	private ArrayList<ArrayList<GameObjects>> 	rooms;
@@ -265,7 +265,11 @@ class Logic implements Runnable {
 		
 		figure.setPos(figX, figY);
 	}
-	
+	private void checkFigure(){
+		if(figHP <= 0){
+			
+		}
+	}
 	@Override //Override run method from interface, this will have the game loop
 	public void run() {
 		currentRoom = rooms.get(0);
@@ -281,6 +285,7 @@ class Logic implements Runnable {
 			figY 	= figure.getPosY();
 			figVX	= figure.getVX();
 			figVY	= figure.getVY();
+			figHP	= figure.getHP();
 			
 			// diagonal velocity is slowed, so that diagonal and straight movement seem to have the same speed.  
 //			count = 0;
@@ -300,6 +305,7 @@ class Logic implements Runnable {
 			this.checkCollision();
 			this.moveFigure();
 			this.moveEnemy();
+			this.checkFigure();
 			
 			// set the thread asleep, we don't need it too often
 			try {
