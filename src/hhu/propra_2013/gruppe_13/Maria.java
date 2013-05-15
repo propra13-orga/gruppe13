@@ -24,6 +24,8 @@ public class Maria{
 		content.setBackground(Color.CYAN);
 		JPanel blueScreen = new JPanel();
 		
+		
+		//Das Panel ruft ein Menu auf, sobald Maus oder Tastatur benutzt werden
 		blueScreen.addKeyListener(new KeyListener() {
 		
 
@@ -45,6 +47,8 @@ public class Maria{
 				
 			}
 		});
+		
+		
 		blueScreen.addMouseListener(new MouseListener(){
 
 			@Override
