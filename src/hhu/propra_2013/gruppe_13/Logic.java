@@ -317,9 +317,9 @@ class Logic implements Runnable {
 		}
 	}
 	
-	private void switchRoom(double inX,double inY,int inloc){ 
+	private void switchRoom(double inX,double inY,int inlocation){ 
 	//wechselt den Raum, falls die Figur an einer Stelle steht an der im aktuellen Raum eine Tür ist
-		switch (inloc){ //prüft in welchem Raum die Figur ist (bisher 0-2 für die 3 Räume)
+		switch (inlocation){ //prüft in welchem Raum die Figur ist (bisher 0-2 für die 3 Räume)
 
 		case(0)://erster Raum: eine Tür rechts mittig
 			if (inX == 21 && (int)inY == 6){
@@ -327,7 +327,7 @@ class Logic implements Runnable {
 				figX = 1; //Figur (fast) an rechten Rand, ohne die Tür nach links im nächsten Raum auszulösen
 				this.setRoom(location);//neuen Raum festlegen
 			}
-		break; //vorgehen für alle Fälle analog
+			break; //vorgehen für alle Fälle analog
 		
 		case(1): //zweiter Raum: je rechts und links mittig eine Tür
 			if (inX == 21 && (int)inY == 6){
@@ -347,12 +347,9 @@ class Logic implements Runnable {
 				figX = 20;
 				this.setRoom(location);
 			}
-	
+		}	
 	}
-
 	
-	
-	}
 	@Override //Override run method from interface, this will have the game loop
 	public void run() {
 		currentRoom = rooms.get(0);
