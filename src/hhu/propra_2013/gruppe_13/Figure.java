@@ -34,6 +34,7 @@ class Figure extends GameObjects {
 		v_x = 0.3;
 		v_y = 0.3;
 		r   = Math.max(width, height) + (v_x*v_x+v_y*v_y);
+		System.out.println(r);
 		hp  = 1;
 		
 		window = inFrame;

@@ -12,7 +12,7 @@ class Door extends GameObjects {
 	Door (double initX, double initY, double initWidth, double initHeight, double initRadius, boolean inOpen, boolean inEnabled, int inDestination){
 		x 			= initX;
 		y 			= initY;
-		r			= initRadius;
+		r			= Math.max(initWidth, initHeight);
 		
 		width 		= initWidth;
 		height		= initHeight;

@@ -44,10 +44,10 @@ class O_Game {
 					
 					switch (element) { 	//ASCII: W=87 D=68 E=69
 					case 87:			//In order of probability
-						temp.add(new Wall(column-1+0.5, line-1+0.5, 1, 1, 0.5, 1)); 	//-1 because the top left corner seems to have
+						temp.add(new Wall(column-1+0.5, line-1+0.5, 1, 1, 1)); 	//-1 because the top left corner seems to have
 						break;											//the coordinates 1:1
 					case 69:
-						temp.add(new Enemy(column-1+0.5, line-1+0.5, 1, 1, 0.5, gameWindow));
+						temp.add(new Enemy(column-1+0.5, line-1+0.5, 1, 1, gameWindow));
 						break;
 					case 68: //looks where the door is, then sets destination accordingly
 						
