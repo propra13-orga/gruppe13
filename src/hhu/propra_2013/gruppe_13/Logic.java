@@ -374,7 +374,13 @@ class Logic implements Runnable {
 				figX = 20.5;
 				this.setRoom(location);
 			}
-			break;
+
+			if (inX == 21.5 && (int)inY ==6){
+				
+			}
+		break;
+		
+		
 		}	
 	}
 	
@@ -386,7 +392,6 @@ class Logic implements Runnable {
 		// game loop
 		while (gameRunning) {
 			time = System.currentTimeMillis();
-		//	System.out.println("" + gameRunning);
 			// get current figure positions and velocities
 			figX 	= figure.getPosX();
 			figY 	= figure.getPosY();

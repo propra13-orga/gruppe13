@@ -2,8 +2,6 @@ package hhu.propra_2013.gruppe_13;
 
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Image;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -11,17 +9,15 @@ import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Maria {
-	
-	private static	Image blau;
+public class Win {
 	
 	private static JFrame gameWindow;
 	
 	// Initializer method for the bluescreen
-	static void showBlueScreen(JFrame initWindow) {
+	static void showWinScreen(JFrame initWindow) {
 		// set the current working screen
 		gameWindow = initWindow;
-		blau = Toolkit.getDefaultToolkit().getImage("bluescreen.png");
+		
 		
 		// Create a new Background with a specified color (Black at the moment)
 		JPanel blueScreen = new JPanel();
