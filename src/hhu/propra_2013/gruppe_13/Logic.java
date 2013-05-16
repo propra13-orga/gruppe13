@@ -271,6 +271,44 @@ class Logic implements Runnable {
 			
 		}
 	}
+	
+	private void switchRoom(double inX,double inY,int inloc){ 
+	//wechselt den Raum, falls die Figur an einer Stelle steht an der im aktuellen Raum eine Tür ist
+		System.out.println(location);
+		switch (inloc){ //prüft in welchem Raum die Figur ist (bisher 0-2 für die 3 Räume)
+
+		case(0)://erster Raum: eine Tür rechts mittig
+			if (inX == 21 && (int)inY == 6){
+				location++; //einen Raum nach rechts
+				figX = 1; //Figur (fast) an rechten Rand, ohne die Tür nach links im nächsten Raum auszulösen
+				this.setRoom(location);//neuen Raum festlegen
+			}
+		break; //vorgehen für alle Fälle analog
+		
+		case(1): //zweiter Raum: je rechts und links mittig eine Tür
+			if (inX == 21 && (int)inY == 6){
+				location++;
+				figX = 1;
+				this.setRoom(location);
+			}
+		
+			if (inX == 0 && (int)inY == 6){
+				location--;
+				figX = 20;
+				this.setRoom(location);
+			}
+		case(2): //dritter Raum: eine Tür rechts mittig
+			if (inX == 0 && (int)inY == 6){
+				location--;
+				figX = 20;
+				this.setRoom(location);
+			}
+	
+	}
+
+	
+	
+	}
 	@Override //Override run method from interface, this will have the game loop
 	public void run() {
 		currentRoom = rooms.get(0);
@@ -287,38 +325,8 @@ class Logic implements Runnable {
 			figVX	= figure.getVX();
 			figVY	= figure.getVY();
 			figHP	= figure.getHP();
-
-			switch (location){
-
-				case(0):
-					if (figX == 21 && (int)figY == 6){
-						location++;
-						figX = 1;
-						this.setRoom(location);
-					}
-				break;
-				
-				case(1):
-					if (figX == 21 && (int)figY == 6){
-						location++;
-						figX = 1;
-						this.setRoom(location);
-					}
-				
-					if (figX == 0 && (int)figY == 6){
-						location--;
-						figX = 20;
-						this.setRoom(location);
-					}
-				case(2):
-					if (figX == 0 && (int)figY == 6){
-						location--;
-						figX = 20;
-						this.setRoom(location);
-					}
 			
-			}
-			
+			this.switchRoom(figX, figY, location);
 			
 			// diagonal velocity is slowed, so that diagonal and straight movement seem to have the same speed.  
 //			count = 0;
