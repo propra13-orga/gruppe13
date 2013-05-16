@@ -14,6 +14,7 @@ public class ProPra {
 	}
 	static void blueScreen(){
 		Maria.showBlueScreen(gameWindow);
+		
 	}
 	/*-----------------------------------------------------------------------------------------------*/
 	public static void main(String[] args) {

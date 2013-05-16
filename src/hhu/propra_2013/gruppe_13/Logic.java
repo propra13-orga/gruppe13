@@ -15,7 +15,7 @@ import java.util.ArrayList;
 class Logic implements Runnable {
 	
 	private static final double SQRT_2 = 	1.41421356237309504880168872420969807856967187537694807317667973799;	// http://en.wikipedia.org/wiki/Square_root_of_2
-	
+	private boolean gameRunning;
 	// Boolean variables for movement and collision detection, location counter for the room
 	private boolean 	down, up, right, left, upLeft, upRight , downLeft, downRight;														//für die Bewegungsrichtungen
 	private boolean		north, east, south, west, northwest, northeast, southwest, southeast;		//zum schießen in die Himmelsrichtungen
@@ -37,6 +37,10 @@ class Logic implements Runnable {
 	private ArrayList<ArrayList<GameObjects>> 	rooms;
 	private ArrayList<GameObjects> 				currentRoom;
 
+	void setGameRunning(boolean boolIn){
+		gameRunning = boolIn;
+		System.out.println("maria wars");
+	}
 
 	// Setter methods to determine whether a movement shall be initiated 
 	void setDown(boolean in){
@@ -107,6 +111,7 @@ class Logic implements Runnable {
 
 	// Initiate the current objects variables
 	Logic(ArrayList<ArrayList<GameObjects>> objectsInit, Figure inFigure, O_Game inGame) {
+		gameRunning = true;
 		rooms 		= objectsInit;
 		figure 		= inFigure;
 		game		= inGame;
@@ -267,7 +272,7 @@ class Logic implements Runnable {
 	}
 	private void checkFigure(){
 		if(figHP <= 0){
-			
+			game.end();
 		}
 	}
 	@Override //Override run method from interface, this will have the game loop
@@ -278,7 +283,7 @@ class Logic implements Runnable {
 //		int count;
 		
 		// game loop
-		while (true) {
+		while (gameRunning) {
 			time = System.currentTimeMillis();
 
 			figX 	= figure.getPosX();

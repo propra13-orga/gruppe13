@@ -101,4 +101,9 @@ class O_Game {
 		logicThread.start();
 		graphicThread.start();
 	}
+	void end() {
+		logic.setGameRunning(false);
+		graphics.setGameRunning(false);
+		ProPra.blueScreen();
+	}
 }

@@ -18,6 +18,7 @@ class GameDrawer implements Runnable {
 	private final 	JFrame gameWindow;
 	private int 	location;	
 	private final 	Image background;
+	boolean gameRunning;
 	
 	// Constructor for class
 	GameDrawer(ArrayList<ArrayList<GameObjects>> objectsInit, JFrame inFrame) {
@@ -100,6 +101,11 @@ class GameDrawer implements Runnable {
 		location = inlocation;
 	}
 	
+	void setGameRunning(boolean b) {
+		gameRunning = b;
+		System.out.println("maria wars2");
+	}
+	
 	@Override // Override Thread method run, this will implement the game loop
 	public void run() {
 		long 	time;
@@ -108,7 +114,7 @@ class GameDrawer implements Runnable {
 
 		
 		// game loop, TODO: repaint on screen synchronization (not sure if this is possible with our library)
-		while (true) {
+		while (gameRunning) {
 			// get current system time, this will determine fps
 			time = System.currentTimeMillis();
 			

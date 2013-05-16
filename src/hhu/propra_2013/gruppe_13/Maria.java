@@ -9,20 +9,19 @@ import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Maria{
+public class Maria {
 	
 	private static JFrame gameWindow;
 	
 	// Initializer method for the bluescreen
-	protected static void showBlueScreen(JFrame initWindow) {
+	static void showBlueScreen(JFrame initWindow) {
 		// set the current working screen
 		gameWindow = initWindow;
 		
 		
 		// Create a new Background with a specified color (Black at the moment)
-		Container content = gameWindow.getContentPane();
-		content.setBackground(Color.CYAN);
 		JPanel blueScreen = new JPanel();
+		blueScreen.setBackground(Color.CYAN);
 		
 		
 		//Das Panel ruft ein Menu auf, sobald Maus oder Tastatur benutzt werden
@@ -59,13 +58,13 @@ public class Maria{
 
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				Menu.showMenu(gameWindow);
+				
 				
 			}
 
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				Menu.showMenu(gameWindow);
+				
 				
 			}
 
@@ -82,7 +81,7 @@ public class Maria{
 			}
 			
 		});
-		
+		gameWindow.setContentPane(blueScreen);
 		gameWindow.setVisible(true);
 	}
 }
