@@ -349,6 +349,9 @@ class Logic implements Runnable {
 				figX = 20;
 				this.setRoom(location);
 			}
+			if (inX == 21.5 && (int)inY ==6){
+				
+			}
 		break;
 		
 	}
