@@ -24,7 +24,7 @@ class Logic implements Runnable {
 	private boolean 	freeUpRight, freeUpLeft, freeDownRight, freeDownLeft;
 	private double 		distDown, distUp, distRight, distLeft;
 	
-	private int 		location;
+	private int 		location = 0;
 	private GameObjects figure;
 	private O_Game		game;
 	
@@ -153,6 +153,7 @@ class Logic implements Runnable {
 	
 	private void setRoom(int newLocation) {
 		game.setRoom(newLocation);
+		location = newLocation;
 	}
 	
 	private void checkDistance() {
@@ -291,6 +292,38 @@ class Logic implements Runnable {
 			figVX	= figure.getVX();
 			figVY	= figure.getVY();
 			figHP	= figure.getHP();
+
+			switch (location){
+
+				case(0):
+					if (figX == 21 && (int)figY == 6){
+						location++;
+						figX = 1;
+						this.setRoom(location);
+					}
+				break;
+				
+				case(1):
+					if (figX == 21 && (int)figY == 6){
+						location++;
+						figX = 1;
+						this.setRoom(location);
+					}
+				
+					if (figX == 0 && (int)figY == 6){
+						location--;
+						figX = 20;
+						this.setRoom(location);
+					}
+				case(2):
+					if (figX == 0 && (int)figY == 6){
+						location--;
+						figX = 20;
+						this.setRoom(location);
+					}
+			
+			}
+			
 			
 			// diagonal velocity is slowed, so that diagonal and straight movement seem to have the same speed.  
 //			count = 0;
