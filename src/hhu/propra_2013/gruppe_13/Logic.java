@@ -322,7 +322,8 @@ class Logic implements Runnable {
 	}
 	
 	private void switchRoom(double inX,double inY,int inlocation){ 
-	//wechselt den Raum, falls die Figur an einer Stelle steht an der im aktuellen Raum eine Tür ist
+
+		//wechselt den Raum, falls die Figur an einer Stelle steht an der im aktuellen Raum eine Tür ist
 		switch (inlocation){ //prüft in welchem Raum die Figur ist (bisher 0-2 für die 3 Räume)
 
 		case(0)://erster Raum: eine Tür rechts mittig
@@ -355,7 +356,6 @@ class Logic implements Runnable {
 			}
 			break;
 		}	
-		System.out.println(location);
 	}
 	
 	@Override //Override run method from interface, this will have the game loop
@@ -366,7 +366,7 @@ class Logic implements Runnable {
 		// game loop
 		while (gameRunning) {
 			time = System.currentTimeMillis();
-			System.out.println("" + gameRunning);
+		//	System.out.println("" + gameRunning);
 			// get current figure positions and velocities
 			figX 	= figure.getPosX();
 			figY 	= figure.getPosY();
