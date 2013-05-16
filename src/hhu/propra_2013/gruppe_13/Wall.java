@@ -11,7 +11,7 @@ class Wall extends GameObjects {
 	private double 	height, width;
 	private double 	v_x, v_y;
 	
-	Wall(double initX, double initY, double initWidth, double initHeight, double initRadius, int inHP) {
+	Wall(double initX, double initY, double initWidth, double initHeight, int inHP) {
 		x = initX;
 		y = initY;
 		v_x = 0;
@@ -20,7 +20,7 @@ class Wall extends GameObjects {
 		width = initWidth;
 		height = initHeight;
 		
-		r = initRadius;
+		r = Math.max(width, height);
 		hp = inHP;
 	}
 	
