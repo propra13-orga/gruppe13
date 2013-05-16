@@ -312,12 +312,12 @@ class Logic implements Runnable {
 	private void checkFigure(){
 		if(figHP <= 0){
 			game.end();
+			System.out.println("You died!");
 		}
 	}
 	
 	private void switchRoom(double inX,double inY,int inlocation){ 
 	//wechselt den Raum, falls die Figur an einer Stelle steht an der im aktuellen Raum eine Tür ist
-		System.out.println(location);
 		switch (inlocation){ //prüft in welchem Raum die Figur ist (bisher 0-2 für die 3 Räume)
 
 		case(0)://erster Raum: eine Tür rechts mittig
@@ -361,7 +361,7 @@ class Logic implements Runnable {
 		// game loop
 		while (gameRunning) {
 			time = System.currentTimeMillis();
-
+			System.out.println("" + gameRunning);
 			// get current figure positions and velocities
 			figX 	= figure.getPosX();
 			figY 	= figure.getPosY();

@@ -26,6 +26,7 @@ class GameDrawer implements Runnable {
 		gameWindow 	= inFrame;
 		location 	= 0;
 		background 	= Toolkit.getDefaultToolkit().getImage("Layout.jpg");
+		gameRunning = true;
 	}
 	
 	// Initiate current objects variables, returns constructed JPanel
