@@ -372,7 +372,10 @@ class Logic implements Runnable {
 		// game loop
 		while (gameRunning) {
 			time = System.currentTimeMillis();
+<<<<<<< HEAD
+=======
 		//	System.out.println("" + gameRunning);
+>>>>>>> 78a32af6b5b4c08d1cbc6b521535a868959d5c38
 			// get current figure positions and velocities
 			figX 	= figure.getPosX();
 			figY 	= figure.getPosY();
