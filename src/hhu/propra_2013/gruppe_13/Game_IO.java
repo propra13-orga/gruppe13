@@ -55,7 +55,8 @@ class Game_IO implements KeyEventDispatcher {
 				logic.setBomb(true);					//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
 				break;
 				
-			}
+			}			
+
 			if(up || down || left || right){
 				if (up && !down){
 					if (left && !right){
