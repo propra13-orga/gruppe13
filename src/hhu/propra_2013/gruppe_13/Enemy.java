@@ -15,7 +15,7 @@ class Enemy extends GameObjects {
 	private double 	height, width;
 	private JFrame 	window;
 	
-	Enemy(double initX, double initY, double initHeight, double initWidth, double initRadius, JFrame inFrame) {
+	Enemy(double initX, double initY, double initHeight, double initWidth, JFrame inFrame) {
 		//zum kurzen anzeigen mal was ;)
 		//initX = window.getWidth()/2;
 		//initY = window.getHeight()/2;
@@ -26,7 +26,7 @@ class Enemy extends GameObjects {
 		
 		width = initWidth;
 		height = initHeight;
-		r = initRadius;
+		r = Math.max(width, height)+v_x*v_x+v_y*v_y;
 		hp = 1;
 		window = inFrame;
 	}
