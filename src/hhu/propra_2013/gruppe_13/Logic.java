@@ -317,11 +317,12 @@ class Logic implements Runnable {
 	}
 	
 	private void switchRoom(double inX,double inY,int inlocation){ 
-	//wechselt den Raum, falls die Figur an einer Stelle steht an der im aktuellen Raum eine Tür ist
+
+		//wechselt den Raum, falls die Figur an einer Stelle steht an der im aktuellen Raum eine Tür ist
 		switch (inlocation){ //prüft in welchem Raum die Figur ist (bisher 0-2 für die 3 Räume)
 
 		case(0)://erster Raum: eine Tür rechts mittig
-			if (inX == 21 && (int)inY == 6){
+			if (inX == 21.5 && (int)inY == 6){
 				location++; //einen Raum nach rechts
 				figX = 1; //Figur (fast) an rechten Rand, ohne die Tür nach links im nächsten Raum auszulösen
 				this.setRoom(location);//neuen Raum festlegen
@@ -329,24 +330,27 @@ class Logic implements Runnable {
 		break; //vorgehen für alle Fälle analog
 		
 		case(1): //zweiter Raum: je rechts und links mittig eine Tür
-			if (inX == 21 && (int)inY == 6){
+			if (inX == 21.5 && (int)inY == 6){
 				location++;
 				figX = 1;
 				this.setRoom(location);
 			}
 		
-			if (inX == 0 && (int)inY == 6){
+			if (inX == 0.5 && (int)inY == 6){
 				location--;
 				figX = 20;
 				this.setRoom(location);
 			}
+		break;
+		
 		case(2): //dritter Raum: eine Tür rechts mittig
-			if (inX == 0 && (int)inY == 6){
+			if (inX == 0.5 && (int)inY == 6){
 				location--;
 				figX = 20;
 				this.setRoom(location);
 			}
-	
+		break;
+		
 	}
 
 	
@@ -361,7 +365,7 @@ class Logic implements Runnable {
 		// game loop
 		while (gameRunning) {
 			time = System.currentTimeMillis();
-			System.out.println("" + gameRunning);
+		//	System.out.println("" + gameRunning);
 			// get current figure positions and velocities
 			figX 	= figure.getPosX();
 			figY 	= figure.getPosY();
