@@ -314,6 +314,7 @@ class Logic implements Runnable {
 	private void checkFigure(){
 		if(figHP <= 0){
 			game.end();
+			System.out.println("You died!");
 		}
 	}
 	
@@ -359,7 +360,7 @@ class Logic implements Runnable {
 		// game loop
 		while (gameRunning) {
 			time = System.currentTimeMillis();
-
+			System.out.println("" + gameRunning);
 			// get current figure positions and velocities
 			figX 	= figure.getPosX();
 			figY 	= figure.getPosY();
