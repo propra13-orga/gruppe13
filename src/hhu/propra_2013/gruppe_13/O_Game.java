@@ -56,7 +56,7 @@ class O_Game {
 						if (column-1==24)	{dest = 2;} //Door is on the right edge of the field, door should lead right
 						if (column-1==0) 	{dest = 4;} //Door is on the left edge of the field, door should lead left
 						
-						temp.add(new Door(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, true, dest)); //creating door with correct destination
+					//	temp.add(new Door(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, true, dest)); //creating door with correct destination
 						break;	
 					}
 					column++; //sets column up for the next cycle of the switch-case
@@ -100,5 +100,10 @@ class O_Game {
 
 		logicThread.start();
 		graphicThread.start();
+	}
+	void end() {
+		logic.setGameRunning(false);
+		graphics.setGameRunning(false);
+		ProPra.blueScreen();
 	}
 }

@@ -15,7 +15,7 @@ import java.util.ArrayList;
 class Logic implements Runnable {
 	
 	private static final double SQRT_2 = 	1.41421356237309504880168872420969807856967187537694807317667973799;	// http://en.wikipedia.org/wiki/Square_root_of_2
-	
+	private boolean gameRunning;
 	// Boolean variables for movement and collision detection, location counter for the room
 	private boolean 	down, up, right, left, upLeft, upRight , downLeft, downRight;				//für die Bewegungsrichtungen
 	private boolean		north, east, south, west, northwest, northeast, southwest, southeast;		//zum schießen in die Himmelsrichtungen
@@ -23,19 +23,23 @@ class Logic implements Runnable {
 	private boolean 	freeRight, freeUp, freeDown, freeLeft;
 	private double 		distDown, distUp, distRight, distLeft;
 	
-	private int 		location;
+	private int 		location = 0;
 	private GameObjects figure;
 	private O_Game		game;
 	
 	private double 		figX, figY;
 	private double 		figVX, figVY;
 	private boolean		punch, use, bomb;									//für Aktionen
-
+	private int			figHP;
 	
 	// List of all Objects within the game
 	private ArrayList<ArrayList<GameObjects>> 	rooms;
 	private ArrayList<GameObjects> 				currentRoom;
 
+	void setGameRunning(boolean boolIn){
+		gameRunning = boolIn;
+		System.out.println("maria wars");
+	}
 
 	// Setter methods to determine whether a movement shall be initiated 
 	void setDown(boolean in){
@@ -116,6 +120,7 @@ class Logic implements Runnable {
 
 	// Initiate the current objects variables
 	Logic(ArrayList<ArrayList<GameObjects>> objectsInit, Figure inFigure, O_Game inGame) {
+		gameRunning = true;
 		rooms 		= objectsInit;
 		figure 		= inFigure;
 		game		= inGame;
@@ -152,6 +157,7 @@ class Logic implements Runnable {
 	
 	private void setRoom(int newLocation) {
 		game.setRoom(newLocation);
+		location = newLocation;
 	}
 	
 	private void checkDistance() {
@@ -272,7 +278,7 @@ class Logic implements Runnable {
 		
 		// horizontal and vertical movement handlers, these also try to find out, whether there is anything
 		// within a diagonal direction inhibiting movement. 
-		if(right/* && ((!up && !down) || (up && ((distURUp!=0 && distURRight!=0)||distUp==0)) || (down && (distDRDown!=0 && distDRRight!=0)||distDown==0))*/) {
+		if(right) {
 			if(freeRight){
 				if (figX+figVX >= 21.5)		figX  = 21.5;
 				else						figX += figVX;
@@ -303,7 +309,11 @@ class Logic implements Runnable {
 		// finally set the position of the figure
 		figure.setPos(figX, figY);
 	}
-	
+	private void checkFigure(){
+		if(figHP <= 0){
+			game.end();
+		}
+	}
 	@Override //Override run method from interface, this will have the game loop
 	public void run() {
 		currentRoom = rooms.get(0);
@@ -311,7 +321,7 @@ class Logic implements Runnable {
 		long temp;
 		
 		// game loop
-		while (true) {
+		while (gameRunning) {
 			time = System.currentTimeMillis();
 
 			// get current figure positions and velocities
@@ -319,12 +329,46 @@ class Logic implements Runnable {
 			figY 	= figure.getPosY();
 			figVX	= figure.getVX();
 			figVY	= figure.getVY();
+			figHP	= figure.getHP();
+
+			switch (location){
+
+				case(0):
+					if (figX == 21 && (int)figY == 6){
+						location++;
+						figX = 1;
+						this.setRoom(location);
+					}
+				break;
+				
+				case(1):
+					if (figX == 21 && (int)figY == 6){
+						location++;
+						figX = 1;
+						this.setRoom(location);
+					}
+				
+					if (figX == 0 && (int)figY == 6){
+						location--;
+						figX = 20;
+						this.setRoom(location);
+					}
+				case(2):
+					if (figX == 0 && (int)figY == 6){
+						location--;
+						figX = 20;
+						this.setRoom(location);
+					}
+			
+			}
+			
 			
 			// do the actual logic in this game
 			this.checkDistance();
 			this.checkCollision();
 			this.moveFigure();
 			this.moveEnemy();
+			this.checkFigure();
 			
 			// set the thread asleep, we don't need it too often
 			try {
