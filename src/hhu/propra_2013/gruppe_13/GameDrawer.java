@@ -18,7 +18,7 @@ class GameDrawer implements Runnable {
 	private final 	JFrame gameWindow;
 	private int 	location;	
 	private final 	Image background;
-	boolean gameRunning;
+	boolean 		gameRunning;
 	
 	// Constructor for class
 	GameDrawer(ArrayList<ArrayList<GameObjects>> objectsInit, JFrame inFrame) {
@@ -111,9 +111,7 @@ class GameDrawer implements Runnable {
 	public void run() {
 		long 	time;
 		long 	temp;
-		
-
-		
+				
 		// game loop, TODO: repaint on screen synchronization (not sure if this is possible with our library)
 		while (gameRunning) {
 			// get current system time, this will determine fps

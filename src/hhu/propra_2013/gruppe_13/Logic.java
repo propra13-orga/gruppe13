@@ -14,12 +14,15 @@ import java.util.ArrayList;
 
 class Logic implements Runnable {
 	
+	// set square root of 2 and define a boolean variable for the game loop
 	private static final double SQRT_2 = 	1.41421356237309504880168872420969807856967187537694807317667973799;	// http://en.wikipedia.org/wiki/Square_root_of_2
 	private boolean gameRunning;
+	
 	// Boolean variables for movement and collision detection, location counter for the room
 	private boolean 	down, up, right, left, upLeft, upRight , downLeft, downRight;				//für die Bewegungsrichtungen
 	private boolean		north, east, south, west, northwest, northeast, southwest, southeast;		//zum schießen in die Himmelsrichtungen
 	
+	// variables for collision detection
 	private boolean 	freeRight, freeUp, freeDown, freeLeft;
 	private double 		distDown, distUp, distRight, distLeft;
 	
@@ -27,6 +30,7 @@ class Logic implements Runnable {
 	private GameObjects figure;
 	private O_Game		game;
 	
+	// figure values
 	private double 		figX, figY;
 	private double 		figVX, figVY;
 	private boolean		punch, use, bomb;									//für Aktionen
@@ -34,7 +38,6 @@ class Logic implements Runnable {
 	
 	// List of all Objects within the game
 	private ArrayList<ArrayList<GameObjects>> 	rooms;
-	private ArrayList<GameObjects> 				currentRoom;
 
 	void setGameRunning(boolean boolIn){
 		gameRunning = boolIn;
@@ -301,14 +304,16 @@ class Logic implements Runnable {
 		
 		if(down) {
 			if(freeDown) {
-				if (figY+figVY >= 12.5) 		figY  = 12.5;
-				else							figY += figVY;
-			} else								figY += distDown;
+				if (figY+figVY >= 12.5) 	figY  = 12.5;
+				else						figY += figVY;
+			} else							figY += distDown;
 		}
 		
 		// finally set the position of the figure
 		figure.setPos(figX, figY);
 	}
+	
+	
 	private void checkFigure(){
 		if(figHP <= 0){
 			game.end();
@@ -324,44 +329,43 @@ class Logic implements Runnable {
 		case(0)://erster Raum: eine Tür rechts mittig
 			if (inX == 21.5 && (int)inY == 6){
 				location++; //einen Raum nach rechts
-				figX = 1; //Figur (fast) an rechten Rand, ohne die Tür nach links im nächsten Raum auszulösen
+				figX = 1.5; //Figur (fast) an rechten Rand, ohne die Tür nach links im nächsten Raum auszulösen
 				this.setRoom(location);//neuen Raum festlegen
 			}
-		break; //vorgehen für alle Fälle analog
+			break; //vorgehen für alle Fälle analog
 		
 		case(1): //zweiter Raum: je rechts und links mittig eine Tür
 			if (inX == 21.5 && (int)inY == 6){
 				location++;
-				figX = 1;
+				figX = 1.5;
 				this.setRoom(location);
 			}
 		
 			if (inX == 0.5 && (int)inY == 6){
 				location--;
-				figX = 20;
+				figX = 20.5;
 				this.setRoom(location);
 			}
-		break;
-		
+			break;
+			
 		case(2): //dritter Raum: eine Tür rechts mittig
 			if (inX == 0.5 && (int)inY == 6){
 				location--;
-				figX = 20;
+				figX = 20.5;
 				this.setRoom(location);
 			}
+
 			if (inX == 21.5 && (int)inY ==6){
 				
 			}
 		break;
 		
+		
+		}	
 	}
-
 	
-	
-	}
 	@Override //Override run method from interface, this will have the game loop
 	public void run() {
-		currentRoom = rooms.get(0);
 		long time;
 		long temp;
 		
