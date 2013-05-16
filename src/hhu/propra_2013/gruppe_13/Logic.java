@@ -277,10 +277,10 @@ class Logic implements Runnable {
 		}
 	}
 	
-	private void switchRoom(double inX,double inY,int inloc){ 
+	private void switchRoom(double inX,double inY,int inlocation){ 
 	//wechselt den Raum, falls die Figur an einer Stelle steht an der im aktuellen Raum eine Tür ist
 		System.out.println(location);
-		switch (inloc){ //prüft in welchem Raum die Figur ist (bisher 0-2 für die 3 Räume)
+		switch (inlocation){ //prüft in welchem Raum die Figur ist (bisher 0-2 für die 3 Räume)
 
 		case(0)://erster Raum: eine Tür rechts mittig
 			if (inX == 21 && (int)inY == 6){
