@@ -301,14 +301,16 @@ class Logic implements Runnable {
 		
 		if(down) {
 			if(freeDown) {
-				if (figY+figVY >= 12.5) 		figY  = 12.5;
-				else							figY += figVY;
-			} else								figY += distDown;
+				if (figY+figVY >= 12.5) 	figY  = 12.5;
+				else						figY += figVY;
+			} else							figY += distDown;
 		}
 		
 		// finally set the position of the figure
 		figure.setPos(figX, figY);
 	}
+	
+	
 	private void checkFigure(){
 		if(figHP <= 0){
 			game.end();
@@ -317,7 +319,6 @@ class Logic implements Runnable {
 	
 	private void switchRoom(double inX,double inY,int inloc){ 
 	//wechselt den Raum, falls die Figur an einer Stelle steht an der im aktuellen Raum eine Tür ist
-		System.out.println(location);
 		switch (inloc){ //prüft in welchem Raum die Figur ist (bisher 0-2 für die 3 Räume)
 
 		case(0)://erster Raum: eine Tür rechts mittig

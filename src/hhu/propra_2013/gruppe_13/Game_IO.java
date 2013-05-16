@@ -56,7 +56,8 @@ class Game_IO implements KeyEventDispatcher {
 				break;
 				
 			}
-			if(up | down | left | right){
+			
+			if(up || down || left || right){
 				if (up && !down){
 					if (left && !right){
 						logic.setUpLeft(true);
