@@ -370,7 +370,7 @@ class Logic implements Runnable {
 		case(1): //Door leads to the right
 		
 			location++; 
-			figX = 1.5; //linker Spielfeldrand
+			figX = 0.51; //linker Spielfeldrand
 			this.setRoom(location); //neuen Raum and Grafik und Logik geben
 			
 		break;
@@ -382,7 +382,7 @@ class Logic implements Runnable {
 		case(3): //Door leads left
 			
 			location--;
-			figX = 20.5;//rechter Spielfeldrand
+			figX = 21.49;//rechter Spielfeldrand
 			this.setRoom(location);
 			
 		break;
