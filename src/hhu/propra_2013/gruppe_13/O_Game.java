@@ -51,7 +51,7 @@ class O_Game {
 						temp.add(new Enemy(column-1+0.5, line-1+0.5, 1, 1, gameWindow));
 						break;
 					case 68: //looks where the door is, then sets destination accordingly
-						System.out.println(column+"  "+line);
+						
 						if (line == 0) 	{dest = 0;} //Door is on the upper edge of the field, door should lead up
 						if (line == 13)	{dest = 2;} //Door is on the bottom edge of the field, door should lead down
 						if (column==23)	{dest = 1;} //Door is on the right edge of the field, door should lead right
