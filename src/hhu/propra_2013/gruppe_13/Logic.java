@@ -257,7 +257,7 @@ class Logic implements Runnable {
 				// Check collisions with objects, act accordingly
 				if (collOne == 0 || collTwo == 0 || collThree == 0 || collFour == 0) {
 					if (collided instanceof Door) {
-						// TODO: do cool Door shit
+						
 						destination = ((Door) collided).getDestination(); //cast because eclipse wants it
 						open = ((Door) collided).getOpen();
 						enabled = ((Door) collided).getEnabled();
@@ -273,6 +273,9 @@ class Logic implements Runnable {
 						hp--;//apply damage
 						figure.setHP(hp);//set hp to the new value
 						// TODO: do even better Enemy shit
+					}
+					if (collided instanceof Target) {
+						game.end(true);
 					}
 				}
 			}
@@ -353,13 +356,13 @@ class Logic implements Runnable {
 	
 	private void checkFigure(){
 		if(figHP <= 0){
-			game.end();
+			game.end(false);
 			System.out.println("You died!");
 		}
 	}
 	
 	private void switchRoom(int destination){ 
-		System.out.println(destination);
+
 		//wechselt den Raum, falls die Figur an einer Stelle steht an der im aktuellen Raum eine Tür ist
 		switch (destination){ //prüft in welchem Raum die Figur ist (bisher 0-2 für die 3 Räume)
 

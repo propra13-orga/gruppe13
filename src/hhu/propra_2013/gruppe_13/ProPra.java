@@ -17,7 +17,7 @@ public class ProPra {
 		
 	}
 	static void win(){
-		Win.showWinScreen(gameWindow);
+		Wegi.showWinScreen(gameWindow);
 	}
 	/*-----------------------------------------------------------------------------------------------*/
 	public static void main(String[] args) {

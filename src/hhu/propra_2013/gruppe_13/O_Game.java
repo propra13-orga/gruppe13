@@ -43,7 +43,7 @@ class O_Game {
 				dest = 0;
 				while ((element = roomReader.read()) != -1){ //Goes trough the whole raumX.txt, and spawns Objects at their Positions
 					
-					switch (element) { 	//ASCII: W=87 D=68 E=69
+					switch (element) { 	//ASCII: W=87 D=68 E=69 T=84
 					case 87:			//In order of probability
 						temp.add(new Wall(column-1+0.5, line-1+0.5, 1, 1, 1)); 	//-1 because the top left corner seems to have
 						break;											//the coordinates 1:1
@@ -51,7 +51,7 @@ class O_Game {
 						temp.add(new Enemy(column-1+0.5, line-1+0.5, 1, 1, gameWindow));
 						break;
 					case 68: //looks where the door is, then sets destination accordingly
-						
+						//I have no clue why this works
 						if (line == 0) 	{dest = 0;} //Door is on the upper edge of the field, door should lead up
 						if (line == 13)	{dest = 2;} //Door is on the bottom edge of the field, door should lead down
 						if (column==23)	{dest = 1;} //Door is on the right edge of the field, door should lead right
@@ -59,6 +59,9 @@ class O_Game {
 					
 						temp.add(new Door(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, true, dest)); //creating door with correct destination
 						break;	
+						
+					case 84: 
+						temp.add(new Target(column-1+0.5, line-1+0.5,1,1,1));
 					}
 					column++; //sets column up for the next cycle of the switch-case
 						
@@ -103,9 +106,17 @@ class O_Game {
 		logicThread.start();
 		graphicThread.start();
 	}
-	void end() {
+	void end(boolean win ) {
 		logic.setGameRunning(false);
 		graphics.setGameRunning(false);
+		if (win == true){
+		ProPra.win();
+			}
+		else{
 		ProPra.blueScreen();
+		}
+		
+		
+		
 	}
 }
