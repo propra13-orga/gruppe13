@@ -196,6 +196,12 @@ class Logic implements Runnable {
 		
 		double collOne, collTwo, collThree, collFour;
 		
+		//variables for handling door-collision, names are the same as in the door class
+		int destination;
+		boolean open, enabled;
+		//variable for handling enemy Collision
+		int hp;
+		
 		ArrayList<GameObjects> collidable = rooms.get(location);
 		
 		// iterate over all objects within the room, excepting the figure, of course
@@ -251,11 +257,25 @@ class Logic implements Runnable {
 				// Check collisions with objects, act accordingly
 				if (collOne == 0 || collTwo == 0 || collThree == 0 || collFour == 0) {
 					if (collided instanceof Door) {
-						// TODO: do cool Door shit
+						
+						destination = ((Door) collided).getDestination(); //cast because eclipse wants it
+						open = ((Door) collided).getOpen();
+						enabled = ((Door) collided).getEnabled();
+						
+						if (open == true && enabled == true){ //check if door is 'officially' there and open							
+							this.switchRoom(destination);
+						}
+						
 					}
 					
 					if (collided instanceof Enemy) {
+						hp = figure.getHP();//get current hp
+						hp--;//apply damage
+						figure.setHP(hp);//set hp to the new value
 						// TODO: do even better Enemy shit
+					}
+					if (collided instanceof Target) {
+						game.end(true);
 					}
 				}
 			}
@@ -336,51 +356,39 @@ class Logic implements Runnable {
 	
 	private void checkFigure(){
 		if(figHP <= 0){
-			game.end();
+			game.end(false);
 			System.out.println("You died!");
 		}
 	}
 	
-	private void switchRoom(double inX,double inY,int inlocation){ 
+	private void switchRoom(int destination){ 
 
 		//wechselt den Raum, falls die Figur an einer Stelle steht an der im aktuellen Raum eine Tür ist
-		switch (inlocation){ //prüft in welchem Raum die Figur ist (bisher 0-2 für die 3 Räume)
+		switch (destination){ //prüft in welchem Raum die Figur ist (bisher 0-2 für die 3 Räume)
 
-		case(0)://erster Raum: eine Tür rechts mittig
-			if (inX == 21.5 && (int)inY == 6){
-				location++; //einen Raum nach rechts
-				figX = 1.5; //Figur (fast) an rechten Rand, ohne die Tür nach links im nächsten Raum auszulösen
-				this.setRoom(location);//neuen Raum festlegen
-			}
-			break; //vorgehen für alle Fälle analog
-		
-		case(1): //zweiter Raum: je rechts und links mittig eine Tür
-			if (inX == 21.5 && (int)inY == 6){
-				location++;
-				figX = 1.5;
-				this.setRoom(location);
-			}
-		
-			if (inX == 0.5 && (int)inY == 6){
-				location--;
-				figX = 20.5;
-				this.setRoom(location);
-			}
-			break;
+		case(0)://Door leads up, won't happen in this version
 			
-		case(2): //dritter Raum: eine Tür rechts mittig
-			if (inX == 0.5 && (int)inY == 6){
-				location--;
-				figX = 20.5;
-				this.setRoom(location);
-			}
-
-			if (inX == 21.5 && (int)inY ==6){
-				
-			}
 		break;
 		
+		case(1): //Door leads to the right
 		
+			location++; 
+			figX = 0.51; //linker Spielfeldrand
+			this.setRoom(location); //neuen Raum and Grafik und Logik geben
+			
+		break;
+			
+		case(2): //Door leads down, won't happen in this version
+						
+		break;
+		
+		case(3): //Door leads left
+			
+			location--;
+			figX = 21.49;//rechter Spielfeldrand
+			this.setRoom(location);
+			
+		break;
 		}	
 	}
 	
@@ -399,7 +407,9 @@ class Logic implements Runnable {
 			figVY	= figure.getVY();
 			figHP	= figure.getHP();
 			
-			this.switchRoom(figX, figY, location);
+			
+			
+			//this.switchRoom(figX, figY, location);
 			
 			// do the actual logic in this game
 			this.checkDistance();

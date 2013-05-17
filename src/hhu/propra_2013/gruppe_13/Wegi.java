@@ -9,7 +9,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Win {
+public class Wegi {
 	
 	private static JFrame gameWindow;
 	

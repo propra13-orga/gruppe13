@@ -18,16 +18,24 @@ class Door extends GameObjects {
 		height		= initHeight;
 		
 		open		= inOpen;
-		destination	= inDestination; //Destination stores where the door leads to. 1=goes up 2=goes right 3= goes down 4= goes left
+		destination	= inDestination; //Destination stores where the door leads to. 0=goes up 1=goes right 2= goes down 3= goes left
 		enabled		= inEnabled;
 	}
+	
+	int getDestination(){
+		return destination;
+	}
 
+	boolean getOpen(){
+		return open;
+	}
+	
 	void setEnabled(boolean in){
 		enabled = in;
 	}
 	
 	
-	boolean isEnabled(){
+	boolean getEnabled(){
 		return enabled;
 	}
 	

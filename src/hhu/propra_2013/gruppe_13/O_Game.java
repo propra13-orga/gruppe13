@@ -25,6 +25,7 @@ class O_Game {
 		figure 			= new Figure(0.5, 0.5, 1, 1);
 		int element, line, column, dest; //for room generation, saves the current char (as int),the line its from, and the column its in
 		
+
 		
 		// iterate over all objects and rooms within the level, all objects run within [0...800)x[0...600)
 		// TODO: make that shit better!!, implement the current level
@@ -50,17 +51,20 @@ class O_Game {
 					case 'E':
 						temp.add(new Enemy(column-1+0.5, line-1+0.5, 1, 1));
 						break;
-						
+
 					case 'D': //looks where the door is, then sets destination accordingly
-						
-						if (line-1 == 0) 	{dest = 1;} //Door is on the upper edge of the field, door should lead up
-						if (line-1 == 14) 	{dest = 3;} //Door is on the bottom edge of the field, door should lead down
-						if (column-1==24)	{dest = 2;} //Door is on the right edge of the field, door should lead right
-						if (column-1==0) 	{dest = 4;} //Door is on the left edge of the field, door should lead left
-						
+						//I have no clue why this works
+						if (line == 0) 	{dest = 0;} //Door is on the upper edge of the field, door should lead up
+						if (line == 13)	{dest = 2;} //Door is on the bottom edge of the field, door should lead down
+						if (column==23)	{dest = 1;} //Door is on the right edge of the field, door should lead right
+						if (column==0) 	{dest = 3;} //Door is on the left edge of the field, door should lead left
+					
 						temp.add(new Door(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, true, dest)); //creating door with correct destination
 						break;	
 						
+					case 'T': 
+						temp.add(new Target(column-1+0.5, line-1+0.5,1,1,1));
+
 					}
 					column++; //sets column up for the next cycle of the switch-case
 						
@@ -80,7 +84,8 @@ class O_Game {
 			
 			rooms.add(i, temp);
 		}
-
+		
+		
 		// Initialize Logic and Graphics
 		graphics 	= new GameDrawer(rooms, gameWindow);
 		logic 		= new Logic(rooms, figure, this);
@@ -104,9 +109,17 @@ class O_Game {
 		logicThread.start();
 		graphicThread.start();
 	}
-	void end() {
+	void end(boolean win ) {
 		logic.setGameRunning(false);
 		graphics.setGameRunning(false);
+		if (win == true){
+		ProPra.win();
+			}
+		else{
 		ProPra.blueScreen();
+		}
+		
+		
+		
 	}
 }
