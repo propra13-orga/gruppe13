@@ -22,7 +22,7 @@ class O_Game {
 		// Initiate object variables
 		gameWindow 		= inFrame;
 		rooms 			= new ArrayList<ArrayList<GameObjects>>();
-		figure 			= new Figure(0.5, 0.5, 1, 1, gameWindow);
+		figure 			= new Figure(0.5, 0.5, 1, 1);
 		int element, line, column, dest; //for room generation, saves the current char (as int),the line its from, and the column its in
 		
 		
@@ -43,13 +43,15 @@ class O_Game {
 				while ((element = roomReader.read()) != -1){ //Goes trough the whole raumX.txt, and spawns Objects at their Positions
 					
 					switch (element) { 	//ASCII: W=87 D=68 E=69
-					case 87:			//In order of probability
+					case 'W':			//In order of probability
 						temp.add(new Wall(column-1+0.5, line-1+0.5, 1, 1, 1)); 	//-1 because the top left corner seems to have
 						break;											//the coordinates 1:1
-					case 69:
-						temp.add(new Enemy(column-1+0.5, line-1+0.5, 1, 1, gameWindow));
+						
+					case 'E':
+						temp.add(new Enemy(column-1+0.5, line-1+0.5, 1, 1));
 						break;
-					case 68: //looks where the door is, then sets destination accordingly
+						
+					case 'D': //looks where the door is, then sets destination accordingly
 						
 						if (line-1 == 0) 	{dest = 1;} //Door is on the upper edge of the field, door should lead up
 						if (line-1 == 14) 	{dest = 3;} //Door is on the bottom edge of the field, door should lead down
@@ -58,6 +60,7 @@ class O_Game {
 						
 						temp.add(new Door(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, true, dest)); //creating door with correct destination
 						break;	
+						
 					}
 					column++; //sets column up for the next cycle of the switch-case
 						

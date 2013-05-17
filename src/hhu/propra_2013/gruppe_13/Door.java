@@ -107,30 +107,6 @@ class Door extends GameObjects {
 	}
 
 	@Override
-	void incX() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void decX() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void incY() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void decY() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	double getVX() {
 		// TODO Auto-generated method stub
 		return 0;

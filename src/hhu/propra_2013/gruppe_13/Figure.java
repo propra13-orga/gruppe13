@@ -3,16 +3,6 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import javax.swing.JFrame;
-
-/*
- * Wir brauchen:
- * Position
- * Hitpoints
- * Richtung
- * Radius
- * TODO implement picturecycle for movement
- */
 
 class Figure extends GameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
@@ -21,10 +11,9 @@ class Figure extends GameObjects {
 	private double x, y, r;
 	private double width, height;
 	private double v_x, v_y;
-	JFrame window;
 	
 	// class constructor
-	Figure(double initX, double initY, double initHeight, double initWidth, JFrame inFrame) {
+	Figure(double initX, double initY, double initHeight, double initWidth) {
 		x = initX;
 		y = initY;
 		
@@ -35,7 +24,6 @@ class Figure extends GameObjects {
 		v_y = 0.3;
 		r   = Math.max(width, height) + (v_x*v_x+v_y*v_y);
 		hp  = 1;
-		window = inFrame;
 	}
 	
 	
@@ -99,29 +87,6 @@ class Figure extends GameObjects {
 	
 	void setHP(int inHP) {
 		hp = inHP;
-	}
-	
-	
-	/*-----------------------------------------------------------------------------------------------*/
-	// increasing or decreasing x and y variables
-	@Override
-	void incX() {
-		x += v_x;
-	}
-	
-	@Override
-	void decX() {
-		x -= v_x;
-	}
-	
-	@Override
-	void incY() {
-		y += v_y;
-	}
-	
-	@Override
-	void decY() {
-		y -= v_y;
 	}
 	
 	

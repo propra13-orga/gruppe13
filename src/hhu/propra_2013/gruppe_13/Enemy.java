@@ -3,8 +3,6 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import javax.swing.JFrame;
-
 class Enemy extends GameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
 	// Hitpoints, position and collision radius
@@ -13,9 +11,8 @@ class Enemy extends GameObjects {
 	private double	r;
 	private double 	v_x, v_y;
 	private double 	height, width;
-	private JFrame 	window;
 	
-	Enemy(double initX, double initY, double initHeight, double initWidth, JFrame inFrame) {
+	Enemy(double initX, double initY, double initHeight, double initWidth) {
 		//zum kurzen anzeigen mal was ;)
 		//initX = window.getWidth()/2;
 		//initY = window.getHeight()/2;
@@ -28,7 +25,6 @@ class Enemy extends GameObjects {
 		height = initHeight;
 		r = Math.max(width, height)+v_x*v_x+v_y*v_y;
 		hp = 1;
-		window = inFrame;
 	}
 	
 	// Getter and Setter methods for above variables
@@ -98,30 +94,6 @@ class Enemy extends GameObjects {
 	}
 
 	/*-----------------------------------------------------------------------------------------------*/
-	@Override
-	void incX() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void decX() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void incY() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	void decY() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	double getVX() {
 		// TODO Auto-generated method stub
