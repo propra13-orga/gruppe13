@@ -101,6 +101,14 @@ class O_Game {
 		graphics.setRoom(inRoom);
 	}
 	
+	void end(boolean win ) {
+		logic.setGameRunning(false);
+		graphics.setGameRunning(false);
+		
+		if (win == true)	ProPra.win();
+		else				ProPra.blueScreen();		
+	}
+	
 	void start() {
 		// Build two new threads, one for logic and one for graphics
 		Thread logicThread = new Thread(logic);
@@ -108,18 +116,5 @@ class O_Game {
 
 		logicThread.start();
 		graphicThread.start();
-	}
-	void end(boolean win ) {
-		logic.setGameRunning(false);
-		graphics.setGameRunning(false);
-		if (win == true){
-		ProPra.win();
-			}
-		else{
-		ProPra.blueScreen();
-		}
-		
-		
-		
 	}
 }

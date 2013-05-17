@@ -12,12 +12,21 @@ public class ProPra {
 		O_Game game = new O_Game(gameWindow);
 		game.start();
 	}
+	
+	// method for a lost game
 	static void blueScreen(){
-		Maria.showBlueScreen(gameWindow);
-		
+		gameWindow.setContentPane(Maria.showBlueScreen(gameWindow));
 	}
+	
+	// method for a won game
 	static void win(){
-		Wegi.showWinScreen(gameWindow);
+		gameWindow.setContentPane(Wegi.showWinScreen(gameWindow));
+	}
+	
+	// method for initiating/reinitiating the menu
+	static void initMenu() {
+		gameWindow.setContentPane(Menu.showMenu(gameWindow));
+		gameWindow.setVisible(true);
 	}
 	/*-----------------------------------------------------------------------------------------------*/
 	public static void main(String[] args) {
@@ -27,6 +36,6 @@ public class ProPra {
 		gameWindow.setTitle("Propra 2013");
 		gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		Menu.showMenu(gameWindow);
+		initMenu();
 	}
 }

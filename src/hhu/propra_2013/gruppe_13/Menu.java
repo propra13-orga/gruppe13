@@ -1,7 +1,6 @@
 package hhu.propra_2013.gruppe_13;
 
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -10,20 +9,17 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class Menu{
 	
-	private static JFrame gameWindow;
-	
 	// Initializer method for the menu
-	protected static void showMenu(JFrame initWindow) {
-		// set the current working menu
-		gameWindow = initWindow;
-		
-		
+	static JPanel showMenu(JFrame gameWindow) {
 		// Create a new Background with a specified color (Black at the moment)
-		Container content = gameWindow.getContentPane();
-		content.setBackground(Color.BLACK);
+		JPanel menu = new JPanel();
+		menu.setSize(gameWindow.getContentPane().getSize());
+		menu.setBackground(Color.BLACK);
+
 		
 		//Create Buttons to start the game or end the program
 		// TODO: implement cool new shit for the game
@@ -50,20 +46,20 @@ public class Menu{
 		});
 		
 		// implement the layout manager
-		content.setLayout(new GridBagLayout());
+		menu.setLayout(new GridBagLayout());
 		
 		GridBagConstraints cButtons = new GridBagConstraints();
 		cButtons.gridheight = 2;
 		cButtons.gridwidth	= 3;
 		cButtons.gridx = 1;
 		cButtons.gridy = 0;
-		content.add(startGame, cButtons);
+		menu.add(startGame, cButtons);
 		
 		cButtons.insets = new Insets(200, 0, 0, 0);
 		cButtons.gridx = 1;
 		cButtons.gridy = 1;
-		content.add(endProgram, cButtons);
-		
-		gameWindow.setVisible(true);
+		menu.add(endProgram, cButtons);
+
+		return menu;
 	}
 }

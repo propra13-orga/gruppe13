@@ -18,7 +18,7 @@ class GameDrawer implements Runnable {
 	private final 	JFrame gameWindow;
 	private int 	location;	
 	private final 	Image background;
-	boolean gameRunning;
+	private boolean gameRunning;
 	private final	Image surface;
 
 	
@@ -79,7 +79,6 @@ class GameDrawer implements Runnable {
 				// TODO: entfernen, nachdem es Benes "Seal of Approval" erhält
 				xMax = (int)Math.round(22*step);
 				yMax = (int)Math.round(13*step);
-				g2d.setColor(Color.LIGHT_GRAY);
 				g2d.drawImage(surface, x0, y0, xMax, yMax, this);
 				g2d.setColor(Color.black);
 
