@@ -11,6 +11,7 @@ class Figure extends GameObjects {
 	private double x, y, r;
 	private double width, height;
 	private double v_x, v_y;
+	private int maxHP;
 	
 	// class constructor
 	Figure(double initX, double initY, double initHeight, double initWidth) {
@@ -24,11 +25,17 @@ class Figure extends GameObjects {
 		v_y = 0.3;
 		r   = Math.max(width, height) + (v_x*v_x+v_y*v_y);
 		hp  = 1;
+		maxHP	= 2;
 	}
 	
 	
 	/*-----------------------------------------------------------------------------------------------*/
 	// Getter and Setter methods for above variables
+	int getMaxHP(){
+		return maxHP;
+	}
+	
+	
 	@Override
 	int getHP(){
 		return hp;
@@ -87,6 +94,10 @@ class Figure extends GameObjects {
 	
 	void setHP(int inHP) {
 		hp = inHP;
+	}
+	
+	void setMaxHP(int inMaxHP){
+		maxHP	= inMaxHP;
 	}
 	
 	
