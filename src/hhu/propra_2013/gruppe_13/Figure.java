@@ -94,6 +94,7 @@ class Figure extends GameObjects {
 	
 	void setHP(int inHP) {
 		hp = inHP;
+		System.out.println("Player HP is now"+ hp );
 	}
 	
 	void setMaxHP(int inMaxHP){
