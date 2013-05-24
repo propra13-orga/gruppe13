@@ -64,6 +64,9 @@ class O_Game {
 						
 					case 'T': 
 						temp.add(new Target(column-1+0.5, line-1+0.5,1,1,1));
+						
+					case 'I':
+						temp.add(new CupACoffee(column-1+0.5, line-1+0.5, 1, 1, 1));
 
 					}
 					column++; //sets column up for the next cycle of the switch-case

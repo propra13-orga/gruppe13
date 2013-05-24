@@ -70,6 +70,7 @@ class Maria {
 
 			@Override
 			public void keyReleased(KeyEvent arg0) {
+				ProPra.initMenu();
 			}
 
 			@Override

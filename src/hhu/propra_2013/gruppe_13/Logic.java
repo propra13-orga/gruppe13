@@ -274,6 +274,11 @@ class Logic implements Runnable {
 						figure.setHP(hp);//set hp to the new value
 						// TODO: do even better Enemy shit
 					}
+					
+					if (collided instanceof Item) {
+						((Item) collided).modFigure(rooms);
+					}
+					
 					if (collided instanceof Target) {
 						game.end(true);
 					}
