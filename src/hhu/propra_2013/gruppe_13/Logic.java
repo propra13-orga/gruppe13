@@ -275,9 +275,9 @@ class Logic implements Runnable {
 						// TODO: do even better Enemy shit
 					}
 					
-				//	if (collided instanceof Item) { TODO disabled because of missing class
-					//	((Item) collided).modFigure(rooms, (Figure)figure);
-					//}
+					if (collided instanceof Item) { 
+						((Item) collided).modFigure(rooms, (Figure)figure);
+					}
 					
 					if (collided instanceof Target) {
 						game.end(true);
