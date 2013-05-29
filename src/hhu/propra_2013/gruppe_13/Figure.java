@@ -8,6 +8,7 @@ class Figure extends GameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
 	// Hitpoints, position, collision radius and constructor
 	private int hp;
+	private int geld;
 	private double x, y, r;
 	private double width, height;
 	private double v_x, v_y;
@@ -31,6 +32,11 @@ class Figure extends GameObjects {
 	
 	/*-----------------------------------------------------------------------------------------------*/
 	// Getter and Setter methods for above variables
+	int getGeld(){
+		return geld;
+	}
+	
+	
 	int getMaxHP(){
 		return maxHP;
 	}
@@ -101,6 +107,9 @@ class Figure extends GameObjects {
 		maxHP	= inMaxHP;
 	}
 	
+	void setGeld(int inGeld){
+		geld=inGeld;
+	}
 	
 	/*-----------------------------------------------------------------------------------------------*/
 	@Override
