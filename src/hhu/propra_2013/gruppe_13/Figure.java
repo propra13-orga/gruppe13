@@ -2,6 +2,10 @@ package hhu.propra_2013.gruppe_13;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
 
 
 class Figure extends GameObjects {
@@ -13,6 +17,7 @@ class Figure extends GameObjects {
 	private double width, height;
 	private double v_x, v_y;
 	private int maxHP;
+	private boolean cooldown;
 	
 	// class constructor
 	Figure(double initX, double initY, double initHeight, double initWidth) {
@@ -126,5 +131,23 @@ class Figure extends GameObjects {
 	@Override
 	void attack() {
 		
+	}
+
+
+	public void takeDamage(int inStrength) {
+		if(!cooldown){
+			hp = hp - inStrength;
+			cooldown = true;
+			this.timer();
+		}
+	}
+	public void timer(){
+		int delay = 1000; //milliseconds
+		  ActionListener taskPerformer = new ActionListener() {
+		      public void actionPerformed(ActionEvent evt) {
+		         cooldown = false;
+		      }
+		  };
+		  new Timer(delay, taskPerformer).start();
 	}
 }

@@ -11,8 +11,10 @@ class Enemy extends GameObjects {
 	private double	r;
 	private double 	v_x, v_y;
 	private double 	height, width;
+	private int		strength;
+	private Figure figure;
 	
-	Enemy(double initX, double initY, double initHeight, double initWidth) {
+	Enemy(double initX, double initY, double initHeight, double initWidth, Figure inFigure) {
 		//zum kurzen anzeigen mal was ;)
 		//initX = window.getWidth()/2;
 		//initY = window.getHeight()/2;
@@ -25,6 +27,8 @@ class Enemy extends GameObjects {
 		height = initHeight;
 		r = Math.max(width, height)+v_x*v_x+v_y*v_y;
 		hp = 1;
+		strength = 1;
+		figure = inFigure;
 	}
 	
 	// Getter and Setter methods for above variables
@@ -90,7 +94,7 @@ class Enemy extends GameObjects {
 	
 	@Override
 	void attack() {
-		
+		figure.takeDamage(strength);
 	}
 
 	/*-----------------------------------------------------------------------------------------------*/

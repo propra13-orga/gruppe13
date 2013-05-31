@@ -269,9 +269,11 @@ class Logic implements Runnable {
 					}
 					
 					if (collided instanceof Enemy) {
-						hp = figure.getHP();//get current hp
-						hp--;//apply damage
-						figure.setHP(hp);//set hp to the new value
+						((Enemy) collided).attack();
+						
+						//hp = figure.getHP();//get current hp
+						//hp--;//apply damage
+						//figure.setHP(hp);//set hp to the new value
 						// TODO: do even better Enemy shit
 					}
 					
