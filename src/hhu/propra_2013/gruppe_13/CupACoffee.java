@@ -10,37 +10,39 @@ public class CupACoffee extends Item {
 	private double	r;
 	private double 	v_x, v_y;
 	private double 	height, width;
+	private int 	hp;
 	
-	public CupACoffee(double d, double e, int i, int j, int k) {
-		x	= 5;
-		y	= 5;
-		r	= 5;
-		height	= j;
-		width	= k;
+	public CupACoffee(double initX, double initY, int initWidth, int initHeight, int inHP) {
+		x	= initX;
+		y	= initY;
+		r = Math.max(width, height);
+		height	= initWidth;
+		width	= initHeight;
 		
 	}
 	
 	@Override
 	double getPosX() {
 		// TODO Auto-generated method stub
-		return 0;
+		return x;
 	}
 
 	@Override
 	double getPosY() {
 		// TODO Auto-generated method stub
-		return 0;
+		return y;
 	}
 
 	@Override
 	double getRad() {
 		// TODO Auto-generated method stub
-		return 0;
+		return r;
 	}
 
 	@Override
 	void setPos(double inX, double inY) {
-		// TODO Auto-generated method stub
+		x = inX;
+		y = inY;
 		
 	}
 
@@ -60,19 +62,19 @@ public class CupACoffee extends Item {
 	@Override
 	double getWidth() {
 		// TODO Auto-generated method stub
-		return 0;
+		return width;
 	}
 
 	@Override
 	double getHeight() {
 		// TODO Auto-generated method stub
-		return 0;
+		return height;
 	}
 
 	@Override
 	int getHP() {
 		// TODO Auto-generated method stub
-		return 0;
+		return hp;
 	}
 
 	@Override
@@ -96,13 +98,14 @@ public class CupACoffee extends Item {
 	@Override
 	void setRad(double inR) {
 		// TODO Auto-generated method stub
+		r = inR;
 		
 	}
 
 	@Override
 	void setHP(int inHP) {
 		// TODO Auto-generated method stub
-		
+		hp = inHP;
 	}
 
 	
@@ -110,10 +113,11 @@ public class CupACoffee extends Item {
 	void modFigure(ArrayList<ArrayList<GameObjects>> inRooms, Figure figure) {
 		int hp;
 		hp = figure.getHP();
-			if(figure.getMaxHP() > hp){				
-				hp++;
-				figure.setHP(hp);
-			}
+		if(figure.getMaxHP() > hp){				
+			hp++;
+			figure.setHP(hp);
+			inRooms.remove(this);
+		}
 	}
 
 	

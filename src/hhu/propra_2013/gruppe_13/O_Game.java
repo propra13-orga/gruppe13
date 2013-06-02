@@ -49,7 +49,7 @@ class O_Game {
 						break;											//the coordinates 1:1
 						
 					case 'E':
-						temp.add(new Enemy(column-1+0.5, line-1+0.5, 1, 1));
+						temp.add(new Enemy(column-1+0.5, line-1+0.5, 1, 1, figure));
 						break;
 
 					case 'D': //looks where the door is, then sets destination accordingly
