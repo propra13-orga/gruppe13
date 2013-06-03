@@ -263,7 +263,33 @@ class Logic implements Runnable {
 						enabled = ((Door) collided).getEnabled();
 						
 						if (open == true && enabled == true){ //check if door is 'officially' there and open							
-							this.switchRoom(destination);
+							switch (destination){	//only advance trough door if player is moving in the direction of the door
+													//diagonal movement should work too
+							case 0:
+								if (upLeft == true || up == true || upRight == true ){
+									this.switchRoom(destination);
+								}
+							break;
+							
+							case 1:
+								if (right == true || upRight == true || downRight == true){
+									this.switchRoom(destination);
+								}					
+							break;
+							
+							case 2:
+								if (down == true || downRight == true || downLeft == true){
+									this.switchRoom(destination);
+								}
+							break;
+							
+							case 3:
+								if (left == true || downLeft == true || downLeft == true){
+									this.switchRoom(destination);
+								}
+							break;
+							}
+							
 						}
 						
 					}
