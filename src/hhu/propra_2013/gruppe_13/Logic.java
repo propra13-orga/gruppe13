@@ -304,7 +304,7 @@ class Logic implements Runnable {
 					}
 					
 					if (collided instanceof Item) { 
-						((Item) collided).modFigure(rooms, (Figure)figure);
+						((Item) collided).modFigure(collidable, (Figure)figure);
 					}
 					
 					if (collided instanceof Target) {
