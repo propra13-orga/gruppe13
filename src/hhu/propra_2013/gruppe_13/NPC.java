@@ -1,0 +1,137 @@
+package hhu.propra_2013.gruppe_13;
+
+import java.awt.Color;
+import java.awt.Graphics2D;
+
+public class NPC extends GameObjects{
+	//Variables  taken from enemy - some are maybe Hyper-Fluid (sic)
+	private int 	hp;
+	private double 	x, y;
+	private double	r;
+	private double 	v_x, v_y;
+	private double 	height, width;
+	private int		strength;
+	private Figure figure;
+	private String text; 
+	private int level; 		//NPC should know which area he is in, so he can refer to the level Theme or something
+	private char boss;	//NPC should know what the area boss is, so he can say funny stuff about him 
+						//Boss is encoded in a char so the specific Phrase can be chose per switch-case
+	
+	//Constructor for NPC - TODO Think what the NPC should be able to do, and implement the useful thoughts
+	NPC(double initX, double initY, double initHeight, double initWidth, Figure inFigure, char inBoss, int inLevel){
+		
+		x = initX;
+		y = initY;
+		
+		v_x = 0;
+		v_y = 0;
+		
+		height = initHeight;
+		width = initWidth;
+		r = Math.max(width, height)+v_x*v_x+v_y*v_y;
+		hp = 1; 		//should not be harmed at all, but GameObjects wants it kinda badly
+		strength = 1;	//should harm anyone else either, but you never know when a NPC will snap...
+		figure = inFigure;
+		//Stuff to tell the NPC what he can talk about
+		boss = inBoss;
+		level = inLevel;
+	}
+	
+	//Methods from GameObjects - we probably won't need all of them
+
+	/*-----------------------------------------------------------------------------------------------------*/
+	//Getter
+	@Override
+	int getHP() {
+		// TODO Auto-generated method stub
+		return hp;
+	}
+
+	@Override
+	double getPosX() {
+		// TODO Auto-generated method stub
+		return x;
+	}
+
+	@Override
+	double getPosY() {
+		// TODO Auto-generated method stub
+		return y;
+	}
+
+	@Override
+	double getRad() {
+		// TODO Auto-generated method stub
+		return r;
+	}
+
+	@Override
+	double getVX() {
+		// TODO Auto-generated method stub
+		return v_x;
+	}
+
+	@Override
+	double getVY() {
+		// TODO Auto-generated method stub
+		return v_y;
+	}
+	
+	@Override
+	double getWidth() {
+		// TODO Auto-generated method stub
+		return width;
+	}
+
+	@Override
+	double getHeight() {
+		// TODO Auto-generated method stub
+		return height;
+	}
+	/*----------------------------------------------------------------------------------------------__*/
+	//Setter
+	@Override
+	void setPos(double inX, double inY) {
+		// TODO Auto-generated method stub
+		x = inX;
+		y = inY;
+	}
+
+	@Override
+	void setSpeed(double inVX, double inVY) {
+		// TODO Auto-generated method stub
+		v_x = inVX;
+		v_y = inVY;
+	}
+
+	@Override
+	void setRad(double inR) {
+		// TODO Auto-generated method stub
+		r = inR;
+	}
+
+	@Override
+	void setHP(int inHP) {
+		// TODO Auto-generated method stub
+		hp = inHP;
+	}
+	/*-------------------------------------------------------------------------------------------*/
+	//Graphics
+	@Override
+	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
+		g.setColor(Color.green);
+		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+	}
+
+	@Override
+	void attack() {
+		// TODO Auto-generated method stub
+		figure.takeDamage(strength);
+	}
+
+
+// from here it's actual new NPC Stuff (and Stuff)
+	
+	
+	
+}

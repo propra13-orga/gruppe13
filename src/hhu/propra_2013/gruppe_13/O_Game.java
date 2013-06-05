@@ -29,7 +29,7 @@ class O_Game {
 		
 		// iterate over all objects and rooms within the level, all objects run within [0...800)x[0...600)
 		// TODO: make that shit better!!, implement the current level
-		for (int i=0; i<7; i++) {
+		for (int i=0; i<8; i++) {
 			ArrayList<GameObjects> temp = new ArrayList<GameObjects>();
 			temp.add(figure);
 			

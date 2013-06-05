@@ -101,13 +101,13 @@ class Enemy extends GameObjects {
 	@Override
 	double getVX() {
 		// TODO Auto-generated method stub
-		return 0;
+		return v_x;
 	}
 
 	@Override
 	double getVY() {
 		// TODO Auto-generated method stub
-		return 0;
+		return v_y;
 	}
 	
 }
