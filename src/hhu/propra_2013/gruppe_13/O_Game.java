@@ -22,14 +22,14 @@ class O_Game {
 		// Initiate object variables
 		gameWindow 		= inFrame;
 		rooms 			= new ArrayList<ArrayList<GameObjects>>();
-		figure 			= new Figure(0.5, 0.5, 1, 1);
+		figure 			= new Figure(0.5, 6.5, 1, 1);
 		int element, line, column, dest; //for room generation, saves the current char (as int),the line its from, and the column its in
 		
 
 		
 		// iterate over all objects and rooms within the level, all objects run within [0...800)x[0...600)
 		// TODO: make that shit better!!, implement the current level
-		for (int i=0; i<3; i++) {
+		for (int i=0; i<8; i++) {
 			ArrayList<GameObjects> temp = new ArrayList<GameObjects>();
 			temp.add(figure);
 			
