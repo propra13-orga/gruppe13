@@ -110,13 +110,13 @@ public class CupACoffee extends Item {
 
 	
 	@Override
-	void modFigure(ArrayList<ArrayList<GameObjects>> inRooms, Figure figure) {
+	void modFigure(ArrayList<GameObjects> room, Figure figure) {
 		int hp;
 		hp = figure.getHP();
 		if(figure.getMaxHP() > hp){				
 			hp++;
 			figure.setHP(hp);
-			inRooms.remove(this);
+			room.remove(this);
 		}
 	}
 
