@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Menu{
+public class CoreMenu{
 	
 	// Initializer method for the menu
 	static JPanel showMenu(JFrame gameWindow) {

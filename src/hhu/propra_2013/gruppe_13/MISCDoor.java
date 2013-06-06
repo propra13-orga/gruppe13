@@ -3,13 +3,13 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-class Door extends GameObjects {
+class MISCDoor extends CoreGameObjects {
 	private double 		x,y,r;
 	private double 		height, width;
 	private boolean 	open, enabled;
 	private int 		destination;
 	
-	Door (double initX, double initY, double initWidth, double initHeight, double initRadius, boolean inOpen, boolean inEnabled, int inDestination){
+	MISCDoor (double initX, double initY, double initWidth, double initHeight, double initRadius, boolean inOpen, boolean inEnabled, int inDestination){
 		x 			= initX;
 		y 			= initY;
 		r			= Math.max(initWidth, initHeight);

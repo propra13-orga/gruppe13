@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-public class CupACoffee extends Item {
+public class ItemCupACoffee extends Item {
 
 	private double 	x, y;
 	private double	r;
@@ -12,7 +12,7 @@ public class CupACoffee extends Item {
 	private double 	height, width;
 	private int 	hp;
 	
-	public CupACoffee(double initX, double initY, int initWidth, int initHeight, int inHP) {
+	public ItemCupACoffee(double initX, double initY, int initWidth, int initHeight, int inHP) {
 		x	= initX;
 		y	= initY;
 		r = Math.max(width, height);
@@ -110,7 +110,7 @@ public class CupACoffee extends Item {
 
 	
 	@Override
-	void modFigure(ArrayList<GameObjects> room, Figure figure) {
+	void modFigure(ArrayList<CoreGameObjects> room, Figure figure) {
 		int hp;
 		hp = figure.getHP();
 		if(figure.getMaxHP() > hp){				

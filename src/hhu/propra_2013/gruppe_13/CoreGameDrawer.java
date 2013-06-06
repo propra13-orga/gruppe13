@@ -10,10 +10,10 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-class GameDrawer implements Runnable {
+class CoreGameDrawer implements Runnable {
 	
 	// List of all Objects within the game, JPanel and the number of locations
-	private ArrayList<ArrayList<GameObjects>> rooms;
+	private ArrayList<ArrayList<CoreGameObjects>> rooms;
 	private JPanel 	game;
 	private final 	JFrame gameWindow;
 	private int 	location;	
@@ -23,7 +23,7 @@ class GameDrawer implements Runnable {
 
 	
 	// Constructor for class
-	GameDrawer(ArrayList<ArrayList<GameObjects>> objectsInit, JFrame inFrame) {
+	CoreGameDrawer(ArrayList<ArrayList<CoreGameObjects>> objectsInit, JFrame inFrame) {
 		rooms 		= objectsInit;
 		gameWindow 	= inFrame;
 		location 	= 0;
@@ -34,7 +34,7 @@ class GameDrawer implements Runnable {
 	}
 	
 	// Initiate current objects variables, returns constructed JPanel
-	JPanel init(Logic inLogic) {
+	JPanel init(CoreLogic inLogic) {
 		// Build a new panel, override paint method
 		game = new JPanel() {
 			// Serial-ID in order to appease Eclipse
@@ -83,8 +83,8 @@ class GameDrawer implements Runnable {
 				g2d.setColor(Color.black);
 
 				// Iterate over all objects and call draw method
-				ArrayList<GameObjects> list = rooms.get(location);
-				for(GameObjects toDraw : list) {
+				ArrayList<CoreGameObjects> list = rooms.get(location);
+				for(CoreGameObjects toDraw : list) {
 					toDraw.draw(g2d, x0, y0, step);
 				}
 			}
@@ -96,7 +96,7 @@ class GameDrawer implements Runnable {
 	}
 	
 	// remove a drawable object, thus not every enemy and wall needs to be called if it has been destroyed
-	void removeDrawableObject (GameObjects toRemove) {
+	void removeDrawableObject (CoreGameObjects toRemove) {
 		rooms.get(location).remove(toRemove);
 	}
 	

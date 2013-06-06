@@ -2,7 +2,7 @@ package hhu.propra_2013.gruppe_13;
 
 import java.awt.Graphics2D;
 
-abstract class GameObjects {
+abstract class CoreGameObjects {
 	// Getter and Setter methods for Objects used by Logic and GameDrawer classes
 	abstract int 	getHP();	
 	abstract double getPosX();

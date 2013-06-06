@@ -6,22 +6,22 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import java.io.*;
 
-class O_Game {
+class CoreO_Game {
 	// Frame, graphic, logic and a figure for the actual game
 	JFrame 		gameWindow;
-	Logic 		logic;
-	GameDrawer 	graphics;
+	CoreLogic 		logic;
+	CoreGameDrawer 	graphics;
 	Figure 		figure;
 		
 	
 	// Build two lists, the graphics component will also receive the figure, which has a special function in the logic class
-	ArrayList<ArrayList<GameObjects>> rooms;
+	ArrayList<ArrayList<CoreGameObjects>> rooms;
 	
 	// Initialize method for the actual game
-	O_Game(JFrame inFrame) {
+	CoreO_Game(JFrame inFrame) {
 		// Initiate object variables
 		gameWindow 		= inFrame;
-		rooms 			= new ArrayList<ArrayList<GameObjects>>();
+		rooms 			= new ArrayList<ArrayList<CoreGameObjects>>();
 		figure 			= new Figure(0.5, 6.5, 1, 1);
 		int element, line, column, dest; //for room generation, saves the current char (as int),the line its from, and the column its in
 		
@@ -30,7 +30,7 @@ class O_Game {
 		// iterate over all objects and rooms within the level, all objects run within [0...800)x[0...600)
 		// TODO: make that shit better!!, implement the current level
 		for (int i=0; i<8; i++) {
-			ArrayList<GameObjects> temp = new ArrayList<GameObjects>();
+			ArrayList<CoreGameObjects> temp = new ArrayList<CoreGameObjects>();
 			temp.add(figure);
 			
 			try {
@@ -45,11 +45,11 @@ class O_Game {
 					
 					switch (element) { 	//ASCII: W=87 D=68 E=69
 					case 'W':			//In order of probability
-						temp.add(new Wall(column-1+0.5, line-1+0.5, 1, 1, 1)); 	//-1 because the top left corner seems to have
+						temp.add(new MISCWall(column-1+0.5, line-1+0.5, 1, 1, 1)); 	//-1 because the top left corner seems to have
 						break;											//the coordinates 1:1
 						
 					case 'E':
-						temp.add(new Enemy(column-1+0.5, line-1+0.5, 1, 1, figure));
+						temp.add(new EnemyTrap(column-1+0.5, line-1+0.5, 1, 1, figure));
 						break;
 
 					case 'D': //looks where the door is, then sets destination accordingly
@@ -59,14 +59,14 @@ class O_Game {
 						if (column==23)	{dest = 1;} //Door is on the right edge of the field, door should lead right
 						if (column==0) 	{dest = 3;} //Door is on the left edge of the field, door should lead left
 					
-						temp.add(new Door(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, true, dest)); //creating door with correct destination
+						temp.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, true, dest)); //creating door with correct destination
 						break;	
 						
 					case 'T': 
-						temp.add(new Target(column-1+0.5, line-1+0.5,1,1,1));
+						temp.add(new MISCTarget(column-1+0.5, line-1+0.5,1,1,1));
 						
 					case 'I':
-						temp.add(new CupACoffee(column-1+0.5, line-1+0.5, 1, 1, 1));
+						temp.add(new ItemCupACoffee(column-1+0.5, line-1+0.5, 1, 1, 1));
 
 					}
 					column++; //sets column up for the next cycle of the switch-case
@@ -90,13 +90,13 @@ class O_Game {
 		
 		
 		// Initialize Logic and Graphics
-		graphics 	= new GameDrawer(rooms, gameWindow);
-		logic 		= new Logic(rooms, figure, this);
+		graphics 	= new CoreGameDrawer(rooms, gameWindow);
+		logic 		= new CoreLogic(rooms, figure, this);
 		
 		// set contentPane to JPanel returned by GameDrawer, set GameIO as keyboard manager
 		gameWindow.setContentPane(graphics.init(logic));
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        manager.addKeyEventDispatcher(new Game_IO(logic));
+        manager.addKeyEventDispatcher(new CoreGame_IO(logic));
 	}
 	
 	// Setter method so the graphic will know which room to paint

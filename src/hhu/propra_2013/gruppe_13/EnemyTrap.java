@@ -3,21 +3,22 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-class Enemy extends GameObjects {
-	/*-----------------------------------------------------------------------------------------------*/
-	// Hitpoints, position and collision radius
+public class EnemyTrap extends EnemyMelee{
+	
 	private int 	hp;
 	private double 	x, y;
 	private double	r;
-	private double 	v_x, v_y;
-	private double 	height, width;
+	private double 	v_x;
+	private double	v_y;
+	private double 	height;
+	private double	width;
 	private int		strength;
-	private Figure figure;
+	private Figure	figure;
 	
-	Enemy(double initX, double initY, double initHeight, double initWidth, Figure inFigure) {
-		//zum kurzen anzeigen mal was ;)
-		//initX = window.getWidth()/2;
-		//initY = window.getHeight()/2;
+
+	EnemyTrap(double initX, double initY, double initHeight, double initWidth,Figure inFigure) {
+		super(initX, initY, initHeight, initWidth, inFigure);
+	
 		x = initX;
 		y = initY;
 		v_x = 0;
@@ -30,6 +31,12 @@ class Enemy extends GameObjects {
 		strength = 1;
 		figure = inFigure;
 	}
+
+	/*-----------------------------------------------------------------------------------------------*/
+	// Hitpoints, position and collision radius
+	
+	
+	
 	
 	// Getter and Setter methods for above variables
 	@Override

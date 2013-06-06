@@ -3,7 +3,7 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public class NPC extends GameObjects{
+public class MISCNPC extends CoreGameObjects{
 	//Variables  taken from enemy - some are maybe Hyper-Fluid (sic)
 	private int 	hp;
 	private double 	x, y;
@@ -18,7 +18,7 @@ public class NPC extends GameObjects{
 						//Boss is encoded in a char so the specific Phrase can be chose per switch-case
 	
 	//Constructor for NPC - TODO Think what the NPC should be able to do, and implement the useful thoughts
-	NPC(double initX, double initY, double initHeight, double initWidth, Figure inFigure, char inBoss, int inLevel){
+	MISCNPC(double initX, double initY, double initHeight, double initWidth, Figure inFigure, char inBoss, int inLevel){
 		
 		x = initX;
 		y = initY;

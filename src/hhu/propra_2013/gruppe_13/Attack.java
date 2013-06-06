@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 
 import com.sun.org.apache.bcel.internal.generic.IXOR;
 
-class Attack extends GameObjects {
+class Attack extends CoreGameObjects {
 	// position and velocity data
 	private double posX;
 	private double posY;
