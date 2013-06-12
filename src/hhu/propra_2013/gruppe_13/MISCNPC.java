@@ -13,12 +13,12 @@ public class MISCNPC extends CoreGameObjects{
 	private int		strength;
 	private Figure figure;
 	private String text; 
-	private int level; 		//NPC should know which area he is in, so he can refer to the level Theme or something
-	private char boss;	//NPC should know what the area boss is, so he can say funny stuff about him 
+	private int stage; 		//NPC should know which area he is in, so he can refer to the level Theme or something
+	private String boss;	//NPC should know what the area boss is, so he can say funny stuff about him 
 						//Boss is encoded in a char so the specific Phrase can be chose per switch-case
 	
 	//Constructor for NPC - TODO Think what the NPC should be able to do, and implement the useful thoughts
-	MISCNPC(double initX, double initY, double initHeight, double initWidth, Figure inFigure, char inBoss, int inLevel){
+	MISCNPC(double initX, double initY, double initHeight, double initWidth, Figure inFigure, String inBoss, int inStage){
 		
 		x = initX;
 		y = initY;
@@ -34,7 +34,7 @@ public class MISCNPC extends CoreGameObjects{
 		figure = inFigure;
 		//Stuff to tell the NPC what he can talk about
 		boss = inBoss;
-		level = inLevel;
+		stage = inStage;
 	}
 	
 	//Methods from GameObjects - we probably won't need all of them

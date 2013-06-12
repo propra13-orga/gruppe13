@@ -29,7 +29,7 @@ class CoreO_Game {
 		
 		// iterate over all objects and rooms within the level, all objects run within [0...800)x[0...600)
 		// TODO: make that shit better!!, implement the current level
-		for (int i=0; i<8; i++) {
+		for (int i=0; i<9; i++) {
 			ArrayList<CoreGameObjects> temp = new ArrayList<CoreGameObjects>();
 			temp.add(figure);
 			
@@ -59,7 +59,7 @@ class CoreO_Game {
 						if (column==23)	{dest = 1;} //Door is on the right edge of the field, door should lead right
 						if (column==0) 	{dest = 3;} //Door is on the left edge of the field, door should lead left
 					
-						temp.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, true, dest)); //creating door with correct destination
+						temp.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, dest)); //creating door with correct destination
 						break;	
 						
 					case 'T': 
