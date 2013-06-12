@@ -5,16 +5,25 @@ import java.awt.Graphics2D;
 
 import com.sun.org.apache.bcel.internal.generic.IXOR;
 
-class Attack extends GameObjects {
+class Attack extends CoreGameObjects {
+
+	// declare final variables in order to determine what bullet shall be fired 
+	static final int PLAYER_BULLET_STD 	= 0;
+	static final int PLAYER_BULLET_ONE	= 1;
+	static final int PLAYER_BULLET_TWO	= 2;
+	static final int ENEMY_BULLET_STD	= 10;
+	
+
 	// position and velocity data
-	private double posX;
-	private double posY;
-	private double v_x;
-	private double v_y;
+	private double 	posX;
+	private double 	posY;
+	private double 	v_x;
+	private double 	v_y;
 	
 	// collision radius, hitpoints
-	private double rad;
+	private double 	rad;
 	private int 	hp;
+	private int 	type;
 	
 	// width and height
 	private double width;
@@ -88,7 +97,11 @@ class Attack extends GameObjects {
 	// Drawing method
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		g.setColor(Color.ORANGE);
+		// draw a standard bullet
+		if (this.type == PLAYER_BULLET_STD) {
+			g.setColor(Color.ORANGE);
+			g.fillOval(xOffset+(int)Math.round((posX-width/2.)*step),  yOffset+(int)Math.round((posY-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+		}
 	}
 
 	@Override

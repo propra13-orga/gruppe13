@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 
-class Figure extends GameObjects {
+class Figure extends CoreGameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
 	// Hitpoints, position, collision radius and constructor
 	private int hp;
@@ -18,6 +18,7 @@ class Figure extends GameObjects {
 	private double v_x, v_y;
 	private int maxHP;
 	private boolean cooldown;
+	private int armor;
 	
 	// class constructor
 	Figure(double initX, double initY, double initHeight, double initWidth) {
@@ -37,6 +38,10 @@ class Figure extends GameObjects {
 	
 	/*-----------------------------------------------------------------------------------------------*/
 	// Getter and Setter methods for above variables
+	int getArmor(){
+		return armor;
+	}
+	
 	int getGeld(){
 		return geld;
 	}
@@ -89,6 +94,10 @@ class Figure extends GameObjects {
 	
 	
 	/*-----------------------------------------------------------------------------------------------*/
+	void setArmor(int inArmor){
+		armor = inArmor;
+	}
+	
 	void setPos(double inX, double inY) {
 		x = inX;
 		y = inY;

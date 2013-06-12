@@ -4,7 +4,7 @@ import java.awt.KeyEventDispatcher;
 import java.awt.event.KeyEvent;
 
 
-class Game_IO implements KeyEventDispatcher {
+class CoreGame_IO implements KeyEventDispatcher {
 	private boolean up = false;
 	private boolean down = false;
 	private boolean left = false;
@@ -23,8 +23,8 @@ class Game_IO implements KeyEventDispatcher {
 	private boolean southeast = false;
 	
 	// Logic used by the class, set within the constructor
-	Logic logic;
-	Game_IO(Logic inLogic) {
+	CoreLogic logic;
+	CoreGame_IO(CoreLogic inLogic) {
 		logic =inLogic;
 	}
 

@@ -3,10 +3,10 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-public abstract class Item extends GameObjects{
+public abstract class Item extends CoreGameObjects{
 	
 	//method for modifying the properties of other objects around, calls other methods
-	abstract void modFigure(ArrayList<ArrayList<GameObjects>> inRooms, Figure figure);
+	abstract void modFigure(ArrayList<CoreGameObjects> collidable, Figure figure);
 	
 	//getter and setter methods for the properties of the items
 	abstract double getPosX();

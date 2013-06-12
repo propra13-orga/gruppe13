@@ -3,7 +3,7 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-class Wall extends GameObjects {
+class MISCTarget extends CoreGameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
 	// Hitpoints, position and collision radius
 	private int 	hp;
@@ -11,7 +11,7 @@ class Wall extends GameObjects {
 	private double 	height, width;
 	private double 	v_x, v_y;
 	
-	Wall(double initX, double initY, double initWidth, double initHeight, int inHP) {
+	MISCTarget(double initX, double initY, double initWidth, double initHeight, int inHP) {
 		x = initX;
 		y = initY;
 		v_x = 0;
@@ -43,12 +43,14 @@ class Wall extends GameObjects {
 	
 	@Override
 	double getVX() {
-		return v_x;
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	double getVY() {
-		return v_y;
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 	@Override
@@ -82,7 +84,7 @@ class Wall extends GameObjects {
 	
 	/*-----------------------------------------------------------------------------------------------*/
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		g.setColor(Color.GREEN);
+		g.setColor(Color.YELLOW);
 		g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 	}
 	

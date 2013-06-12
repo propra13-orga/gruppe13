@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Menu{
+public class CoreMenu{
 	
 	// Initializer method for the menu
 	static JPanel showMenu(JFrame gameWindow) {
@@ -25,6 +25,7 @@ public class Menu{
 		// TODO: implement cool new shit for the game
 		JButton endProgram 	= new JButton("I'm out of here!");
 		JButton startGame	= new JButton("May the coding begin...");
+		JButton options		= new JButton("Optionen");
 		
 		
 		// implement action listeners to start and end the game
@@ -45,11 +46,19 @@ public class Menu{
 			}
 		});
 		
+		options.addActionListener(new ActionListener() {
+			
+			@Override	// initiate the options
+			public void actionPerformed(ActionEvent arg0) {
+				ProPra.initOptions();
+			}
+		});
+		
 		// implement the layout manager
 		menu.setLayout(new GridBagLayout());
 		
 		GridBagConstraints cButtons = new GridBagConstraints();
-		cButtons.gridheight = 2;
+		cButtons.gridheight = 3;
 		cButtons.gridwidth	= 3;
 		cButtons.gridx = 1;
 		cButtons.gridy = 0;
@@ -59,7 +68,12 @@ public class Menu{
 		cButtons.gridx = 1;
 		cButtons.gridy = 1;
 		menu.add(endProgram, cButtons);
-
+		
+		cButtons.insets = new Insets(400 , 0 , 0 ,0 );
+		cButtons.gridx = 1;
+		cButtons.gridy = 2;
+		menu.add(options, cButtons);
+		
 		return menu;
 	}
 }

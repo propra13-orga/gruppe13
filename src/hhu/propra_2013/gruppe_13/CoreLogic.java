@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 
 
-class Logic implements Runnable {
+class CoreLogic implements Runnable {
 	
 	// set square root of 2 and define a boolean variable for the game loop
 	private static final double SQRT_2 = 	1.41421356237309504880168872420969807856967187537694807317667973799;	// http://en.wikipedia.org/wiki/Square_root_of_2
@@ -27,8 +27,8 @@ class Logic implements Runnable {
 	private double 		distDown, distUp, distRight, distLeft;
 	
 	private int 		location = 0;
-	private GameObjects figure;
-	private O_Game		game;
+	private CoreGameObjects figure;
+	private CoreO_Game		game;
 	
 	// figure values
 	private double 		figX, figY;
@@ -37,7 +37,7 @@ class Logic implements Runnable {
 	private int			figHP;
 	
 	// List of all Objects within the game
-	private ArrayList<ArrayList<GameObjects>> 	rooms;
+	private ArrayList<ArrayList<CoreGameObjects>> 	rooms;
 
 	void setGameRunning(boolean boolIn){
 		gameRunning = boolIn;
@@ -122,7 +122,7 @@ class Logic implements Runnable {
 	}
 
 	// Initiate the current objects variables
-	Logic(ArrayList<ArrayList<GameObjects>> objectsInit, Figure inFigure, O_Game inGame) {
+	CoreLogic(ArrayList<ArrayList<CoreGameObjects>> objectsInit, Figure inFigure, CoreO_Game inGame) {
 		gameRunning = true;
 		rooms 		= objectsInit;
 		figure 		= inFigure;
@@ -202,11 +202,11 @@ class Logic implements Runnable {
 		//variable for handling enemy Collision
 		int hp;
 		
-		ArrayList<GameObjects> collidable = rooms.get(location);
+		ArrayList<CoreGameObjects> collidable = rooms.get(location);
 		
 		// iterate over all objects within the room, excepting the figure, of course
 		for(int i=1; i<collidable.size(); i++) {
-			GameObjects collided = collidable.get(i);
+			CoreGameObjects collided = collidable.get(i);
 			objX 		= collided.getPosX();
 			objY 		= collided.getPosY();
 			objR 		= collided.getRad();
@@ -256,11 +256,11 @@ class Logic implements Runnable {
 				
 				// Check collisions with objects, act accordingly
 				if (collOne == 0 || collTwo == 0 || collThree == 0 || collFour == 0) {
-					if (collided instanceof Door) {
+					if (collided instanceof MISCDoor) {
 						
-						destination = ((Door) collided).getDestination(); //cast because eclipse wants it
-						open = ((Door) collided).getOpen();
-						enabled = ((Door) collided).getEnabled();
+						destination = ((MISCDoor) collided).getDestination(); //cast because eclipse wants it
+						open = ((MISCDoor) collided).getOpen();
+						enabled = ((MISCDoor) collided).getEnabled();
 						
 						if (open == true && enabled == true){ //check if door is 'officially' there and open							
 							switch (destination){	//only advance trough door if player is moving in the direction of the door
@@ -294,8 +294,8 @@ class Logic implements Runnable {
 						
 					}
 					
-					if (collided instanceof Enemy) {
-						((Enemy) collided).attack();
+					if (collided instanceof EnemyMelee) {
+						((EnemyMelee) collided).attack();
 						
 						//hp = figure.getHP();//get current hp
 						//hp--;//apply damage
@@ -304,10 +304,10 @@ class Logic implements Runnable {
 					}
 					
 					if (collided instanceof Item) { 
-						((Item) collided).modFigure(rooms, (Figure)figure);
+						((Item) collided).modFigure(collidable, (Figure)figure);
 					}
 					
-					if (collided instanceof Target) {
+					if (collided instanceof MISCTarget) {
 						game.end(true);
 					}
 				}
