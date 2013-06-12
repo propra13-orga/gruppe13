@@ -301,6 +301,7 @@ class CoreLogic implements Runnable {
 		}
 	}
 	
+	
 	/* This is the actual movement method, which checks for all directions whether the figure needs to be moved.
 	 * Additionally the method checks whether the figure has reached a boundary and will prevent it from moving out of the gaming area.  */	
 	private void moveFigure() {

@@ -18,8 +18,8 @@ class Bullet extends Attack {
 	private int 	type;
 	
 	// width and height
-	private double width;
-	private double height;
+	private double 	width;
+	private double 	height;
 	
 	// Bullet manipulation sets
 	private boolean destroyed;
@@ -172,7 +172,6 @@ class Bullet extends Attack {
 		v_y = 0;
 		
 		hit = true;
-		destroyed = true;
 		//TODO: Change Animation to an exploding bullet or some such
 	}
 
@@ -189,11 +188,22 @@ class Bullet extends Attack {
 	// check collisions with other objects and propagate the bullet accordingly
 	void propagate(ArrayList<CoreGameObjects> room) {
 		
-		// Basic variables for checking each object within the room
+		// objects for checking which object to kill
 		CoreGameObjects collidable;
+		CoreGameObjects collUp 		= null;
+		CoreGameObjects collDown 	= null;
+		CoreGameObjects collRight 	= null;
+		CoreGameObjects collLeft 	= null;
+		
+		// Basic variables for checking each object within the room
 		double objX, objY, objR;
 		double tmpX, tmpY;
 		double objWidth, objHeight;
+		
+		double distUp 		=  30;
+		double distDown 	= -30;
+		double distRight	= -30;
+		double distLeft		=  30;
 		
 		// iterate over all objects within the room, ignore other bullets and itself of course
 		for(int i=0; i<room.size(); i++) {
@@ -204,7 +214,7 @@ class Bullet extends Attack {
 				objR = collidable.getRad();
 				
 				// check whether the object in question is close enough
-				if ((posX-objX)*(posX-objX)+(posY-objY)*(posY-objY) < (objR + rad)*(objR + rad)) {
+				if ((posX-objX)*(posX-objX)+(posY-objY)*(posY-objY) < (objR+rad)*(objR+rad)) {
 					tmpX = posX-objX;
 					tmpY = posY-objY;
 					
@@ -214,56 +224,102 @@ class Bullet extends Attack {
 					
 					// check in which direction the bullet is moving and act accordingly should a collision occur
 					if (up && tmpY > 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
-						// first cover the case, that a bullet should actually hit something, don't forget that it still needs to attack the object
-						if (tmpY*tmpY < v_y*v_y) 	{
-							posY -= (tmpY-objHeight/2.);
-							collidable.takeDamage(type);
-							attack();
+						// Check whether there is a closer collision, save distance and object if there is
+						if (tmpY-objHeight/2. < distUp) {
+							distUp = tmpY-objHeight/2.;
+							collUp = collidable;
 						}
-						// now cover the default case
-						else 
-							posY += v_y;
 					}
 					
 					// analogous to above
 					if (down && tmpY < 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
-						if (tmpY*tmpY < v_y*v_y) 	{
-							posY += (tmpY-objHeight/2.);
-							collidable.takeDamage(type);
-							attack();
+						// Check whether there is a closer collision, save distance and object if there is
+						if (tmpY+objHeight/2. > distDown) {
+							distDown = tmpY+objHeight/2.;
+							collDown = collidable;
 						}
-						else 
-							posY += v_y;
 					}
 					
 					// analogous to above
 					if (right && tmpX < 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
-						if (tmpX*tmpX < v_x*v_x) 	{
-							posX += (tmpX-objWidth/2.);
-							collidable.takeDamage(type);
-							attack();
+						// Check whether there is a closer collision, save distance and object if there is
+						if (tmpX+objWidth/2. > distRight) {
+							distRight = tmpX+objWidth/2.;
+							collRight = collidable;
 						}
-						else 
-							posX += v_x;
 					}
 					
 					// analogous to above
 					if (left && tmpX > 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
-						if (tmpX*tmpX < v_x*v_x) 	{
-							posX -= (tmpX-objWidth/2.);
-							collidable.takeDamage(type);
-							attack();
+						// Check whether there is a closer collision, save distance and object if there is
+						if (tmpX-objWidth/2. > distLeft) {
+							distLeft = tmpX-objWidth/2.;
+							collLeft = collidable;
 						}
-						else 
-							posX += v_x;
 					}
 				}
 			}
 		}
 		
+		// do the actual movement, should an object be encountered, kill it and destroy the bullet...
+		if (up) {
+			if (distUp*distUp < v_y*v_y) {
+				posY -= distUp;
+				collUp.takeDamage(type);
+				attack();
+			} else
+				posY += v_y;
+		}
+		
+		if (down) {
+			if (distDown*distDown < v_y*v_y) {
+				posY -= distDown;
+				collDown.takeDamage(type);
+				attack();
+			} else
+				posY += v_y;
+		}
+		
+		if (right) {
+			if (distRight*distRight < v_x*v_x) {
+				posX -= distRight;
+				collRight.takeDamage(type);
+				attack();
+			} else
+				posX += v_x;
+		}
+		
+		if (left) {
+			if (distLeft*distLeft < v_x*v_x) {
+				posX -= distLeft;
+				collLeft.takeDamage(type);
+				attack();
+			} else
+				posX += v_x;
+		}
+		
+		// Check that the boundaries are not broken
+		if (posX <= 0) {
+			posX = 0;
+			attack();
+		}
+		
+		else if (posX >= 22) {
+			posX = 22;
+			attack();
+		}
+		
+		if (posY <= 0) {
+			posY = 0;
+			attack();
+		}
+		else if (posY >= 13) {
+			posY = 13;
+			attack();
+		}
+		
 		// decrease bullet hp, destroy the bullet when hp reaches zero. This effectively determines the bullets range
 		hp--;
 		if (hp == 0) attack();
-		
 	}
 }
