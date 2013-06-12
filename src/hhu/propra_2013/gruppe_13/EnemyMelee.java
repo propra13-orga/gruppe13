@@ -2,6 +2,7 @@ package hhu.propra_2013.gruppe_13;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.math.*;
 
 public class EnemyMelee extends CoreGegner{
 
@@ -16,6 +17,7 @@ public class EnemyMelee extends CoreGegner{
 	private Figure 	figure;
 	private int 	width;
 	private int 	height;
+	private int		strength;
 	
 EnemyMelee(double inPosX, double inPosY,int inWidth, int inHeight, Figure inFigure, int inType){
 	x = inPosX;
@@ -24,6 +26,7 @@ EnemyMelee(double inPosX, double inPosY,int inWidth, int inHeight, Figure inFigu
 	height = inHeight;
 	figure = inFigure;
 	type = inType;
+	strength = 1;
 }
 	
 	
@@ -123,27 +126,29 @@ EnemyMelee(double inPosX, double inPosY,int inWidth, int inHeight, Figure inFigu
 	void artificialIntelligence(Figure figure){
 		switch(type){
 		
-		case 0: //this will be the trap type
-			
-			
-			
-		break;
+			case 0: //this will be the trap type
+				//here is nothing, because this does nothing
+			break;
 		/*-------------------------------------------------------------------------------------*/
-		case 1: //this will be the patrol type
-			
-		break;
+			case 1: //this will be the patrol type
+				//
+			break;
 		/*-------------------------------------------------------------------------------------*/
-		case 2: //this will be the random walk type
-			
-		break;
+			case 2: //this will be the random walk type
+				//
+			break;
 		/*-------------------------------------------------------------------------------------*/
-		case 3: //this one will run towards the figure
-			
-		break;
+			case 3: //this one will run towards the figure
+				double figX = figure.getPosX();
+				double figY = figure.getPosY();
+				vx = 1*(figX-x)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY+2*figY*y+y*y);
+				vy = 1*(figY-y)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY+2*figY*y+y*y);
+				this.setPos(x+vx, y+vy);
+			break;
 		/*-------------------------------------------------------------------------------------*/
-		case 4: //this runs away from us 
-			
-		break;
+			case 4: //this runs away from the figure
+				//
+			break;
 		/*-------------------------------------------------------------------------------------*/
 		}
 	}
