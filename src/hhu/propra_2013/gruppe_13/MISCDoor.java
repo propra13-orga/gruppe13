@@ -103,9 +103,11 @@ class MISCDoor extends CoreGameObjects {
 
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		g.setColor(Color.RED);
-		if (destination == 5){g.setColor(Color.ORANGE);}//Türen die in den nächsten Level führen haben eine andere Farbe
-		g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+		if(enabled == true){
+			g.setColor(Color.RED);
+			if (destination == 5){g.setColor(Color.ORANGE);}//Türen die in den nächsten Level führen haben eine andere Farbe
+			g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+		}
 	}
 
 	@Override
