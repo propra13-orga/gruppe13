@@ -30,7 +30,7 @@ class Figure extends CoreGameObjects {
 		
 		v_x = 0.3;
 		v_y = 0.3;
-		r   = Math.max(width, height) + (v_x*v_x+v_y*v_y);
+		r   = Math.max(width, height) + Math.sqrt(v_x*v_x+v_y*v_y);
 		hp  = 1;
 		maxHP	= 2;
 	}
@@ -147,16 +147,17 @@ class Figure extends CoreGameObjects {
 		if(!cooldown){
 			hp = hp - inStrength;
 			cooldown = true;
-			this.timer();
+			timer();
 		}
 	}
+	
 	public void timer(){
 		int delay = 1000; //milliseconds
-		  ActionListener taskPerformer = new ActionListener() {
-		      public void actionPerformed(ActionEvent evt) {
-		         cooldown = false;
-		      }
-		  };
-		  new Timer(delay, taskPerformer).start();
+		ActionListener taskPerformer = new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				cooldown = false;
+			}
+		};
+		new Timer(delay, taskPerformer).start();
 	}
 }

@@ -15,26 +15,30 @@ import java.util.ArrayList;
 class CoreLogic implements Runnable {
 	
 	// set square root of 2 and define a boolean variable for the game loop
-	private static final double SQRT_2 = 	1.41421356237309504880168872420969807856967187537694807317667973799;	// http://en.wikipedia.org/wiki/Square_root_of_2
-	private boolean gameRunning;
+	private static final double SQRT_2 = 1.41421356237309504880168872420969807856967187537694807317667973799;	// http://en.wikipedia.org/wiki/Square_root_of_2
+	private boolean 			gameRunning;
+	private boolean 			bulletEnable;
+	private int 				bulletType;
+	private long 				bulletCoolDown;
+	private int					bulletCoolDownTime;
 	
 	// Boolean variables for movement and collision detection, location counter for the room
-	private boolean 	down, up, right, left, upLeft, upRight , downLeft, downRight;				//für die Bewegungsrichtungen
-	private boolean		north, east, south, west, northwest, northeast, southwest, southeast;		//zum schießen in die Himmelsrichtungen
+	private boolean 			down, up, right, left, upLeft, upRight , downLeft, downRight;				//für die Bewegungsrichtungen
+	private boolean				north, east, south, west, northwest, northeast, southwest, southeast;		//zum schießen in die Himmelsrichtungen
 	
 	// variables for collision detection
-	private boolean 	freeRight, freeUp, freeDown, freeLeft;
-	private double 		distDown, distUp, distRight, distLeft;
+	private boolean 			freeRight, freeUp, freeDown, freeLeft;
+	private double 				distDown, distUp, distRight, distLeft;
 	
-	private int 		location = 0;
-	private CoreGameObjects figure;
-	private CoreO_Game		game;
+	private int 				location = 0;
+	private CoreGameObjects 	figure;
+	private CoreO_Game			game;
 	
 	// figure values
-	private double 		figX, figY;
-	private double 		figVX, figVY;
-	private boolean		punch, use, bomb;									//für Aktionen
-	private int			figHP;
+	private double 				figX, figY;
+	private double 				figVX, figVY;
+	private boolean				punch, use, bomb;									//für Aktionen
+	private int					figHP;
 	
 	// List of all Objects within the game
 	private ArrayList<ArrayList<CoreGameObjects>> 	rooms;
@@ -156,6 +160,10 @@ class CoreLogic implements Runnable {
 		freeLeft	= true;
 		freeUp		= true;
 		freeDown	= true;
+		
+		bulletEnable = true;
+		bulletType 	= Bullet.PLAYER_BULLET_STD;
+		bulletCoolDownTime = 500;
 	}
 	
 	private void setRoom(int newLocation) {
@@ -163,11 +171,7 @@ class CoreLogic implements Runnable {
 		location = newLocation;
 	}
 	
-	private void checkDistance() {
-		
-	}
-	
-	private void moveEnemy() {
+	private void enemyAI() {
 		// TODO Auto-generated method stub, wird erstmal leer bleiben, da wir noch keine KI haben
 	}
 	
@@ -269,25 +273,25 @@ class CoreLogic implements Runnable {
 								if (upLeft == true || up == true || upRight == true ){
 									this.switchRoom(destination);
 								}
-							break;
+								break;
 							
 							case 1:
 								if (right == true || upRight == true || downRight == true){
 									this.switchRoom(destination);
 								}					
-							break;
+								break;
 							
 							case 2:
 								if (down == true || downRight == true || downLeft == true){
 									this.switchRoom(destination);
 								}
-							break;
+								break;
 							
 							case 3:
 								if (left == true || downLeft == true || downLeft == true){
 									this.switchRoom(destination);
 								}
-							break;
+								break;
 							}
 							
 						}
@@ -310,13 +314,14 @@ class CoreLogic implements Runnable {
 					if (collided instanceof MISCTarget) {
 						game.end(true);
 					}
+					
+					// See if a bullet hits the player, if so, kill it... KILL IT WITH FIRE!!
+					if (collided instanceof Bullet) {
+						collided.attack();
+					}
 				}
 			}
 		}
-	}
-	
-	private void setDirection() {
-		
 	}
 	
 	/* This is the actual movement method, which checks for all directions whether the figure needs to be moved.
@@ -386,6 +391,86 @@ class CoreLogic implements Runnable {
 		figure.setPos(figX, figY);
 	}
 	
+	private void setDirection() {
+		
+	}
+	
+	// Propagate all Bullets and create new Attacks
+	private void attacks() {
+		// Iterate over all Bullets and propagate them 
+		ArrayList<CoreGameObjects> collidable = rooms.get(location);
+		Bullet bullet;
+		
+		for (int i=0; i<collidable.size(); i++) {
+			if (collidable.get(i) instanceof Bullet) {
+				bullet = (Bullet) collidable.get(i);
+				bullet.setPos(bullet.getPosX()+bullet.getVX(), bullet.getPosY()+bullet.getVY());
+				
+				// Check whether we can destroy the bullet
+				if (bullet.getFinished()) {
+					rooms.get(location).remove(bullet);
+				}
+			}
+		}
+		
+		if (!bulletEnable) {
+			if (System.currentTimeMillis() - bulletCoolDown > bulletCoolDownTime) bulletEnable = true;
+		}
+		
+		// Create new Bullets if the player wishes to do so, and the cooldown for shooting has expired
+		if (north || east || south || west || northeast || northwest || southeast || southwest) {
+			if (bulletEnable) {
+				// Save current system time in order to check the cooldown
+				bulletCoolDown = System.currentTimeMillis();
+				
+				// Check which direction to shoot, this depends on the input
+				int signVX = 0;
+				int signVY = 0;
+				
+				if (north) {
+					signVX = 0;
+					signVY = -1;
+				}
+				
+				if (east) {
+					signVX = 1;
+					signVY = 0;
+				}
+				
+				if (south) {
+					signVX = 0;
+					signVY = 1;
+				}
+				
+				if (west) {
+					signVX = -1;
+					signVY = 0;
+				}
+				
+				if (northeast) {
+					signVX = 1;
+					signVY = -1;
+				}
+				
+				if (northwest) {
+					signVX = -1;
+					signVY = -1;
+				}
+				
+				if (southeast) {
+					signVX = 1;
+					signVY = 1;
+				}
+				
+				if (southwest) {
+					signVX = -1;
+					signVY = 1;
+				}
+				CoreGameObjects initBullet = new Bullet(bulletType, figX, figY, figVX, figVY, signVX, signVY);
+				rooms.get(location).add(initBullet);
+			}
+		}
+	}
 	
 	private void checkFigure(){
 		if(figHP <= 0){
@@ -400,28 +485,22 @@ class CoreLogic implements Runnable {
 		switch (destination){ //prüft in welchem Raum die Figur ist (bisher 0-2 für die 3 Räume)
 
 		case(0)://Door leads up, won't happen in this version
-			
-		break;
+			break;
 		
 		case(1): //Door leads to the right
-		
 			location++; 
 			figX = 0.51; //linker Spielfeldrand
 			this.setRoom(location); //neuen Raum and Grafik und Logik geben
+			break;
 			
-		break;
-			
-		case(2): //Door leads down, won't happen in this version
-						
-		break;
+		case(2): //Door leads down, won't happen in this version			
+			break;
 		
 		case(3): //Door leads left
-			
 			location--;
 			figX = 21.49;//rechter Spielfeldrand
 			this.setRoom(location);
-			
-		break;
+			break;
 		}	
 	}
 	
@@ -433,22 +512,19 @@ class CoreLogic implements Runnable {
 		// game loop
 		while (gameRunning) {
 			time = System.currentTimeMillis();
+			
 			// get current figure positions and velocities
 			figX 	= figure.getPosX();
 			figY 	= figure.getPosY();
 			figVX	= figure.getVX();
 			figVY	= figure.getVY();
 			figHP	= figure.getHP();
-			
-			
-			
-			//this.switchRoom(figX, figY, location);
-			
+						
 			// do the actual logic in this game
-			this.checkDistance();
 			this.checkCollision();
 			this.moveFigure();
-			this.moveEnemy();
+			this.attacks();
+			this.enemyAI();
 			this.checkFigure();
 			
 			// set the thread asleep, we don't need it too often
