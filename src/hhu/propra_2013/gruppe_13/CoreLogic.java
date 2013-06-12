@@ -264,9 +264,8 @@ class CoreLogic implements Runnable {
 						
 						destination = ((MISCDoor) collided).getDestination(); //cast because eclipse wants it
 						open = ((MISCDoor) collided).getOpen();
-						enabled = ((MISCDoor) collided).getEnabled();
 						
-						if (open == true && enabled == true){ //check if door is 'officially' there and open							
+						if (open == true){ //check if door is 'officially' there and open							
 							switch (destination){	//only advance trough door if player is moving in the direction of the door
 													//diagonal movement should work too
 							case 0:

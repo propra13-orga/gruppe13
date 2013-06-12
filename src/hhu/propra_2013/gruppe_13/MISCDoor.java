@@ -6,10 +6,10 @@ import java.awt.Graphics2D;
 class MISCDoor extends CoreGameObjects {
 	private double 		x,y,r;
 	private double 		height, width;
-	private boolean 	open, enabled;
+	private boolean 	open;
 	private int 		destination;
 	
-	MISCDoor (double initX, double initY, double initWidth, double initHeight, double initRadius, boolean inOpen, boolean inEnabled, int inDestination){
+	MISCDoor (double initX, double initY, double initWidth, double initHeight, double initRadius, boolean inOpen, int inDestination){
 		x 			= initX;
 		y 			= initY;
 		r			= Math.max(initWidth, initHeight);
@@ -19,7 +19,7 @@ class MISCDoor extends CoreGameObjects {
 		
 		open		= inOpen;
 		destination	= inDestination; //Destination stores where the door leads to. 0=goes up 1=goes right 2= goes down 3= goes left 4= Goes to the next Level
-		enabled		= inEnabled;
+
 	}
 	
 	int getDestination(){
@@ -30,14 +30,6 @@ class MISCDoor extends CoreGameObjects {
 		return open;
 	}
 	
-	void setEnabled(boolean in){
-		enabled = in;
-	}
-	
-	
-	boolean getEnabled(){
-		return enabled;
-	}
 	
 	
 	
@@ -103,11 +95,9 @@ class MISCDoor extends CoreGameObjects {
 
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		if(enabled == true){
 			g.setColor(Color.RED);
 			if (destination == 5){g.setColor(Color.ORANGE);}//Türen die in den nächsten Level führen haben eine andere Farbe
 			g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
-		}
 	}
 
 	@Override
