@@ -20,10 +20,11 @@ public class CoreRoom {
 	//Variablen zur Erzeugung
 	int element , column, line , dest;
 	int randomNumber; //speichert die Zufallsvariablevariable in der Raumerzeugung, je nachdem ob es ein  bossraum ist oder nicht
-	String type;
+	String type, boss;
+	int stage; //Nummer des Levels, für den NPC
 	
 	//Konstruktor
-	CoreRoom(Figure inFigure){
+	CoreRoom(Figure inFigure, int inStage, String inBoss){
 		figure = inFigure;
 	}
 	
