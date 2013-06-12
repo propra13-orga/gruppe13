@@ -167,9 +167,6 @@ class CoreLogic implements Runnable {
 		
 	}
 	
-	private void moveEnemy() {
-		// TODO Auto-generated method stub, wird erstmal leer bleiben, da wir noch keine KI haben
-	}
 	
 	private void checkCollision() {
 		// reset collision values
@@ -448,7 +445,6 @@ class CoreLogic implements Runnable {
 			this.checkDistance();
 			this.checkCollision();
 			this.moveFigure();
-			this.moveEnemy();
 			this.checkFigure();
 			
 			// set the thread asleep, we don't need it too often
