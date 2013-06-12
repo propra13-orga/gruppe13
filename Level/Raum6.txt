@@ -1,4 +1,4 @@
-XXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXDXXXXXXXXXXXX
 XWWW                WWWX
 XWW                  WWX
 XW                    WX
@@ -12,4 +12,4 @@ X        WW  WW        X
 XW                    WX
 XWW                  WWX
 XWWW                WWWX
-XXXXXXXXXXXXXXXXXXXXXXXX
+XXXXXXXXXXXDXXXXXXXXXXXX
