@@ -18,7 +18,7 @@ class MISCDoor extends CoreGameObjects {
 		height		= initHeight;
 		
 		open		= inOpen;
-		destination	= inDestination; //Destination stores where the door leads to. 0=goes up 1=goes right 2= goes down 3= goes left
+		destination	= inDestination; //Destination stores where the door leads to. 0=goes up 1=goes right 2= goes down 3= goes left 4= Goes to the next Level
 		enabled		= inEnabled;
 	}
 	
@@ -103,8 +103,8 @@ class MISCDoor extends CoreGameObjects {
 
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		// TODO Auto-generated method stub
 		g.setColor(Color.RED);
+		if (destination == 5){g.setColor(Color.ORANGE);}//Türen die in den nächsten Level führen haben eine andere Farbe
 		g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 	}
 
