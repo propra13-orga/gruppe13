@@ -1,0 +1,15 @@
+XXXXXXXXXXXDXXXXXXXXXXXX
+XWWWWWWWW      WWWWWWWWX
+XWWWWWW          WWWWWWX
+XWWWW              WWWWX
+XWW                  WWX
+X                      X
+X         WWWW         X
+D         WWWW         D
+X         WWWW         X
+X                      X
+XWW                  WWX
+XWWWW              WWWWX
+XWWWWWW          WWWWWWX
+XWWWWWWWW      WWWWWWWWX
+XXXXXXXXXXXDXXXXXXXXXXXX
