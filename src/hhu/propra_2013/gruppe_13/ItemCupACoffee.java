@@ -120,6 +120,12 @@ public class ItemCupACoffee extends Item {
 		}
 	}
 
+	@Override
+	void takeDamage(int type) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 }

@@ -143,7 +143,7 @@ class Figure extends CoreGameObjects {
 	}
 
 
-	public void takeDamage(int inStrength) {
+	void takeDamage(int inStrength) {
 		if(!cooldown){
 			hp = hp - inStrength;
 			cooldown = true;

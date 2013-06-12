@@ -111,5 +111,11 @@ class EnemyMelee extends CoreGameObjects {
 		// TODO Auto-generated method stub
 		return v_y;
 	}
+
+	@Override
+	void takeDamage(int type) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

@@ -131,30 +131,6 @@ class CoreLogic implements Runnable {
 		rooms 		= objectsInit;
 		figure 		= inFigure;
 		game		= inGame;
-
-		up 			= false;
-		down		= false;
-		right		= false;
-		left		= false;
-		
-		upLeft		= false;
-		upRight 	= false;
-		downLeft	= false;
-		downRight	= false;
-		
-		punch		= false;
-		use			= false;
-		bomb		= false;
-		
-		north		= false;
-		east		= false;
-		south		= false;
-		west		= false;
-		
-		northwest	= false;
-		northeast	= false;
-		southwest	= false;
-		southeast	= false;
 		
 		freeRight	= true;
 		freeLeft	= true;
@@ -207,10 +183,11 @@ class CoreLogic implements Runnable {
 		int hp;
 		
 		ArrayList<CoreGameObjects> collidable = rooms.get(location);
+		CoreGameObjects collided;
 		
 		// iterate over all objects within the room, excepting the figure, of course
 		for(int i=1; i<collidable.size(); i++) {
-			CoreGameObjects collided = collidable.get(i);
+			collided 	= collidable.get(i);
 			objX 		= collided.getPosX();
 			objY 		= collided.getPosY();
 			objR 		= collided.getRad();
@@ -404,7 +381,7 @@ class CoreLogic implements Runnable {
 		for (int i=0; i<collidable.size(); i++) {
 			if (collidable.get(i) instanceof Bullet) {
 				bullet = (Bullet) collidable.get(i);
-				bullet.setPos(bullet.getPosX()+bullet.getVX(), bullet.getPosY()+bullet.getVY());
+				bullet.propagate(collidable);
 				
 				// Check whether we can destroy the bullet
 				if (bullet.getFinished()) {
@@ -432,40 +409,41 @@ class CoreLogic implements Runnable {
 					signVY = -1;
 				}
 				
-				if (east) {
+				else if (east) {
 					signVX = 1;
 					signVY = 0;
 				}
 				
-				if (south) {
+				else if (south) {
 					signVX = 0;
 					signVY = 1;
 				}
 				
-				if (west) {
+				else if (west) {
 					signVX = -1;
 					signVY = 0;
 				}
 				
-				if (northeast) {
+				else if (northeast) {
 					signVX = 1;
 					signVY = -1;
 				}
 				
-				if (northwest) {
+				else if (northwest) {
 					signVX = -1;
 					signVY = -1;
 				}
 				
-				if (southeast) {
+				else if (southeast) {
 					signVX = 1;
 					signVY = 1;
 				}
 				
-				if (southwest) {
+				else if (southwest) {
 					signVX = -1;
 					signVY = 1;
 				}
+				
 				CoreGameObjects initBullet = new Bullet(bulletType, figX, figY, figVX, figVY, signVX, signVY);
 				rooms.get(location).add(initBullet);
 			}

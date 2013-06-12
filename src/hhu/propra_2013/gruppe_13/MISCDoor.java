@@ -128,4 +128,10 @@ class MISCDoor extends CoreGameObjects {
 		return 0;
 	}
 
+	@Override
+	void takeDamage(int type) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
