@@ -13,6 +13,15 @@ class Game_IO implements KeyEventDispatcher {
 	private boolean upleft = false;
 	private boolean downright = false;
 	private boolean downleft = false;
+	private boolean north = false;
+	private boolean east = false;
+	private boolean south = false;
+	private boolean west = false;
+	private boolean northwest = false;
+	private boolean northeast = false;
+	private boolean southwest = false;
+	private boolean southeast = false;
+	
 	// Logic used by the class, set within the constructor
 	Logic logic;
 	Game_IO(Logic inLogic) {
@@ -39,6 +48,18 @@ class Game_IO implements KeyEventDispatcher {
 			case 65: 									//65='a'
 				left = true;
 				break;
+			case 38:									//38='Pfeil nach oben'
+				north = true;
+				break;
+			case 39:									//83='Pfeil nach rechts'
+				east = true;
+			 	break;
+			case 40: 									//68='Pfeil nach unten'
+				south = true;
+				break;
+			case 37: 									//65='Pfeil nach links'
+				west = true;
+				break;	
 			case 17:									//17='ctrl'
 				logic.setPunch(true);					//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
 				break;
@@ -57,7 +78,7 @@ class Game_IO implements KeyEventDispatcher {
 				
 			}			
 
-			if(up || down || left || right){
+			if(up || down || left || right){			//Abfrage ob überhaupt eine Bewegungstaste gedrückt ist.
 				if (up && !down){
 					if (left && !right){
 						logic.setUpLeft(true);
@@ -130,6 +151,18 @@ class Game_IO implements KeyEventDispatcher {
 				releft = false;
 				logic.setLeft(false);  
 				break;
+			case 38:									//38='Pfeil nach oben'
+				north = true;
+				break;
+			case 39:									//83='Pfeil nach rechts'
+				east = true;
+			 	break;
+			case 40: 									//68='Pfeil nach unten'
+				south = true;
+				break;
+			case 37: 									//65='Pfeil nach links'
+				west = true;
+				break;	
 			}
 			
 			if (upright){
