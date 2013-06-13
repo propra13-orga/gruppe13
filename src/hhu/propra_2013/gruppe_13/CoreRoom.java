@@ -20,36 +20,42 @@ public class CoreRoom {
 	//Variablen zur Erzeugung
 	int element , column, line , dest;
 	int randomNumber; //speichert die Zufallsvariablevariable in der Raumerzeugung, je nachdem ob es ein  bossraum ist oder nicht
-	
+	String type, boss;
+	int stage; //Nummer des Levels, für den NPC
 	
 	//Konstruktor
-	CoreRoom(Figure inFigure){
+	CoreRoom(Figure inFigure, int inStage, String inBoss){
 		figure = inFigure;
+	}
+	
+	void setType(String inType) {
+		type = inType;
+		return;
 	}
 	
 	
 	//liest den Inhalt des Raums aus einer Datei ein
-	public void buildRoom(String name){
+	public void buildRoom(){
 		
 		//Konstanten anpassen sobald es mehr Räume gibt!!! TODO: Automatisieren
 		//festlegen welche Raumliste der Builder durchgeht
-		if (name == "Raum"){
-			int randomNumber =(int)(8*Math.random());
+		if (type == "Raum"){
+			randomNumber =(int)(8*Math.random());
 		}
-		else if (name == "BossRaum"){
-			int randomNumber =(int)(3*Math.random());	
+		else if (type == "BossRaum"){
+			randomNumber =(int)(3*Math.random());	
 			isBossRoom = true;
 		}
-		else if (name == "Shop"){
-			int randomNumber = 0;
+		else if (type == "Shop"){
+			randomNumber = 0;
 			isShop = true;
 		}
-		else if (name == "Start"){
-			int randomNumber = 0;
+		else if (type == "Start"){
+			randomNumber = 0;
 		}
 		
 		try {
-			InputStream roomStream = new FileInputStream("Level/"+name+randomNumber+".txt");
+			InputStream roomStream = new FileInputStream("Level/"+type+randomNumber+".txt");
 			Reader roomReader = new InputStreamReader (roomStream);
 			
 			element = 0;
