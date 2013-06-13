@@ -48,6 +48,7 @@ class CoreGame_IO implements KeyEventDispatcher {
 					logic.setUpRight(true);
 				}else logic.setUp(true);				
 				break;
+				
 			case 83:									//83='s'
 				down = true;
 				if (up){
@@ -60,6 +61,7 @@ class CoreGame_IO implements KeyEventDispatcher {
 					logic.setDownRight(true);
 				}else logic.setDown(true);					
 			 	break;
+			 	
 			case 68: 									//68='d'
 				right = true;
 				if (left){
@@ -72,6 +74,7 @@ class CoreGame_IO implements KeyEventDispatcher {
 					logic.setDownRight(true);
 				}else logic.setRight(true);					
 				break;
+				
 			case 65: 									//65='a'
 				left = true;
 				if (right){
@@ -84,6 +87,7 @@ class CoreGame_IO implements KeyEventDispatcher {
 					logic.setDownLeft(true);
 				}else logic.setLeft(true);				
 				break;
+				
 			case 38:									//38='Pfeil nach oben'
 				north = true;
 				if (south){
@@ -96,6 +100,7 @@ class CoreGame_IO implements KeyEventDispatcher {
 					logic.setNortheast(true);
 				}else logic.setNorth(true);
 				break;
+				
 			case 39:									//83='Pfeil nach rechts'
 				east = true;
 				if (west){
@@ -108,6 +113,7 @@ class CoreGame_IO implements KeyEventDispatcher {
 					logic.setSoutheast(true);
 				}else logic.setEast(true);
 			 	break;
+			 	
 			case 40: 									//68='Pfeil nach unten'
 				south = true;
 				if (north){
@@ -120,6 +126,7 @@ class CoreGame_IO implements KeyEventDispatcher {
 					logic.setSoutheast(true);
 				}else logic.setSouth(true);
 				break;
+				
 			case 37: 									//65='Pfeil nach links'
 				west = true;
 				if (east){
@@ -131,7 +138,8 @@ class CoreGame_IO implements KeyEventDispatcher {
 					logic.setSouth(false);
 					logic.setSouthwest(true);
 				}else logic.setWest(true);
-				break;	
+				break;
+				
 			case 17:									//17='ctrl'
 				logic.setPunch(true);					//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
 				break;
@@ -216,6 +224,7 @@ class CoreGame_IO implements KeyEventDispatcher {
 					logic.setRight(true);
 				}
 				break;
+				
 			case 83:									//83='s'
 			 	down = false;
 				logic.setDown(false);
@@ -229,6 +238,7 @@ class CoreGame_IO implements KeyEventDispatcher {
 					logic.setRight(true);
 				}
 			 	break;
+			 	
 			case 68: 									//68='d'
 				right = false;
 				logic.setRight(false);
@@ -242,6 +252,7 @@ class CoreGame_IO implements KeyEventDispatcher {
 					logic.setDown(true);
 				}
 				break;
+				
 			case 65: 									//65='a'
 				left = false;
 				logic.setLeft(false); 
@@ -256,16 +267,56 @@ class CoreGame_IO implements KeyEventDispatcher {
 				}
 				break;
 			case 38:									//38='Pfeil nach oben'
-				north = true;
+				north = false;
+				logic.setNorth(false);
+				if (south){
+					logic.setSouth(true);
+				}else if (west){
+					logic.setNorthwest(false);
+					logic.setWest(true);
+				}else if (east){
+					logic.setNortheast(false);
+					logic.setEast(true);
+				}
 				break;
 			case 39:									//83='Pfeil nach rechts'
-				east = true;
-			 	break;
+				east = false;
+				logic.setEast(false);
+				if (west){
+					logic.setWest(true);
+				}else if (north){
+					logic.setNortheast(false);
+					logic.setNorth(true);
+				}else if (south){
+					logic.setSoutheast(false);
+					logic.setSouth(true);
+				}
+				break;
 			case 40: 									//68='Pfeil nach unten'
-				south = true;
+				south = false;
+				logic.setSouth(false);
+				if (north){
+					logic.setNorth(true);
+				}else if (west){
+					logic.setSouthwest(false);
+					logic.setWest(true);
+				}else if (east){
+					logic.setSoutheast(false);
+					logic.setEast(true);
+				}
 				break;
 			case 37: 									//65='Pfeil nach links'
-				west = true;
+				west = false;
+				logic.setWest(false);
+				if (east){
+					logic.setEast(true);
+				}else if (north){
+					logic.setNorthwest(false);
+					logic.setNorth(true);
+				}else if (south){
+					logic.setSouthwest(false);
+					logic.setSouth(true);
+				}
 				break;	
 			}
 			

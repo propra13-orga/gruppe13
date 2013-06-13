@@ -102,6 +102,7 @@ class CoreGameDrawer implements Runnable {
 		return game;
 	}
 	
+
 	// remove a drawable object, thus not every enemy and wall needs to be called if it has been destroyed
 	void removeDrawableObject (CoreGameObjects toRemove) {
 		room.getContent().remove(toRemove);
@@ -126,7 +127,7 @@ class CoreGameDrawer implements Runnable {
 		while (gameRunning) {
 			// get current system time, this will determine fps
 			time = System.currentTimeMillis();
-			
+
 			// Repaint the game and wait
 			game.repaint();
 						

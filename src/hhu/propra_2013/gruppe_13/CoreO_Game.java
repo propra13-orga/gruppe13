@@ -8,10 +8,10 @@ import java.io.*;
 
 class CoreO_Game {
 	// Frame, graphic, logic and a figure for the actual game
-	JFrame 		gameWindow;
+	JFrame 			gameWindow;
 	CoreLogic 		logic;
 	CoreGameDrawer 	graphics;
-	Figure 		figure;
+	Figure 			figure;
 		
 	
 	// Build two lists, the graphics component will also receive the figure, which has a special function in the logic class
@@ -30,6 +30,9 @@ class CoreO_Game {
 		
 		// iterate over all objects and rooms within the level, all objects run within [0...800)x[0...600)
 		// TODO: make that shit better!!, implement the current level
+
+
+
 //		for (int i=0; i<9; i++) {
 //			ArrayList<CoreGameObjects> temp = new ArrayList<CoreGameObjects>();
 //			temp.add(figure);
@@ -50,7 +53,7 @@ class CoreO_Game {
 //						break;											//the coordinates 1:1
 //						
 //					case 'E':
-//						temp.add(new EnemyTrap(column-1+0.5, line-1+0.5, 1, 1, figure));
+//						temp.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, figure, 1));
 //						break;
 //
 //					case 'D': //looks where the door is, then sets destination accordingly
@@ -88,6 +91,7 @@ class CoreO_Game {
 //			
 //			rooms.add(i, temp);
 //		}
+
 		
 		
 		// Initialize Logic and Graphics
@@ -107,6 +111,7 @@ class CoreO_Game {
 		graphics.setRoom(inRoom);
 	}
 	
+	
 	void end(boolean win ) {
 		logic.setGameRunning(false);
 		graphics.setGameRunning(false);
@@ -122,5 +127,6 @@ class CoreO_Game {
 
 		logicThread.start();
 		graphicThread.start();
+		System.out.println("game is running");
 	}
 }
