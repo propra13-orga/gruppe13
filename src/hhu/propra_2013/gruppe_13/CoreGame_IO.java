@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 
 
 class CoreGame_IO implements KeyEventDispatcher {
+	private int		move = 0;
 	private boolean up = false;
 	private boolean down = false;
 	private boolean left = false;
@@ -13,6 +14,7 @@ class CoreGame_IO implements KeyEventDispatcher {
 //	private boolean upleft = false;
 //	private boolean downright = false;
 //	private boolean downleft = false;
+	private int		fire = 0;
 	private boolean north = false;
 	private boolean east = false;
 	private boolean south = false;
@@ -34,59 +36,190 @@ class CoreGame_IO implements KeyEventDispatcher {
 	
 		
 		if (e.getID() == KeyEvent.KEY_PRESSED) {
-
+			move = 0;
+			if (up) move++;								//Zaehle Anzahl gleichzeitig gedrueckter Bewegungstasten
+			if (down) move++;
+			if (left) move++;
+			if (right) move++;
+			if (north) fire++;							//Zaehle Anzahl gleichzeitig gedrueckter Feuertasten
+			if (south) fire++;
+			if (west) fire++;
+			if (east) fire++;
+			
 			switch (e.getKeyCode()) {
 			case 87:									//87='w'
 				up = true;
-				if (down){
-					logic.setDown(false);	
-				}else if (left){
-					logic.setLeft(false);
-					logic.setUpLeft(true);	
-				}else if (right){
-					logic.setRight(false);
-					logic.setUpRight(true);
-				}else logic.setUp(true);				
-				break;
+				switch (move){							//ueberpruefe wieviele Bewegungstasten gleichzeitig gedrückt sind
+				case 0: 								//und hadel die einzelnen Faelle ab.
+					logic.setUp(true);
+					break;
+					
+				case 1:
+					if (down){
+						logic.setDown(false);	
+					}else if (left){
+						logic.setLeft(false);
+						logic.setUpLeft(true);	
+					}else if (right){
+						logic.setRight(false);
+						logic.setUpRight(true);
+					} 				
+					break;
+				
+				case 2:
+					if (down && left){
+						logic.setDownLeft(false);
+						logic.setLeft(true);
+					}else if (down && right){
+						logic.setDownRight(false);
+						logic.setRight(true);						
+					}else if (left && right){
+						logic.setUp(true);
+					}
+					break;
+				
+				case 3:
+					logic.setDown(false);
+					break;
+				}	
 				
 			case 83:									//83='s'
 				down = true;
-				if (up){
-					logic.setUp(false);	
-				}else if (left){
-					logic.setLeft(false);
-					logic.setDownLeft(true);	
-				}else if (right){
-					logic.setRight(false);
-					logic.setDownRight(true);
-				}else logic.setDown(true);					
-			 	break;
+				switch (move){							//ueberpruefe wieviele Bewegungstasten gleichzeitig gedrückt sind
+				case 0: 								//und hadel die einzelnen Faelle ab.
+					logic.setDown(true);
+					break;
+					
+				case 1:
+					if (up){
+						logic.setUp(false);	
+					}else if (left){
+						logic.setLeft(false);
+						logic.setDownLeft(true);	
+					}else if (right){
+						logic.setRight(false);
+						logic.setDownRight(true);
+					} 				
+					break;
+				
+				case 2:
+					if (up && left){
+						logic.setUpLeft(false);
+						logic.setLeft(true);
+					}else if (up && right){
+						logic.setUpRight(false);
+						logic.setRight(true);						
+					}else if (left && right){
+						logic.setDown(true);
+					}
+					break;
+				
+				case 3:
+					logic.setUp(false);
+					break;
+				}	
+//				if (up){
+//					logic.setUp(false);	
+//				}else if (left){
+//					logic.setLeft(false);
+//					logic.setDownLeft(true);	
+//				}else if (right){
+//					logic.setRight(false);
+//					logic.setDownRight(true);
+//				}else logic.setDown(true);					
+//			 	break;
 			 	
 			case 68: 									//68='d'
 				right = true;
-				if (left){
-					logic.setLeft(false);	
-				}else if (up){
-					logic.setUp(false);
-					logic.setUpRight(true);	
-				}else if (down){
-					logic.setDown(false);
-					logic.setDownRight(true);
-				}else logic.setRight(true);					
-				break;
+				switch (move){							//ueberpruefe wieviele Bewegungstasten gleichzeitig gedrückt sind
+				case 0: 								//und hadel die einzelnen Faelle ab.
+					logic.setRight(true);
+					break;
+					
+				case 1:
+					if (left){
+						logic.setLeft(false);	
+					}else if (up){
+						logic.setUp(false);
+						logic.setUpRight(true);	
+					}else if (down){
+						logic.setDown(false);
+						logic.setDownRight(true);
+					} 				
+					break;
+				
+				case 2:
+					if (up && left){
+						logic.setUpLeft(false);
+						logic.setUp(true);
+					}else if (down && left){
+						logic.setDownLeft(false);
+						logic.setDown(true);						
+					}else if (up && down){
+						logic.setRight(true);
+					}
+					break;
+				
+				case 3:
+					logic.setLeft(false);
+					break;
+				}	
+//				if (left){
+//					logic.setLeft(false);	
+//				}else if (up){
+//					logic.setUp(false);
+//					logic.setUpRight(true);	
+//				}else if (down){
+//					logic.setDown(false);
+//					logic.setDownRight(true);
+//				}else logic.setRight(true);					
+//				break;
 				
 			case 65: 									//65='a'
 				left = true;
-				if (right){
-					logic.setRight(false);	
-				}else if (up){
-					logic.setUp(false);
-					logic.setUpLeft(true);	
-				}else if (down){
-					logic.setDown(false);
-					logic.setDownLeft(true);
-				}else logic.setLeft(true);				
-				break;
+				switch (move){							//ueberpruefe wieviele Bewegungstasten gleichzeitig gedrückt sind
+				case 0: 								//und hadel die einzelnen Faelle ab.
+					logic.setLeft(true);
+					break;
+					
+				case 1:
+					if (right){
+						logic.setRight(false);	
+					}else if (up){
+						logic.setUp(false);
+						logic.setUpLeft(true);	
+					}else if (down){
+						logic.setDown(false);
+						logic.setDownLeft(true);
+					} 				
+					break;
+				
+				case 2:
+					if (up && right){
+						logic.setUpRight(false);
+						logic.setUp(true);
+					}else if (down && right){
+						logic.setDownRight(false);
+						logic.setDown(true);						
+					}else if (up && down){
+						logic.setLeft(true);
+					}
+					break;
+				
+				case 3:
+					logic.setRight(false);
+					break;
+				}	
+//				if (right){
+//					logic.setRight(false);	
+//				}else if (up){
+//					logic.setUp(false);
+//					logic.setUpLeft(true);	
+//				}else if (down){
+//					logic.setDown(false);
+//					logic.setDownLeft(true);
+//				}else logic.setLeft(true);				
+//				break;
 				
 			case 38:									//38='Pfeil nach oben'
 				north = true;
