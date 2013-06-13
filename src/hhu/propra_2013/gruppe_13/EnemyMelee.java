@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.math.*;
 
-public class EnemyMelee extends CoreGegner{
+public class EnemyMelee extends Enemy{
 
 	
 	private double 	rad;

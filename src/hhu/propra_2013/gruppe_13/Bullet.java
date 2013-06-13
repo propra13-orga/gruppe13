@@ -208,7 +208,7 @@ class Bullet extends Attack {
 		// iterate over all objects within the room, ignore other bullets and itself of course
 		for(int i=0; i<room.size(); i++) {
 			collidable = room.get(i);
-			if (collidable instanceof CoreGegner || collidable instanceof MISCWall) {
+			if (collidable instanceof Enemy || collidable instanceof MISCWall) {
 				objX = collidable.getPosX();
 				objY = collidable.getPosY();
 				objR = collidable.getRad();

@@ -19,6 +19,7 @@ class Figure extends CoreGameObjects {
 	private int maxHP;
 	private boolean cooldown;
 	private int armor;
+	private Item item1, item2, item3;
 	
 	// class constructor
 	Figure(double initX, double initY, double initHeight, double initWidth) {
@@ -33,6 +34,10 @@ class Figure extends CoreGameObjects {
 		r   = Math.max(width, height) + Math.sqrt(v_x*v_x+v_y*v_y);
 		hp  = 1;
 		maxHP	= 2;
+		
+		item1 = null;
+		item2 = null;
+		item3 = null;
 	}
 	
 	
@@ -141,7 +146,12 @@ class Figure extends CoreGameObjects {
 	void attack() {
 		
 	}
-
+	//this method can be called from the collision method, then later on be used
+	void pickUpItem(Item inItem){
+		if(item1 == null)		item1 = inItem;
+		else if(item2 == null)	item2 = inItem;
+		else if(item3 == null)	item3 = inItem;
+	}
 
 	void takeDamage(int inStrength) {
 		if(!cooldown){

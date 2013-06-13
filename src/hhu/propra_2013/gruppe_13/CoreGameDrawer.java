@@ -114,7 +114,7 @@ class CoreGameDrawer implements Runnable {
 		while (gameRunning) {
 			// get current system time, this will determine fps
 			time = System.currentTimeMillis();
-			System.out.println("test");
+
 			// Repaint the game and wait
 			game.repaint();
 						
