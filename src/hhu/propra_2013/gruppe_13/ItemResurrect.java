@@ -22,7 +22,7 @@ public class ItemResurrect extends Item{
 
 	@Override
 	void modFigure(ArrayList<CoreGameObjects> collidable, Figure figure) {
-		
+		figure.pickUpItem(this);
 	}
 
 	@Override
