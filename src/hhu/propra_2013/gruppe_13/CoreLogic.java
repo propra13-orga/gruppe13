@@ -497,6 +497,8 @@ class CoreLogic implements Runnable {
 						
 			// do the actual logic in this game
 			this.checkCollision();
+			this.moveFigure();
+			this.attacks();
 			this.enemyAI();
 			this.checkFigure();
 			

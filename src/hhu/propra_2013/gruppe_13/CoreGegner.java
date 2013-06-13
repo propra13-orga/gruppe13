@@ -1,5 +1,7 @@
 package hhu.propra_2013.gruppe_13;
+
 import java.awt.Graphics2D;
+
 public abstract class CoreGegner extends CoreGameObjects{
 
 
