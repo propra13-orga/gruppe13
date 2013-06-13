@@ -119,5 +119,6 @@ class CoreO_Game {
 
 		logicThread.start();
 		graphicThread.start();
+		System.out.println("game is running");
 	}
 }
