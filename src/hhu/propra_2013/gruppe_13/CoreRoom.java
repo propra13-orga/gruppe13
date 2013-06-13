@@ -76,7 +76,7 @@ public class CoreRoom {
 					break;											//the coordinates 1:1
 					
 				case 'E':
-					content.add(new EnemyTrap(column-1+0.5, line-1+0.5, 1, 1, figure));
+					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, figure, 0));
 					break;
 
 				case 'D': //looks where the door is, then sets destination accordingly

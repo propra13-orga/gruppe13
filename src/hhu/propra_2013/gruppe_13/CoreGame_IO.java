@@ -267,16 +267,56 @@ class CoreGame_IO implements KeyEventDispatcher {
 				}
 				break;
 			case 38:									//38='Pfeil nach oben'
-				north = true;
+				north = false;
+				logic.setNorth(false);
+				if (south){
+					logic.setSouth(true);
+				}else if (west){
+					logic.setNorthwest(false);
+					logic.setWest(true);
+				}else if (east){
+					logic.setNortheast(false);
+					logic.setEast(true);
+				}
 				break;
 			case 39:									//83='Pfeil nach rechts'
-				east = true;
-			 	break;
+				east = false;
+				logic.setEast(false);
+				if (west){
+					logic.setWest(true);
+				}else if (north){
+					logic.setNortheast(false);
+					logic.setNorth(true);
+				}else if (south){
+					logic.setSoutheast(false);
+					logic.setSouth(true);
+				}
+				break;
 			case 40: 									//68='Pfeil nach unten'
-				south = true;
+				south = false;
+				logic.setSouth(false);
+				if (north){
+					logic.setNorth(true);
+				}else if (west){
+					logic.setSouthwest(false);
+					logic.setWest(true);
+				}else if (east){
+					logic.setSoutheast(false);
+					logic.setEast(true);
+				}
 				break;
 			case 37: 									//65='Pfeil nach links'
-				west = true;
+				west = false;
+				logic.setWest(false);
+				if (east){
+					logic.setEast(true);
+				}else if (north){
+					logic.setNorthwest(false);
+					logic.setNorth(true);
+				}else if (south){
+					logic.setSouthwest(false);
+					logic.setSouth(true);
+				}
 				break;	
 			}
 			

@@ -137,9 +137,15 @@ class CoreLogic implements Runnable {
 		location = newLocation;
 	}
 	
-	private void enemyAI() {
-		// TODO Auto-generated method stub, wird erstmal leer bleiben, da wir noch keine KI haben
+	private void checkDistance() {
+		
 	}
+	
+
+	private void enemyAI() {
+		//enemy.artificialIntelligence(figure, room);
+	}
+
 	
 	private void checkCollision() {
 		// reset collision values
@@ -491,8 +497,6 @@ class CoreLogic implements Runnable {
 						
 			// do the actual logic in this game
 			this.checkCollision();
-			this.moveFigure();
-			this.attacks();
 			this.enemyAI();
 			this.checkFigure();
 			

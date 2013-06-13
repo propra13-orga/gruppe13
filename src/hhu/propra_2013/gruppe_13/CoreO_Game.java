@@ -49,7 +49,7 @@ class CoreO_Game {
 						break;											//the coordinates 1:1
 						
 					case 'E':
-						temp.add(new EnemyTrap(column-1+0.5, line-1+0.5, 1, 1, figure));
+						temp.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, figure, 1));
 						break;
 
 					case 'D': //looks where the door is, then sets destination accordingly
