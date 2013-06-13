@@ -8,10 +8,10 @@ import java.io.*;
 
 class CoreO_Game {
 	// Frame, graphic, logic and a figure for the actual game
-	JFrame 		gameWindow;
+	JFrame 			gameWindow;
 	CoreLogic 		logic;
 	CoreGameDrawer 	graphics;
-	Figure 		figure;
+	Figure 			figure;
 		
 	
 	// Build two lists, the graphics component will also receive the figure, which has a special function in the logic class
@@ -103,6 +103,7 @@ class CoreO_Game {
 	void setRoom(int inRoom) {
 		graphics.setRoom(inRoom);
 	}
+	
 	
 	void end(boolean win ) {
 		logic.setGameRunning(false);
