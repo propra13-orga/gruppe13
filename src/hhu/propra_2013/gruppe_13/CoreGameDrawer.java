@@ -13,20 +13,24 @@ import javax.swing.JPanel;
 class CoreGameDrawer implements Runnable {
 	
 	// List of all Objects within the game, JPanel and the number of locations
-	private ArrayList<ArrayList<CoreGameObjects>> rooms;
+	//private ArrayList<ArrayList<CoreGameObjects>> rooms;
+	private CoreLevel level;
+	private CoreRoom room;
 	private JPanel 	game;
 	private final 	JFrame gameWindow;
-	private int 	location;	
+	private int 	locationX;
+	private int 	locationY;
 	private final 	Image background;
 	private boolean gameRunning;
 	private final	Image surface;
 
 	
 	// Constructor for class
-	CoreGameDrawer(ArrayList<ArrayList<CoreGameObjects>> objectsInit, JFrame inFrame) {
-		rooms 		= objectsInit;
+	CoreGameDrawer(CoreLevel inLevel, JFrame inFrame) {
+		level 		= inLevel;
 		gameWindow 	= inFrame;
-		location 	= 0;
+		locationX 	= 0;
+		locationY	= 0;
 		background 	= Toolkit.getDefaultToolkit().getImage("Layout.jpg");
 		surface		= Toolkit.getDefaultToolkit().getImage("Surface.png");
 		
@@ -36,6 +40,9 @@ class CoreGameDrawer implements Runnable {
 	// Initiate current objects variables, returns constructed JPanel
 	JPanel init(CoreLogic inLogic) {
 		// Build a new panel, override paint method
+		locationX = inLogic.getCurrentX();
+		locationY = inLogic.getCurrentY();
+		room = level.getRoom(locationX, locationY);
 		game = new JPanel() {
 			// Serial-ID in order to appease Eclipse
 			private static final long 	serialVersionUID = 1L;
@@ -83,7 +90,7 @@ class CoreGameDrawer implements Runnable {
 				g2d.setColor(Color.black);
 
 				// Iterate over all objects and call draw method
-				ArrayList<CoreGameObjects> list = rooms.get(location);
+				ArrayList<CoreGameObjects> list = room.getContent();
 				for(CoreGameObjects toDraw : list) {
 					toDraw.draw(g2d, x0, y0, step);
 				}
@@ -97,12 +104,12 @@ class CoreGameDrawer implements Runnable {
 	
 	// remove a drawable object, thus not every enemy and wall needs to be called if it has been destroyed
 	void removeDrawableObject (CoreGameObjects toRemove) {
-		rooms.get(location).remove(toRemove);
+		room.getContent().remove(toRemove);
 	}
 	
 	// Tell the draw methods which location to draw
-	void setRoom(int inlocation) {
-		location = inlocation;
+	void setRoom(CoreRoom inRoom) {
+		room = inRoom;
 	}
 	
 	void setGameRunning(boolean b) {
