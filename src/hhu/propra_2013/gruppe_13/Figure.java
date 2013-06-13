@@ -166,6 +166,7 @@ class Figure extends CoreGameObjects {
 	}
 	
 	void resurrect(){
+		//blahblahblah mr freeman
 		
 	}
 	

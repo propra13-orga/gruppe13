@@ -23,7 +23,7 @@ class CoreLogic implements Runnable {
 	private double 				distDown, distUp, distRight, distLeft;
 	
 	private int 				location = 0;
-	private CoreGameObjects 	figure;
+	private CoreGameObjects 	figure, saveFigure;
 	private CoreO_Game			game;
 	
 	// figure values
@@ -240,7 +240,11 @@ class CoreLogic implements Runnable {
 						destination = ((MISCDoor) collided).getDestination(); //cast because eclipse wants it
 						open = ((MISCDoor) collided).getOpen();
 						
-						if (open == true){ //check if door is 'officially' there and open							
+						if (open == true){//check if door is 'officially' there and open
+							
+							//before switching the room we make a copy of our figure for resurrection
+							saveFigure = figure;
+							
 							switch (destination){	//only advance trough door if player is moving in the direction of the door
 													//diagonal movement should work too
 							case 0:
