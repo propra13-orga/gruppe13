@@ -122,6 +122,12 @@ EnemyMelee(double inPosX, double inPosY,int inWidth, int inHeight, Figure inFigu
 		
 		
 	}
+
+	@Override
+	void takeDamage(int type) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	void artificialIntelligence(Figure figure){
 		switch(type){

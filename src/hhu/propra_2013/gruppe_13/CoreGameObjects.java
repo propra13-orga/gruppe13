@@ -21,4 +21,5 @@ abstract class CoreGameObjects {
 	abstract void attack();
 	abstract double getWidth();
 	abstract double getHeight();
+	abstract void takeDamage(int type);
 }

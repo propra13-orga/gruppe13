@@ -109,4 +109,10 @@ public class ItemResurrect extends Item{
 		
 	}
 
+	@Override
+	void takeDamage(int type) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

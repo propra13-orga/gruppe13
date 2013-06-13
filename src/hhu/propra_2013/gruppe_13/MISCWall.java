@@ -89,4 +89,10 @@ class MISCWall extends CoreGameObjects {
 	void attack() {
 		
 	}
+
+	@Override
+	void takeDamage(int type) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -129,6 +129,12 @@ public class MISCNPC extends CoreGameObjects{
 		figure.takeDamage(strength);
 	}
 
+	@Override
+	void takeDamage(int type) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 // from here it's actual new NPC Stuff (and Stuff)
 	

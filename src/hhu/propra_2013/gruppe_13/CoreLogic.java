@@ -131,30 +131,6 @@ class CoreLogic implements Runnable {
 		rooms 		= objectsInit;
 		figure 		= inFigure;
 		game		= inGame;
-
-		up 			= false;
-		down		= false;
-		right		= false;
-		left		= false;
-		
-		upLeft		= false;
-		upRight 	= false;
-		downLeft	= false;
-		downRight	= false;
-		
-		punch		= false;
-		use			= false;
-		bomb		= false;
-		
-		north		= false;
-		east		= false;
-		south		= false;
-		west		= false;
-		
-		northwest	= false;
-		northeast	= false;
-		southwest	= false;
-		southeast	= false;
 		
 		freeRight	= true;
 		freeLeft	= true;
@@ -213,10 +189,11 @@ class CoreLogic implements Runnable {
 		int hp;
 		
 		ArrayList<CoreGameObjects> collidable = rooms.get(location);
+		CoreGameObjects collided;
 		
 		// iterate over all objects within the room, excepting the figure, of course
 		for(int i=1; i<collidable.size(); i++) {
-			CoreGameObjects collided = collidable.get(i);
+			collided 	= collidable.get(i);
 			objX 		= collided.getPosX();
 			objY 		= collided.getPosY();
 			objR 		= collided.getRad();
@@ -270,9 +247,8 @@ class CoreLogic implements Runnable {
 						
 						destination = ((MISCDoor) collided).getDestination(); //cast because eclipse wants it
 						open = ((MISCDoor) collided).getOpen();
-						enabled = ((MISCDoor) collided).getEnabled();
 						
-						if (open == true && enabled == true){ //check if door is 'officially' there and open							
+						if (open == true){ //check if door is 'officially' there and open							
 							switch (destination){	//only advance trough door if player is moving in the direction of the door
 													//diagonal movement should work too
 							case 0:
@@ -329,6 +305,7 @@ class CoreLogic implements Runnable {
 			}
 		}
 	}
+	
 	
 	/* This is the actual movement method, which checks for all directions whether the figure needs to be moved.
 	 * Additionally the method checks whether the figure has reached a boundary and will prevent it from moving out of the gaming area.  */	
@@ -410,7 +387,7 @@ class CoreLogic implements Runnable {
 		for (int i=0; i<collidable.size(); i++) {
 			if (collidable.get(i) instanceof Bullet) {
 				bullet = (Bullet) collidable.get(i);
-				bullet.setPos(bullet.getPosX()+bullet.getVX(), bullet.getPosY()+bullet.getVY());
+				bullet.propagate(collidable);
 				
 				// Check whether we can destroy the bullet
 				if (bullet.getFinished()) {
@@ -438,40 +415,41 @@ class CoreLogic implements Runnable {
 					signVY = -1;
 				}
 				
-				if (east) {
+				else if (east) {
 					signVX = 1;
 					signVY = 0;
 				}
 				
-				if (south) {
+				else if (south) {
 					signVX = 0;
 					signVY = 1;
 				}
 				
-				if (west) {
+				else if (west) {
 					signVX = -1;
 					signVY = 0;
 				}
 				
-				if (northeast) {
+				else if (northeast) {
 					signVX = 1;
 					signVY = -1;
 				}
 				
-				if (northwest) {
+				else if (northwest) {
 					signVX = -1;
 					signVY = -1;
 				}
 				
-				if (southeast) {
+				else if (southeast) {
 					signVX = 1;
 					signVY = 1;
 				}
 				
-				if (southwest) {
+				else if (southwest) {
 					signVX = -1;
 					signVY = 1;
 				}
+				
 				CoreGameObjects initBullet = new Bullet(bulletType, figX, figY, figVX, figVY, signVX, signVY);
 				rooms.get(location).add(initBullet);
 			}

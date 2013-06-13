@@ -15,7 +15,7 @@ public class CoreRoom {
 	//Sachen die jeder Raum weiß
 	ArrayList<CoreGameObjects> content; //die alte innere Array list, enthält alle Objekte im Raum
 	boolean isBossRoom, isShop, isFinished;
-
+	boolean hasTopNeighbour, hasBottomNeighbour, hasLeftNeighbour, hasRightNeighbour;
 	
 	//Variablen zur Erzeugung
 	int element , column, line , dest;
@@ -24,8 +24,14 @@ public class CoreRoom {
 	int stage; //Nummer des Levels, für den NPC
 	
 	//Konstruktor
-	CoreRoom(Figure inFigure, int inStage, String inBoss){
+	CoreRoom(Figure inFigure, int inStage, String inBoss, boolean inTopNeighbour, boolean inBottomNeighbour, boolean inLeftNeighbour, boolean inRightNeighbour){
 		figure = inFigure;
+		stage = inStage;
+		boss = inBoss;
+		hasTopNeighbour = inTopNeighbour;  //ja, ich hasse mich auch schon für solche langen namen
+		hasBottomNeighbour = inBottomNeighbour;
+		hasLeftNeighbour = inLeftNeighbour;
+		hasRightNeighbour = inRightNeighbour;
 	}
 	
 	void setType(String inType) {
@@ -75,12 +81,12 @@ public class CoreRoom {
 
 				case 'D': //looks where the door is, then sets destination accordingly
 					//I have no clue why this works
-					if (line == 0) 	{dest = 0;} //Door is on the upper edge of the field, door should lead up
-					if (line == 13)	{dest = 2;} //Door is on the bottom edge of the field, door should lead down
-					if (column==23)	{dest = 1;} //Door is on the right edge of the field, door should lead right
-					if (column==0) 	{dest = 3;} //Door is on the left edge of the field, door should lead left
+					if (line == 0 && hasTopNeighbour){dest = 0;} //Door is on the upper edge of the field, door should lead up
+					if (line == 13 && hasBottomNeighbour){dest = 2;} //Door is on the bottom edge of the field, door should lead down
+					if (column==23 && hasRightNeighbour){dest = 1;} //Door is on the right edge of the field, door should lead right
+					if (column==0 && hasLeftNeighbour){dest = 3;} //Door is on the left edge of the field, door should lead left
 				
-					content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, true, dest)); //creating door with correct destination
+					content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, dest)); //creating door with correct destination
 					break;	
 						
 				case 'I':
@@ -88,7 +94,7 @@ public class CoreRoom {
 					break;
 				
 				case 'N':
-					content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, true,4));//'Door' leads to the next floor
+					content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, 4));//'Door' leads to the next floor
 					break;
 					
 				case 'T': 
@@ -129,6 +135,10 @@ public class CoreRoom {
 	
 	boolean getFinished(){
 		return isFinished;
+	}
+	
+	ArrayList getContent(){
+		return content;
 	}
 	//***********************************************************************************************************
 	//Setter
