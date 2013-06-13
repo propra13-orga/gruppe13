@@ -2,34 +2,54 @@ package hhu.propra_2013.gruppe_13;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.math.*;
+import java.util.ArrayList;
 
 public class EnemyMelee extends Enemy{
 
-	
+	// Basic variables for the enemy
 	private double 	rad;
-	private int 	type;
-	private int 	hp;
-	private double 	x;
-	private double 	y;
-	private double 	vx;
-	private double 	vy;
-	private Figure 	figure;
-	private int 	width;
-	private int 	height;
-	private int		strength;
+	private int 	type, hp;
+	private double 	x, y, vx, vy;
+	private double 	v_weight;
 	
-EnemyMelee(double inPosX, double inPosY,int inWidth, int inHeight, Figure inFigure, int inType){
-	x = inPosX;
-	y = inPosY;
-	width = inWidth;
-	height = inHeight;
-	figure = inFigure;
-	type = inType;
-	strength = 1;
-}
+	private double 	width, height; 
+	private int 	strength;
+	private boolean dying, dead;
 	
-	
+	EnemyMelee(double inx, double iny,int inWidth, int inHeight, int inType){
+		x 			= inx;
+		y 			= iny;
+		
+		width 		= inWidth;
+		height 		= inHeight;
+		
+		type 		= inType;
+		
+		// initialize the program according to the type of the desired enemy
+		switch (type) {
+		case ENEMY_TRAP:
+			break;
+			
+		case ENEMY_PATROL:
+			break;
+		
+		case ENEMY_RANDOM_WALKER:
+			break;
+			
+		case ENEMY_FIGURE_RUN:
+			strength 	= 5;
+			hp			= 5;
+			v_weight	= 0.1;
+			
+			break;
+			
+		case ENEMY_FLEEING:
+			break;
+		}
+		
+		rad = Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_weight)),2);
+	}
+		
 	
 	
 /*getter and setter methods for the melee enemy--------------------------------------------------------------------------------------------------------*/
@@ -71,13 +91,13 @@ EnemyMelee(double inPosX, double inPosY,int inWidth, int inHeight, Figure inFigu
 	@Override
 	double getWidth() {
 		// TODO Auto-generated method stub
-		return 0;
+		return width;
 	}
 
 	@Override
 	double getHeight() {
 		// TODO Auto-generated method stub
-		return 0;
+		return height;
 	}
 	
 /*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -109,54 +129,177 @@ EnemyMelee(double inPosX, double inPosY,int inWidth, int inHeight, Figure inFigu
 		hp = inHP;		
 	}
 
-/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
-	
-
+	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		g.setColor(Color.RED);
-		g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+		
+		switch (type) {
+		case ENEMY_FIGURE_RUN:
+			if (!dying) {
+				g.setColor(Color.RED);
+				g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+			} 
+			else {
+				// TODO: do cool shit whilst the thing is dying
+				dead = true;
+			}
+		}
 	}
 
 	@Override
 	void attack() {
-		
-		
 	}
 
 	@Override
-	void takeDamage(int type) {
-		// TODO Auto-generated method stub
+	void takeDamage(int attackType) {
+		// depending on the attack, decrease the enemies health
+		switch(attackType) {
+		case Attack.PLAYER_BULLET_STD:
+			hp--;
+			break;
+		}
 		
+		// check whether the fucking thing is dead yet, initiate dying sequence if that is the case
+		if (hp == 0) {
+			dying = true;
+		}
 	}
 	
-	void artificialIntelligence(Figure figure){
+	boolean leftForDead () {
+		return dead;
+	}
+	
+	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
+	void artificialIntelligence(Figure figure, ArrayList<CoreGameObjects> currentRoom){
 		switch(type){
 		
-			case 0: //this will be the trap type
+			case ENEMY_TRAP: //this will be the trap type
 				//here is nothing, because this does nothing
-			break;
+				break;
 		/*-------------------------------------------------------------------------------------*/
-			case 1: //this will be the patrol type
+			case ENEMY_PATROL: //this will be the patrol type
 				//
-			break;
+				break;
 		/*-------------------------------------------------------------------------------------*/
-			case 2: //this will be the random walk type
+			case ENEMY_RANDOM_WALKER: //this will be the random walk type
 				//
-			break;
+				break;
 		/*-------------------------------------------------------------------------------------*/
-			case 3: //this one will run towards the figure
-				double figX = figure.getPosX();
-				double figY = figure.getPosY();
-				vx = 1*(figX-x)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY+2*figY*y+y*y); //berechnung der vx-Richtung als normierte x-Komponente des r-Vektors
-				vy = 1*(figY-y)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY+2*figY*y+y*y);
-				this.setPos(x+vx, y+vy);
-			break;
+
+			case ENEMY_FIGURE_RUN: //this one will run towards the figure
+				// only move the enemy if it isn't dying
+				if (!dying) {
+					double figX = figure.getPosX();
+					double figY = figure.getPosY();
+					vx = v_weight*(figX-x)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
+					vy = v_weight*(figY-y)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
+					propagateToFigure(currentRoom);
+				}
+				break;
+
 		/*-------------------------------------------------------------------------------------*/
-			case 4: //this runs away from the figure
+			case ENEMY_FLEEING: //this runs away from the figure
 				//
-			break;
+				break;
 		/*-------------------------------------------------------------------------------------*/
 		}
 	}
 
+	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
+	void propagateToFigure (ArrayList<CoreGameObjects> room) {
+		
+		Figure figure 	= null;
+		CoreGameObjects collidable;
+		
+		// Basic variables for checking each object within the room
+		double objX, objY, objR;
+		double tmpX, tmpY;
+		double objWidth, objHeight;
+		
+		double distUp		=  30;
+		double distDown		= -30;
+		double distLeft 	=  30;
+		double distRight 	= -30;
+		
+		// iterate over all elements within the room and check whether a collision occurs
+		for (int i=0; i<room.size(); i++) {
+			collidable = room.get(i);
+			
+			// Check whether an object can be collided with, get data if necessary
+			if (collidable instanceof Figure || collidable instanceof MISCWall) {
+				objX = collidable.getPosX();
+				objY = collidable.getPosY();
+				objR = collidable.getRad();
+				
+				// Check collision radius, save distance between objects
+				if ((x-objX)*(x-objX)+(y-objY)*(y-objY) < (objR+rad)*(objR+rad)) {
+					tmpX = x-objX;
+					tmpY = y-objY;
+					
+					objHeight 	= collidable.getHeight();
+					objWidth 	= collidable.getWidth();
+					
+					// check in which direction the bullet is moving and act accordingly should a collision occur
+					if (vy < 0 && tmpY > 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
+						// Check whether there is a closer collision, save distance and object if there is
+						if (tmpY-(height+objHeight)/2. < distUp) {
+							distUp = tmpY-(height+objHeight)/2.;
+						}
+					}
+					
+					// analogous to above
+					if (vy > 0 && tmpY < 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
+						// Check whether there is a closer collision, save distance and object if there is
+						if (tmpY+(height+objHeight)/2. > distDown) {
+							distDown = tmpY+(height+objHeight)/2.;
+						}
+					}
+					
+					// analogous to above
+					if (vx > 0 && tmpX < 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
+						// Check whether there is a closer collision, save distance and object if there is
+						if (tmpX+(width+objWidth)/2. > distRight) {
+							distRight = tmpX+(width+objWidth)/2.;
+						}
+					}
+					
+					// analogous to above
+					if (vx < 0 && tmpX > 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
+						// Check whether there is a closer collision, save distance and object if there is
+						if (tmpX-(width+objWidth)/2. < distLeft) {
+							distLeft = tmpX-(width+objWidth)/2.;
+						}
+					}
+				}
+			}
+		}
+		
+		// do the actual movement, should an object be encountered, kill it and destroy the bullet...
+		if (vy < 0) {
+			if (distUp*distUp < vy*vy) {
+				y -= distUp;
+			} else
+				y += vy;
+		}
+		
+		if (vy > 0) {
+			if (distDown*distDown < vy*vy) {
+				y -= distDown;
+			} else
+				y += vy;
+		}
+		
+		if (vx > 0) {
+			if (distRight*distRight < vx*vx) {
+				x -= distRight;
+			} else
+				x += vx;
+		}
+		
+		if (vx < 0) {
+			if (distLeft*distLeft < vx*vx) {
+				x -= distLeft;
+			} else
+				x += vx;
+		}
+	}
 }

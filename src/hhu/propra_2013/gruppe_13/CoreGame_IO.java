@@ -34,7 +34,7 @@ class CoreGame_IO implements KeyEventDispatcher {
 	
 		
 		if (e.getID() == KeyEvent.KEY_PRESSED) {
-
+			
 			switch (e.getKeyCode()) {
 			case 87:									//87='w'
 				up = true;
