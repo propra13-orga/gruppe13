@@ -36,7 +36,10 @@ class CoreLogic implements Runnable {
 	private String boss;
 
 	private Figure figure, saveFigure; // TODO check why it was GameObjects
-
+	
+	//the status bar
+	private MISCStatusBar statusBar;
+	
 	private CoreO_Game game;
 
 	// figure values
@@ -149,7 +152,8 @@ class CoreLogic implements Runnable {
 		locationY = level.getStartY();
 		currentRoom = level.getRoom(locationX, locationY);
 		currentRoom.getContent().add(figure);
-
+		statusBar = new MISCStatusBar(inFigure);
+		
 		freeRight = true;
 		freeLeft = true;
 		freeUp = true;
