@@ -167,7 +167,7 @@ class CoreLogic implements Runnable {
 	// Do the Artificial Intelligence for all Enemies
 	private void enemyAI() {
 		EnemyMelee enemyMelee;
-		ArrayList<CoreGameObjects> collidable = rooms.get(location);
+		ArrayList<CoreGameObjects> collidable = currentRoom.getContent();
 		
 		// iterate over all objects and do the AI of all Enemies 
 		for (int i=1; i<collidable.size(); i++) {
@@ -177,7 +177,7 @@ class CoreLogic implements Runnable {
 				
 				// check whether the enemy is dead yet
 				if(enemyMelee.leftForDead()) {
-					rooms.get(location).remove(enemyMelee);
+					currentRoom.getContent().remove(enemyMelee);
 				}
 			}
 		}
