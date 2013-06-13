@@ -26,12 +26,14 @@ public class CoreRoom {
 	//Konstruktor
 	CoreRoom(Figure inFigure, int inStage, String inBoss, boolean inTopNeighbour, boolean inBottomNeighbour, boolean inLeftNeighbour, boolean inRightNeighbour){
 		figure = inFigure;
+		content = new ArrayList<CoreGameObjects>();
 		stage = inStage;
 		boss = inBoss;
 		hasTopNeighbour = inTopNeighbour;  //ja, ich hasse mich auch schon für solche langen namen
 		hasBottomNeighbour = inBottomNeighbour;
 		hasLeftNeighbour = inLeftNeighbour;
 		hasRightNeighbour = inRightNeighbour;
+		System.out.println("links "+hasLeftNeighbour+" rechts "+hasRightNeighbour+" oben "+hasTopNeighbour+" unten "+hasBottomNeighbour);
 	}
 	
 	void setType(String inType) {
@@ -81,12 +83,11 @@ public class CoreRoom {
 
 				case 'D': //looks where the door is, then sets destination accordingly
 					//I have no clue why this works
-					if (line == 0 && hasTopNeighbour){dest = 0;} //Door is on the upper edge of the field, door should lead up
-					if (line == 13 && hasBottomNeighbour){dest = 2;} //Door is on the bottom edge of the field, door should lead down
-					if (column==23 && hasRightNeighbour){dest = 1;} //Door is on the right edge of the field, door should lead right
-					if (column==0 && hasLeftNeighbour){dest = 3;} //Door is on the left edge of the field, door should lead left
-				
-					content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, dest)); //creating door with correct destination
+					if (line == 0 && hasTopNeighbour){dest = 0; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, dest));} //Door is on the upper edge of the field, door should lead up
+					if (line == 14 && hasBottomNeighbour){dest = 2; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, dest));} //Door is on the bottom edge of the field, door should lead down
+					if (column==23 && hasRightNeighbour){dest = 1; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, dest));} //Door is on the right edge of the field, door should lead right
+					if (column==0 && hasLeftNeighbour){dest = 3; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, dest));} //Door is on the left edge of the field, door should lead left
+					 //creating door with correct destination
 					break;	
 						
 				case 'I':

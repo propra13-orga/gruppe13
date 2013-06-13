@@ -131,11 +131,12 @@ public class EnemyMelee extends Enemy{
 
 	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
+		
 		switch (type) {
 		case ENEMY_FIGURE_RUN:
 			if (!dying) {
 				g.setColor(Color.RED);
-				g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+				g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 			} 
 			else {
 				// TODO: do cool shit whilst the thing is dying

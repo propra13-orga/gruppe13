@@ -20,8 +20,16 @@ class CoreLogic implements Runnable {
 	private boolean 			freeRight, freeUp, freeDown, freeLeft;
 	private double 				distDown, distUp, distRight, distLeft;
 	
-	private int 				location = 0;
-	private CoreGameObjects 	figure;
+	// variables for navigating in the level
+	private int 				locationX, locationY;
+	private CoreRoom			currentRoom;
+	
+	// information about the level
+	private int 				stage;
+	private String				boss;
+	
+	
+	private Figure			 	figure; //TODO check why it was GameObjects
 	private CoreO_Game			game;
 	
 	// figure values
@@ -31,7 +39,7 @@ class CoreLogic implements Runnable {
 	private int					figHP;
 	
 	// List of all Objects within the game
-	private ArrayList<ArrayList<CoreGameObjects>> 	rooms;
+	private CoreLevel 	level;
 
 	void setGameRunning(boolean boolIn){
 		gameRunning = boolIn;
@@ -116,11 +124,23 @@ class CoreLogic implements Runnable {
 	}
 
 	// Initiate the current objects variables
-	CoreLogic(ArrayList<ArrayList<CoreGameObjects>> objectsInit, Figure inFigure, CoreO_Game inGame) {
+	CoreLogic(Figure inFigure, CoreO_Game inGame) {
 		gameRunning = true;
-		rooms 		= objectsInit;
+		
 		figure 		= inFigure;
 		game		= inGame;
+		
+		stage = 1;
+		boss = "test";
+		
+		//create Level
+		level = new CoreLevel(figure);
+		level.buildLevel(stage, boss);
+		//find out where in the level we are, switching rooms will be relative to this value
+		locationX = level.getStartX();
+		locationY = level.getStartY();
+		currentRoom=level.getRoom(locationX, locationY);
+		currentRoom.getContent().add(figure);
 		
 		freeRight	= true;
 		freeLeft	= true;
@@ -130,12 +150,19 @@ class CoreLogic implements Runnable {
 		bulletEnable = true;
 		bulletType 	= Bullet.PLAYER_BULLET_STD;
 		bulletCoolDownTime = 500;
+		
 	}
 	
-	private void setRoom(int newLocation) {
-		game.setRoom(newLocation);
-		location = newLocation;
-	}	
+	private void setRoom(int newLocationX, int newLocationY, Figure inFigure) {
+		CoreRoom tempRoom;
+		figure = inFigure;
+		locationX = newLocationX;
+		locationY = newLocationY;
+		tempRoom = level.getRoom(locationX, locationY);
+		currentRoom = tempRoom;
+		tempRoom.getContent().add(figure);
+		game.setRoom(tempRoom);
+	}
 
 	// Do the Artificial Intelligence for all Enemies
 	private void enemyAI() {
@@ -156,6 +183,18 @@ class CoreLogic implements Runnable {
 		}
 	}
 
+	
+	CoreLevel getLevel(){
+		return level;
+	}
+	
+	int getCurrentX(){
+		return locationX;
+	}
+	
+	int getCurrentY(){
+		return locationY;
+	}
 	
 	private void checkCollision() {
 		// reset collision values
@@ -188,7 +227,7 @@ class CoreLogic implements Runnable {
 		//variable for handling enemy Collision
 		int hp;
 		
-		ArrayList<CoreGameObjects> collidable = rooms.get(location);
+		ArrayList<CoreGameObjects> collidable = currentRoom.getContent();
 		CoreGameObjects collided;
 		
 		// iterate over all objects within the room, excepting the figure, of course
@@ -248,32 +287,41 @@ class CoreLogic implements Runnable {
 						destination = ((MISCDoor) collided).getDestination(); //cast because eclipse wants it
 						open = ((MISCDoor) collided).getOpen();
 						
+						
 						if (open == true){ //check if door is 'officially' there and open							
 							switch (destination){	//only advance trough door if player is moving in the direction of the door
 													//diagonal movement should work too
 							case 0:
 								if (upLeft == true || up == true || upRight == true ){
 									this.switchRoom(destination);
+									System.out.println("wuhu eine tür!"+destination);
 								}
 								break;
 							
 							case 1:
 								if (right == true || upRight == true || downRight == true){
 									this.switchRoom(destination);
+									System.out.println("wuhu eine tür!"+destination);
 								}					
 								break;
 							
 							case 2:
 								if (down == true || downRight == true || downLeft == true){
 									this.switchRoom(destination);
+									System.out.println("wuhu eine tür!"+destination);
 								}
 								break;
 							
 							case 3:
-								if (left == true || downLeft == true || downLeft == true){
+								if (left == true || downLeft == true || upLeft == true){
 									this.switchRoom(destination);
+									System.out.println("wuhu eine tür! "+destination);
 								}
 								break;
+							
+							case 4:
+								this.switchRoom(destination);
+								
 							}
 							
 						}
@@ -381,7 +429,7 @@ class CoreLogic implements Runnable {
 	// Propagate all Bullets and create new Attacks
 	private void attacks() {
 		// Iterate over all Bullets and propagate them 
-		ArrayList<CoreGameObjects> collidable = rooms.get(location);
+		ArrayList<CoreGameObjects> collidable = currentRoom.getContent();
 		Bullet bullet;
 		
 		for (int i=0; i<collidable.size(); i++) {
@@ -391,7 +439,7 @@ class CoreLogic implements Runnable {
 				
 				// Check whether we can destroy the bullet
 				if (bullet.getFinished()) {
-					rooms.get(location).remove(bullet);
+					currentRoom.getContent().remove(bullet);
 				}
 			}
 		}
@@ -451,8 +499,10 @@ class CoreLogic implements Runnable {
 				}
 				
 				CoreGameObjects initBullet = new Bullet(bulletType, figX, figY, figVX, figVY, signVX, signVY);
-				rooms.get(location).add(initBullet);
+
+				currentRoom.getContent().add(initBullet);
 				bulletEnable = false;
+
 			}
 		}
 	}
@@ -469,22 +519,38 @@ class CoreLogic implements Runnable {
 		//wechselt den Raum, falls die Figur an einer Stelle steht an der im aktuellen Raum eine Tür ist
 		switch (destination){ //prüft in welchem Raum die Figur ist (bisher 0-2 für die 3 Räume)
 
-		case(0)://Door leads up, won't happen in this version
+		case(0)://Door leads up
+			locationY--;
+			figY = 12.49;
+			this.setRoom(locationX, locationY, figure);
 			break;
 		
 		case(1): //Door leads to the right
-			location++; 
+			locationX++; 
 			figX = 0.51; //linker Spielfeldrand
-			this.setRoom(location); //neuen Raum and Grafik und Logik geben
+			this.setRoom(locationX, locationY, figure); //neuen Raum and Grafik und Logik geben
 			break;
 			
-		case(2): //Door leads down, won't happen in this version			
+		case(2): //Door leads down
+			locationY++;
+			figY = 0.51;
+			this.setRoom(locationX, locationY, figure);
 			break;
 		
 		case(3): //Door leads left
-			location--;
+			locationX--;
 			figX = 21.49;//rechter Spielfeldrand
-			this.setRoom(location);
+			this.setRoom(locationX, locationY, figure);
+			break;
+			
+		case(4):
+			stage++;
+			boss = "test";//TODO maybe change the boss sometimes
+			level.buildLevel(stage, boss);
+			locationX = level.getStartX();
+			locationY = level.getStartY();
+			this.setRoom(locationX, locationY, figure);
+			
 			break;
 		}	
 	}
