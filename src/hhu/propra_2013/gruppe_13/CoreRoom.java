@@ -104,6 +104,9 @@ public class CoreRoom {
 				case 'C':
 					//to add NPC
 					break;
+				case 'F':
+					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, figure, 3));
+					break;
 					
 				}
 				column++; //sets column up for the next cycle of the switch-case
