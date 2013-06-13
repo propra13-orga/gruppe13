@@ -78,7 +78,7 @@ class Bullet extends Attack {
 			
 		}
 		
-		rad	= Math.max(width, height) + Math.sqrt(v_x*v_x+v_y*v_y);
+		rad	= Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_x)), 2)*Math.pow(Math.ceil(Math.abs(v_y)), 2);
 	}
 	
 	// Various getter methods
@@ -252,7 +252,7 @@ class Bullet extends Attack {
 					// analogous to above
 					if (left && tmpX > 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
 						// Check whether there is a closer collision, save distance and object if there is
-						if (tmpX-objWidth/2. > distLeft) {
+						if (tmpX-objWidth/2. < distLeft) {
 							distLeft = tmpX-objWidth/2.;
 							collLeft = collidable;
 						}

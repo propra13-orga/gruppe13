@@ -135,15 +135,25 @@ class CoreLogic implements Runnable {
 	private void setRoom(int newLocation) {
 		game.setRoom(newLocation);
 		location = newLocation;
-	}
-	
-	private void checkDistance() {
-		
-	}
-	
+	}	
 
+	// Do the Artificial Intelligence for all Enemies
 	private void enemyAI() {
-		//enemy.artificialIntelligence(figure, room);
+		EnemyMelee enemyMelee;
+		ArrayList<CoreGameObjects> collidable = rooms.get(location);
+		
+		// iterate over all objects and do the AI of all Enemies 
+		for (int i=1; i<collidable.size(); i++) {
+			if (collidable.get(i) instanceof EnemyMelee) {
+				enemyMelee = (EnemyMelee)collidable.get(i);
+				enemyMelee.artificialIntelligence((Figure)figure, collidable);
+				
+				// check whether the enemy is dead yet
+				if(enemyMelee.leftForDead()) {
+					rooms.get(location).remove(enemyMelee);
+				}
+			}
+		}
 	}
 
 	
@@ -190,7 +200,7 @@ class CoreLogic implements Runnable {
 			
 			objWidth 	= collided.getWidth();
 			objHeight 	= collided.getHeight();
-			
+
 			collOne 	= 1;
 			collTwo		= 1;
 			collThree	= 1;

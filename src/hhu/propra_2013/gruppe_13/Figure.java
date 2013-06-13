@@ -31,7 +31,7 @@ class Figure extends CoreGameObjects {
 		
 		v_x = 0.3;
 		v_y = 0.3;
-		r   = Math.max(width, height) + Math.sqrt(v_x*v_x+v_y*v_y);
+		r   = Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_x)), 2)*Math.pow(Math.ceil(Math.abs(v_y)), 2);
 		hp  = 1;
 		maxHP	= 2;
 		
