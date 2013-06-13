@@ -34,7 +34,7 @@ class CoreO_Game {
 			temp.add(figure);
 			
 			try {
-				InputStream roomStream = new FileInputStream("Level/raum"+i+".txt");
+				InputStream roomStream = new FileInputStream("Level/Raum"+i+".txt");
 				Reader roomReader = new InputStreamReader (roomStream);
 				
 				element = 0;
