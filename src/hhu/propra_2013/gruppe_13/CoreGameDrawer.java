@@ -95,11 +95,6 @@ class CoreGameDrawer implements Runnable {
 		return game;
 	}
 	
-	// remove a drawable object, thus not every enemy and wall needs to be called if it has been destroyed
-	void removeDrawableObject (CoreGameObjects toRemove) {
-		rooms.get(location).remove(toRemove);
-	}
-	
 	// Tell the draw methods which location to draw
 	void setRoom(int inlocation) {
 		location = inlocation;

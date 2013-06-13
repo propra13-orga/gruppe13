@@ -2,16 +2,6 @@ package hhu.propra_2013.gruppe_13;
 
 import java.util.ArrayList;
 
-
-/*
- * Ablauf: 	Logik bekommt die Bewegungsbefehle von der IO
- * 			Logik kennt die (Liste) der Objekte
- * 			(Gegner werden berechnet)
- * 			Kollisionsabfrage
- * 			Logik gibt den Objekten ihre neuen Positionen
- */
-
-
 class CoreLogic implements Runnable {
 	
 	// set square root of 2 and define a boolean variable for the game loop
@@ -446,6 +436,7 @@ class CoreLogic implements Runnable {
 				
 				CoreGameObjects initBullet = new Bullet(bulletType, figX, figY, figVX, figVY, signVX, signVY);
 				rooms.get(location).add(initBullet);
+				bulletEnable = false;
 			}
 		}
 	}

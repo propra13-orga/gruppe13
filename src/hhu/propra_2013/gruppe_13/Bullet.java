@@ -60,8 +60,8 @@ class Bullet extends Attack {
 			width 	= 0.2;
 			height 	= 0.2;
 			
-			v_x	= signVX*0.5 + figVX;
-			v_y = signVY*0.5 + figVY;
+			v_x	= signVX*0.2 + Math.signum(signVX)*figVX;
+			v_y = signVY*0.2 + Math.signum(signVY)*figVY;
 			
 			hp = 10;
 			hitCounter = 5;
@@ -208,7 +208,7 @@ class Bullet extends Attack {
 		// iterate over all objects within the room, ignore other bullets and itself of course
 		for(int i=0; i<room.size(); i++) {
 			collidable = room.get(i);
-			if (!(collidable instanceof Bullet) && collidable != this) {
+			if (collidable instanceof Enemy || collidable instanceof MISCWall) {
 				objX = collidable.getPosX();
 				objY = collidable.getPosY();
 				objR = collidable.getRad();
