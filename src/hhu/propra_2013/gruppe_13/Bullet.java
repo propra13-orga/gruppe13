@@ -28,7 +28,7 @@ class Bullet extends Attack {
 	private boolean up, down, left, right;
 	
 	// Bullet constructor
-	Bullet(int inType, double initX, double initY, double figVX, double figVY, int signVX, int signVY) {
+	Bullet(int inType, double initX, double initY, double figVX, double figVY, double signVX, double signVY) {
 		// Save initial position and type data
 		posX	= initX;
 		posY	= initY;

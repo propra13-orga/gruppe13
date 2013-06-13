@@ -11,15 +11,15 @@ import javax.swing.Timer;
 class Figure extends CoreGameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
 	// Hitpoints, position, collision radius and constructor
-	private int hp;
-	private int geld;
-	private double x, y, r;
-	private double width, height;
-	private double v_x, v_y;
-	private int maxHP;
+	private int 	hp;
+	private int 	geld;
+	private double 	x, y, r;
+	private double 	width, height;
+	private double 	v_x, v_y;
+	private int 	maxHP;
 	private boolean cooldown;
-	private int armor;
-	private Item item1, item2, item3;
+	private int 	armor;
+	private Item 	item1, item2, item3;
 	
 	// class constructor
 	Figure(double initX, double initY, double initHeight, double initWidth) {
