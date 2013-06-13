@@ -147,7 +147,7 @@ EnemyMelee(double inPosX, double inPosY,int inWidth, int inHeight, Figure inFigu
 			case 3: //this one will run towards the figure
 				double figX = figure.getPosX();
 				double figY = figure.getPosY();
-				vx = 1*(figX-x)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY+2*figY*y+y*y);
+				vx = 1*(figX-x)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY+2*figY*y+y*y); //berechnung der vx-Richtung als normierte x-Komponente des r-Vektors
 				vy = 1*(figY-y)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY+2*figY*y+y*y);
 				this.setPos(x+vx, y+vy);
 			break;

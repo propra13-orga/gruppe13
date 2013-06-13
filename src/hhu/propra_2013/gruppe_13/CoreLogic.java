@@ -2,6 +2,8 @@ package hhu.propra_2013.gruppe_13;
 
 import java.util.ArrayList;
 
+import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
+
 class CoreLogic implements Runnable {
 	
 	// set square root of 2 and define a boolean variable for the game loop
@@ -448,10 +450,12 @@ class CoreLogic implements Runnable {
 	}
 	
 	private void checkFigure(){
-		if(figHP <= 0){
+		Figure temp = (Figure) figure;
+		if(figHP <= 0 && !temp.checkRes()){
 			game.end(false);
 			System.out.println("You died!");
 		}
+		else temp.resurrect();
 	}
 	
 	private void switchRoom(int destination){ 

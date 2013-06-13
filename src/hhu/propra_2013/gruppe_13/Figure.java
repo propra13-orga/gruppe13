@@ -97,6 +97,10 @@ class Figure extends CoreGameObjects {
 		return height;
 	}
 	
+	boolean checkRes() {
+		if(item1 instanceof ItemResurrect  || item2 instanceof ItemResurrect || item3 instanceof ItemResurrect)return true;
+		else return false;
+	}
 	
 	/*-----------------------------------------------------------------------------------------------*/
 	void setArmor(int inArmor){
@@ -159,6 +163,10 @@ class Figure extends CoreGameObjects {
 			cooldown = true;
 			timer();
 		}
+	}
+	
+	void resurrect(){
+		
 	}
 	
 	public void timer(){
