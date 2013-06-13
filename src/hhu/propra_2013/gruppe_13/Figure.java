@@ -164,11 +164,8 @@ class Figure extends CoreGameObjects {
 			timer();
 		}
 	}
-	
-	void resurrect(){
-		//blahblahblah mr freeman
-		
-	}
+
+
 	
 	public void timer(){
 		int delay = 1000; //milliseconds
