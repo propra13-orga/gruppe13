@@ -584,7 +584,9 @@ class CoreLogic implements Runnable {
 			System.out.println("You died!");
 		}
 		if (figHP <= 0 && figure.checkRes()) {
-			this.setRoom(level.getStartX(), level.getStartY(), saveFigure);
+			figure = saveFigure;
+			figure.setHP(1);
+			this.setRoom(level.getStartX(), level.getStartY(), figure);
 		}
 	}
 
