@@ -121,9 +121,8 @@ public class ItemCupACoffee extends Item {
 	}
 
 	@Override
-	void takeDamage(int type) {
-		// TODO Auto-generated method stub
-		
+	void takeDamage(int type, int strength) {
+		// Keep empty since items should probably not be able to take damage
 	}
 
 	

@@ -12,14 +12,21 @@ class Figure extends CoreGameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
 	// Hitpoints, position, collision radius and constructor
 	private int 	hp;
-	private int 	geld;
+	private int 	money;
+	private int 	volt;
+	
 	private double 	x, y, r;
-	private double 	width, height;
 	private double 	v_x, v_y;
+	private double 	width, height;
+	
 	private int 	maxHP;
-	private boolean cooldown;
+	private long	cooldown;
+	
 	private int 	armor;
 	private Item 	item1, item2, item3;
+	
+	private boolean	specialAttack;
+	private int 	attackType;
 	
 	// class constructor
 	Figure(double initX, double initY, double initHeight, double initWidth) {
@@ -38,6 +45,8 @@ class Figure extends CoreGameObjects {
 		item1 = null;
 		item2 = null;
 		item3 = null;
+		
+		cooldown = System.currentTimeMillis();
 	}
 	
 	
@@ -48,7 +57,7 @@ class Figure extends CoreGameObjects {
 	}
 	
 	int getGeld(){
-		return geld;
+		return money;
 	}
 	
 	
@@ -98,8 +107,14 @@ class Figure extends CoreGameObjects {
 	}
 	
 	boolean checkRes() {
-		if(item1 instanceof ItemResurrect  || item2 instanceof ItemResurrect || item3 instanceof ItemResurrect)return true;
-		else return false;
+		if(item1 instanceof ItemResurrect  || item2 instanceof ItemResurrect || item3 instanceof ItemResurrect)
+			return true;
+		else 
+			return false;
+	}
+	
+	int getVolt() {
+		return volt;
 	}
 	
 	/*-----------------------------------------------------------------------------------------------*/
@@ -108,8 +123,8 @@ class Figure extends CoreGameObjects {
 	}
 	
 	void setPos(double inX, double inY) {
-		x = inX;
-		y = inY;
+		x 	= inX;
+		y 	= inY;
 	}
 	
 	void setSpeed(double inVX, double inVY) {
@@ -118,12 +133,11 @@ class Figure extends CoreGameObjects {
 	}
 	
 	void setRad(double inR) {
-		r = inR;
+		r 	= inR;
 	}
 	
 	void setHP(int inHP) {
-		hp = inHP;
-		System.out.println("Player HP is now"+ hp );
+		hp 	= inHP;
 	}
 	
 	void setMaxHP(int inMaxHP){
@@ -131,9 +145,16 @@ class Figure extends CoreGameObjects {
 	}
 	
 	void setGeld(int inGeld){
-		geld=inGeld;
+		money 	= inGeld;
 	}
 	
+	void setVolt (int inVolt) {
+		volt 	= inVolt;
+	}
+	
+	void setAttackType (int type) {
+		attackType = type;
+	}
 	/*-----------------------------------------------------------------------------------------------*/
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
@@ -157,23 +178,10 @@ class Figure extends CoreGameObjects {
 		else if(item3 == null)	item3 = inItem;
 	}
 
-	void takeDamage(int inStrength) {
-		if(!cooldown){
+	void takeDamage(int type, int inStrength) {
+		if(System.currentTimeMillis()-cooldown > 1000){
 			hp = hp - inStrength;
-			cooldown = true;
-			timer();
+			cooldown = System.currentTimeMillis();
 		}
-	}
-
-
-	
-	public void timer(){
-		int delay = 1000; //milliseconds
-		ActionListener taskPerformer = new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				cooldown = false;
-			}
-		};
-		new Timer(delay, taskPerformer).start();
 	}
 }

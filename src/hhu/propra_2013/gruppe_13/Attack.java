@@ -1,13 +1,10 @@
 package hhu.propra_2013.gruppe_13;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 abstract class Attack extends CoreGameObjects {
-	// declare final variables in order to determine what bullet shall be fired 
-	static final int PLAYER_BULLET_STD 			= 0;
-	static final int PLAYER_SPECIAL_BULLET_ONE	= 1;
-	static final int PLAYER_SPECIAL_BULLET_TWO	= 2;
-	static final int ENEMY_BULLET_STD			= 10;
+
 	
 	// Getter and Setter methods for Objects used by Logic and GameDrawer classes
 	abstract int 	getHP();	
@@ -27,4 +24,8 @@ abstract class Attack extends CoreGameObjects {
 	abstract void attack();
 	abstract double getWidth();
 	abstract double getHeight();
+	
+	// Attack specific propagation and finished status
+	abstract boolean getFinished();
+	abstract void propagate(ArrayList<CoreGameObjects> room);
 }

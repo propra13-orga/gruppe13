@@ -11,7 +11,7 @@ class MISCDoor extends CoreGameObjects {
 	MISCDoor (double initX, double initY, double initWidth, double initHeight, double initRadius, int inDestination){
 		x 			= initX;
 		y 			= initY;
-		r			= Math.max(initWidth, initHeight);
+		r			= 2*Math.max(initWidth, initHeight);
 		
 		width 		= initWidth;
 		height		= initHeight;
@@ -111,9 +111,8 @@ class MISCDoor extends CoreGameObjects {
 	}
 
 	@Override
-	void takeDamage(int type) {
-		// TODO Auto-generated method stub
-		
+	void takeDamage(int type, int strength) {
+		// TODO: Check whether we want this for secret rooms
 	}
 
 }
