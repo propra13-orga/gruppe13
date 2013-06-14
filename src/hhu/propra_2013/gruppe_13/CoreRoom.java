@@ -79,15 +79,15 @@ public class CoreRoom {
 					break;											//the coordinates 1:1
 					
 				case 'E':
-					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, 0));
+					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIGURE_RUN));
 					break;
 
 				case 'D': //looks where the door is, then sets destination accordingly
 					//I have no clue why this works
-					if (line == 0 && hasTopNeighbour){dest = 0; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the upper edge of the field, door should lead up
-					if (line == 14 && hasBottomNeighbour){dest = 2; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the bottom edge of the field, door should lead down
-					if (column==23 && hasRightNeighbour){dest = 1; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the right edge of the field, door should lead right
-					if (column==0 && hasLeftNeighbour){dest = 3; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the left edge of the field, door should lead left
+					if (line == 0 && hasTopNeighbour)		{dest = 0; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the upper edge of the field, door should lead up
+					if (line == 14 && hasBottomNeighbour)	{dest = 2; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the bottom edge of the field, door should lead down
+					if (column==23 && hasRightNeighbour)	{dest = 1; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the right edge of the field, door should lead right
+					if (column==0 && hasLeftNeighbour)		{dest = 3; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the left edge of the field, door should lead left
 					 //creating door with correct destination
 					break;	
 						

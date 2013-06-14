@@ -12,6 +12,7 @@ class CoreO_Game {
 	CoreLogic 		logic;
 	CoreGameDrawer 	graphics;
 	Figure 			figure;
+	MISCStatusBar	statusBar;
 		
 	
 	// Build two lists, the graphics component will also receive the figure, which has a special function in the logic class
@@ -30,7 +31,9 @@ class CoreO_Game {
 		// Initialize Logic and Graphics
 		logic 		= new CoreLogic(figure, this);
 		level		= logic.getLevel();
-		graphics 	= new CoreGameDrawer(level, gameWindow);
+		statusBar	= new MISCStatusBar(figure);
+		graphics 	= new CoreGameDrawer(level, gameWindow, statusBar);
+
 		
 		
 		// set contentPane to JPanel returned by GameDrawer, set GameIO as keyboard manager

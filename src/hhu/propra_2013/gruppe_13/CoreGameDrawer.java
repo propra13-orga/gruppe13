@@ -23,17 +23,18 @@ class CoreGameDrawer implements Runnable {
 	private final 	Image background;
 	private boolean gameRunning;
 	private final	Image surface;
+	private MISCStatusBar statusBar;
 
 	
 	// Constructor for class
-	CoreGameDrawer(CoreLevel inLevel, JFrame inFrame) {
+	CoreGameDrawer(CoreLevel inLevel, JFrame inFrame, MISCStatusBar inStatusBar) {
 		level 		= inLevel;
 		gameWindow 	= inFrame;
 		locationX 	= 0;
 		locationY	= 0;
 		background 	= Toolkit.getDefaultToolkit().getImage("Layout.jpg");
 		surface		= Toolkit.getDefaultToolkit().getImage("Surface.png");
-		
+		statusBar	= inStatusBar;
 		gameRunning = true;
 	}
 	
@@ -88,7 +89,10 @@ class CoreGameDrawer implements Runnable {
 				yMax = (int)Math.round(13*step);
 				g2d.drawImage(surface, x0, y0, xMax, yMax, this);
 				g2d.setColor(Color.black);
-
+				
+				//draw the status bar
+				statusBar.draw(g2d, height, height, step);
+				
 				// Iterate over all objects and call draw method
 				ArrayList<CoreGameObjects> list = room.getContent();
 				for(CoreGameObjects toDraw : list) {
