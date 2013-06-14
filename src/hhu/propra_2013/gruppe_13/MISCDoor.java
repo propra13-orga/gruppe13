@@ -119,9 +119,8 @@ class MISCDoor extends CoreGameObjects {
 	}
 
 	@Override
-	void takeDamage(int type) {
-		// TODO Auto-generated method stub
-		
+	void takeDamage(int type, int strength) {
+		// TODO: Check whether we want this for secret rooms
 	}
 
 }

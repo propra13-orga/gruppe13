@@ -93,7 +93,7 @@ class MISCTarget extends CoreGameObjects {
 	}
 
 	@Override
-	void takeDamage(int type) {
+	void takeDamage(int type, int strength) {
 		// TODO Auto-generated method stub
 		
 	}
