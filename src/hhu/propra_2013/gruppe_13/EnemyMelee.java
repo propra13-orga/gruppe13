@@ -8,7 +8,7 @@ public class EnemyMelee extends Enemy{
 
 	// Basic variables for the enemy
 	private double 	rad;
-	private int 	type, hp;
+	private int 	type, hp, stationary;
 	private double 	x, y, vx, vy;
 	private double 	v_weight;
 	
@@ -37,7 +37,7 @@ public class EnemyMelee extends Enemy{
 			break;
 			
 		case ENEMY_FIGURE_RUN:
-			strength 	= 5;
+			strength 	= 1;
 			hp			= 5;
 			v_weight	= 0.1;
 			break;
@@ -136,6 +136,7 @@ public class EnemyMelee extends Enemy{
 			if (!dying) {
 				g.setColor(Color.RED);
 				g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+				stationary++;
 			} 
 			else {
 				// TODO: do cool shit whilst the thing is dying
@@ -194,7 +195,11 @@ public class EnemyMelee extends Enemy{
 					double figY = figure.getPosY();
 					vx = v_weight*(figX-x)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
 					vy = v_weight*(figY-y)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
-					propagateToFigure(currentRoom);
+					if (stationary < 50) {
+						vx = 0;
+						vy = 0;
+					}
+					propagateToFigure(currentRoom, figure);
 				}
 				break;
 
@@ -207,9 +212,8 @@ public class EnemyMelee extends Enemy{
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
-	void propagateToFigure (ArrayList<CoreGameObjects> room) {
+	void propagateToFigure (ArrayList<CoreGameObjects> room, Figure figure) {
 		
-		Figure figure 	= null;
 		CoreGameObjects collidable;
 		
 		// Basic variables for checking each object within the room
@@ -222,9 +226,19 @@ public class EnemyMelee extends Enemy{
 		double distLeft 	=  30;
 		double distRight 	= -30;
 		
+		double collOne;
+		double collTwo;
+		double collThree;
+		double collFour;
+		
 		// iterate over all elements within the room and check whether a collision occurs
 		for (int i=0; i<room.size(); i++) {
 			collidable = room.get(i);
+			
+			collOne 	= 1;
+			collTwo 	= 1;
+			collThree 	= 1;
+			collFour	= 1;
 			
 			// Check whether an object can be collided with, get data if necessary
 			if (collidable instanceof Figure || collidable instanceof MISCWall) {
@@ -243,7 +257,7 @@ public class EnemyMelee extends Enemy{
 					// check in which direction the bullet is moving and act accordingly should a collision occur
 					if (vy < 0 && tmpY > 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
 						// Check whether there is a closer collision, save distance and object if there is
-						if (tmpY-(height+objHeight)/2. < distUp) {
+						if ((collOne = tmpY-(height+objHeight)/2.) < distUp) {
 							distUp = tmpY-(height+objHeight)/2.;
 						}
 					}
@@ -251,7 +265,7 @@ public class EnemyMelee extends Enemy{
 					// analogous to above
 					if (vy > 0 && tmpY < 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
 						// Check whether there is a closer collision, save distance and object if there is
-						if (tmpY+(height+objHeight)/2. > distDown) {
+						if ((collTwo = tmpY+(height+objHeight)/2.) > distDown) {
 							distDown = tmpY+(height+objHeight)/2.;
 						}
 					}
@@ -259,7 +273,7 @@ public class EnemyMelee extends Enemy{
 					// analogous to above
 					if (vx > 0 && tmpX < 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
 						// Check whether there is a closer collision, save distance and object if there is
-						if (tmpX+(width+objWidth)/2. > distRight) {
+						if ((collThree = tmpX+(width+objWidth)/2.) > distRight) {
 							distRight = tmpX+(width+objWidth)/2.;
 						}
 					}
@@ -267,9 +281,13 @@ public class EnemyMelee extends Enemy{
 					// analogous to above
 					if (vx < 0 && tmpX > 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
 						// Check whether there is a closer collision, save distance and object if there is
-						if (tmpX-(width+objWidth)/2. < distLeft) {
+						if ((collFour = tmpX-(width+objWidth)/2.) < distLeft) {
 							distLeft = tmpX-(width+objWidth)/2.;
 						}
+					}
+					
+					if ((collOne == 0 || collTwo == 0 || collThree == 0 || collFour == 0) && collidable instanceof Figure) {
+						figure.takeDamage(type, strength);
 					}
 				}
 			}

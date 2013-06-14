@@ -47,7 +47,7 @@ class CoreLogic implements Runnable {
 	// figure values
 	private double figX, figY;
 	private double figVX, figVY;
-	private boolean punch, use, bomb; // für Aktionen
+	private boolean punch, use, aoe; // für Aktionen
 	private int figHP;
 
 	// List of all Objects within the game
@@ -100,7 +100,7 @@ class CoreLogic implements Runnable {
 	}
 
 	void setBomb(boolean in) {
-		bomb = in;
+		aoe = in;
 	}
 
 	void setNorth(boolean in) {
@@ -476,29 +476,50 @@ class CoreLogic implements Runnable {
 	private void attacks() {
 		// Iterate over all Bullets and propagate them
 		ArrayList<CoreGameObjects> collidable = currentRoom.getContent();
-		Bullet bullet;
+		Attack attack;
+		MISCWall wall;
+		boolean deleted;
 
 		for (int i = 0; i < collidable.size(); i++) {
-			if (collidable.get(i) instanceof Bullet) {
-				bullet = (Bullet) collidable.get(i);
-				bullet.propagate(collidable);
+
+			deleted = false;
+			// handle attack propagation and check whether the attack is finished
+			if (collidable.get(i) instanceof Attack) {
+				attack = (Attack) collidable.get(i);
+				attack.propagate(collidable);
 
 				// Check whether we can destroy the bullet
-				if (bullet.getFinished()) {
-					currentRoom.getContent().remove(bullet);
+				if (attack.getFinished()) {
+					currentRoom.getContent().remove(attack);
+					deleted = true;
 				}
+			}
+	
+			if (!deleted && collidable.get(i) instanceof MISCWall) {
+				wall = (MISCWall) collidable.get(i);
+				if (wall.getHP() == 0)
+					currentRoom.getContent().remove(wall);
 			}
 		}
 
-		if (!bulletEnable) {
-			if (System.currentTimeMillis() - bulletCoolDown > bulletCoolDownTime)
-				bulletEnable = true;
+		// If the player has enough resources, create a new area of effect attack
+		if (aoe && figure.getVolt() > 0) {
+			figure.setVolt(figure.getVolt()-1);
+			CoreGameObjects melee = new Melee(figX, figY, 0, 0, Attack.PLAYER_MELEE_AOE, figure, collidable);
+			currentRoom.getContent().add(melee);
 		}
+		
+		aoe = false;
 
 		// Create new Bullets if the player wishes to do so, and the cooldown
 		// for shooting has expired
-		if (north || east || south || west || northeast || northwest
-				|| southeast || southwest) {
+		if (north || east || south || west || northeast || northwest || southeast || southwest) {
+			
+			if (!bulletEnable) {
+				if (System.currentTimeMillis() - bulletCoolDown > bulletCoolDownTime)
+					bulletEnable = true;
+			}
+			
 			if (bulletEnable) {
 				// Save current system time in order to check the cooldown
 				bulletCoolDown = System.currentTimeMillis();

@@ -31,11 +31,12 @@ public class Melee extends Attack {
 			
 			width 	= figure.getWidth();
 			height	= figure.getHeight();
-			rad		= 4*Math.max(width, height);
+			rad		= 5*Math.max(width, height);
 			
 			attack();
 			break;
 		}
+		System.out.println("Melee initiated");
 	}
 	
 	/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -114,11 +115,11 @@ public class Melee extends Attack {
 		case PLAYER_MELEE_AOE:
 			g.setColor(new Color(1.0f, 51/255.f, 201/255.f));
 			if (counter_one < 5) {
-				g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*(width+counter_one*(rad-width)/5.)), (int)Math.round(step*(height+counter_one*(rad-height)/5.)));
+				g.fillOval(xOffset+(int)Math.round((x-(width+counter_one*(rad-width)/5.)/2.)*step),  yOffset+(int)Math.round((y-(height+counter_one*(rad-height)/5.)/2.)*step), (int)Math.round(step*(width+counter_one*(rad-width)/5.)), (int)Math.round(step*(height+counter_one*(rad-height)/5.)));
 				counter_one++;
 			} else if (counter_one < 15){
 				g.setColor(new Color(1.0f, 51/255.f, 201/255.f, -1/9.f*counter_one+14/9.f));
-				g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*rad), (int)Math.round(step*rad));
+				g.fillOval(xOffset+(int)Math.round((x-rad/2.)*step),  yOffset+(int)Math.round((y-rad/2.)*step), (int)Math.round(step*rad), (int)Math.round(step*rad));
 				counter_one++;
 			}
 
@@ -145,7 +146,7 @@ public class Melee extends Attack {
 					objPosX		= damageable.getPosX();
 					objPosY		= damageable.getPosY();
 					
-					if ((x-objPosX)*(x-objPosX)+(y-objPosY)*(x-objPosX) < rad) {
+					if ((x-objPosX)*(x-objPosX)+(y-objPosY)*(y-objPosY) < rad*rad/4) {
 						damageable.takeDamage(type, strength);
 					}
 				}

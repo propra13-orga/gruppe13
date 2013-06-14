@@ -64,7 +64,7 @@ class Bullet extends Attack {
 			v_x	= signVX*0.2 + Math.signum(signVX)*figVX;
 			v_y = signVY*0.2 + Math.signum(signVY)*figVY;
 			
-			hp 			= 10;
+			hp 			= 20;
 			hitCounter 	= 5;
 			strength	= 1;
 			break;

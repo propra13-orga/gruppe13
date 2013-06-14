@@ -2,10 +2,6 @@ package hhu.propra_2013.gruppe_13;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.Timer;
 
 
 class Figure extends CoreGameObjects {
@@ -30,21 +26,23 @@ class Figure extends CoreGameObjects {
 	
 	// class constructor
 	Figure(double initX, double initY, double initHeight, double initWidth) {
-		x = initX;
-		y = initY;
+		x 		= initX;
+		y 		= initY;
 		
-		width  = initWidth;
-		height = initHeight;
+		width  	= initWidth;
+		height 	= initHeight;
 		
-		v_x = 0.3;
-		v_y = 0.3;
-		r   = Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_x)), 2)*Math.pow(Math.ceil(Math.abs(v_y)), 2);
-		hp  = 1;
+		v_x 	= 0.3;
+		v_y 	= 0.3;
+		r   	= Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_x)), 2)*Math.pow(Math.ceil(Math.abs(v_y)), 2);
+		
+		hp  	= 2;
 		maxHP	= 6;
+		volt	= 10000;
 		
-		item1 = null;
-		item2 = null;
-		item3 = null;
+		item1 	= null;
+		item2 	= null;
+		item3 	= null;
 		
 		cooldown = System.currentTimeMillis();
 	}
@@ -171,11 +169,12 @@ class Figure extends CoreGameObjects {
 	void attack() {
 		
 	}
+	
 	//this method can be called from the collision method, then later on be used
 	void pickUpItem(Item inItem){
-		if(item1 == null)		item1 = inItem;
-		else if(item2 == null)	item2 = inItem;
-		else if(item3 == null)	item3 = inItem;
+		if		(item1 == null)	item1 = inItem;
+		else if	(item2 == null)	item2 = inItem;
+		else if	(item3 == null)	item3 = inItem;
 	}
 
 	void takeDamage(int type, int inStrength) {
