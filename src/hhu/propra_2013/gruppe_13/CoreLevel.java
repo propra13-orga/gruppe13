@@ -89,7 +89,7 @@ public class CoreLevel {
 		while (actRooms <= maxRooms){ //Laufe bis alle Räume gesetzt sind
 			for (y=0; y<10; y++){	//gehe Array durch
 				for (x=0; x<10; x++){ //Beginne Fälle bei den Ecken, dnn müssen die nicht mehr bei den Rändern betrachtet werden (falls ich else if richtig verstanden habe)
-					if (x == 0 && y == 0  && actRooms < maxRooms){    //obere linke Array Ecke
+					if (x == 0 && y == 0  && actRooms <= maxRooms){    //obere linke Array Ecke
 						if (construction[x+1][y] == true || construction[x][y+1] == true){ //falls es einen Nachbarn gibt
 							if(Math.random()<0.3 || probCounter ==5) { //würfle ob es einen Raum geben soll, oder setze ihn falls die letzten 5 Fälle kein Raum gesetzt wurde
 								construction[x][y] = true; //Raum setzen
@@ -99,7 +99,7 @@ public class CoreLevel {
 							else {probCounter++;} // falls es keinen Raum gibt wird der Raum-Garantie-Counter erhöht
 						}
 					}//weitere Zweige analog
-					else if (x == 0 && y == 9 && actRooms < maxRooms) { //obere rechte Ecke
+					else if (x == 0 && y == 9 && actRooms <= maxRooms) { //obere rechte Ecke
 						if (construction[x+1][y] == true || construction[x][y-1] == true){
 							if(Math.random()<0.3 || probCounter == 5) {
 								construction[x][y] = true;
@@ -109,7 +109,7 @@ public class CoreLevel {
 							else {probCounter++;}
 						}
 					}
-					else if (x == 9 && y ==0 && actRooms < maxRooms){ //rechter Array Rand
+					else if (x == 9 && y ==0 && actRooms <= maxRooms){ //rechter Array Rand
 						if (construction[x-1][y] == true || construction[x][y+1] == true){
 							if(Math.random()<0.3 || probCounter == 5) {
 								construction[x][y] = true;
@@ -119,7 +119,7 @@ public class CoreLevel {
 							else {probCounter++;}
 						}
 					}
-					else if (x == 9 && y == 9 && actRooms < maxRooms){ //unterer Array Rand
+					else if (x == 9 && y == 9 && actRooms <= maxRooms){ //unterer Array Rand
 						if (construction[x-1][y] == true || construction[x][y-1] == true){
 							if(Math.random()<0.3 || probCounter == 5) {
 								construction[x][y] = true;
@@ -129,7 +129,7 @@ public class CoreLevel {
 							else {probCounter++;}
 						}
 					}
-					else if (x != 0 && x != 9 && y == 0 && actRooms < maxRooms){ //oberer Rand
+					else if (x != 0 && x != 9 && y == 0 && actRooms <= maxRooms){ //oberer Rand
 						if (construction[x+1][y] == true || construction[x-1][y] == true || construction[x][y+1] == true){
 							if(Math.random()<0.3 || probCounter == 5) {
 								construction[x][y] = true;
@@ -139,7 +139,7 @@ public class CoreLevel {
 							else {probCounter++;}
 						}
 					}
-					else if (x != 0 && x != 9 && y == 9 && actRooms < maxRooms){ //unterer Rand
+					else if (x != 0 && x != 9 && y == 9 && actRooms <= maxRooms){ //unterer Rand
 						if (construction[x+1][y] == true || construction[x-1][y] == true || construction[x][y-1] == true){
 							if(Math.random()<0.3 || probCounter == 5) {
 								construction[x][y] = true;
@@ -149,7 +149,7 @@ public class CoreLevel {
 							else {probCounter++;}
 						}
 					}
-					else if (x == 0 && y != 0 && y != 9 && actRooms < maxRooms){ //linker Rand
+					else if (x == 0 && y != 0 && y != 9 && actRooms <= maxRooms){ //linker Rand
 						if (construction[x+1][y] == true || construction[x][y+1] == true || construction[x][y-1] == true){
 							if(Math.random()<0.3 || probCounter == 5) {
 								construction[x][y] = true;
@@ -159,7 +159,7 @@ public class CoreLevel {
 							else {probCounter++;}
 						}
 					}
-					else if (x == 9 && y != 0 && y != 9 && actRooms < maxRooms){ //rechter Rand
+					else if (x == 9 && y != 0 && y != 9 && actRooms <= maxRooms){ //rechter Rand
 						if (construction[x-1][y] == true || construction[x][y+1] == true || construction[x][y-1] == true){
 							if(Math.random()<0.3 || probCounter == 5) {
 								construction[x][y] = true;
@@ -169,7 +169,7 @@ public class CoreLevel {
 							else {probCounter++;}
 						}
 					}
-					else if (x != 0 && x != 9 && y != 0 && y!= 9){ //irgendwo mittig
+					else if (x != 0 && x != 9 && y != 0 && y!= 9 && actRooms <= maxRooms){ //irgendwo mittig
 						if (construction[x+1][y] == true || construction[x-1][y] == true || construction[x][y+1] == true || construction[x][y-1] == true){
 							if(Math.random()<0.3 || probCounter == 5) {
 								construction[x][y] = true;
@@ -185,7 +185,7 @@ public class CoreLevel {
 		}
 		//Ab hier enthält construction die 'Blaupause' des levels
 		//jetzt wird construction in ein Raum Array umgesetzt
-		for (x = 0; x<10; x++){
+		for (x = 0; x < 10; x++){
 			for (y = 0; y < 10; y++){
 				tempTop = false; //Reset der Nachbarschaftsvariablen
 				tempBottom = false;
@@ -214,7 +214,7 @@ public class CoreLevel {
 					}
 					else if (x == 0 && y == 0){ //obere linke ecke
 						if (construction[x+1][y] == true){tempRight = true;}
-						if (construction[x][y-1] == true){tempBottom = true;}
+						if (construction[x][y+1] == true){tempBottom = true;}
 						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight);
 						level[x][y] = tempRoom;
 						level[x][y].setType("Raum");
@@ -223,7 +223,7 @@ public class CoreLevel {
 					}
 					else if (x == 9 && y == 0){ //obere rechte ecke
 						if (construction[x-1][y] == true){tempLeft = true;}
-						if (construction[x][y-1] == true){tempBottom = true;}
+						if (construction[x][y+1] == true){tempBottom = true;}
 						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight);
 						level[x][y] = tempRoom;
 						level[x][y].setType("Raum");
@@ -232,8 +232,8 @@ public class CoreLevel {
 					}
 					else if (x == 0 && y != 0 && y != 9){ //linker Rand
 						if (construction[x+1][y] == true){tempRight = true;}
-						if (construction[x][y+1] == true){tempTop = true;}
-						if (construction[x][y-1] == true){tempBottom = true;}
+						if (construction[x][y-1] == true){tempTop = true;}
+						if (construction[x][y+1] == true){tempBottom = true;}
 						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight);
 						level[x][y] = tempRoom;
 						level[x][y].setType("Raum");
@@ -242,8 +242,8 @@ public class CoreLevel {
 					}
 					else if (x == 9 && y != 0 && y != 9){ //rechter Rand
 						if (construction[x-1][y] == true){tempLeft = true;}
-						if (construction[x][y+1] == true){tempTop = true;}
-						if (construction[x][y-1] == true){tempBottom = true;}
+						if (construction[x][y-1] == true){tempTop = true;}
+						if (construction[x][y+1] == true){tempBottom = true;}
 						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight);
 						level[x][y] = tempRoom;
 						level[x][y].setType("Raum");
@@ -252,7 +252,7 @@ public class CoreLevel {
 					}
 					else if (x == 0 && y == 9){// untere linke ecke
 						if (construction[x+1][y] == true){tempRight = true;}
-						if (construction[x][y+1] == true){tempTop = true;}
+						if (construction[x][y-1] == true){tempTop = true;}
 						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight);
 						level[x][y] = tempRoom;
 						level[x][y].setType("Raum");
@@ -261,7 +261,7 @@ public class CoreLevel {
 					}
 					else if (x == 9 && y == 9){ //untere rechte ecke
 						if (construction[x-1][y] == true){tempLeft = true;}
-						if (construction[x][y+1] == true){tempTop = true;}
+						if (construction[x][y-1] == true){tempTop = true;}
 						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight);
 						level[x][y] = tempRoom;
 						level[x][y].setType("Raum");
@@ -271,8 +271,8 @@ public class CoreLevel {
 					else if (x != 0 && x != 9 && y !=0 && y != 9){ //irgendwo mittig
 						if (construction[x-1][y] == true){tempLeft = true;}
 						if (construction[x+1][y] == true){tempRight = true;}
-						if (construction[x][y+1] == true){tempTop = true;}
-						if (construction[x][y-1] == true){tempBottom = true;}
+						if (construction[x][y-1] == true){tempTop = true;}
+						if (construction[x][y+1] == true){tempBottom = true;}
 						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight);
 						level[x][y] = tempRoom;
 						level[x][y].setType("Raum");
