@@ -184,6 +184,7 @@ public class EnemyMelee extends Enemy{
 				//
 				break;
 		/*-------------------------------------------------------------------------------------*/
+
 			case ENEMY_FIGURE_RUN: //this one will run towards the figure
 				// only move the enemy if it isn't dying
 				if (!dying) {
@@ -194,6 +195,7 @@ public class EnemyMelee extends Enemy{
 					propagateToFigure(currentRoom);
 				}
 				break;
+
 		/*-------------------------------------------------------------------------------------*/
 			case ENEMY_FLEEING: //this runs away from the figure
 				//

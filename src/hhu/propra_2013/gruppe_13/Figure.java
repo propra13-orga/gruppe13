@@ -97,6 +97,10 @@ class Figure extends CoreGameObjects {
 		return height;
 	}
 	
+	boolean checkRes() {
+		if(item1 instanceof ItemResurrect  || item2 instanceof ItemResurrect || item3 instanceof ItemResurrect)return true;
+		else return false;
+	}
 	
 	/*-----------------------------------------------------------------------------------------------*/
 	void setArmor(int inArmor){
@@ -160,6 +164,8 @@ class Figure extends CoreGameObjects {
 			timer();
 		}
 	}
+
+
 	
 	public void timer(){
 		int delay = 1000; //milliseconds
