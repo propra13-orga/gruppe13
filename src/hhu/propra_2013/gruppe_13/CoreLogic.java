@@ -328,9 +328,7 @@ class CoreLogic implements Runnable {
 						((Item) collided).modFigure(collidable, (Figure) figure);
 					}
 
-					if (collided instanceof MISCTarget) {
-						game.end(true);
-					}
+					
 
 					// See if a bullet hits the player, if so, kill it... KILL IT WITH FIRE!!
 					if (collided instanceof Bullet) {
@@ -610,11 +608,16 @@ class CoreLogic implements Runnable {
 
 		case (4):
 			stage++;
+			if (stage < 4){
 			boss = "test";// TODO maybe change the boss sometimes
 			level.buildLevel(stage, boss);
 			locationX = level.getStartX();
 			locationY = level.getStartY();
 			this.setRoom(locationX, locationY, figure);
+			}
+			else{
+				game.end(true);
+			}
 
 			break;
 		}

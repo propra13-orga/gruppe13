@@ -100,7 +100,7 @@ public class CoreRoom {
 					break;
 					
 				case 'T': 
-					content.add(new MISCTarget(column-1+0.5, line-1+0.5,1,1,1));
+					//content.add(new MISCTarget(column-1+0.5, line-1+0.5,1,1,1)); //target no longer needed
 					break;
 					
 				case 'C':
