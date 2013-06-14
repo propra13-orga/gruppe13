@@ -7,7 +7,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.ImageObserver;
 
-class MISCWall extends CoreGameObjects {
+class MISCWall extends CoreGameObjects implements ImageObserver {
 	/*-----------------------------------------------------------------------------------------------*/
 	// Hitpoints, position and collision radius
 	private int 	hp;
@@ -91,9 +91,9 @@ class MISCWall extends CoreGameObjects {
 	
 	/*-----------------------------------------------------------------------------------------------*/
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		//g.setColor(Color.PINK);
-		g.drawImage(wall, xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height), (ImageObserver) this);
-		//g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+		g.setColor(Color.green);
+		//g.drawImage(wall, xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height), this);
+		g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 	}
 	
 	void attack() {
@@ -107,5 +107,12 @@ class MISCWall extends CoreGameObjects {
 			hp = 0;
 			break;
 		}
+	}
+
+	@Override
+	public boolean imageUpdate(Image img, int infoflags, int x, int y,
+			int width, int height) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
