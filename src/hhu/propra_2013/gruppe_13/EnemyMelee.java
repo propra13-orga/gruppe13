@@ -150,11 +150,14 @@ public class EnemyMelee extends Enemy{
 	}
 
 	@Override
-	void takeDamage(int attackType) {
+	void takeDamage(int attackType, int inStrength) {
 		// depending on the attack, decrease the enemies health
 		switch(attackType) {
 		case Attack.PLAYER_BULLET_STD:
-			hp--;
+			hp -= inStrength;
+			break;
+		case Attack.PLAYER_MELEE_AOE:
+			hp -= inStrength;
 			break;
 		}
 		

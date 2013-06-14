@@ -110,9 +110,8 @@ public class ItemResurrect extends Item{
 	}
 
 	@Override
-	void takeDamage(int type) {
-		// TODO Auto-generated method stub
-		
+	void takeDamage(int type, int strength) {
+		// Keep empty since items shouldn't take damage
 	}
 
 }

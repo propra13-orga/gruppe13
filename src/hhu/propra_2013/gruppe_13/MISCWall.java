@@ -87,12 +87,15 @@ class MISCWall extends CoreGameObjects {
 	}
 	
 	void attack() {
-		
+		// Keep empty, Walls don't attack
 	}
 
 	@Override
-	void takeDamage(int type) {
-		// TODO Auto-generated method stub
-		
+	void takeDamage(int type, int strength) {
+		switch (type) {
+		case Attack.PLAYER_MELEE_AOE:
+			hp = 0;
+			break;
+		}
 	}
 }

@@ -11,6 +11,7 @@ public class MISCNPC extends CoreGameObjects{
 	private double 	v_x, v_y;
 	private double 	height, width;
 	private int		strength;
+	private int 	type;
 	private Figure figure;
 	private String text; 
 	private int stage; 		//NPC should know which area he is in, so he can refer to the level Theme or something
@@ -125,12 +126,12 @@ public class MISCNPC extends CoreGameObjects{
 
 	@Override
 	void attack() {
-		// TODO Auto-generated method stub
-		figure.takeDamage(strength);
+		// TODO: should an NPC really deal damage to the figure??
+		figure.takeDamage(type, strength);
 	}
 
 	@Override
-	void takeDamage(int type) {
+	void takeDamage(int type, int strength) {
 		// TODO Auto-generated method stub
 		
 	}
