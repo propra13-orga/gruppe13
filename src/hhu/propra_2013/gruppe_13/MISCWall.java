@@ -1,7 +1,11 @@
 package hhu.propra_2013.gruppe_13;
 
 import java.awt.Color;
+
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.awt.image.ImageObserver;
 
 class MISCWall extends CoreGameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
@@ -10,6 +14,9 @@ class MISCWall extends CoreGameObjects {
 	private double 	x, y, r;
 	private double 	height, width;
 	private double 	v_x, v_y;
+	private final Image wall;
+		
+	
 	
 	MISCWall(double initX, double initY, double initWidth, double initHeight, int inHP) {
 		x = initX;
@@ -22,6 +29,8 @@ class MISCWall extends CoreGameObjects {
 		
 		r = Math.max(width, height);
 		hp = inHP;
+		
+		wall = Toolkit.getDefaultToolkit().getImage("wall66x66.png");
 	}
 	
 	// Getter and Setter methods for above variables
@@ -66,7 +75,7 @@ class MISCWall extends CoreGameObjects {
 		y = inY;
 	}
 	
-	void setSpeed(double inVX, double inVY) {
+	void setSpeed(double inVX, double inVY) { 
 		v_x = inVX;
 		v_y = inVY;
 	}
@@ -82,8 +91,9 @@ class MISCWall extends CoreGameObjects {
 	
 	/*-----------------------------------------------------------------------------------------------*/
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		g.setColor(Color.PINK);
-		g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+		//g.setColor(Color.PINK);
+		g.drawImage(wall, xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height), (ImageObserver) this);
+		//g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 	}
 	
 	void attack() {
