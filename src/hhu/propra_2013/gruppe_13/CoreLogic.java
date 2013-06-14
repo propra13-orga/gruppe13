@@ -335,6 +335,9 @@ class CoreLogic implements Runnable {
 						collided.attack();
 					}
 					
+					if (collided instanceof ItemMoney){}
+					
+					
 					if (collided instanceof MISCDoor) { //Doors MUST be checked last because of the new Method of Room-finishing
 						//System.out.println("I just found a Door, and I like it!");
 						destination = ((MISCDoor) collided).getDestination(); // cast because eclipse wants it

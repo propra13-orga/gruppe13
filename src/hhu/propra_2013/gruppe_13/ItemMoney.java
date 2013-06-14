@@ -4,32 +4,31 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-public class ItemResurrect extends Item{
+public class ItemMoney extends Item {
 
+	private double 	height, width;
 	private double 	x, y;
 	private double	r;
-	private double 	v_x, v_y;
-	private double 	height, width;
-	private int 	hp;
-	private int 	prize;
 	
-	public ItemResurrect(double initX, double initY, int initWidth, int initHeight) {
+	public ItemMoney(double initX, double initY, int initHeight, int initWidth){
 		x	= initX;
 		y	= initY;
 		r = Math.max(width, height);
 		height	= initWidth;
 		width	= initHeight;
-		prize 	= 5;
-		
 	}
 	
-	int getPrize(){
-		return prize;
-	}
-
+	
+	
+	
+	
 	@Override
-	void modFigure(ArrayList<CoreGameObjects> collidable, Figure figure) {
-		figure.pickUpItem(this);
+	void modFigure(ArrayList<CoreGameObjects> room, Figure figure) {
+		int geld;
+		geld = figure.getGeld();			
+		geld++;
+		figure.setGeld(geld);
+		room.remove(this);
 	}
 
 	@Override
@@ -58,7 +57,8 @@ public class ItemResurrect extends Item{
 
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		g.setColor(Color.gray);
+		// TODO Auto-generated method stub
+		g.setColor(Color.yellow);
 		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 		
 	}
@@ -119,7 +119,8 @@ public class ItemResurrect extends Item{
 
 	@Override
 	void takeDamage(int type, int strength) {
-		// Keep empty since items shouldn't take damage
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -48,7 +48,7 @@ public class ItemCupACoffee extends Item {
 
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		g.setColor(Color.yellow);
+		g.setColor(Color.cyan);
 		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 		
 	}
