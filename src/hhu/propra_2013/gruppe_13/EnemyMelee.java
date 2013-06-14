@@ -40,7 +40,6 @@ public class EnemyMelee extends Enemy{
 			strength 	= 5;
 			hp			= 5;
 			v_weight	= 0.1;
-			
 			break;
 			
 		case ENEMY_FLEEING:
