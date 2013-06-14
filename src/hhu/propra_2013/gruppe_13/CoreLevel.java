@@ -298,7 +298,7 @@ public class CoreLevel {
 			}
 		} //Ab hier normale räume + startraum + shop
 		System.out.println("Shop ist da");
-		while (bossSet = false){ //setze Bossraum an eine stelle wo er nur einen Nachbarn hat
+		while (bossSet == false){ //setze Bossraum an eine stelle wo er nur einen Nachbarn hat
 			System.out.println("trying to be a boss");
 			for (x = 0; x < 10; x++){ //unter umständen sind die benennung der fälle der fallunterscheidung murks, TODO Check that
 				for (y = 0; y < 10; y++){
