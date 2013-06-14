@@ -180,7 +180,7 @@ class CoreLogic implements Runnable {
 		ArrayList<CoreGameObjects> collidable = currentRoom.getContent();
 
 		// iterate over all objects and do the AI of all Enemies
-		for (int i = 1; i < collidable.size(); i++) {
+		for (int i = 0; i < collidable.size(); i++) {
 			if (collidable.get(i) instanceof EnemyMelee) {
 				enemyMelee = (EnemyMelee) collidable.get(i);
 				enemyMelee.artificialIntelligence(figure, collidable);
@@ -242,11 +242,11 @@ class CoreLogic implements Runnable {
 
 		// iterate over all objects within the room, excepting the figure, of
 		// course
-		for (int i = 1; i < collidable.size(); i++) {
+		for (int i = 0; i < collidable.size(); i++) {
 			collided = collidable.get(i);
-			objX = collided.getPosX();
-			objY = collided.getPosY();
-			objR = collided.getRad();
+			objX	 = collided.getPosX();
+			objY	 = collided.getPosY();
+			objR	 = collided.getRad();
 
 			objWidth = collided.getWidth();
 			objHeight = collided.getHeight();
@@ -259,7 +259,7 @@ class CoreLogic implements Runnable {
 			// First check whether the objects are close enough to encounter one
 			// another within the next couple of moves, use squares, saves a
 			// couple of sqrt calls
-			if (((objX - figX) * (objX - figX) + (objY - figY) * (objY - figY)) < ((figR + objR) * (figR + objR))) {
+			if ((((objX - figX) * (objX - figX) + (objY - figY) * (objY - figY)) < ((figR + objR) * (figR + objR))) && !(collided instanceof Figure)) {
 				tmpX = figX - objX;
 				tmpY = figY - objY;
 
@@ -277,15 +277,12 @@ class CoreLogic implements Runnable {
 					// check whether the object is to the left or right of the
 					// figure and whether the figure could reach it within one
 					// step
-					if (((tmpY) > 0)
-							&& (figVY > (collOne = tmpY
-									- (figHeight + objHeight) / 2.))) {
+					if (((tmpY) > 0) && (figVY > (collOne = tmpY- (figHeight + objHeight) / 2.))) {
 						// set remaining distance and checking variable
 						distUp = Math.min(distUp, collOne);
 						freeUp = false;
-					} else if ((tmpY < 0)
-							&& (figVY > (collTwo = -tmpY
-									- (figHeight + objHeight) / 2.))) {
+					}
+					else if ((tmpY < 0) && (figVY > (collTwo = -tmpY - (figHeight + objHeight) / 2.))) {
 						distDown = Math.min(distDown, collTwo);
 						freeDown = false;
 					}
@@ -294,14 +291,10 @@ class CoreLogic implements Runnable {
 				// this will cover collision detection in x-direction, analogous
 				// to above
 				if (Math.abs(tmpY) < (figHeight + objHeight) / 2.) {
-					if ((tmpX > 0)
-							&& (figVX > (collThree = tmpX
-									- (figWidth + objWidth) / 2.))) {
+					if ((tmpX > 0) && (figVX > (collThree = tmpX - (figWidth + objWidth) / 2.))) {
 						distLeft = Math.min(distLeft, collThree);
 						freeLeft = false;
-					} else if ((tmpX < 0)
-							&& (figVX > (collFour = -tmpX
-									- (figWidth + objWidth) / 2.))) {
+					} else if ((tmpX < 0) && (figVX > (collFour = -tmpX - (figWidth + objWidth) / 2.))) {
 						distRight = Math.min(distRight, collFour);
 						freeRight = false;
 					}

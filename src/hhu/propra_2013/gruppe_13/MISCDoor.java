@@ -12,7 +12,7 @@ class MISCDoor extends CoreGameObjects {
 	MISCDoor (double initX, double initY, double initWidth, double initHeight, double initRadius, boolean inOpen, int inDestination){
 		x 			= initX;
 		y 			= initY;
-		r			= Math.max(initWidth, initHeight);
+		r			= 2*Math.max(initWidth, initHeight);
 		
 		width 		= initWidth;
 		height		= initHeight;
