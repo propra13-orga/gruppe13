@@ -193,12 +193,15 @@ public class EnemyMelee extends Enemy{
 				if (!dying) {
 					double figX = figure.getPosX();
 					double figY = figure.getPosY();
+					
 					vx = v_weight*(figX-x)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
 					vy = v_weight*(figY-y)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
+					
 					if (stationary < 50) {
 						vx = 0;
 						vy = 0;
 					}
+					
 					propagateToFigure(currentRoom, figure);
 				}
 				break;

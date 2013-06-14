@@ -170,16 +170,21 @@ class Figure extends CoreGameObjects {
 		
 	}
 	
-	//this method can be called from the collision method, then later on be used
-	void pickUpItem(Item inItem){
+	// this method can be called from the collision method, then later on be used
+	// TODO: Make that shit better
+	void pickUpItem(Item inItem) {
 		if		(item1 == null)	item1 = inItem;
 		else if	(item2 == null)	item2 = inItem;
 		else if	(item3 == null)	item3 = inItem;
 	}
 
+	// check whether there is any armor to destroy, else reduce hp
 	void takeDamage(int type, int inStrength) {
 		if(System.currentTimeMillis()-cooldown > 1000){
-			hp = hp - inStrength;
+			if (armor > 0)
+				armor -= inStrength;
+			else
+				hp -= inStrength;
 			cooldown = System.currentTimeMillis();
 		}
 	}
