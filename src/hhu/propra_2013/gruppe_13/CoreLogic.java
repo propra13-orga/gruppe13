@@ -324,14 +324,13 @@ class CoreLogic implements Runnable {
 						((Item) collided).modFigure(collidable, (Figure) figure);
 					}
 
-					if (collided instanceof MISCTarget) {
-						game.end(true);
-					}
+					
 
 					// See if a bullet hits the player, if so, kill it... KILL IT WITH FIRE!!
 					if (collided instanceof Bullet) {
 						collided.attack();
 					}
+					
 					
 					if (collided instanceof MISCDoor) { //Doors MUST be checked last because of the new Method of Room-finishing
 						//System.out.println("I just found a Door, and I like it!");
@@ -348,28 +347,24 @@ class CoreLogic implements Runnable {
 							case 0:
 								if (upLeft == true || up == true || upRight == true) {
 									this.switchRoom(destination);
-									System.out.println("wuhu eine tür!"	+ destination);
 								}
 								break;
 
 							case 1:
 								if (right == true || upRight == true || downRight == true) {
 									this.switchRoom(destination);
-									System.out.println("wuhu eine tür!"	+ destination);
 								}
 								break;
 
 							case 2:
 								if (down == true || downRight == true || downLeft == true) {
 									this.switchRoom(destination);
-									System.out.println("wuhu eine tür!"+ destination);
 								}
 								break;
 
 							case 3:
 								if (left == true || downLeft == true || upLeft == true) {
 									this.switchRoom(destination);
-									System.out.println("wuhu eine tür! "+ destination);
 								}
 								break;
 
@@ -606,11 +601,16 @@ class CoreLogic implements Runnable {
 
 		case (4):
 			stage++;
+			if (stage < 4){
 			boss = "test";// TODO maybe change the boss sometimes
 			level.buildLevel(stage, boss);
 			locationX = level.getStartX();
 			locationY = level.getStartY();
 			this.setRoom(locationX, locationY, figure);
+			}
+			else{
+				game.end(true);
+			}
 
 			break;
 		}

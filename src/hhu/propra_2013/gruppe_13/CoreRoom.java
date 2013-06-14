@@ -99,8 +99,12 @@ public class CoreRoom {
 					content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, 4));//'Door' leads to the next floor
 					break;
 					
-				case 'T': 
-					content.add(new MISCTarget(column-1+0.5, line-1+0.5,1,1,1));
+				case 'R': 
+					content.add(new ItemResurrect(column-1+0.5, line-1+0.5,1,1));
+					break;
+					
+				case 'G':
+					content.add(new ItemMoney (column-1+0.5, line-1+0.5,1,1));
 					break;
 					
 				case 'C':
