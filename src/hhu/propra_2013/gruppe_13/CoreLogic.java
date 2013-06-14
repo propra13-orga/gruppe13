@@ -23,7 +23,8 @@ class CoreLogic implements Runnable {
 	private boolean freeRight, freeUp, freeDown, freeLeft;
 	private double distDown, distUp, distRight, distLeft;
 
-	private int location = 0;
+
+
 
 	// variables for navigating in the level
 	private int locationX, locationY;
@@ -32,6 +33,12 @@ class CoreLogic implements Runnable {
 	// information about the level
 	private int stage;
 	private String boss;
+
+
+	// information about the room
+	private boolean finished; //to open doors once there are no enemys in the room, can be done by the collision
+	
+	
 
 	private Figure figure, saveFigure; // TODO check why it was GameObjects
 	
@@ -211,6 +218,10 @@ class CoreLogic implements Runnable {
 		freeLeft = true;
 		freeUp = true;
 		freeDown = true;
+		
+		//reset enemy check
+		finished = true; //falls ein Gegner gefunden wird wird finished false gesetzt
+						 //deshalb MUSS die Tür als letztes überprüft werden, so dass vorher alle Gegner gefunden werden können
 
 		// reset distance values
 		distUp = 50;
@@ -233,11 +244,11 @@ class CoreLogic implements Runnable {
 		// variables for handling door-collision, names are the same as in the
 		// door class
 		int destination;
-		boolean open, enabled;
+		
 		// variable for handling enemy Collision
 		int hp;
 
-		ArrayList<CoreGameObjects> collidable = currentRoom.getContent();
+		ArrayList<CoreGameObjects> collidable = level.getRoom(locationX, locationY).getContent();
 		CoreGameObjects collided;
 
 		// iterate over all objects within the room, excepting the figure, of
@@ -255,6 +266,7 @@ class CoreLogic implements Runnable {
 			collTwo = 1;
 			collThree = 1;
 			collFour = 1;
+			
 
 			// First check whether the objects are close enough to encounter one
 			// another within the next couple of moves, use squares, saves a
@@ -277,6 +289,7 @@ class CoreLogic implements Runnable {
 					// check whether the object is to the left or right of the
 					// figure and whether the figure could reach it within one
 					// step
+
 					if (((tmpY) > 0) && (figVY > (collOne = tmpY- (figHeight + objHeight) / 2.))) {
 						// set remaining distance and checking variable
 						distUp = Math.min(distUp, collOne);
@@ -301,13 +314,34 @@ class CoreLogic implements Runnable {
 				}
 
 				// Check collisions with objects, act accordingly
-				if (collOne == 0 || collTwo == 0 || collThree == 0 || collFour == 0) {
-					if (collided instanceof MISCDoor) {
-						System.out.println("I just found a Door, and I like it!");
-						destination = ((MISCDoor) collided).getDestination(); // cast because eclipse wants it
-						open = ((MISCDoor) collided).getOpen();
+				if (distRight == 0 || distLeft == 0 || distUp == 0 || distDown == 0) {//(collOne == 0 || collTwo == 0 || collThree == 0 || collFour == 0) {
+					if (collided instanceof EnemyMelee) {
+						((EnemyMelee) collided).attack();
+						finished = false;
+						// hp = figure.getHP();//get current hp
+						// hp--;//apply damage
+						// figure.setHP(hp);//set hp to the new value
+						// TODO: do even better Enemy shit
+					}
 
-						if (open == true) {// check if door is 'officially' there and open
+					if (collided instanceof Item) {
+						((Item) collided).modFigure(collidable, (Figure) figure);
+					}
+
+					if (collided instanceof MISCTarget) {
+						game.end(true);
+					}
+
+					// See if a bullet hits the player, if so, kill it... KILL IT WITH FIRE!!
+					if (collided instanceof Bullet) {
+						collided.attack();
+					}
+					
+					if (collided instanceof MISCDoor) { //Doors MUST be checked last because of the new Method of Room-finishing
+						//System.out.println("I just found a Door, and I like it!");
+						destination = ((MISCDoor) collided).getDestination(); // cast because eclipse wants it
+
+						if (finished == true) {// check if there is no enemy found in the room
 
 							// before switching the room we make a copy of our
 							// figure for resurrection
@@ -352,27 +386,7 @@ class CoreLogic implements Runnable {
 
 					}
 
-					if (collided instanceof EnemyMelee) {
-						((EnemyMelee) collided).attack();
 
-						// hp = figure.getHP();//get current hp
-						// hp--;//apply damage
-						// figure.setHP(hp);//set hp to the new value
-						// TODO: do even better Enemy shit
-					}
-
-					if (collided instanceof Item) {
-						((Item) collided).modFigure(collidable, (Figure) figure);
-					}
-
-					if (collided instanceof MISCTarget) {
-						game.end(true);
-					}
-
-					// See if a bullet hits the player, if so, kill it... KILL IT WITH FIRE!!
-					if (collided instanceof Bullet) {
-						collided.attack();
-					}
 				}
 			}
 		}
