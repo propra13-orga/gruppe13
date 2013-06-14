@@ -53,6 +53,7 @@ public class CoreRoom {
 		else if (type == "BossRaum"){
 			randomNumber =(int)(3*Math.random());	
 			isBossRoom = true;
+			System.out.println("yay, like a baus");
 		}
 		else if (type == "Shop"){
 			randomNumber = 0;
