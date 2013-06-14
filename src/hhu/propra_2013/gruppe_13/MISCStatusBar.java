@@ -26,22 +26,24 @@ public class MISCStatusBar {
 		armor	= figure.getArmor();
 
 		//find the basic position of the panels
-		hpx = step*20;
+		hpx = step*17;
 		hpy = step*16;
 		
-		mhpx = step*20;
-		mhpy = step*16+step/10;
+		mhpx = step*17;
+		mhpy = step*16 + step/2;
 	}
 	
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
 		
 		this.work(step);
 		
-		for(int i=1 ; i<=hp ; i++){
-			g.fillRect((int)(hpx+i*step),(int)hpy,(int)step,(int)step/2);
+		for(int i=0 ; i<hp ; i++){
+			if(i%2 == 1) g.fillRect((int)(hpx+i*step),(int)hpy,(int)(step-step/13),(int)step/2);
+			if(i%2 == 0)  g.fillRect((int)(hpx+i*step),(int)hpy,(int)(step-step/13),(int)step/2);
 		}
+			
 		for(int i=1 ; i<=figure.getMaxHP() ; i++){
-			g.fillRect((int)(mhpx+i*step),(int)mhpy,(int)step,(int)step/10);
+			g.fillRect((int)(mhpx+i*step),(int)mhpy,(int)(step-step/13),(int)step/10);
 		}
 		for(int i=1 ; i<=figure.getArmor() ; i++){
 
