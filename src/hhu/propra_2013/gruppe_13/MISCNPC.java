@@ -17,6 +17,7 @@ public class MISCNPC extends CoreGameObjects{
 	private int stage; 		//NPC should know which area he is in, so he can refer to the level Theme or something
 	private String boss;	//NPC should know what the area boss is, so he can say funny stuff about him 
 						//Boss is encoded in a char so the specific Phrase can be chose per switch-case
+	private String stageone,stagetwo,stagethree;
 	
 	//Constructor for NPC - TODO Think what the NPC should be able to do, and implement the useful thoughts
 	MISCNPC(double initX, double initY, double initHeight, double initWidth, Figure inFigure, String inBoss, int inStage){
@@ -36,6 +37,10 @@ public class MISCNPC extends CoreGameObjects{
 		//Stuff to tell the NPC what he can talk about
 		boss = inBoss;
 		stage = inStage;
+		
+		stageone = "Wow you started the game, congratulations /sarcasm."+"The Boss on this level is a red circle";
+		stagetwo = "ok, so you managed to defeat the red circle, maybe you are able to defeat the next red circle";
+		stagethree = "I am kinda impressed now... maybe you are able to see the victory screen if you live after you fought the last red circle";
 	}
 	
 	//Methods from GameObjects - we probably won't need all of them

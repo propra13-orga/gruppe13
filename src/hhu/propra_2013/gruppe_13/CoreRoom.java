@@ -95,7 +95,7 @@ public class CoreRoom {
 					content.add(new ItemCupACoffee(column-1+0.5, line-1+0.5, 1, 1, 1));
 					break;
 				
-				case 'N':
+				case 'S':
 					content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, 4));//'Door' leads to the next floor
 					break;
 					
@@ -107,8 +107,8 @@ public class CoreRoom {
 					content.add(new ItemMoney (column-1+0.5, line-1+0.5,1,1));
 					break;
 					
-				case 'C':
-					//to add NPC
+				case 'N':
+					content.add(new MISCNPC (column-1+0.5, line-1,1,1, figure, "this is a stub",stage));
 					break;
 				case 'F':
 					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIGURE_RUN));
