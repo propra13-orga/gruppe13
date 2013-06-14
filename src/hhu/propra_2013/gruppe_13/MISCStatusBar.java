@@ -44,7 +44,7 @@ public class MISCStatusBar {
 			g.fillRect((int)(mhpx+i*step),(int)mhpy,(int)step,(int)step/10);
 		}
 		for(int i=1 ; i<=figure.getArmor() ; i++){
-			g.fillRect()
+			//g.fillRect()
 		}
 	}
 

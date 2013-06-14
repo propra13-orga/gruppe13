@@ -16,10 +16,8 @@ class CoreLogic implements Runnable {
 
 	// Boolean variables for movement and collision detection, location counter
 	// for the room
-	private boolean down, up, right, left, upLeft, upRight, downLeft,
-			downRight; // für die Bewegungsrichtungen
-	private boolean north, east, south, west, northwest, northeast, southwest,
-			southeast; // zum schießen in die Himmelsrichtungen
+	private boolean down, up, right, left, upLeft, upRight, downLeft, downRight; // für die Bewegungsrichtungen
+	private boolean north, east, south, west, northwest, northeast, southwest, southeast; // zum schießen in die Himmelsrichtungen
 
 	// variables for collision detection
 	private boolean freeRight, freeUp, freeDown, freeLeft;
@@ -310,62 +308,45 @@ class CoreLogic implements Runnable {
 				}
 
 				// Check collisions with objects, act accordingly
-				if (collOne == 0 || collTwo == 0 || collThree == 0
-						|| collFour == 0) {
+				if (collOne == 0 || collTwo == 0 || collThree == 0 || collFour == 0) {
 					if (collided instanceof MISCDoor) {
-
-						destination = ((MISCDoor) collided).getDestination(); // cast
-																				// because
-																				// eclipse
-																				// wants
-																				// it
+						System.out.println("I just found a Door, and I like it!");
+						destination = ((MISCDoor) collided).getDestination(); // cast because eclipse wants it
 						open = ((MISCDoor) collided).getOpen();
 
-						if (open == true) {// check if door is 'officially'
-											// there and open
+						if (open == true) {// check if door is 'officially' there and open
 
 							// before switching the room we make a copy of our
 							// figure for resurrection
 							saveFigure = figure;
 
-							switch (destination) { // only advance trough door
-													// if player is moving in
-													// the direction of the door
-													// diagonal movement should
-													// work too
+							switch (destination) { // only advance trough door if player is moving in the direction of the door
+													// diagonal movement should work too
 							case 0:
-								if (upLeft == true || up == true
-										|| upRight == true) {
+								if (upLeft == true || up == true || upRight == true) {
 									this.switchRoom(destination);
-									System.out.println("wuhu eine tür!"
-											+ destination);
+									System.out.println("wuhu eine tür!"	+ destination);
 								}
 								break;
 
 							case 1:
-								if (right == true || upRight == true
-										|| downRight == true) {
+								if (right == true || upRight == true || downRight == true) {
 									this.switchRoom(destination);
-									System.out.println("wuhu eine tür!"
-											+ destination);
+									System.out.println("wuhu eine tür!"	+ destination);
 								}
 								break;
 
 							case 2:
-								if (down == true || downRight == true
-										|| downLeft == true) {
+								if (down == true || downRight == true || downLeft == true) {
 									this.switchRoom(destination);
-									System.out.println("wuhu eine tür!"
-											+ destination);
+									System.out.println("wuhu eine tür!"+ destination);
 								}
 								break;
 
 							case 3:
-								if (left == true || downLeft == true
-										|| upLeft == true) {
+								if (left == true || downLeft == true || upLeft == true) {
 									this.switchRoom(destination);
-									System.out.println("wuhu eine tür! "
-											+ destination);
+									System.out.println("wuhu eine tür! "+ destination);
 								}
 								break;
 
@@ -388,16 +369,14 @@ class CoreLogic implements Runnable {
 					}
 
 					if (collided instanceof Item) {
-						((Item) collided)
-								.modFigure(collidable, (Figure) figure);
+						((Item) collided).modFigure(collidable, (Figure) figure);
 					}
 
 					if (collided instanceof MISCTarget) {
 						game.end(true);
 					}
 
-					// See if a bullet hits the player, if so, kill it... KILL
-					// IT WITH FIRE!!
+					// See if a bullet hits the player, if so, kill it... KILL IT WITH FIRE!!
 					if (collided instanceof Bullet) {
 						collided.attack();
 					}

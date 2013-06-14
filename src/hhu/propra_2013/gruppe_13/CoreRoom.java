@@ -112,7 +112,7 @@ public class CoreRoom {
 				}
 				column++; //sets column up for the next cycle of the switch-case
 					
-				if (column==25){ //since we use 0-24 chars per line, the 25th should trigger the next line
+				if (column==25){ //since we use 24 chars per line, the 25th should trigger the next line
 					column = 0;
 					line++;
 				}
@@ -144,11 +144,47 @@ public class CoreRoom {
 	ArrayList getContent(){
 		return content;
 	}
+	
+	boolean getTopNeighbour(){
+		return hasTopNeighbour;
+	}
+	
+	boolean getBottomNeighbour(){
+		return hasTopNeighbour;
+	}
+	
+	boolean getLeftNeighbour(){
+		return hasLeftNeighbour;
+	}
+	
+	boolean getRightNeighbour(){
+		return hasLeftNeighbour;
+	}
 	//***********************************************************************************************************
 	//Setter
 	//***********************************************************************************************************
 	void setFinished(boolean inFinished){
 		isFinished = inFinished;
+		return;
+	}
+	
+	void setTopNeighbour(boolean inTopNeighbour){
+		hasTopNeighbour = inTopNeighbour;
+		return;
+	}
+	
+	void setBottomNeighbour(boolean inBottomNeighbour){
+		hasBottomNeighbour = inBottomNeighbour;
+		return;
+	}
+	
+	void setLeftNeighbour(boolean inLeftNeighbour){
+		hasLeftNeighbour = inLeftNeighbour;
+		return;
+	}
+	
+	void setRightNeighbour(boolean inRightNeighbour){
+		hasRightNeighbour = inRightNeighbour;
 		return;
 	}
 }
