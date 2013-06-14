@@ -28,26 +28,32 @@ public class ItemResurrect extends Item{
 	}
 
 	@Override
-	void modFigure(ArrayList<CoreGameObjects> collidable, Figure figure) {
-		figure.pickUpItem(this);
+	void modFigure(ArrayList<CoreGameObjects> room, Figure figure) {
+		int money = figure.getGeld();
+		if (money >= 5){
+			money = money - 5;
+			figure.setGeld(money);
+			figure.pickUpItem(this);
+			room.remove(this);
+		}		
 	}
 
 	@Override
 	double getPosX() {
 		// TODO Auto-generated method stub
-		return 0;
+		return x;
 	}
 
 	@Override
 	double getPosY() {
 		// TODO Auto-generated method stub
-		return 0;
+		return y;
 	}
 
 	@Override
 	double getRad() {
 		// TODO Auto-generated method stub
-		return 0;
+		return r;
 	}
 
 	@Override
@@ -72,13 +78,13 @@ public class ItemResurrect extends Item{
 	@Override
 	double getWidth() {
 		// TODO Auto-generated method stub
-		return 0;
+		return width;
 	}
 
 	@Override
 	double getHeight() {
 		// TODO Auto-generated method stub
-		return 0;
+		return height;
 	}
 
 	@Override

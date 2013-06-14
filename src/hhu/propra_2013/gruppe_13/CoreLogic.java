@@ -335,8 +335,6 @@ class CoreLogic implements Runnable {
 						collided.attack();
 					}
 					
-					if (collided instanceof ItemMoney){}
-					
 					
 					if (collided instanceof MISCDoor) { //Doors MUST be checked last because of the new Method of Room-finishing
 						//System.out.println("I just found a Door, and I like it!");
@@ -353,28 +351,24 @@ class CoreLogic implements Runnable {
 							case 0:
 								if (upLeft == true || up == true || upRight == true) {
 									this.switchRoom(destination);
-									System.out.println("wuhu eine tür!"	+ destination);
 								}
 								break;
 
 							case 1:
 								if (right == true || upRight == true || downRight == true) {
 									this.switchRoom(destination);
-									System.out.println("wuhu eine tür!"	+ destination);
 								}
 								break;
 
 							case 2:
 								if (down == true || downRight == true || downLeft == true) {
 									this.switchRoom(destination);
-									System.out.println("wuhu eine tür!"+ destination);
 								}
 								break;
 
 							case 3:
 								if (left == true || downLeft == true || upLeft == true) {
 									this.switchRoom(destination);
-									System.out.println("wuhu eine tür! "+ destination);
 								}
 								break;
 
