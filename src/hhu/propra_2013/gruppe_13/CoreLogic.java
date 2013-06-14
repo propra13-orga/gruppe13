@@ -8,46 +8,46 @@ class CoreLogic implements Runnable {
 
 	// set square root of 2 and define a boolean variable for the game loop
 	private static final double SQRT_2 = 1.41421356237309504880168872420969807856967187537694807317667973799; // http://en.wikipedia.org/wiki/Square_root_of_2
-	private boolean 			gameRunning;
-	private boolean 			bulletEnable;
-	private int 				bulletType;
-	private long 				bulletCoolDown;
-	private int 				bulletCoolDownTime;
+	private boolean gameRunning;
+	private boolean bulletEnable;
+	private int bulletType;
+	private long bulletCoolDown;
+	private int bulletCoolDownTime;
 
 	// Boolean variables for movement and collision detection, location counter
 	// for the room
-	private boolean 	down, up, right, left, upLeft, upRight, downLeft, downRight; // für die Bewegungsrichtungen
-	private boolean 	north, east, south, west, northwest, northeast, southwest, southeast; // zum schießen in die Himmelsrichtungen
+	private boolean down, up, right, left, upLeft, upRight, downLeft, downRight; // für die Bewegungsrichtungen
+	private boolean north, east, south, west, northwest, northeast, southwest, southeast; // zum schießen in die Himmelsrichtungen
 
 	// variables for collision detection
-	private boolean 	freeRight, freeUp, freeDown, freeLeft;
-	private double 		distDown, distUp, distRight, distLeft;
+	private boolean freeRight, freeUp, freeDown, freeLeft;
+	private double distDown, distUp, distRight, distLeft;
 
-	private int 		location = 0;
+	private int location = 0;
 
 	// variables for navigating in the level
-	private int 		locationX, locationY;
-	private CoreRoom 	currentRoom;
+	private int locationX, locationY;
+	private CoreRoom currentRoom;
 
 	// information about the level
-	private int 		stage;
-	private String 		boss;
+	private int stage;
+	private String boss;
 
-	private Figure 		figure, saveFigure; // TODO check why it was GameObjects
+	private Figure figure, saveFigure; // TODO check why it was GameObjects
 	
 	//the status bar
 	private MISCStatusBar statusBar;
 	
-	private CoreO_Game 	game;
+	private CoreO_Game game;
 
 	// figure values
-	private double 		figX, figY;
-	private double 		figVX, figVY;
-	private boolean 	punch, use, aoe; // für Aktionen
-	private int 		figHP;
+	private double figX, figY;
+	private double figVX, figVY;
+	private boolean punch, use, bomb; // für Aktionen
+	private int figHP;
 
 	// List of all Objects within the game
-	private CoreLevel 	level;
+	private CoreLevel level;
 
 	void setGameRunning(boolean boolIn) {
 		gameRunning = boolIn;
@@ -96,7 +96,7 @@ class CoreLogic implements Runnable {
 	}
 
 	void setBomb(boolean in) {
-		aoe = in;
+		bomb = in;
 	}
 
 	void setNorth(boolean in) {
@@ -159,7 +159,7 @@ class CoreLogic implements Runnable {
 
 		bulletEnable = true;
 		bulletType = Bullet.PLAYER_BULLET_STD;
-		bulletCoolDownTime = 300;
+		bulletCoolDownTime = 500;
 
 	}
 
@@ -471,48 +471,29 @@ class CoreLogic implements Runnable {
 	private void attacks() {
 		// Iterate over all Bullets and propagate them
 		ArrayList<CoreGameObjects> collidable = currentRoom.getContent();
-		Attack 		attack;
-		MISCWall 	wall;
-		boolean 	deleted;
+		Bullet bullet;
 
 		for (int i = 0; i < collidable.size(); i++) {
-			
-			deleted = false;
-			// handle attack propagation and check whether the attack is finished
-			if (collidable.get(i) instanceof Attack) {
-				attack = (Attack) collidable.get(i);
-				attack.propagate(collidable);
+			if (collidable.get(i) instanceof Bullet) {
+				bullet = (Bullet) collidable.get(i);
+				bullet.propagate(collidable);
 
 				// Check whether we can destroy the bullet
-				if (attack.getFinished()) {
-					currentRoom.getContent().remove(attack);
-					deleted = true;
+				if (bullet.getFinished()) {
+					currentRoom.getContent().remove(bullet);
 				}
 			}
-			
-			if (!deleted && collidable.get(i) instanceof MISCWall) {
-				wall = (MISCWall) collidable.get(i);
-				if (wall.getHP() == 0) 
-					currentRoom.getContent().remove(wall);
-			}
 		}
-		
-		//  If the player has enough resources, create a new area of effect attack
-		if (aoe && figure.getVolt() > 0) {
-			figure.setVolt(figure.getVolt()-1);
-			CoreGameObjects melee = new Melee(figX, figY, 0, 0, Attack.PLAYER_MELEE_AOE, figure, collidable);
-			currentRoom.getContent().add(melee);
+
+		if (!bulletEnable) {
+			if (System.currentTimeMillis() - bulletCoolDown > bulletCoolDownTime)
+				bulletEnable = true;
 		}
 
 		// Create new Bullets if the player wishes to do so, and the cooldown
 		// for shooting has expired
 		if (north || east || south || west || northeast || northwest
 				|| southeast || southwest) {
-			if (!bulletEnable) {
-				if (System.currentTimeMillis() - bulletCoolDown > bulletCoolDownTime)
-					bulletEnable = true;
-			}
-			
 			if (bulletEnable) {
 				// Save current system time in order to check the cooldown
 				bulletCoolDown = System.currentTimeMillis();
