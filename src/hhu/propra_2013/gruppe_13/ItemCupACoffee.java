@@ -113,7 +113,7 @@ public class ItemCupACoffee extends Item {
 	void modFigure(ArrayList<CoreGameObjects> room, Figure figure) {
 		int hp;
 		hp = figure.getHP();
-		if(figure.getMaxHP() > hp){				
+		if(figure.getMaxHP()*2 > hp){				
 			hp++;
 			figure.setHP(hp);
 			room.remove(this);
