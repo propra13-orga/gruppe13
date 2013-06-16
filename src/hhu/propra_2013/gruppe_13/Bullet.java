@@ -70,6 +70,15 @@ class Bullet extends Attack {
 			break;
 			
 		case PLAYER_SPECIAL_BULLET_ONE:
+			width 	= 0.3;
+			height 	= 0.3;
+			
+			v_x	= signVX*0.2 + Math.signum(signVX)*figVX;
+			v_y = signVY*0.2 + Math.signum(signVY)*figVY;
+			
+			hp 			= 20;
+			hitCounter 	= 5;
+			strength	= 2;
 			break;
 			
 		case PLAYER_SPECIAL_BULLET_TWO:

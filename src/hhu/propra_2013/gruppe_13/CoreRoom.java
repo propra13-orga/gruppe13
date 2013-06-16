@@ -94,7 +94,7 @@ public class CoreRoom {
 						
 				case 'I':
 					int randItem;
-					randItem = (int)(3*Math.random());
+					randItem = (int)(4*Math.random());
 					
 					switch(randItem){
 					
@@ -109,7 +109,9 @@ public class CoreRoom {
 					case 2 :
 						content.add(new ItemArmor(column-1+0.5, line-1+0.5, 1, 1, 1));
 						break;
-						
+					case 3:
+						content.add(new ItemImproveWeapon(column-1+0.5, line-1+0.5, 1, 1, 1));
+						break;
 					}
 					
 					break;

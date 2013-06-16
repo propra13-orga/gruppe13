@@ -326,6 +326,10 @@ class CoreLogic implements Runnable {
 						// Should the figure and an enemy collide, the figure will automatically take damage
 						((EnemyMelee) collided).attack(figure);
 					}
+					
+					if(collided instanceof ItemImproveWeapon){
+						bulletCoolDownTime = bulletCoolDownTime/2 ;
+					}
 
 					if (collided instanceof Item) {
 						((Item) collided).modFigure(collidable, (Figure) figure);
