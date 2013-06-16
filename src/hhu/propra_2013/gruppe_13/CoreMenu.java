@@ -18,7 +18,7 @@ public class CoreMenu{
 		// Create a new Background with a specified color (Black at the moment)
 		JPanel menu = new JPanel();
 		menu.setSize(gameWindow.getContentPane().getSize());
-		menu.setBackground(new Color(255, 51, 201));
+		menu.setBackground(new Color(0, 0, 0));
 
 		
 		//Create Buttons to start the game or end the program
