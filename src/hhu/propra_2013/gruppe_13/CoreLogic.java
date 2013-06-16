@@ -137,6 +137,10 @@ class CoreLogic implements Runnable {
 	Figure getFigure () {
 		return figure;
 	}
+	
+	CoreRoom getRoom(){
+		return currentRoom;
+	}
 
 	// Initiate the current objects variables
 	CoreLogic(Figure inFigure, CoreO_Game inGame) {
