@@ -17,7 +17,7 @@ public class EnemyBossMelee extends Enemy{
 	private boolean dying, dead, stopDrawing;
 	private int stage;
 	
-	EnemyBossMelee(double inx, double iny,int inWidth, int inHeight, int inType, int inStage){
+	EnemyBossMelee(double inx, double iny,double inWidth, double inHeight, int inType, int inStage){
 		x 			= inx;
 		y 			= iny;
 		
