@@ -54,12 +54,6 @@ public class ItemCupACoffee extends Item {
 	}
 
 	@Override
-	void attack() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	double getWidth() {
 		// TODO Auto-generated method stub
 		return width;
