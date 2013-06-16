@@ -94,9 +94,10 @@ class CoreGameDrawer implements Runnable {
 				statusBar.draw(g2d, x0, y0, step);
 				
 				// Iterate over all objects and call draw method
-				ArrayList<CoreGameObjects> list = room.getContent();
-				for(CoreGameObjects toDraw : list) {
-					toDraw.draw(g2d, x0, y0, step);
+				ArrayList<CoreGameObjects> 	list = room.getContent();
+				
+				for(int i=0; i<list.size(); i++) {
+					list.get(i).draw(g2d, x0, y0, step);
 				}
 			}
 		};

@@ -297,8 +297,7 @@ class CoreLogic implements Runnable {
 					}
 				}
 
-				// this will cover collision detection in x-direction, analogous
-				// to above
+				// this will cover collision detection in x-direction, analogous to above
 				if (Math.abs(tmpY) < (figHeight + objHeight) / 2.) {
 					if ((tmpX > 0) && (figVX > (collThree = tmpX - (figWidth + objWidth) / 2.))) {
 						distLeft = Math.min(distLeft, collThree);
@@ -322,13 +321,6 @@ class CoreLogic implements Runnable {
 
 					if (collided instanceof Item) {
 						((Item) collided).modFigure(collidable, (Figure) figure);
-					}
-
-					
-
-					// See if a bullet hits the player, if so, kill it... KILL IT WITH FIRE!!
-					if (collided instanceof Bullet) {
-						collided.attack();
 					}
 					
 					
@@ -372,12 +364,8 @@ class CoreLogic implements Runnable {
 								this.switchRoom(destination);
 
 							}
-
 						}
-
 					}
-
-
 				}
 			}
 		}
@@ -509,6 +497,7 @@ class CoreLogic implements Runnable {
 			currentRoom.getContent().add(melee);
 		}
 		
+		// regardless of whether an attack has been fired we need to reset this variable
 		aoe = false;
 
 		// Create new Bullets if the player wishes to do so, and the cooldown

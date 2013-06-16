@@ -296,7 +296,9 @@ public class CoreLevel {
 
 				}
 			}
-		} //Ab hier normale räume + startraum + shop
+		} 
+		
+		//Ab hier normale räume + startraum + shop
 		System.out.println("Shop ist da");
 		while (bossSet == false){ //setze Bossraum an eine stelle wo er nur einen Nachbarn hat
 			System.out.println("trying to be a boss");
@@ -311,7 +313,8 @@ public class CoreLevel {
 							}
 							else {probCounter++;} // falls es keinen Raum gibt wird der Raum-Garantie-Counter erhöht
 						}
-					}//weitere Zweige analog
+					}
+					//weitere Zweige analog
 					else if (x == 0 && y == 9 && bossSet == false && construction[x][y] == 0) { //untere linke ecke
 						if (construction[x+1][y] != 0 ^ construction[x][y-1] != 0){
 							if(Math.random()<0.1 || probCounter == 10) {

@@ -77,7 +77,6 @@ class Bullet extends Attack {
 			
 		case ENEMY_BULLET_STD: 
 			break;
-			
 		}
 		
 		rad	= Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_x)), 2)*Math.pow(Math.ceil(Math.abs(v_y)), 2);
@@ -319,7 +318,7 @@ class Bullet extends Attack {
 			posY = 13;
 			attack();
 		}
-		
+
 		// decrease bullet hp, destroy the bullet when hp reaches zero. This effectively determines the bullets range
 		hp--;
 		if (hp == 0) attack();

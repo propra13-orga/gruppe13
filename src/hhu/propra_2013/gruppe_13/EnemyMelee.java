@@ -296,6 +296,16 @@ public class EnemyMelee extends Enemy{
 			}
 		}
 		
+		/* check whether there is a collision and move the enemy along the wall at normal speed, 
+		 * this is to ensure that the enemy does not creep along walls while the player can pick him off from a distance. */
+		if (distUp == 0 || distDown == 0) {
+			vx = Math.signum(vx) * v_weight;
+		}
+		
+		if (distRight == 0 || distLeft == 0) {
+			vy = Math.signum(vy) * v_weight;
+		}
+		
 		// do the actual movement, should an object be encountered, kill it and destroy the bullet...
 		if (vy < 0) {
 			if (distUp*distUp < vy*vy) {

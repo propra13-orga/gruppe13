@@ -54,6 +54,5 @@ public class ProPra {
 
 	public static void setFullscreen(boolean toggle) {
 		windowMode = toggle;
-		
 	}
 }
