@@ -16,7 +16,9 @@ public class EnemyMelee extends Enemy{
 	private int 	strength;
 	private boolean dying, dead;
 	
-	EnemyMelee(double inx, double iny,int inWidth, int inHeight, int inType){
+	private int 	stage;
+	
+	EnemyMelee(double inx, double iny,int inWidth, int inHeight, int inType, int inStage){
 		x 			= inx;
 		y 			= iny;
 		
@@ -24,6 +26,8 @@ public class EnemyMelee extends Enemy{
 		height 		= inHeight;
 		
 		type 		= inType;
+		
+		stage = inStage; //to know which random enemy we should spawn
 		
 		// initialize the program according to the type of the desired enemy
 		switch (type) {
