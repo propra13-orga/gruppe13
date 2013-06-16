@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-public class EnemyMelee extends Enemy{
+public class EnemyBossMelee extends Enemy{
 
 	// Basic variables for the enemy
 	private double 	rad;
@@ -15,10 +15,9 @@ public class EnemyMelee extends Enemy{
 	private double 	width, height; 
 	private int 	strength;
 	private boolean dying, dead;
+	private int stage;
 	
-	private int 	stage;
-	
-	EnemyMelee(double inx, double iny,int inWidth, int inHeight, int inType, int inStage){
+	EnemyBossMelee(double inx, double iny,int inWidth, int inHeight, int inType, int inStage){
 		x 			= inx;
 		y 			= iny;
 		
@@ -27,7 +26,7 @@ public class EnemyMelee extends Enemy{
 		
 		type 		= inType;
 		
-		stage = inStage; //to know which random enemy we should spawn
+		stage = inStage; // so we know in which level we are, useful once we spawn random enemies   
 		
 		// initialize the program according to the type of the desired enemy
 		switch (type) {
@@ -40,10 +39,27 @@ public class EnemyMelee extends Enemy{
 		case ENEMY_RANDOM_WALKER:
 			break;
 			
-		case ENEMY_FIGURE_RUN:
-			strength 	= 1;
-			hp			= 5;
-			v_weight	= 0.1;
+		case ENEMY_FIGURE_RUN: //switch case until we have a super cool spawnRandomBoss method
+							   //TODO write super cool spawnRandomBoss method
+			switch(stage){
+			case 1:
+				strength 	= 1;
+				hp			= 10;
+				v_weight	= 0.1;
+				break;
+				
+			case 2:
+				strength	=2;
+				hp			=5;
+				v_weight	=0.1;
+				break;
+			
+			case 3:
+				strength	=2;
+				hp			=10;
+				v_weight	=0.1;
+				break;
+			}
 			break;
 			
 		case ENEMY_FLEEING:

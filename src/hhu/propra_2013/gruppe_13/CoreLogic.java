@@ -179,18 +179,18 @@ class CoreLogic implements Runnable {
 
 	// Do the Artificial Intelligence for all Enemies
 	private void enemyAI() {
-		EnemyMelee enemyMelee;
+		Enemy enemy;
 		ArrayList<CoreGameObjects> collidable = currentRoom.getContent();
 
 		// iterate over all objects and do the AI of all Enemies
 		for (int i = 0; i < collidable.size(); i++) {
-			if (collidable.get(i) instanceof EnemyMelee) {
-				enemyMelee = (EnemyMelee) collidable.get(i);
-				enemyMelee.artificialIntelligence(figure, collidable);
+			if (collidable.get(i) instanceof Enemy) {
+				enemy = (Enemy) collidable.get(i);
+				enemy.artificialIntelligence(figure, collidable);
 
 				// check whether the enemy is dead yet
-				if (enemyMelee.leftForDead()) {
-					currentRoom.getContent().remove(enemyMelee);
+				if (enemy.leftForDead()) {
+					currentRoom.getContent().remove(enemy);
 				}
 			}
 		}
@@ -251,6 +251,11 @@ class CoreLogic implements Runnable {
 		// course
 		for (int i = 0; i < collidable.size(); i++) {
 			collided = collidable.get(i);
+			if (collided instanceof Enemy){
+				if (((Enemy) collided).leftForDead() == false){
+				finished = false;
+				}				
+			} 
 			objX	 = collided.getPosX();
 			objY	 = collided.getPosY();
 			objR	 = collided.getRad();
@@ -313,7 +318,7 @@ class CoreLogic implements Runnable {
 				if (distRight == 0 || distLeft == 0 || distUp == 0 || distDown == 0) {//(collOne == 0 || collTwo == 0 || collThree == 0 || collFour == 0) {
 					if (collided instanceof EnemyMelee) {
 						((EnemyMelee) collided).attack();
-						finished = false;
+						
 						// hp = figure.getHP();//get current hp
 						// hp--;//apply damage
 						// figure.setHP(hp);//set hp to the new value

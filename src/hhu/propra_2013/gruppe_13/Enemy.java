@@ -1,6 +1,7 @@
 package hhu.propra_2013.gruppe_13;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 public abstract class Enemy extends CoreGameObjects{
 	
@@ -24,4 +25,7 @@ public abstract class Enemy extends CoreGameObjects{
 	abstract void attack();
 	abstract double getWidth();
 	abstract double getHeight();
+	abstract boolean leftForDead();
+	 
+	abstract void artificialIntelligence(Figure inFigure, ArrayList<CoreGameObjects> currentRoom);
 	}

@@ -1,15 +1,15 @@
 XXXXXXXXXXXDXXXXXXXXXXXX
-XWW                  WWX
-XWW                  WWX
 X                      X
 X                      X
-X        WWWWWW        X
-X                      X
-D          B      S    D
-X                      X
-X        WWWWWW        X
+X     WWW  WW  WWW     X
+X     W    WW    W     X
 X                      X
 X                      X
-XWW                  WWX
-XWW                  WWX
+D   WWW  WWWWWW  WWW   D
+X                      X
+X                      X
+X     W    WW    W     X
+X     WWW  WW  WWW     X
+X                      X
+X                      X
 XXXXXXXXXXXDXXXXXXXXXXXX

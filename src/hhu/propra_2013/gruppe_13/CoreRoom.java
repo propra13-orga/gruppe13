@@ -48,7 +48,7 @@ public class CoreRoom {
 		//Konstanten anpassen sobald es mehr Räume gibt!!! TODO: Automatisieren
 		//festlegen welche Raumliste der Builder durchgeht
 		if (type == "Raum"){
-			randomNumber =(int)(8*Math.random());
+			randomNumber =(int)(11*Math.random());
 		}
 		else if (type == "BossRaum"){
 			randomNumber =(int)(3*Math.random());	
@@ -79,7 +79,7 @@ public class CoreRoom {
 					break;											//the coordinates 1:1
 					
 				case 'E':
-					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIGURE_RUN));
+					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage));
 					break;
 
 				case 'D': //looks where the door is, then sets destination accordingly
@@ -129,8 +129,10 @@ public class CoreRoom {
 					content.add(new MISCNPC (column-1+0.5, line-1,1,1, figure, "this is a stub",stage));
 					break;
 				case 'F':
-					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIGURE_RUN));
+					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage));
 					break;
+				case 'B':
+					content.add(new EnemyBossMelee(column-1+0.5, line-1+0.5,1,1, Enemy.ENEMY_FIGURE_RUN, stage));
 					
 				}
 				column++; //sets column up for the next cycle of the switch-case
