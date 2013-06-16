@@ -41,9 +41,9 @@ public class MISCNPC extends CoreGameObjects{
 		stage = inStage;
 		
 		text = " ";
-		stageone = "Wow you started the game, congratulations /sarcasm."+"The Boss on this level is a red circle";
-		stagetwo = "ok, so you managed to defeat the red circle, maybe you are able to defeat the next red circle";
-		stagethree = "I am kinda impressed now... maybe you are able to see the victory screen if you live after you fought the last red circle";
+		stageone = "Wow you started the game, congratulations /sarcasm."+"The Boss on this level is a red circle.";
+		stagetwo = "Ok, so you managed to defeat the red circle, maybe you are able to defeat the next red circle.";
+		stagethree = "I am kinda impressed now... maybe you are able to see the victory screen if you live after you fought the last red circle.";
 	}
 	
 	//Methods from GameObjects - we probably won't need all of them
