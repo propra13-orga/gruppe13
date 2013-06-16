@@ -12,12 +12,16 @@ abstract class CoreGameObjects {
 	// declare close ranged weapons (melee and casts)
 	static final int PLAYER_MELEE_AOE			= 20;
 	
-	// finals for defining enemy type
+	// finals for defining melee enemy type
 	static final int ENEMY_TRAP					= 40;
 	static final int ENEMY_PATROL				= 41;
 	static final int ENEMY_RANDOM_WALKER		= 42;
 	static final int ENEMY_FIGURE_RUN			= 43;
 	static final int ENEMY_FLEEING				= 44;
+	static final int ENEMY_FIRE					= 45;
+	
+	// finals for defining ranged enemy type
+	static final int ENEMY_FIRE_SHOOTING		= 46;
 	
 	// Getter and Setter methods for Objects used by Logic and GameDrawer classes
 	abstract int 	getHP();	
@@ -34,7 +38,6 @@ abstract class CoreGameObjects {
 	
 	// Draw and Attack methods for all inheriting classes
 	abstract void draw(Graphics2D g, int xOffset, int yOffset, double step);
-	abstract void attack();
 	abstract double getWidth();
 	abstract double getHeight();
 	abstract void takeDamage(int type, int strength);

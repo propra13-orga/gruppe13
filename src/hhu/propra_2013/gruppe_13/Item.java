@@ -16,7 +16,6 @@ public abstract class Item extends CoreGameObjects{
 	
 	//draw method for the item and stuff
 	abstract void draw(Graphics2D g, int xOffset, int yOffset, double step);
-	abstract void attack();
 	abstract double getWidth();
 	abstract double getHeight();
 }

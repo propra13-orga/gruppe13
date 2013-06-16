@@ -5,19 +5,24 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public class EnemyMelee extends Enemy{
-
-	// Basic variables for the enemy
-	private double 	rad;
-	private int 	type, hp, stationary;
-	private double 	x, y, vx, vy;
-	private double 	v_weight;
 	
-	private double 	width, height; 
+	// type, maximum hp and hp and a stationary variable for initial waiting as the player enters the room
+	private int 	type, maxHp, hp;
+	private int 	stationary;
+	
+	// position and velocity data, width, height and collision radius
+	private double 	x, y, vx, vy, v_weight;
+	private double 	width, height, rad;
+	
+	// strength of the enemy and booleans for checking vital signs
 	private int 	strength;
-	private boolean dying, dead;
+	private boolean	dead, dying, stopDrawing;
 	
+	// the current stage of the game and a long for the time stamp
 	private int 	stage;
+	private long 	regenerate;
 	
+	// Standard constructor, build enemies according to input tyoe
 	EnemyMelee(double inx, double iny,int inWidth, int inHeight, int inType, int inStage){
 		x 			= inx;
 		y 			= iny;
@@ -26,12 +31,15 @@ public class EnemyMelee extends Enemy{
 		height 		= inHeight;
 		
 		type 		= inType;
-		
-		stage = inStage; //to know which random enemy we should spawn
+		stage 		= inStage;
 		
 		// initialize the program according to the type of the desired enemy
 		switch (type) {
-		case ENEMY_TRAP:
+		case ENEMY_FIRE:
+			regenerate	= System.currentTimeMillis();
+			strength 	= 1;
+			hp			= 5;
+			maxHp		= hp;
 			break;
 			
 		case ENEMY_PATROL:
@@ -43,6 +51,7 @@ public class EnemyMelee extends Enemy{
 		case ENEMY_FIGURE_RUN:
 			strength 	= 1;
 			hp			= 5;
+			maxHp		= hp;
 			v_weight	= 0.1;
 			break;
 			
@@ -145,30 +154,65 @@ public class EnemyMelee extends Enemy{
 			else {
 				// TODO: do cool shit whilst the thing is dying
 				dead = true;
+				stopDrawing = true;
 			}
+			break;
+			
+			
+		case ENEMY_FIRE:
+			// the fire will diminish according to the amount of hp left, if it is dead, only an empty fireplace will remain.  
+			double fireWidth 	= width/maxHp*hp;
+			double fireHeight	= height/maxHp*hp;
+			
+			g.setColor(Color.GRAY);
+			g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+			
+			g.setColor(Color.PINK);
+			g.fillOval(xOffset+(int)Math.round((x-fireWidth/2.)*step),  yOffset+(int)Math.round((y-fireHeight/2.)*step), (int)Math.round(step*fireWidth), (int)Math.round(step*fireHeight));
+			
+			break;
 		}
 	}
 
 	@Override
-	void attack() {
+	void attack(Figure figure) {
+		switch (type) {
+		case ENEMY_FIRE:
+			if (hp > 0) 
+				figure.takeDamage(type, strength);
+			break;
+		
+		default:
+			figure.takeDamage(type, strength);
+			break;
+		}
 	}
 
 	@Override
 	void takeDamage(int attackType, int inStrength) {
-		// depending on the attack, decrease the enemies health
-		switch(attackType) {
-		case Attack.PLAYER_BULLET_STD:
-			hp -= inStrength;
-			break;
-		case Attack.PLAYER_MELEE_AOE:
-			hp -= inStrength;
-			break;
-		}
+		// Save when the last attack from the player occurred
+		regenerate 	= System.currentTimeMillis();
+		hp 			-= inStrength;
+
+//		 depending on the attack, decrease the enemies health
+//		switch(attackType) {
+//		case Attack.PLAYER_BULLET_STD:
+//			hp -= inStrength;
+//			break;
+//		case Attack.PLAYER_MELEE_AOE:
+//			hp -= inStrength;
+//			break;
+//		}
 		
 		// check whether the fucking thing is dead yet, initiate dying sequence if that is the case
 		if (hp <= 0) {
 			dying = true;
 		}
+		System.out.println("enemy hp: "+hp);
+	}
+	
+	boolean stopDrawing () {
+		return stopDrawing;
 	}
 	
 	boolean leftForDead () {
@@ -179,8 +223,17 @@ public class EnemyMelee extends Enemy{
 	void artificialIntelligence(Figure figure, ArrayList<CoreGameObjects> currentRoom){
 		switch(type){
 		
-			case ENEMY_TRAP: //this will be the trap type
-				//here is nothing, because this does nothing
+			//this will be the fire type
+			case ENEMY_FIRE: 
+				// See whether the last attack by the player is longer ago than 2 seconds, if so regenerate the fire
+				if (System.currentTimeMillis() - regenerate > 2000) {
+					if (hp != 0 && hp < maxHp) {
+						hp++;
+						regenerate = System.currentTimeMillis();
+					}
+				}
+				
+				dead = dying;
 				break;
 		/*-------------------------------------------------------------------------------------*/
 			case ENEMY_PATROL: //this will be the patrol type
@@ -233,19 +286,19 @@ public class EnemyMelee extends Enemy{
 		double distLeft 	=  30;
 		double distRight 	= -30;
 		
-		double collOne;
-		double collTwo;
-		double collThree;
-		double collFour;
+//		double collOne;
+//		double collTwo;
+//		double collThree;
+//		double collFour;
 		
 		// iterate over all elements within the room and check whether a collision occurs
 		for (int i=0; i<room.size(); i++) {
 			collidable = room.get(i);
 			
-			collOne 	= 1;
-			collTwo 	= 1;
-			collThree 	= 1;
-			collFour	= 1;
+//			collOne 	= 1;
+//			collTwo 	= 1;
+//			collThree 	= 1;
+//			collFour	= 1;
 			
 			// Check whether an object can be collided with, get data if necessary
 			if (collidable instanceof Figure || collidable instanceof MISCWall) {
@@ -264,7 +317,7 @@ public class EnemyMelee extends Enemy{
 					// check in which direction the bullet is moving and act accordingly should a collision occur
 					if (vy < 0 && tmpY > 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
 						// Check whether there is a closer collision, save distance and object if there is
-						if ((collOne = tmpY-(height+objHeight)/2.) < distUp) {
+						if ((/*collOne = */tmpY-(height+objHeight)/2.) < distUp) {
 							distUp = tmpY-(height+objHeight)/2.;
 						}
 					}
@@ -272,7 +325,7 @@ public class EnemyMelee extends Enemy{
 					// analogous to above
 					if (vy > 0 && tmpY < 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
 						// Check whether there is a closer collision, save distance and object if there is
-						if ((collTwo = tmpY+(height+objHeight)/2.) > distDown) {
+						if ((/*collTwo = */tmpY+(height+objHeight)/2.) > distDown) {
 							distDown = tmpY+(height+objHeight)/2.;
 						}
 					}
@@ -280,7 +333,7 @@ public class EnemyMelee extends Enemy{
 					// analogous to above
 					if (vx > 0 && tmpX < 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
 						// Check whether there is a closer collision, save distance and object if there is
-						if ((collThree = tmpX+(width+objWidth)/2.) > distRight) {
+						if ((/*collThree = */tmpX+(width+objWidth)/2.) > distRight) {
 							distRight = tmpX+(width+objWidth)/2.;
 						}
 					}
@@ -288,14 +341,14 @@ public class EnemyMelee extends Enemy{
 					// analogous to above
 					if (vx < 0 && tmpX > 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
 						// Check whether there is a closer collision, save distance and object if there is
-						if ((collFour = tmpX-(width+objWidth)/2.) < distLeft) {
+						if ((/*collFour = */tmpX-(width+objWidth)/2.) < distLeft) {
 							distLeft = tmpX-(width+objWidth)/2.;
 						}
 					}
 					
-					if ((collOne == 0 || collTwo == 0 || collThree == 0 || collFour == 0) && collidable instanceof Figure) {
-						figure.takeDamage(type, strength);
-					}
+//					if ((collOne == 0 || collTwo == 0 || collThree == 0 || collFour == 0) && collidable instanceof Figure) {
+//						figure.takeDamage(type, strength);
+//					}
 				}
 			}
 		}
