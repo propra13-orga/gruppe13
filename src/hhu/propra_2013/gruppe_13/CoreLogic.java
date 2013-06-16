@@ -579,7 +579,12 @@ class CoreLogic implements Runnable {
 		}
 		if (figHP <= 0 && figure.checkRes()) {
 			figure = saveFigure;
-			figure.setHP(1);
+			figure.setHP(3);
+			figX = 11.5;
+			figY = 6.5;
+			figure.setItem1(null);
+			figure.setItem2(null);
+			figure.setItem3(null);
 			this.setRoom(level.getStartX(), level.getStartY(), figure);
 		}
 	}

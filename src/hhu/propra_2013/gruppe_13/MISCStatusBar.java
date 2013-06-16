@@ -44,6 +44,10 @@ public class MISCStatusBar {
 		font = new Font("Arial", Font.PLAIN, (int)step);
 	}
 	
+	void talkTo(String inString){
+		
+	}
+	
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
 		
 		this.work(step);
@@ -80,7 +84,7 @@ public class MISCStatusBar {
 	//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		//drawing our free slots for hp
 
-			for(int k = 1 ; k<=figure.getMaxHP() ; k++){
+			for(int k = 1 ; k <= figure.getMaxHP() ; k++){
 				if(k <= 6) 			g.fillRect(xOffset+(int)(mhpx+(k-1)*step),yOffset+(int)(mhpy-step),(int)(step-step/13),(int)step/10);
 				if(k > 6 && j < 12)	g.fillRect(xOffset+(int)(mhpx+(k-9)*step),yOffset+(int)(mhpy + step/7),(int)(step-step/13),(int)step/10);
 			}

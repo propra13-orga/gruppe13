@@ -106,8 +106,16 @@ class Figure extends CoreGameObjects {
 	}
 	
 	boolean checkRes() {
-		if(item1 instanceof ItemResurrect  || item2 instanceof ItemResurrect || item3 instanceof ItemResurrect)
+		if(item1 instanceof ItemResurrect){
 			return true;
+		}
+		else if(item2 instanceof ItemResurrect){
+			return true;
+		}
+		else if(item3 instanceof ItemResurrect){
+			return true;
+		}
+
 		else 
 			return false;
 	}
@@ -153,6 +161,15 @@ class Figure extends CoreGameObjects {
 	
 	void setAttackType (int type) {
 		attackType = type;
+	}
+	void setItem1 (Item inItem){
+		item1 = inItem;
+	}
+	void setItem2 (Item inItem){
+		item2 = inItem;
+	}
+	void setItem3 (Item inItem){
+		item3 = inItem;
 	}
 	/*-----------------------------------------------------------------------------------------------*/
 	@Override
