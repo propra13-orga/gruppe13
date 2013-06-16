@@ -5,7 +5,7 @@ X  WW              WW  X
 X  WW              WW  X
 X                      X
 X                      X
-D          F           T
+D          F           D
 X                      X
 X                      X
 X  WW              WW  X
