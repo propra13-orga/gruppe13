@@ -46,7 +46,7 @@ class CoreLogic implements Runnable {
 	// figure values
 	private double figX, figY;
 	private double figVX, figVY;
-	private boolean punch, use, aoe; // für Aktionen
+	private boolean punch, use, aoe, map; // für Aktionen map zeigt Map an
 	private int figHP;
 
 	// List of all Objects within the game
@@ -100,6 +100,10 @@ class CoreLogic implements Runnable {
 
 	void setBomb(boolean in) {
 		aoe = in;
+	}
+	
+	void setMap(boolean in){
+		map = in;
 	}
 
 	void setFireUp(boolean in) {
