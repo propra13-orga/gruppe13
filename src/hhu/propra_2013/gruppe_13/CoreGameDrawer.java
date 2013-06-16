@@ -83,6 +83,9 @@ class CoreGameDrawer implements Runnable {
 				x0 += step;
 				y0 += step;
 
+				//draw the status bar
+				statusBar.draw(g2d, x0, y0, step);
+				
 				// versuch die korrekte position der zeichenfläche festzulegen(wird bald wegfallen)
 				// TODO: entfernen, nachdem es Benes "Seal of Approval" erhält
 				xMax = (int)Math.round(22*step);
@@ -96,8 +99,7 @@ class CoreGameDrawer implements Runnable {
 				for(int i=0; i<list.size(); i++) {
 					list.get(i).draw(g2d, x0, y0, step);
 				}
-				//draw the status bar
-				statusBar.draw(g2d, x0, y0, step);
+				
 			}
 		};
 

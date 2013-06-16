@@ -327,6 +327,10 @@ class CoreLogic implements Runnable {
 						((Item) collided).modFigure(collidable, (Figure) figure);
 					}
 					
+					if (collided instanceof MISCNPC){
+						((MISCNPC) collided).talk();
+					}
+					
 					
 					if (collided instanceof MISCDoor) { //Doors MUST be checked last because of the new Method of Room-finishing
 						//System.out.println("I just found a Door, and I like it!");
@@ -475,6 +479,7 @@ class CoreLogic implements Runnable {
 		else if (downLeft)		figure.setDirection(Figure.DOWNLEFT);
 		else if (downRight)		figure.setDirection(Figure.DOWNRIGHT);
 	}
+	
 
 	// Propagate all Bullets and create new Attacks
 	private void attacks() {
