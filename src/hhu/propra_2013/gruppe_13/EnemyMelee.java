@@ -166,7 +166,7 @@ public class EnemyMelee extends Enemy{
 		}
 		
 		// check whether the fucking thing is dead yet, initiate dying sequence if that is the case
-		if (hp == 0) {
+		if (hp <= 0) {
 			dying = true;
 		}
 	}
