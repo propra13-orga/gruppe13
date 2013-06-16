@@ -14,7 +14,7 @@ public class CoreRoom {
 	
 	//Sachen die jeder Raum weiß
 	ArrayList<CoreGameObjects> content; //die alte innere Array list, enthält alle Objekte im Raum
-	boolean isBossRoom, isShop, isFinished;
+	boolean isBossRoom, isShop;
 	boolean hasTopNeighbour, hasBottomNeighbour, hasLeftNeighbour, hasRightNeighbour;
 	
 	//Variablen zur Erzeugung
@@ -48,11 +48,12 @@ public class CoreRoom {
 		//Konstanten anpassen sobald es mehr Räume gibt!!! TODO: Automatisieren
 		//festlegen welche Raumliste der Builder durchgeht
 		if (type == "Raum"){
-			randomNumber =(int)(8*Math.random());
+			randomNumber =(int)(11*Math.random());
 		}
 		else if (type == "BossRaum"){
 			randomNumber =(int)(3*Math.random());	
 			isBossRoom = true;
+			System.out.println("yay, like a baus");
 		}
 		else if (type == "Shop"){
 			randomNumber = 0;
@@ -78,41 +79,65 @@ public class CoreRoom {
 					break;											//the coordinates 1:1
 					
 				case 'E':
-					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, 0));
+					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage));
 					break;
 
 				case 'D': //looks where the door is, then sets destination accordingly
 					//I have no clue why this works
-					if (line == 0 && hasTopNeighbour){dest = 0; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, dest));} //Door is on the upper edge of the field, door should lead up
-					if (line == 14 && hasBottomNeighbour){dest = 2; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, dest));} //Door is on the bottom edge of the field, door should lead down
-					if (column==23 && hasRightNeighbour){dest = 1; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, dest));} //Door is on the right edge of the field, door should lead right
-					if (column==0 && hasLeftNeighbour){dest = 3; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, dest));} //Door is on the left edge of the field, door should lead left
+					if (line == 0 && hasTopNeighbour)		{dest = 0; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the upper edge of the field, door should lead up
+					if (line == 14 && hasBottomNeighbour)	{dest = 2; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the bottom edge of the field, door should lead down
+					if (column==23 && hasRightNeighbour)	{dest = 1; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the right edge of the field, door should lead right
+					if (column==0 && hasLeftNeighbour)		{dest = 3; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the left edge of the field, door should lead left
 					 //creating door with correct destination
 					break;	
 						
 				case 'I':
-					content.add(new ItemCupACoffee(column-1+0.5, line-1+0.5, 1, 1, 1));
+					int randItem;
+					randItem = (int)(3*Math.random());
+					
+					switch(randItem){
+					
+					case 0 :
+						content.add(new ItemCupACoffee(column-1+0.5, line-1+0.5, 1, 1, 1));
+						break;
+						
+					case 1 :
+						content.add(new ItemChocolateBar(column-1+0.5, line-1+0.5, 1, 1, 1));
+						break;
+						
+					case 2 :
+						content.add(new ItemArmor(column-1+0.5, line-1+0.5, 1, 1, 1));
+						break;
+						
+					}
+					
 					break;
 				
+				case 'S':
+					content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, 4));//'Door' leads to the next floor
+					break;
+					
+				case 'R': 
+					content.add(new ItemResurrect(column-1+0.5, line-1+0.5,1,1,figure));
+					break;
+					
+				case 'G':
+					content.add(new ItemMoney (column-1+0.5, line-1+0.5,1,1));
+					break;
+					
 				case 'N':
-					content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, true, 4));//'Door' leads to the next floor
-					break;
-					
-				case 'T': 
-					content.add(new MISCTarget(column-1+0.5, line-1+0.5,1,1,1));
-					break;
-					
-				case 'C':
-					//to add NPC
+					content.add(new MISCNPC (column-1+0.5, line-1,1,1, figure, "this is a stub",stage));
 					break;
 				case 'F':
-					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIGURE_RUN));
+					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage));
 					break;
+				case 'B':
+					content.add(new EnemyBossMelee(column-1+0.5, line-1+0.5,1,1, Enemy.ENEMY_FIGURE_RUN, stage));
 					
 				}
 				column++; //sets column up for the next cycle of the switch-case
 					
-				if (column==25){ //since we use 0-24 chars per line, the 25th should trigger the next line
+				if (column==25){ //since we use 24 chars per line, the 25th should trigger the next line
 					column = 0;
 					line++;
 				}
@@ -137,18 +162,47 @@ public class CoreRoom {
 		return isShop;
 	}
 	
-	boolean getFinished(){
-		return isFinished;
-	}
 	
 	ArrayList getContent(){
 		return content;
 	}
+	
+	boolean getTopNeighbour(){
+		return hasTopNeighbour;
+	}
+	
+	boolean getBottomNeighbour(){
+		return hasTopNeighbour;
+	}
+	
+	boolean getLeftNeighbour(){
+		return hasLeftNeighbour;
+	}
+	
+	boolean getRightNeighbour(){
+		return hasLeftNeighbour;
+	}
 	//***********************************************************************************************************
 	//Setter
 	//***********************************************************************************************************
-	void setFinished(boolean inFinished){
-		isFinished = inFinished;
+	
+	void setTopNeighbour(boolean inTopNeighbour){
+		hasTopNeighbour = inTopNeighbour;
+		return;
+	}
+	
+	void setBottomNeighbour(boolean inBottomNeighbour){
+		hasBottomNeighbour = inBottomNeighbour;
+		return;
+	}
+	
+	void setLeftNeighbour(boolean inLeftNeighbour){
+		hasLeftNeighbour = inLeftNeighbour;
+		return;
+	}
+	
+	void setRightNeighbour(boolean inRightNeighbour){
+		hasRightNeighbour = inRightNeighbour;
 		return;
 	}
 }

@@ -16,6 +16,7 @@ class Bullet extends Attack {
 	private double 	rad;
 	private int 	hp;
 	private int 	type;
+	private int		strength;
 	
 	// width and height
 	private double 	width;
@@ -63,8 +64,9 @@ class Bullet extends Attack {
 			v_x	= signVX*0.2 + Math.signum(signVX)*figVX;
 			v_y = signVY*0.2 + Math.signum(signVY)*figVY;
 			
-			hp = 10;
-			hitCounter = 5;
+			hp 			= 20;
+			hitCounter 	= 5;
+			strength	= 1;
 			break;
 			
 		case PLAYER_SPECIAL_BULLET_ONE:
@@ -176,7 +178,7 @@ class Bullet extends Attack {
 	}
 
 	@Override
-	void takeDamage(int type) {
+	void takeDamage(int type, int strength) {
 		// Keep empty, since a bullet cannot take damage, but only deal damage. 
 	}
 	
@@ -265,7 +267,7 @@ class Bullet extends Attack {
 		if (up) {
 			if (distUp*distUp < v_y*v_y) {
 				posY -= distUp;
-				collUp.takeDamage(type);
+				collUp.takeDamage(type, strength);
 				attack();
 			} else
 				posY += v_y;
@@ -274,7 +276,7 @@ class Bullet extends Attack {
 		if (down) {
 			if (distDown*distDown < v_y*v_y) {
 				posY -= distDown;
-				collDown.takeDamage(type);
+				collDown.takeDamage(type, strength);
 				attack();
 			} else
 				posY += v_y;
@@ -283,7 +285,7 @@ class Bullet extends Attack {
 		if (right) {
 			if (distRight*distRight < v_x*v_x) {
 				posX -= distRight;
-				collRight.takeDamage(type);
+				collRight.takeDamage(type, strength);
 				attack();
 			} else
 				posX += v_x;
@@ -292,7 +294,7 @@ class Bullet extends Attack {
 		if (left) {
 			if (distLeft*distLeft < v_x*v_x) {
 				posX -= distLeft;
-				collLeft.takeDamage(type);
+				collLeft.takeDamage(type, strength);
 				attack();
 			} else
 				posX += v_x;

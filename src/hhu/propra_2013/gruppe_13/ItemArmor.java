@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-public class ItemCupACoffee extends Item {
+public class ItemArmor extends  Item{
 
 	private double 	x, y;
 	private double	r;
@@ -12,7 +12,7 @@ public class ItemCupACoffee extends Item {
 	private double 	height, width;
 	private int 	hp;
 	
-	public ItemCupACoffee(double initX, double initY, int initWidth, int initHeight, int inHP) {
+	public ItemArmor(double initX, double initY, int initWidth, int initHeight, int inHP) {
 		x	= initX;
 		y	= initY;
 		r = Math.max(width, height);
@@ -48,7 +48,7 @@ public class ItemCupACoffee extends Item {
 
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		g.setColor(Color.cyan);
+		g.setColor(Color.orange);
 		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 		
 	}
@@ -111,13 +111,11 @@ public class ItemCupACoffee extends Item {
 	
 	@Override
 	void modFigure(ArrayList<CoreGameObjects> room, Figure figure) {
-		int hp;
-		hp = figure.getHP();
-		if(figure.getMaxHP()*2 > hp){				
-			hp++;
-			figure.setHP(hp);
-			room.remove(this);
-		}
+		int armor;
+		armor = figure.getArmor();				
+		armor++;
+		figure.setArmor(armor);
+		room.remove(this);
 	}
 
 	@Override

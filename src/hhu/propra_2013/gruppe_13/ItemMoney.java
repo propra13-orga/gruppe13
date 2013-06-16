@@ -4,23 +4,33 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-public class ItemCupACoffee extends Item {
+public class ItemMoney extends Item {
 
+	private double 	height, width;
 	private double 	x, y;
 	private double	r;
-	private double 	v_x, v_y;
-	private double 	height, width;
-	private int 	hp;
 	
-	public ItemCupACoffee(double initX, double initY, int initWidth, int initHeight, int inHP) {
+	public ItemMoney(double initX, double initY, int initHeight, int initWidth){
 		x	= initX;
 		y	= initY;
 		r = Math.max(width, height);
 		height	= initWidth;
 		width	= initHeight;
-		
 	}
 	
+	
+	
+	
+	
+	@Override
+	void modFigure(ArrayList<CoreGameObjects> room, Figure figure) {
+		int geld;
+		geld = figure.getGeld();			
+		geld++;
+		figure.setGeld(geld);
+		room.remove(this);
+	}
+
 	@Override
 	double getPosX() {
 		// TODO Auto-generated method stub
@@ -41,14 +51,14 @@ public class ItemCupACoffee extends Item {
 
 	@Override
 	void setPos(double inX, double inY) {
-		x = inX;
-		y = inY;
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		g.setColor(Color.cyan);
+		// TODO Auto-generated method stub
+		g.setColor(Color.yellow);
 		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 		
 	}
@@ -74,7 +84,7 @@ public class ItemCupACoffee extends Item {
 	@Override
 	int getHP() {
 		// TODO Auto-generated method stub
-		return hp;
+		return 0;
 	}
 
 	@Override
@@ -98,33 +108,19 @@ public class ItemCupACoffee extends Item {
 	@Override
 	void setRad(double inR) {
 		// TODO Auto-generated method stub
-		r = inR;
 		
 	}
 
 	@Override
 	void setHP(int inHP) {
 		// TODO Auto-generated method stub
-		hp = inHP;
-	}
-
-	
-	@Override
-	void modFigure(ArrayList<CoreGameObjects> room, Figure figure) {
-		int hp;
-		hp = figure.getHP();
-		if(figure.getMaxHP()*2 > hp){				
-			hp++;
-			figure.setHP(hp);
-			room.remove(this);
-		}
+		
 	}
 
 	@Override
 	void takeDamage(int type, int strength) {
-		// Keep empty since items should probably not be able to take damage
+		// TODO Auto-generated method stub
+		
 	}
-
-	
 
 }

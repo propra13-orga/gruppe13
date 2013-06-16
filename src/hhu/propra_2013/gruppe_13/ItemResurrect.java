@@ -1,5 +1,7 @@
 package hhu.propra_2013.gruppe_13;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
@@ -10,37 +12,50 @@ public class ItemResurrect extends Item{
 	private double 	v_x, v_y;
 	private double 	height, width;
 	private int 	hp;
+	private int 	prize;
+	private Figure 	figure;
 	
-	public ItemResurrect(double initX, double initY, int initWidth, int initHeight, int inHP) {
+	public ItemResurrect(double initX, double initY, int initWidth, int initHeight, Figure inFigure) {
 		x	= initX;
 		y	= initY;
 		r = Math.max(width, height);
 		height	= initWidth;
 		width	= initHeight;
-		
+		prize 	= 5;
+		figure 	= inFigure;
+	}
+	
+	int getPrize(){
+		return prize;
 	}
 
 	@Override
-	void modFigure(ArrayList<CoreGameObjects> collidable, Figure figure) {
-		figure.pickUpItem(this);
+	void modFigure(ArrayList<CoreGameObjects> room, Figure figure) {
+		int money = figure.getGeld();
+		if (money >= 5){
+			money = money - 5;
+			figure.setGeld(money);
+			figure.pickUpItem(this);
+			room.remove(this);
+		}		
 	}
 
 	@Override
 	double getPosX() {
 		// TODO Auto-generated method stub
-		return 0;
+		return x;
 	}
 
 	@Override
 	double getPosY() {
 		// TODO Auto-generated method stub
-		return 0;
+		return y;
 	}
 
 	@Override
 	double getRad() {
 		// TODO Auto-generated method stub
-		return 0;
+		return r;
 	}
 
 	@Override
@@ -51,7 +66,17 @@ public class ItemResurrect extends Item{
 
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		// TODO Auto-generated method stub
+		g.setColor(Color.gray);
+		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+		Font font = new Font("Arial", Font.PLAIN, (int)step/2);
+		g.setFont(font);
+		if(figure.getGeld() >= prize){
+			g.setColor(Color.yellow);
+		}
+		if(figure.getGeld() < prize){
+			g.setColor(Color.red);
+		}
+		g.drawString(prize + "#", xOffset+(int)Math.round(x*step), yOffset+(int)(y*step) );
 		
 	}
 
@@ -64,13 +89,13 @@ public class ItemResurrect extends Item{
 	@Override
 	double getWidth() {
 		// TODO Auto-generated method stub
-		return 0;
+		return width;
 	}
 
 	@Override
 	double getHeight() {
 		// TODO Auto-generated method stub
-		return 0;
+		return height;
 	}
 
 	@Override
@@ -110,9 +135,8 @@ public class ItemResurrect extends Item{
 	}
 
 	@Override
-	void takeDamage(int type) {
-		// TODO Auto-generated method stub
-		
+	void takeDamage(int type, int strength) {
+		// Keep empty since items shouldn't take damage
 	}
 
 }

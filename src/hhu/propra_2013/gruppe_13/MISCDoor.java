@@ -6,18 +6,16 @@ import java.awt.Graphics2D;
 class MISCDoor extends CoreGameObjects {
 	private double 		x,y,r;
 	private double 		height, width;
-	private boolean 	open;
 	private int 		destination;
 	
-	MISCDoor (double initX, double initY, double initWidth, double initHeight, double initRadius, boolean inOpen, int inDestination){
+	MISCDoor (double initX, double initY, double initWidth, double initHeight, double initRadius, int inDestination){
 		x 			= initX;
 		y 			= initY;
-		r			= Math.max(initWidth, initHeight);
+		r			= 2*Math.max(initWidth, initHeight);
 		
 		width 		= initWidth;
 		height		= initHeight;
 		
-		open		= inOpen;
 		destination	= inDestination; //Destination stores where the door leads to. 0=goes up 1=goes right 2= goes down 3= goes left 4= Goes to the next Level
 
 	}
@@ -26,12 +24,6 @@ class MISCDoor extends CoreGameObjects {
 		return destination;
 	}
 
-	boolean getOpen(){
-		return open;
-	}
-	
-	
-	
 	
 	@Override
 	int getHP() {
@@ -119,9 +111,8 @@ class MISCDoor extends CoreGameObjects {
 	}
 
 	@Override
-	void takeDamage(int type) {
-		// TODO Auto-generated method stub
-		
+	void takeDamage(int type, int strength) {
+		// TODO: Check whether we want this for secret rooms
 	}
 
 }

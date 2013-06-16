@@ -2,42 +2,50 @@ package hhu.propra_2013.gruppe_13;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.Timer;
 
 
 class Figure extends CoreGameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
 	// Hitpoints, position, collision radius and constructor
 	private int 	hp;
-	private int 	geld;
+	private int 	money;
+	private int 	chocolate;
+	
 	private double 	x, y, r;
-	private double 	width, height;
 	private double 	v_x, v_y;
+	private double 	width, height;
+	
 	private int 	maxHP;
-	private boolean cooldown;
+	private long	cooldown;
+	
 	private int 	armor;
 	private Item 	item1, item2, item3;
 	
+	private boolean	specialAttack;
+	private int 	attackType;
+	
 	// class constructor
 	Figure(double initX, double initY, double initHeight, double initWidth) {
-		x = initX;
-		y = initY;
+		x 		= initX;
+		y 		= initY;
 		
-		width  = initWidth;
-		height = initHeight;
+		width  	= initWidth;
+		height 	= initHeight;
 		
-		v_x = 0.3;
-		v_y = 0.3;
-		r   = Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_x)), 2)*Math.pow(Math.ceil(Math.abs(v_y)), 2);
-		hp  = 1;
-		maxHP	= 2;
+		v_x 	= 0.3;
+		v_y 	= 0.3;
+		r   	= Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_x)), 2)*Math.pow(Math.ceil(Math.abs(v_y)), 2);
 		
-		item1 = null;
-		item2 = null;
-		item3 = null;
+		hp  	= 15;
+		maxHP	= 8;
+		chocolate	= 10;
+		
+		item1 	= null;
+		item2 	= null;
+		item3 	= null;
+		
+		cooldown = System.currentTimeMillis();
+		armor	 = 5;
 	}
 	
 	
@@ -48,7 +56,7 @@ class Figure extends CoreGameObjects {
 	}
 	
 	int getGeld(){
-		return geld;
+		return money;
 	}
 	
 	
@@ -98,8 +106,14 @@ class Figure extends CoreGameObjects {
 	}
 	
 	boolean checkRes() {
-		if(item1 instanceof ItemResurrect  || item2 instanceof ItemResurrect || item3 instanceof ItemResurrect)return true;
-		else return false;
+		if(item1 instanceof ItemResurrect  || item2 instanceof ItemResurrect || item3 instanceof ItemResurrect)
+			return true;
+		else 
+			return false;
+	}
+	
+	int getChocolate() {
+		return chocolate;
 	}
 	
 	/*-----------------------------------------------------------------------------------------------*/
@@ -108,8 +122,8 @@ class Figure extends CoreGameObjects {
 	}
 	
 	void setPos(double inX, double inY) {
-		x = inX;
-		y = inY;
+		x 	= inX;
+		y 	= inY;
 	}
 	
 	void setSpeed(double inVX, double inVY) {
@@ -118,12 +132,11 @@ class Figure extends CoreGameObjects {
 	}
 	
 	void setRad(double inR) {
-		r = inR;
+		r 	= inR;
 	}
 	
 	void setHP(int inHP) {
-		hp = inHP;
-		System.out.println("Player HP is now"+ hp );
+		hp 	= inHP;
 	}
 	
 	void setMaxHP(int inMaxHP){
@@ -131,9 +144,16 @@ class Figure extends CoreGameObjects {
 	}
 	
 	void setGeld(int inGeld){
-		geld=inGeld;
+		money 	= inGeld;
 	}
 	
+	void setChocolate (int inChocolate) {
+		chocolate 	= inChocolate;
+	}
+	
+	void setAttackType (int type) {
+		attackType = type;
+	}
 	/*-----------------------------------------------------------------------------------------------*/
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
@@ -150,30 +170,23 @@ class Figure extends CoreGameObjects {
 	void attack() {
 		
 	}
-	//this method can be called from the collision method, then later on be used
-	void pickUpItem(Item inItem){
-		if(item1 == null)		item1 = inItem;
-		else if(item2 == null)	item2 = inItem;
-		else if(item3 == null)	item3 = inItem;
-	}
-
-	void takeDamage(int inStrength) {
-		if(!cooldown){
-			hp = hp - inStrength;
-			cooldown = true;
-			timer();
-		}
-	}
-
-
 	
-	public void timer(){
-		int delay = 1000; //milliseconds
-		ActionListener taskPerformer = new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				cooldown = false;
-			}
-		};
-		new Timer(delay, taskPerformer).start();
+	// this method can be called from the collision method, then later on be used
+	// TODO: Make that shit better
+	void pickUpItem(Item inItem) {
+		if		(item1 == null)	item1 = inItem;
+		else if	(item2 == null)	item2 = inItem;
+		else if	(item3 == null)	item3 = inItem;
+	}
+
+	// check whether there is any armor to destroy, else reduce hp
+	void takeDamage(int type, int inStrength) {
+		if(System.currentTimeMillis()-cooldown > 1000){
+			if (armor > 0)
+				armor -= inStrength;
+			else
+				hp -= inStrength;
+			cooldown = System.currentTimeMillis();
+		}
 	}
 }
