@@ -101,35 +101,35 @@ class CoreLogic implements Runnable {
 		bomb = in;
 	}
 
-	void setNorth(boolean in) {
+	void setFireUp(boolean in) {
 		north = in;
 	}
 
-	void setEast(boolean in) {
+	void setFireRight(boolean in) {
 		east = in;
 	}
 
-	void setSouth(boolean in) {
+	void setFireDown(boolean in) {
 		south = in;
 	}
 
-	void setWest(boolean in) {
+	void setFireLeft(boolean in) {
 		west = in;
 	}
 
-	void setNorthwest(boolean in) {
+	void setFireUpLeft(boolean in) {
 		northwest = in;
 	}
 
-	void setNortheast(boolean in) {
+	void setFireUpRight(boolean in) {
 		northeast = in;
 	}
 
-	void setSouthwest(boolean in) {
+	void setFireDownLeft(boolean in) {
 		southwest = in;
 	}
 
-	void setSoutheast(boolean in) {
+	void setFireDownRight(boolean in) {
 		southeast = in;
 	}
 
