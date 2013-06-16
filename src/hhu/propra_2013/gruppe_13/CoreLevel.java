@@ -657,18 +657,18 @@ public class CoreLevel {
 		}
 		
 		
-		
+		Map map = new Map();
 		
 		
 		System.out.println("Level Fertig!");
 		for(y = 0;y <= 9;y++){
 			for(x = 0;x <= 9;x++){
 				System.out.print(construction [x][y] +"  ");
+				//map.setRoom(construction[x][y],x,y);
 			}
 			System.out.println();
 		}
-		//Ab jetzt ist das level Array fertig <- gelogen
-		//TODO Bossraum und shop hinzufügen!!
+		//Ab jetzt ist das level Array fertig
 		
 		
 	}
