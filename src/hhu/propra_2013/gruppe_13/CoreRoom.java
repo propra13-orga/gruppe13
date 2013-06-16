@@ -100,7 +100,7 @@ public class CoreRoom {
 					break;
 					
 				case 'R': 
-					content.add(new ItemResurrect(column-1+0.5, line-1+0.5,1,1));
+					content.add(new ItemResurrect(column-1+0.5, line-1+0.5,1,1,figure));
 					break;
 					
 				case 'G':

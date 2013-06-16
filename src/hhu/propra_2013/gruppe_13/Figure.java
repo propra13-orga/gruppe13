@@ -45,6 +45,7 @@ class Figure extends CoreGameObjects {
 		item3 	= null;
 		
 		cooldown = System.currentTimeMillis();
+		armor	 = 5;
 	}
 	
 	
