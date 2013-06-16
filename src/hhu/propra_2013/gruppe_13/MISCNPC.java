@@ -12,11 +12,11 @@ public class MISCNPC extends CoreGameObjects{
 	private double 	height, width;
 	private int		strength;
 	private int 	type;
-	private Figure figure;
-	private String text; 
-	private int stage; 		//NPC should know which area he is in, so he can refer to the level Theme or something
-	private String boss;	//NPC should know what the area boss is, so he can say funny stuff about him 
-	private String stageone,stagetwo,stagethree;
+	private Figure 	figure;
+	private String 	text; 
+	private int 	stage; 		//NPC should know which area he is in, so he can refer to the level Theme or something
+	private String 	boss;	//NPC should know what the area boss is, so he can say funny stuff about him 
+	private String 	stageone,stagetwo,stagethree;
 	
 	//Constructor for NPC - TODO Think what the NPC should be able to do, and implement the useful thoughts
 	MISCNPC(double initX, double initY, double initHeight, double initWidth, Figure inFigure, String inBoss, int inStage){
@@ -126,12 +126,6 @@ public class MISCNPC extends CoreGameObjects{
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
 		g.setColor(Color.green);
 		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
-	}
-
-	@Override
-	void attack() {
-		// TODO: should an NPC really deal damage to the figure??
-		figure.takeDamage(type, strength);
 	}
 
 	@Override

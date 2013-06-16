@@ -93,12 +93,6 @@ class MISCDoor extends CoreGameObjects {
 	}
 
 	@Override
-	void attack() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	double getVX() {
 		// TODO Auto-generated method stub
 		return 0;

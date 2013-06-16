@@ -14,7 +14,7 @@ public class EnemyBossMelee extends Enemy{
 	
 	private double 	width, height; 
 	private int 	strength;
-	private boolean dying, dead;
+	private boolean dying, dead, stopDrawing;
 	private int stage;
 	
 	EnemyBossMelee(double inx, double iny,int inWidth, int inHeight, int inType, int inStage){
@@ -161,12 +161,13 @@ public class EnemyBossMelee extends Enemy{
 			else {
 				// TODO: do cool shit whilst the thing is dying
 				dead = true;
+				stopDrawing = true;
 			}
 		}
 	}
 
 	@Override
-	void attack() {
+	void attack(Figure figure) {
 	}
 
 	@Override
@@ -182,9 +183,17 @@ public class EnemyBossMelee extends Enemy{
 		}
 		
 		// check whether the fucking thing is dead yet, initiate dying sequence if that is the case
-		if (hp == 0) {
+		if (hp <= 0) {
 			dying = true;
 		}
+		System.out.println("enemy hp: "+hp);
+
+	}
+	
+	@Override
+	boolean stopDrawing() {
+		// TODO Auto-generated method stub
+		return stopDrawing;
 	}
 	
 	boolean leftForDead () {
