@@ -16,6 +16,7 @@ public class CoreRoom {
 	ArrayList<CoreGameObjects> content; //die alte innere Array list, enthält alle Objekte im Raum
 	boolean isBossRoom, isShop;
 	boolean hasTopNeighbour, hasBottomNeighbour, hasLeftNeighbour, hasRightNeighbour;
+	boolean isFinished;//for later use in the map
 	
 	//Variablen zur Erzeugung
 	int element , column, line , dest;
@@ -133,6 +134,7 @@ public class CoreRoom {
 					break;
 				case 'B':
 					content.add(new EnemyBossMelee(column-1+0.5, line-1+0.5,1,1, Enemy.ENEMY_FIGURE_RUN, stage));
+									
 					
 				}
 				column++; //sets column up for the next cycle of the switch-case
@@ -154,6 +156,11 @@ public class CoreRoom {
 	}
 	//Getter
 	//***********************************************************************************************************
+	boolean getFinished(){
+		return isFinished;
+	}
+	
+	
 	boolean getBossRoom(){
 		return isBossRoom;
 	}
@@ -185,6 +192,11 @@ public class CoreRoom {
 	//***********************************************************************************************************
 	//Setter
 	//***********************************************************************************************************
+	
+	void setFinished(boolean inFinished){
+		isFinished = inFinished;
+		return;
+	}
 	
 	void setTopNeighbour(boolean inTopNeighbour){
 		hasTopNeighbour = inTopNeighbour;

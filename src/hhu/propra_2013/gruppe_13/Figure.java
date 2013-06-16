@@ -155,6 +155,7 @@ class Figure extends CoreGameObjects {
 	void setSpeed(double inVX, double inVY) {
 		v_x = inVX;
 		v_y = inVY;
+		r   	= Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_x)), 2)*Math.pow(Math.ceil(Math.abs(v_y)), 2);
 	}
 	
 	void setRad(double inR) {

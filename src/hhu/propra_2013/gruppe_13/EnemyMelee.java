@@ -5,20 +5,24 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public class EnemyMelee extends Enemy{
-
-	// Basic variables for the enemy
-	private double 	rad;
-	private int 	type, maxHp,hp, stationary;
-	private double 	x, y, vx, vy;
-	private double 	v_weight;
 	
-	private double 	width, height; 
+	// type, maximum hp and hp and a stationary variable for initial waiting as the player enters the room
+	private int 	type, maxHp, hp;
+	private int 	stationary;
+	
+	// position and velocity data, width, height and collision radius
+	private double 	x, y, vx, vy, v_weight;
+	private double 	width, height, rad;
+	
+	// strength of the enemy and booleans for checking vital signs
 	private int 	strength;
-	private boolean dying, dead, stopDrawing;
+	private boolean	dead, dying, stopDrawing;
 	
+	// the current stage of the game and a long for the time stamp
 	private int 	stage;
 	private long 	regenerate;
 	
+	// Standard constructor, build enemies according to input tyoe
 	EnemyMelee(double inx, double iny,int inWidth, int inHeight, int inType, int inStage){
 		x 			= inx;
 		y 			= iny;
@@ -27,8 +31,7 @@ public class EnemyMelee extends Enemy{
 		height 		= inHeight;
 		
 		type 		= inType;
-		
-		stage = inStage; //to know which random enemy we should spawn
+		stage 		= inStage;
 		
 		// initialize the program according to the type of the desired enemy
 		switch (type) {
@@ -157,7 +160,7 @@ public class EnemyMelee extends Enemy{
 			
 			
 		case ENEMY_FIRE:
-			// the fire will diminish according to the amount of hp left, if it is dead, only a circle will remain.  
+			// the fire will diminish according to the amount of hp left, if it is dead, only an empty fireplace will remain.  
 			double fireWidth 	= width/maxHp*hp;
 			double fireHeight	= height/maxHp*hp;
 			
