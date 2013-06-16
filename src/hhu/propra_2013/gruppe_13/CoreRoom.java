@@ -48,7 +48,7 @@ public class CoreRoom {
 		//Konstanten anpassen sobald es mehr Räume gibt!!! TODO: Automatisieren
 		//festlegen welche Raumliste der Builder durchgeht
 		if (type == "Raum"){
-			randomNumber =(int)(8*Math.random());
+			randomNumber =(int)(11*Math.random());
 		}
 		else if (type == "BossRaum"){
 			randomNumber =(int)(3*Math.random());	
@@ -79,7 +79,7 @@ public class CoreRoom {
 					break;											//the coordinates 1:1
 					
 				case 'E':
-					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIGURE_RUN));
+					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage));
 					break;
 
 				case 'D': //looks where the door is, then sets destination accordingly
@@ -92,7 +92,25 @@ public class CoreRoom {
 					break;	
 						
 				case 'I':
-					content.add(new ItemCupACoffee(column-1+0.5, line-1+0.5, 1, 1, 1));
+					int randItem;
+					randItem = (int)(3*Math.random());
+					
+					switch(randItem){
+					
+					case 0 :
+						content.add(new ItemCupACoffee(column-1+0.5, line-1+0.5, 1, 1, 1));
+						break;
+						
+					case 1 :
+						content.add(new ItemChocolateBar(column-1+0.5, line-1+0.5, 1, 1, 1));
+						break;
+						
+					case 2 :
+						content.add(new ItemArmor(column-1+0.5, line-1+0.5, 1, 1, 1));
+						break;
+						
+					}
+					
 					break;
 				
 				case 'S':
@@ -100,7 +118,7 @@ public class CoreRoom {
 					break;
 					
 				case 'R': 
-					content.add(new ItemResurrect(column-1+0.5, line-1+0.5,1,1));
+					content.add(new ItemResurrect(column-1+0.5, line-1+0.5,1,1,figure));
 					break;
 					
 				case 'G':
@@ -111,8 +129,10 @@ public class CoreRoom {
 					content.add(new MISCNPC (column-1+0.5, line-1,1,1, figure, "this is a stub",stage));
 					break;
 				case 'F':
-					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIGURE_RUN));
+					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage));
 					break;
+				case 'B':
+					content.add(new EnemyBossMelee(column-1+0.5, line-1+0.5,1,1, Enemy.ENEMY_FIGURE_RUN, stage));
 					
 				}
 				column++; //sets column up for the next cycle of the switch-case

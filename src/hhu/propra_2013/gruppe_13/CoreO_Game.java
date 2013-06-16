@@ -24,7 +24,7 @@ class CoreO_Game {
 		// Initiate object variables
 		gameWindow 		= inFrame;
 		//rooms 			= new ArrayList<ArrayList<CoreGameObjects>>();
-		figure 			= new Figure(0.5, 6.5, 1, 1);
+		figure 			= new Figure(10.5, 6.5, 1, 1);
 		int element, line, column, dest; //for room generation, saves the current char (as int),the line its from, and the column its in
 			
 		

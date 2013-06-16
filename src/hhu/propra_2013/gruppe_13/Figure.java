@@ -9,7 +9,7 @@ class Figure extends CoreGameObjects {
 	// Hitpoints, position, collision radius and constructor
 	private int 	hp;
 	private int 	money;
-	private int 	volt;
+	private int 	chocolate;
 	
 	private double 	x, y, r;
 	private double 	v_x, v_y;
@@ -38,13 +38,14 @@ class Figure extends CoreGameObjects {
 		
 		hp  	= 15;
 		maxHP	= 8;
-		volt	= 10;
+		chocolate	= 10;
 		
 		item1 	= null;
 		item2 	= null;
 		item3 	= null;
 		
 		cooldown = System.currentTimeMillis();
+		armor	 = 5;
 	}
 	
 	
@@ -111,8 +112,8 @@ class Figure extends CoreGameObjects {
 			return false;
 	}
 	
-	int getVolt() {
-		return volt;
+	int getChocolate() {
+		return chocolate;
 	}
 	
 	/*-----------------------------------------------------------------------------------------------*/
@@ -146,8 +147,8 @@ class Figure extends CoreGameObjects {
 		money 	= inGeld;
 	}
 	
-	void setVolt (int inVolt) {
-		volt 	= inVolt;
+	void setChocolate (int inChocolate) {
+		chocolate 	= inChocolate;
 	}
 	
 	void setAttackType (int type) {
