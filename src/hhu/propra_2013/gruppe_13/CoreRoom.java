@@ -133,7 +133,7 @@ public class CoreRoom {
 					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage));
 					break;
 				case 'B':
-					content.add(new EnemyBossMelee(column-1+0.5, line-1+0.5,1,1, Enemy.ENEMY_FIGURE_RUN, stage));
+					content.add(new EnemyBossMelee(column-1+0.5, line-1+0.5, 1 , 1 , Enemy.ENEMY_FIGURE_RUN, stage));
 									
 					
 				}

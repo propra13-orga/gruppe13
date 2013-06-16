@@ -22,7 +22,7 @@ public class EnemyRanged extends Enemy {
 	private int 	stage;
 	private long 	regenerate;
 	
-	EnemyRanged (double inx, double iny,int inWidth, int inHeight, int inType, int inStage) {
+	EnemyRanged (double inx, double iny,double inWidth, double inHeight, int inType, int inStage) {
 		x = inx;
 		y = iny;
 		
