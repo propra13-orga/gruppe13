@@ -22,10 +22,11 @@ public abstract class Enemy extends CoreGameObjects{
 		
 	// Draw and Attack methods for all inheriting classes
 	abstract void draw(Graphics2D g, int xOffset, int yOffset, double step);
-	abstract void attack();
+	abstract void attack(Figure figure);
 	abstract double getWidth();
 	abstract double getHeight();
 	abstract boolean leftForDead();
+	abstract boolean stopDrawing();
 	 
 	abstract void artificialIntelligence(Figure inFigure, ArrayList<CoreGameObjects> currentRoom);
 	}

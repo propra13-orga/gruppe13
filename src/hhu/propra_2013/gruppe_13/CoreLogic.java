@@ -2,8 +2,7 @@ package hhu.propra_2013.gruppe_13;
 
 import java.util.ArrayList;
 
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
-
+@SuppressWarnings("unchecked")
 class CoreLogic implements Runnable {
 
 	// set square root of 2 and define a boolean variable for the game loop
@@ -134,6 +133,10 @@ class CoreLogic implements Runnable {
 	void setFireDownRight(boolean in) {
 		southeast = in;
 	}
+	
+	Figure getFigure () {
+		return figure;
+	}
 
 	// Initiate the current objects variables
 	CoreLogic(Figure inFigure, CoreO_Game inGame) {
@@ -189,7 +192,7 @@ class CoreLogic implements Runnable {
 				enemy.artificialIntelligence(figure, collidable);
 
 				// check whether the enemy is dead yet
-				if (enemy.leftForDead()) {
+				if (enemy.stopDrawing()) {
 					currentRoom.getContent().remove(enemy);
 				}
 			}
@@ -237,18 +240,13 @@ class CoreLogic implements Runnable {
 
 		double collOne, collTwo, collThree, collFour;
 
-		// variables for handling door-collision, names are the same as in the
-		// door class
+		// variables for handling door-collision, names are the same as in the door class
 		int destination;
-		
-		// variable for handling enemy Collision
-		int hp;
 
 		ArrayList<CoreGameObjects> collidable = level.getRoom(locationX, locationY).getContent();
 		CoreGameObjects collided;
 
-		// iterate over all objects within the room, excepting the figure, of
-		// course
+		// check whether there are still enemies in the room
 		for (int i = 0; i < collidable.size(); i++) {
 			collided = collidable.get(i);
 			if (collided instanceof Enemy){
@@ -256,6 +254,11 @@ class CoreLogic implements Runnable {
 				finished = false;
 				}				
 			} 
+		}
+		
+		// iterate over all objects within the room, excepting the figure, of course
+		for (int i = 0; i < collidable.size(); i++) {
+			collided = collidable.get(i);
 			objX	 = collided.getPosX();
 			objY	 = collided.getPosY();
 			objR	 = collided.getRad();
@@ -316,12 +319,8 @@ class CoreLogic implements Runnable {
 				// Check collisions with objects, act accordingly
 				if (distRight == 0 || distLeft == 0 || distUp == 0 || distDown == 0) {//(collOne == 0 || collTwo == 0 || collThree == 0 || collFour == 0) {
 					if (collided instanceof EnemyMelee) {
-						((EnemyMelee) collided).attack();
-						
-						// hp = figure.getHP();//get current hp
-						// hp--;//apply damage
-						// figure.setHP(hp);//set hp to the new value
-						// TODO: do even better Enemy shit
+						// Should the figure and an enemy collide, the figure will automatically take damage
+						((EnemyMelee) collided).attack(figure);
 					}
 
 					if (collided instanceof Item) {
@@ -383,6 +382,9 @@ class CoreLogic implements Runnable {
 	 * out of the gaming area.
 	 */
 	private void moveFigure() {
+		// First set the direction of the figure,as we are gonna fuck around with the input variables just now
+		this.setDirection();
+
 		// convert diagonal movement into two horizontal components, diagonal
 		// movement is slowed,
 		// as it will take place into two directions
@@ -462,7 +464,16 @@ class CoreLogic implements Runnable {
 	}
 
 	private void setDirection() {
-
+		/* set the viewing direction of the figure, at the moment this is subject of the walking direction, 
+		 * it is questionable whether we wish to anchor this to the shooting direction. */
+		if (up)					figure.setDirection(Figure.UP);
+		else if (down)			figure.setDirection(Figure.DOWN);
+		else if (left)			figure.setDirection(Figure.LEFT);
+		else if (right)			figure.setDirection(Figure.RIGHT);
+		else if (upLeft)		figure.setDirection(Figure.UPLEFT);
+		else if (upRight)		figure.setDirection(Figure.UPRIGHT);
+		else if (downLeft)		figure.setDirection(Figure.DOWNLEFT);
+		else if (downRight)		figure.setDirection(Figure.DOWNRIGHT);
 	}
 
 	// Propagate all Bullets and create new Attacks
@@ -591,10 +602,8 @@ class CoreLogic implements Runnable {
 
 	private void switchRoom(int destination) {
 
-		// wechselt den Raum, falls die Figur an einer Stelle steht an der im
-		// aktuellen Raum eine Tür ist
-		switch (destination) { // prüft in welchem Raum die Figur ist (bisher
-								// 0-2 für die 3 Räume)
+		// wechselt den Raum, falls die Figur an einer Stelle steht an der im aktuellen Raum eine Tür ist
+		switch (destination) { // prüft in welchem Raum die Figur ist (bisher 0-2 für die 3 Räume)
 
 		case (0):// Door leads up
 			locationY--;
@@ -605,8 +614,7 @@ class CoreLogic implements Runnable {
 		case (1): // Door leads to the right
 			locationX++;
 			figX = 0.51; // linker Spielfeldrand
-			this.setRoom(locationX, locationY, figure); // neuen Raum and Grafik
-														// und Logik geben
+			this.setRoom(locationX, locationY, figure); // neuen Raum and Grafik und Logik geben
 			break;
 
 		case (2): // Door leads down

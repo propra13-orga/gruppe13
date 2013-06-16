@@ -6,23 +6,41 @@ import java.awt.Graphics2D;
 
 class Figure extends CoreGameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
-	// Hitpoints, position, collision radius and constructor
+	// set these for the viewing direction of the figure
+	static final int UP				= 1;
+	static final int DOWN			= 2;
+	static final int LEFT			= 3;
+	static final int RIGHT			= 4;
+	static final int UPLEFT			= 5;
+	static final int UPRIGHT		= 6;
+	static final int DOWNLEFT		= 7;
+	static final int DOWNRIGHT		= 8;
+	
+	/* hp: Hitpoints, money is, well, money and chocolate is a very fun stuff to many people eat way too much of. 
+	 * Here it is our mana though. */
 	private int 	hp;
 	private int 	money;
 	private int 	chocolate;
 	
+	// Position and velocity data, and the width and height of the figure 
 	private double 	x, y, r;
 	private double 	v_x, v_y;
 	private double 	width, height;
 	
+	// maximum amount of health slots and a cooldown for enemy contact. The latter is established via the System time. 
 	private int 	maxHP;
 	private long	cooldown;
 	
+	// armor variable and items, if armor is present it is reduced instead of health
 	private int 	armor;
 	private Item 	item1, item2, item3;
 	
+	// special attack and attack type is needed in order to draw the current attack
 	private boolean	specialAttack;
 	private int 	attackType;
+	
+	// this variables is needed to set the direction in which the figure is looking
+	private int 	direction;
 	
 	// class constructor
 	Figure(double initX, double initY, double initHeight, double initWidth) {
@@ -160,8 +178,13 @@ class Figure extends CoreGameObjects {
 	}
 	
 	void setAttackType (int type) {
-		attackType = type;
+		attackType 	= type;
 	}
+	
+	void setDirection (int input) {
+		direction 	= input;
+	}
+
 	void setItem1 (Item inItem){
 		item1 = inItem;
 	}
@@ -171,6 +194,7 @@ class Figure extends CoreGameObjects {
 	void setItem3 (Item inItem){
 		item3 = inItem;
 	}
+
 	/*-----------------------------------------------------------------------------------------------*/
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
@@ -181,11 +205,6 @@ class Figure extends CoreGameObjects {
 		g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 		// TODO: bilder anstelle des quadrats malen
 
-	}
-	
-	@Override
-	void attack() {
-		
 	}
 	
 	// this method can be called from the collision method, then later on be used
