@@ -10,10 +10,10 @@ public class MISCStatusBar {
 	private Figure 	figure;
 	
 	//variables  for the stats
-	private int		hp, maxHP, money, armor, volt;
+	private int		hp, maxHP, money, armor, chocolate;
 	
 	//coordinates for initializing the draw
-	private double	hpx, hpy, mhpx, mhpy, ax, ay, voltX, voltY;
+	private double	hpx, hpy, mhpx, mhpy, ax, ay, chocolateX, chocolateY;
 	
 	public MISCStatusBar(Figure inFigure) {
 		figure 	= inFigure;
@@ -27,7 +27,7 @@ public class MISCStatusBar {
 		maxHP	= figure.getMaxHP();
 		money	= figure.getGeld();
 		armor	= figure.getArmor();
-		volt	= figure.getVolt();
+		chocolate	= figure.getChocolate();
 		
 		//find the basic position of the panels
 		hpx = step * 7;
@@ -39,8 +39,8 @@ public class MISCStatusBar {
 		ax = step*15;
 		ay = step*15 - step/2;
 		
-		voltX = step * 15;
-		voltY = step * 16;
+		chocolateX = step * 15;
+		chocolateY = step * 16;
 		font = new Font("Arial", Font.PLAIN, (int)step);
 	}
 	
@@ -60,8 +60,9 @@ public class MISCStatusBar {
 					if(i%2 == 0) g.fillRect(xOffset+(int)(hpx+((i-15)*step)/2 - step/2),yOffset+(int)(hpy+step/7),(int)(step-step/13),(int)step/2);
 				}
 			}
-			//if(j%2 == 0) j++;
-			for(int i = j ; i < figure.getArmor() + j ; i++){
+			j++;													//raise the counter by one
+			if(j%2 == 1)j++;										//now check if its on top of one cup or a new slot
+			for(int i = j ; i < figure.getArmor() + j ; i++){		//draw the cans
 				g.setColor(Color.DARK_GRAY);
 				if(i < 12){
 					if(i%2 == 1) g.fillRect(xOffset+(int)(hpx+((i-1)*step)/2),yOffset+(int)(hpy-step/2 - step),(int)(step-step/13),(int)step/2);
@@ -100,9 +101,9 @@ public class MISCStatusBar {
 		
 		
 		//draw our "mana"
-		for(int i = 0 ; i < volt ; i++){
+		for(int i = 0 ; i < chocolate ; i++){
 			g.setColor(Color.magenta);
-			g.drawRect(xOffset+(int)(voltX + (i * step/2)) , yOffset+(int)voltY , (int)step/3 , (int)(step-step/5));
+			g.drawRect(xOffset+(int)(chocolateX + (i * step/2)) , yOffset+(int)chocolateY , (int)step/3 , (int)(step-step/5));
 			g.setColor(Color.BLACK);
 		}
 	}

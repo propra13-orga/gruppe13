@@ -503,8 +503,8 @@ class CoreLogic implements Runnable {
 		}
 
 		// If the player has enough resources, create a new area of effect attack
-		if (aoe && figure.getVolt() > 0) {
-			figure.setVolt(figure.getVolt()-1);
+		if (aoe && figure.getChocolate() > 0) {
+			figure.setChocolate(figure.getChocolate()-1);
 			CoreGameObjects melee = new Melee(figX, figY, 0, 0, Attack.PLAYER_MELEE_AOE, figure, collidable);
 			currentRoom.getContent().add(melee);
 		}

@@ -92,7 +92,25 @@ public class CoreRoom {
 					break;	
 						
 				case 'I':
-					content.add(new ItemCupACoffee(column-1+0.5, line-1+0.5, 1, 1, 1));
+					int randItem;
+					randItem = (int)(3*Math.random());
+					
+					switch(randItem){
+					
+					case 0 :
+						content.add(new ItemCupACoffee(column-1+0.5, line-1+0.5, 1, 1, 1));
+						break;
+						
+					case 1 :
+						content.add(new ItemChocolateBar(column-1+0.5, line-1+0.5, 1, 1, 1));
+						break;
+						
+					case 2 :
+						content.add(new ItemArmor(column-1+0.5, line-1+0.5, 1, 1, 1));
+						break;
+						
+					}
+					
 					break;
 				
 				case 'S':
