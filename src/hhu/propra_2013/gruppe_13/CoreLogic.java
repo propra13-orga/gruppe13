@@ -620,9 +620,11 @@ class CoreLogic implements Runnable {
 			stage++;
 			if (stage < 4){
 			boss = "test";// TODO maybe change the boss sometimes
-			level.buildLevel(stage, boss);
-			locationX = level.getStartX();
+			level.buildLevel(stage, boss); //generate new level
+			locationX = level.getStartX(); //go to the start room
 			locationY = level.getStartY();
+			figX = 11.5; //put figure in the middle of the start room
+			figY = 6.5;
 			this.setRoom(locationX, locationY, figure);
 			}
 			else{
