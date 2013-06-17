@@ -2,59 +2,51 @@ package hhu.propra_2013.gruppe_13;
 
 import java.util.ArrayList;
 
-@SuppressWarnings("unchecked")
 class CoreLogic implements Runnable {
 
 	// set square root of 2 and define a boolean variable for the game loop
 	private static final double SQRT_2 = 1.41421356237309504880168872420969807856967187537694807317667973799; // http://en.wikipedia.org/wiki/Square_root_of_2
-	private boolean gameRunning;
-	private boolean bulletEnable;
-	private int bulletType;
-	private long bulletCoolDown;
-	private int bulletCoolDownTime;
+	private boolean 	gameRunning;
+	private boolean 	bulletEnable;
+	private int 		bulletType;
+	private long 		bulletCoolDown;
+	private int 		bulletCoolDownTime;
 
-	// Boolean variables for movement and collision detection, location counter
-	// for the room
-	private boolean down, up, right, left, upLeft, upRight, downLeft, downRight; // für die Bewegungsrichtungen
-	private boolean north, east, south, west, northwest, northeast, southwest, southeast; // zum schießen in die Himmelsrichtungen
+	// Boolean variables for movement and collision detection, location counter for the room
+	private boolean 	down, up, right, left, upLeft, upRight, downLeft, downRight; // für die Bewegungsrichtungen
+	private boolean 	north, east, south, west, northwest, northeast, southwest, southeast; // zum schießen in die Himmelsrichtungen
 
 	// variables for collision detection
-	private boolean freeRight, freeUp, freeDown, freeLeft;
-	private double distDown, distUp, distRight, distLeft;
-
-
-
+	private boolean 	freeRight, freeUp, freeDown, freeLeft;
+	private double 		distDown, distUp, distRight, distLeft;
 
 	// variables for navigating in the level
-	private int locationX, locationY;
-	private CoreRoom currentRoom;
+	private int 		locationX, locationY;
+	private CoreRoom 	currentRoom;
 
 	// information about the level
-	private int stage;
-	private String boss;
-
+	private int 		stage;
+	private String 		boss;
 
 	// information about the room
-	private boolean finished; //to open doors once there are no enemys in the room, can be done by the collision
+	private boolean 	finished; //to open doors once there are no enemys in the room, can be done by the collision
 	
-	
-
-	private Figure figure, saveFigure; // TODO check why it was GameObjects
+	private Figure 		figure, saveFigure; // TODO check why it was GameObjects
 		
-	private CoreO_Game game;
+	private CoreO_Game 	game;
 
 	// figure values
-	private double figX, figY;
-	private double figVX, figVY;
-	private boolean punch, use, aoe, map; // für Aktionen map zeigt Map an
-	private int figHP;
+	private double 		figX, figY;
+	private double 		figVX, figVY;
+	private boolean 	punch, use, aoe, map; // für Aktionen map zeigt Map an
+	private int 		figHP;
 
 	// List of all Objects within the game
-	private CoreLevel level;
-
+	private CoreLevel 	level;
+	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	void setGameRunning(boolean boolIn) {
 		gameRunning = boolIn;
-		System.out.println("maria wars");
 	}
 
 	// Setter methods to determine whether a movement shall be initiated
@@ -138,6 +130,7 @@ class CoreLogic implements Runnable {
 		southeast = in;
 	}
 	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	Figure getFigure () {
 		return figure;
 	}
@@ -146,6 +139,19 @@ class CoreLogic implements Runnable {
 		return currentRoom;
 	}
 
+	CoreLevel getLevel() {
+		return level;
+	}
+
+	int getCurrentX() {
+		return locationX;
+	}
+
+	int getCurrentY() {
+		return locationY;
+	}
+	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Initiate the current objects variables
 	CoreLogic(Figure inFigure, CoreO_Game inGame) {
 		gameRunning = true;
@@ -177,6 +183,7 @@ class CoreLogic implements Runnable {
 
 	}
 
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	private void setRoom(int newLocationX, int newLocationY, Figure inFigure) {
 		CoreRoom tempRoom;
 		figure = inFigure;
@@ -188,6 +195,7 @@ class CoreLogic implements Runnable {
 		game.setRoom(tempRoom);
 	}
 
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Do the Artificial Intelligence for all Enemies
 	private void enemyAI() {
 		Enemy enemy;
@@ -207,18 +215,7 @@ class CoreLogic implements Runnable {
 		}
 	}
 
-	CoreLevel getLevel() {
-		return level;
-	}
-
-	int getCurrentX() {
-		return locationX;
-	}
-
-	int getCurrentY() {
-		return locationY;
-	}
-
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	private void checkCollision() {
 		// reset collision values
 		freeRight = true;
@@ -226,9 +223,9 @@ class CoreLogic implements Runnable {
 		freeUp = true;
 		freeDown = true;
 		
-		//reset enemy check
-		finished = true; //falls ein Gegner gefunden wird wird finished false gesetzt
-						 //deshalb MUSS die Tür als letztes überprüft werden, so dass vorher alle Gegner gefunden werden können
+		//reset enemy check, falls 
+		finished = true; 
+
 
 		// reset distance values
 		distUp = 50;
@@ -248,8 +245,7 @@ class CoreLogic implements Runnable {
 
 		double collOne, collTwo, collThree, collFour;
 
-		// variables for handling door-collision, names are the same as in the door class
-		int destination;
+
 
 		ArrayList<CoreGameObjects> collidable = level.getRoom(locationX, locationY).getContent();
 		CoreGameObjects collided;
@@ -278,7 +274,6 @@ class CoreLogic implements Runnable {
 			collTwo = 1;
 			collThree = 1;
 			collFour = 1;
-			
 
 			// First check whether the objects are close enough to encounter one
 			// another within the next couple of moves, use squares, saves a
@@ -325,75 +320,82 @@ class CoreLogic implements Runnable {
 				}
 
 				// Check collisions with objects, act accordingly
-				if (distRight == 0 || distLeft == 0 || distUp == 0 || distDown == 0) {//(collOne == 0 || collTwo == 0 || collThree == 0 || collFour == 0) {
-					if (collided instanceof EnemyMelee) {
-						// Should the figure and an enemy collide, the figure will automatically take damage
-						((EnemyMelee) collided).attack(figure);
-					}
-					
-					if(collided instanceof ItemImproveWeapon){
-						bulletCoolDownTime = bulletCoolDownTime/2 ;
-						bulletType = Bullet.PLAYER_SPECIAL_BULLET_ONE;
-					}
-
-					if (collided instanceof Item) {
-						((Item) collided).modFigure(collidable, (Figure) figure);
-					}
-					
-					if (collided instanceof MISCNPC){
-						((MISCNPC) collided).talk();
-					}
-					
-					
-					if (collided instanceof MISCDoor) { //Doors MUST be checked last because of the new Method of Room-finishing
-						//System.out.println("I just found a Door, and I like it!");
-						destination = ((MISCDoor) collided).getDestination(); // cast because eclipse wants it
-
-						if (finished == true) {// check if there is no enemy found in the room
-
-							// before switching the room we make a copy of our
-							// figure for resurrection
-							saveFigure = figure;
-
-							switch (destination) { // only advance trough door if player is moving in the direction of the door
-													// diagonal movement should work too
-							case 0:
-								if (upLeft == true || up == true || upRight == true) {
-									this.switchRoom(destination);
-								}
-								break;
-
-							case 1:
-								if (right == true || upRight == true || downRight == true) {
-									this.switchRoom(destination);
-								}
-								break;
-
-							case 2:
-								if (down == true || downRight == true || downLeft == true) {
-									this.switchRoom(destination);
-								}
-								break;
-
-							case 3:
-								if (left == true || downLeft == true || upLeft == true) {
-									this.switchRoom(destination);
-								}
-								break;
-
-							case 4:
-								this.switchRoom(destination);
-
-							}
-						}
-					}
+				if (distRight == 0 || distLeft == 0 || distUp == 0 || distDown == 0) {
+					doCollision(collidable, collided);
 				}
 			}
 		}
 	}
 
-	/*
-	 * This is the actual movement method, which checks for all directions
+	/*-----------------------------------------------------------------------------------------------------------------------*/
+	private void doCollision (ArrayList<CoreGameObjects> collidable, CoreGameObjects collided) {
+		// variables for handling door-collision, names are the same as in the door class
+		int destination;
+		
+		if (collided instanceof EnemyMelee) {
+			// Should the figure and an enemy collide, the figure will automatically take damage
+			((EnemyMelee) collided).attack(figure);
+		}
+		
+		if(collided instanceof ItemImproveWeapon){
+			bulletCoolDownTime = bulletCoolDownTime/2 ;
+			bulletType = Bullet.PLAYER_SPECIAL_BULLET_ONE;
+		}
+
+		if (collided instanceof Item) {
+			((Item) collided).modFigure(collidable, (Figure) figure);
+		}
+		
+		if (collided instanceof MISCNPC){
+			((MISCNPC) collided).talk();
+		}
+		
+		if (collided instanceof MISCDoor) { //Doors MUST be checked last because of the new Method of Room-finishing
+			//System.out.println("I just found a Door, and I like it!");
+			destination = ((MISCDoor) collided).getDestination(); // cast because eclipse wants it
+
+			if (finished == true) {// check if there is no enemy found in the room
+
+				// before switching the room we make a copy of our
+				// figure for resurrection
+				saveFigure = figure;
+
+				switch (destination) { // only advance trough door if player is moving in the direction of the door
+										// diagonal movement should work too
+				case 0:
+					if (upLeft == true || up == true || upRight == true) {
+						this.switchRoom(destination);
+					}
+					break;
+
+				case 1:
+					if (right == true || upRight == true || downRight == true) {
+						this.switchRoom(destination);
+					}
+					break;
+
+				case 2:
+					if (down == true || downRight == true || downLeft == true) {
+						this.switchRoom(destination);
+					}
+					break;
+
+				case 3:
+					if (left == true || downLeft == true || upLeft == true) {
+						this.switchRoom(destination);
+					}
+					break;
+
+				case 4:
+					this.switchRoom(destination);
+
+				}
+			}
+		}
+	}
+
+	/*-----------------------------------------------------------------------------------------------------------------------*/
+	/* This is the actual movement method, which checks for all directions
 	 * whether the figure needs to be moved. Additionally the method checks
 	 * whether the figure has reached a boundary and will prevent it from moving
 	 * out of the gaming area.
@@ -480,6 +482,7 @@ class CoreLogic implements Runnable {
 		figure.setPos(figX, figY);
 	}
 
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	private void setDirection() {
 		/* set the viewing direction of the figure, at the moment this is subject of the walking direction, 
 		 * it is questionable whether we wish to anchor this to the shooting direction. */
@@ -493,7 +496,7 @@ class CoreLogic implements Runnable {
 		else if (downRight)		figure.setDirection(Figure.DOWNRIGHT);
 	}
 	
-
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Propagate all Bullets and create new Attacks
 	private void attacks() {
 		// Iterate over all Bullets and propagate them
@@ -601,6 +604,7 @@ class CoreLogic implements Runnable {
 		}
 	}
 
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	private void checkFigure() {
 		if (figHP <= 0 && !figure.checkRes()) {
 			game.end(false);
@@ -618,6 +622,7 @@ class CoreLogic implements Runnable {
 		}
 	}
 
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	private void switchRoom(int destination) {
 
 		// wechselt den Raum, falls die Figur an einer Stelle steht an der im aktuellen Raum eine Tür ist
@@ -666,6 +671,7 @@ class CoreLogic implements Runnable {
 		}
 	}
 
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	@Override
 	// Override run method from interface, this will have the game loop
 	public void run() {
