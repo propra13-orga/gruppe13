@@ -191,7 +191,7 @@ public class EnemyBossMelee extends Enemy{
 		// check whether the fucking thing is dead yet, initiate dying sequence if that is the case
 		if (hp <= 0) {
 			dying = true;
-			room.getContent().add(new MISCDoor(20, 7, 1, 1, 0.5, 4));
+			room.getContent().add(new MISCDoor(17, 6.5, 1, 1, 0.5, 4));
 		}
 		System.out.println("enemy hp: "+hp);
 
