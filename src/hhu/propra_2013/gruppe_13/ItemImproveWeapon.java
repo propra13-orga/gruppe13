@@ -113,7 +113,4 @@ public class ItemImproveWeapon extends Item{
 	void takeDamage(int type, int strength) {
 		// Keep empty since items should probably not be able to take damage
 	}
-
-	
-
 }

@@ -160,7 +160,7 @@ class Bullet extends Attack {
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
 		switch (type) {
 		// draw a standard bullet
-		case PLAYER_BULLET_STD: //TODO: Change animation when the bullet hits something, animate real bullets, not just red dots...
+		default: //TODO: Change animation when the bullet hits something, animate real bullets, not just red dots...
 			// determine whether the bullet is still traveling and active, or whether it has hit something
 			if (!hit) {
 				g.setColor(Color.ORANGE);

@@ -333,6 +333,7 @@ class CoreLogic implements Runnable {
 					
 					if(collided instanceof ItemImproveWeapon){
 						bulletCoolDownTime = bulletCoolDownTime/2 ;
+						bulletType = Bullet.PLAYER_SPECIAL_BULLET_ONE;
 					}
 
 					if (collided instanceof Item) {
