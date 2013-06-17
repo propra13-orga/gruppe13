@@ -49,7 +49,7 @@ public class CoreRoom {
 		//Konstanten anpassen sobald es mehr Räume gibt!!! TODO: Automatisieren
 		//festlegen welche Raumliste der Builder durchgeht
 		if (type == "Raum"){
-			randomNumber =(int)(11*Math.random());
+			randomNumber =(int)(13*Math.random());
 		}
 		else if (type == "BossRaum"){
 			randomNumber =(int)(3*Math.random());	
@@ -77,7 +77,7 @@ public class CoreRoom {
 				switch (element) { 	//ASCII: W=87 D=68 E=69
 				case 'W':			//In order of probability
 					content.add(new MISCWall(column-1+0.5, line-1+0.5, 1, 1, 1)); 	//-1 because the top left corner seems to have
-					break;											//the coordinates 1:1
+					break;															//the coordinates 1:1
 					
 				case 'E':
 					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIRE, stage));
