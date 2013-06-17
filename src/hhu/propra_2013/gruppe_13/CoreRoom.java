@@ -117,7 +117,7 @@ public class CoreRoom {
 					break;
 				
 				case 'S':
-					content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, 4));//'Door' leads to the next floor
+					//content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, 4));//'Door' leads to the next floor
 					break;
 					
 				case 'R': 
@@ -137,7 +137,7 @@ public class CoreRoom {
 					break;
 				case 'B':
 
-					content.add(new EnemyBossMelee(column-1+0.5, line-1+0.5, 1 , 1 , Enemy.ENEMY_FIGURE_RUN, stage));
+					content.add(new EnemyBossMelee(column-1+0.5, line-1+0.5, 1 , 1 , Enemy.ENEMY_FIGURE_RUN, stage, this));
 					break;				
 				}
 				column++; //sets column up for the next cycle of the switch-case

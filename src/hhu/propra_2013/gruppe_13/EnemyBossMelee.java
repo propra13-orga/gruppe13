@@ -17,7 +17,9 @@ public class EnemyBossMelee extends Enemy{
 	private boolean dying, dead, stopDrawing;
 	private int stage;
 	
-	EnemyBossMelee(double inx, double iny,double inWidth, double inHeight, int inType, int inStage){
+	CoreRoom room;
+	
+	EnemyBossMelee(double inx, double iny,double inWidth, double inHeight, int inType, int inStage, CoreRoom inRoom){
 		x 			= inx;
 		y 			= iny;
 		
@@ -28,6 +30,8 @@ public class EnemyBossMelee extends Enemy{
 		
 		stage = inStage; // so we know in which level we are, useful once we spawn random enemies   
 		
+		room = inRoom;
+	
 		// initialize the program according to the type of the desired enemy
 		switch (type) {
 		case ENEMY_TRAP:
@@ -185,6 +189,7 @@ public class EnemyBossMelee extends Enemy{
 		// check whether the fucking thing is dead yet, initiate dying sequence if that is the case
 		if (hp <= 0) {
 			dying = true;
+			room.getContent().add(new MISCDoor(20, 7, 1, 1, 0.5, 4));
 		}
 		System.out.println("enemy hp: "+hp);
 
