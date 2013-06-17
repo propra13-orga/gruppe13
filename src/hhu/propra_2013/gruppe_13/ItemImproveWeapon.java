@@ -9,9 +9,7 @@ public class ItemImproveWeapon extends Item{
 
 	private double 	x, y;
 	private double	r;
-	private double 	v_x, v_y;
 	private double 	height, width;
-	private int 	hp;
 	
 	public ItemImproveWeapon(double initX, double initY, int initWidth, int initHeight, int inHP) {
 		x	= initX;
@@ -24,19 +22,16 @@ public class ItemImproveWeapon extends Item{
 	
 	@Override
 	double getPosX() {
-		// TODO Auto-generated method stub
 		return x;
 	}
 
 	@Override
 	double getPosY() {
-		// TODO Auto-generated method stub
 		return y;
 	}
 
 	@Override
 	double getRad() {
-		// TODO Auto-generated method stub
 		return r;
 	}
 
@@ -56,51 +51,41 @@ public class ItemImproveWeapon extends Item{
 
 	@Override
 	double getWidth() {
-		// TODO Auto-generated method stub
 		return width;
 	}
 
 	@Override
 	double getHeight() {
-		// TODO Auto-generated method stub
 		return height;
 	}
 
 	@Override
 	int getHP() {
-		// TODO Auto-generated method stub
-		return hp;
+		return 0;
 	}
 
 	@Override
 	double getVX() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	double getVY() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	void setSpeed(double inVX, double inVY) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	void setRad(double inR) {
-		// TODO Auto-generated method stub
 		r = inR;
 		
 	}
 
 	@Override
 	void setHP(int inHP) {
-		// TODO Auto-generated method stub
-		hp = inHP;
 	}
 
 	

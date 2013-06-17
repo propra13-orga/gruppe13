@@ -8,9 +8,7 @@ public class ItemArmor extends  Item{
 
 	private double 	x, y;
 	private double	r;
-	private double 	v_x, v_y;
 	private double 	height, width;
-	private int 	hp;
 	
 	public ItemArmor(double initX, double initY, int initWidth, int initHeight, int inHP) {
 		x	= initX;
@@ -55,51 +53,41 @@ public class ItemArmor extends  Item{
 
 	@Override
 	double getWidth() {
-		// TODO Auto-generated method stub
 		return width;
 	}
 
 	@Override
 	double getHeight() {
-		// TODO Auto-generated method stub
 		return height;
 	}
 
 	@Override
 	int getHP() {
-		// TODO Auto-generated method stub
-		return hp;
+		return 0;
 	}
 
 	@Override
 	double getVX() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	double getVY() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	void setSpeed(double inVX, double inVY) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	void setRad(double inR) {
-		// TODO Auto-generated method stub
 		r = inR;
 		
 	}
 
 	@Override
 	void setHP(int inHP) {
-		// TODO Auto-generated method stub
-		hp = inHP;
 	}
 
 	
