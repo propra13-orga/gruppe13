@@ -51,7 +51,8 @@ public class MISCStatusBar {
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
 		g.setColor(Color.BLUE);
 		this.work(step);
-	//drawing the hp++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+		
+		//drawing the hp++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 		int j = 1;
 			for(int i = 0 ; i < hp ; i++){
 				j = i;
