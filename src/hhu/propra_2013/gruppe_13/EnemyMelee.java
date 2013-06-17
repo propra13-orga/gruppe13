@@ -250,7 +250,7 @@ public class EnemyMelee extends Enemy{
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
-	double[] collision(CoreGameObjects collidable, double distUp, double distDown, double distRight, double distLeft) {
+	private double[] collision(CoreGameObjects collidable, double distUp, double distDown, double distRight, double distLeft) {
 		double objX, objY, objR;
 		double tmpX, tmpY;
 		double objWidth, objHeight;
@@ -305,7 +305,7 @@ public class EnemyMelee extends Enemy{
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
-	void move (double distUp, double distDown, double distRight, double distLeft) {
+	private void move (double distUp, double distDown, double distRight, double distLeft) {
 		/* check whether there is a collision and move the enemy along the wall at normal speed, 
 		 * this is to ensure that the enemy does not creep along walls while the player can pick him off from a distance. */
 		if (distUp == 0 || distDown == 0) {
@@ -347,7 +347,7 @@ public class EnemyMelee extends Enemy{
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
-	void propagateToFigure (ArrayList<CoreGameObjects> room, Figure figure) {
+	private void propagateToFigure (ArrayList<CoreGameObjects> room, Figure figure) {
 		
 		// check whether the enemy is still alive move toward figure if this is the case
 		if (!dying) {

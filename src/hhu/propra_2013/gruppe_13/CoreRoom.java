@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class CoreRoom {
 
-	//Geerbtes
+	//Geerbtes <- gelogen!!
 	Figure 		figure;
 	
 	//Sachen die jeder Raum weiß
@@ -128,7 +128,7 @@ public class CoreRoom {
 				switch (element) {
 				
 				case 'E':
-					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIRE, stage, mode));
+					content.add(new EnemyRanged(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIRE_SHOOTING, stage, mode));
 					break;
 
 				case 'D': //looks where the door is, then sets destination accordingly

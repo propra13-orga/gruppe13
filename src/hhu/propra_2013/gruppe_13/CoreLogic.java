@@ -49,7 +49,6 @@ class CoreLogic implements Runnable {
 		gameRunning = boolIn;
 	}
 
-	// Setter methods to determine whether a movement shall be initiated
 	void setDown(boolean in) {
 		down = in;
 	}
@@ -252,7 +251,7 @@ class CoreLogic implements Runnable {
 		for (int i = 0; i < collidable.size(); i++) {
 			collided = collidable.get(i);
 			if (collided instanceof Enemy){
-				if (((Enemy) collided).leftForDead() == false && ((Enemy)collided).getType() != Enemy.ENEMY_FIRE){
+				if (((Enemy) collided).leftForDead() == false && ((((Enemy)collided).getType() != Enemy.ENEMY_FIRE) || ((Enemy)collided).getType() != Enemy.ENEMY_FIRE)) {
 				finished = false;
 				}				
 			} 
@@ -276,7 +275,8 @@ class CoreLogic implements Runnable {
 			// First check whether the objects are close enough to encounter one
 			// another within the next couple of moves, use squares, saves a
 			// couple of sqrt calls
-			if ((((objX - figX) * (objX - figX) + (objY - figY) * (objY - figY)) < ((figR + objR) * (figR + objR))) && !(collided instanceof Figure)) {
+			if ((((objX - figX) * (objX - figX) + (objY - figY) * (objY - figY)) < ((figR + objR) * (figR + objR))) 
+					&& !(collided instanceof Figure) && !(collided instanceof Melee) && !(collided instanceof Bullet)) {
 				tmpX = figX - objX;
 				tmpY = figY - objY;
 
@@ -592,8 +592,7 @@ class CoreLogic implements Runnable {
 					signVY = 1;
 				}
 
-				CoreGameObjects initBullet = new Bullet(bulletType, figX, figY,
-						figVX, figVY, signVX, signVY);
+				CoreGameObjects initBullet = new Bullet(bulletType, figX, figY, figVX, figVY, signVX, signVY);
 
 				currentRoom.getContent().add(initBullet);
 				bulletEnable = false;

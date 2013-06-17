@@ -3,7 +3,6 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-
 class Figure extends CoreGameObjects {
 	/*-----------------------------------------------------------------------------------------------*/
 	// set these for the viewing direction of the figure
@@ -50,9 +49,6 @@ class Figure extends CoreGameObjects {
 		width  	= initWidth;
 		height 	= initHeight;
 		
-//		width	= 0.5;
-//		height	= 0.5;
-		
 		v_x 	= 0.3;
 		v_y 	= 0.3;
 		r   	= Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_x)), 2)*Math.pow(Math.ceil(Math.abs(v_y)), 2);
@@ -84,7 +80,6 @@ class Figure extends CoreGameObjects {
 	int getMaxHP(){
 		return maxHP;
 	}
-	
 	
 	@Override
 	int getHP(){
@@ -124,21 +119,6 @@ class Figure extends CoreGameObjects {
 	@Override
 	double getHeight() {
 		return height;
-	}
-	
-	boolean checkRes() {
-		if(item1 instanceof ItemResurrect){
-			return true;
-		}
-		else if(item2 instanceof ItemResurrect){
-			return true;
-		}
-		else if(item3 instanceof ItemResurrect){
-			return true;
-		}
-
-		else 
-			return false;
 	}
 	
 	int getChocolate() {
@@ -200,6 +180,22 @@ class Figure extends CoreGameObjects {
 	}
 
 	/*-----------------------------------------------------------------------------------------------*/
+	boolean checkRes() {
+		if(item1 instanceof ItemResurrect){
+			return true;
+		}
+		else if(item2 instanceof ItemResurrect){
+			return true;
+		}
+		else if(item3 instanceof ItemResurrect){
+			return true;
+		}
+
+		else 
+			return false;
+	}
+	
+	/*-----------------------------------------------------------------------------------------------*/
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
 		/* Durch die Variable step ist eine Umrechnung auf den Screen möglich, ansonsten würde das Spiel immer unterschiedlich angezeigt werden, 
@@ -208,7 +204,6 @@ class Figure extends CoreGameObjects {
 		g.setColor(Color.BLUE);
 		g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 		// TODO: bilder anstelle des quadrats malen
-
 	}
 	
 	// this method can be called from the collision method, then later on be used
@@ -220,12 +215,16 @@ class Figure extends CoreGameObjects {
 	}
 
 	// check whether there is any armor to destroy, else reduce hp
-	void takeDamage(int type, int inStrength) {
+	void takeDamage(int attackType, int inStrength) {
 		if(System.currentTimeMillis()-cooldown > 1000){
-			if (armor > 0)
-				armor -= inStrength;
-			else
-				hp -= inStrength;
+			switch (attackType) {
+			default:
+				if (armor > 0)
+					armor -= inStrength;
+				else
+					hp -= inStrength;
+			}
+			
 			cooldown = System.currentTimeMillis();
 		}
 	}
