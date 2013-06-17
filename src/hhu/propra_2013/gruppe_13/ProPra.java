@@ -11,7 +11,7 @@ public class ProPra {
 	// initializer method
 	static void initGame() {
 		System.out.println("Initiate game");
-		CoreO_Game game = new CoreO_Game(gameWindow);
+		CoreO_Game game = new CoreO_Game(gameWindow, mode);
 		game.start();
 	}
 	

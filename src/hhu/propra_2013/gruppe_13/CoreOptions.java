@@ -7,100 +7,103 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 
-public class CoreOptions {
-
-	/**
-	 * @param args
-	 */
-	static JPanel showOptions(JFrame gameWindow) {
-		
-		
-		JPanel options = new JPanel();
-		options.setSize(gameWindow.getContentPane().getSize());
-		options.setBackground(Color.GREEN);
-		
-		//implement buttons for settings(difficulty and fullscreen mode and stuff)
-		ButtonGroup howHardIsIt		= new ButtonGroup();
-		JRadioButton difficultyEasy 	= new JRadioButton("I'm too young to die!");
-		JRadioButton difficultyNorm 	= new JRadioButton("This will work");
-		JRadioButton difficultyHard 	= new JRadioButton("Nintendo-Hard");
-		JCheckBox toggleFullscreen 	= new JCheckBox("Toggle Fullscreen");
-		JButton backToMenu = new JButton("Back to Menu");
-		
-		difficultyNorm.setSelected(true);
-
-		howHardIsIt.add(difficultyEasy);
-		howHardIsIt.add(difficultyNorm);
-		howHardIsIt.add(difficultyHard);
-		
-		options.setLayout(new GridBagLayout());
-		
-		GridBagConstraints cButtons = new GridBagConstraints();
-		cButtons.gridheight = 10;
-		cButtons.gridwidth	= 3;
-		cButtons.gridx = 2;
-		cButtons.gridy = 0;
-		options.add(difficultyEasy, cButtons);
-		
-		cButtons.insets = new Insets(50, 0, 0, 0);
-		cButtons.gridx = 2;
-		cButtons.gridy = 1;
-		options.add(difficultyNorm, cButtons);
-		
-		cButtons.insets = new Insets(100, 0, 0, 0);
-		cButtons.gridx = 2;
-		cButtons.gridy = 2;
-		options.add(difficultyHard, cButtons);
-		
-		cButtons.insets = new Insets(150, 0, 0, 0);
-		cButtons.gridx = 2;
-		cButtons.gridy = 3;
-		options.add(toggleFullscreen, cButtons);
-		
-		cButtons.insets = new Insets(50, 0, 0, 0);
-		cButtons.gridx = 0;
-		cButtons.gridy = 0;
-		options.add(backToMenu, cButtons);
-		
-		if(toggleFullscreen.isSelected()){
-			ProPra.setFullscreen(true);
-		}
+public class CoreOptions{
 	
+	// Initializer method for the menu
+	static JPanel showOptions(JFrame gameWindow) {
+		// Create a new Background with a specified color (Black at the moment)
+		JPanel menu = new JPanel();
+		menu.setSize(gameWindow.getContentPane().getSize());
+		menu.setBackground(new Color(0, 0, 0));
+
+		
+		//Create Buttons to start the game or end the program
+		// TODO: implement cool new shit for the game
+		JButton difficultyEasy 	= new JButton("I'm a pussy!");
+		JButton difficultyMed	= new JButton("I want to win!");
+		JButton difficultyHard	= new JButton("Prepare to die!");
+		JButton backToMenu		= new JButton("Menu");
+		JCheckBoxMenuItem fullscreen = new JCheckBoxMenuItem("Fullscreen");
+		
+		
+		
+		// implement action listeners to start and end the game
 		difficultyEasy.addActionListener(new ActionListener() {
-			@Override	// initiate the options
+			
+			@Override	// initiate the game
 			public void actionPerformed(ActionEvent arg0) {
 				ProPra.setMode(1);
 			}
 		});
 		
-		difficultyNorm.addActionListener(new ActionListener() {
-			@Override	// initiate the options
-			public void actionPerformed(ActionEvent arg0) {
+		
+		difficultyMed.addActionListener(new ActionListener() {
+			
+			@Override	// terminate the program
+			public void actionPerformed(ActionEvent e) {
 				ProPra.setMode(2);
 			}
 		});
 		
 		difficultyHard.addActionListener(new ActionListener() {
+			
 			@Override	// initiate the options
 			public void actionPerformed(ActionEvent arg0) {
 				ProPra.setMode(3);
 			}
 		});
 		
-		difficultyNorm.addActionListener(new ActionListener() {
-			@Override	// initiate the options
+		fullscreen.addActionListener(new ActionListener() {
+			
+			@Override	// initiate the game
+			public void actionPerformed(ActionEvent arg0) {
+				ProPra.setFullscreen(true);
+			}
+		});
+		
+		backToMenu.addActionListener(new ActionListener() {
+			
+			@Override	// initiate the game
 			public void actionPerformed(ActionEvent arg0) {
 				ProPra.initMenu();
 			}
 		});
 		
-		return options;
+		// implement the layout manager
+		menu.setLayout(new GridBagLayout());
+		
+		GridBagConstraints cButtons = new GridBagConstraints();
+		cButtons.gridheight = 3;
+		cButtons.gridwidth	= 3;
+		cButtons.gridx = 1;
+		cButtons.gridy = 0;
+		menu.add(difficultyEasy, cButtons);
+		
+		cButtons.insets = new Insets(200, 0, 0, 0);
+		cButtons.gridx = 1;
+		cButtons.gridy = 1;
+		menu.add(difficultyMed, cButtons);
+		
+		cButtons.insets = new Insets(300 , 0 , 0 ,0 );
+		cButtons.gridx = 1;
+		cButtons.gridy = 2;
+		menu.add(difficultyHard, cButtons);
+		
+		cButtons.insets = new Insets(400 , 0 , 0 ,0 );
+		cButtons.gridx = 1;
+		cButtons.gridy = 3;
+		menu.add(fullscreen, cButtons);
+		
+		cButtons.insets = new Insets(500 , 0 , 0 ,0 );
+		cButtons.gridx = 1;
+		cButtons.gridy = 3;
+		menu.add(backToMenu, cButtons);
+		
+		return menu;
 	}
 }

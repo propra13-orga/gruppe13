@@ -3,6 +3,7 @@ package hhu.propra_2013.gruppe_13;
 public class CoreLevel {
 	
 	Figure figure;
+	int mode;
 	
 	int stage = 0; //in welchen Level sind wir, nützlich für das Endziel 
 	String boss; //damit man weiß was der Boss ist, hauptsächlich für den NPC
@@ -13,8 +14,9 @@ public class CoreLevel {
 	//Array muss der Klasse bekannt sein um eine get Methode zu implementieren, wird beim Builder resettet 
 	CoreRoom level[][] = new CoreRoom[10][10]; //Sollte genug Platz für ausreichend seltsame Konstruktionen bieten, der erste Wert sei der X Wert
 	//Konstruktor
-	CoreLevel(Figure inFigure){
-		figure = inFigure;
+	CoreLevel(Figure inFigure, int inMode){
+		figure 	= inFigure;
+		mode	= inMode;
 	}
 	
 	//Getter
@@ -414,7 +416,7 @@ public class CoreLevel {
 						if (construction[x-1][y] != 0){tempLeft = true;} //prüfe ob es nachbarn gibt
 						if (construction[x+1][y] != 0){tempRight = true;} //falls ja:
 						if (construction[x][y+1] != 0){tempBottom = true;}//spawne raum mit passenden Nachbarn
-						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight);
+						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode);
 						level[x][y] = tempRoom;
 						//see what kind of Room is supposed to be there
 						 //and set it accordingly
@@ -443,7 +445,7 @@ public class CoreLevel {
 						if (construction[x-1][y] != 0){tempLeft = true;}
 						if (construction[x+1][y] != 0){tempRight = true;}
 						if (construction[x][y-1] != 0){tempTop = true;}
-						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight);
+						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode);
 						level[x][y] = tempRoom;
 						switch (construction[x][y]){ 
 						
@@ -469,7 +471,7 @@ public class CoreLevel {
 					else if (x == 0 && y == 0){ //obere linke ecke
 						if (construction[x+1][y] != 0){tempRight = true;}
 						if (construction[x][y+1] != 0){tempBottom = true;}
-						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight);
+						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode);
 						level[x][y] = tempRoom;
 						switch (construction[x][y]){ 
 						
@@ -495,7 +497,7 @@ public class CoreLevel {
 					else if (x == 9 && y == 0){ //obere rechte ecke
 						if (construction[x-1][y] != 0){tempLeft = true;}
 						if (construction[x][y+1] != 0){tempBottom = true;}
-						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight);
+						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode);
 						level[x][y] = tempRoom;
 						switch (construction[x][y]){ 
 						
@@ -522,7 +524,7 @@ public class CoreLevel {
 						if (construction[x+1][y] != 0){tempRight = true;}
 						if (construction[x][y-1] != 0){tempTop = true;}
 						if (construction[x][y+1] != 0){tempBottom = true;}
-						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight);
+						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode);
 						level[x][y] = tempRoom;
 						switch (construction[x][y]){ 
 						
@@ -549,7 +551,7 @@ public class CoreLevel {
 						if (construction[x-1][y] != 0){tempLeft = true;}
 						if (construction[x][y-1] != 0){tempTop = true;}
 						if (construction[x][y+1] != 0){tempBottom = true;}
-						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight);
+						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode);
 						level[x][y] = tempRoom;
 						switch (construction[x][y]){ 
 						
@@ -575,7 +577,7 @@ public class CoreLevel {
 					else if (x == 0 && y == 9){// untere linke ecke
 						if (construction[x+1][y] != 0){tempRight = true;}
 						if (construction[x][y-1] != 0){tempTop = true;}
-						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight);
+						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode);
 						level[x][y] = tempRoom;
 						switch (construction[x][y]){ 
 						
@@ -601,7 +603,7 @@ public class CoreLevel {
 					else if (x == 9 && y == 9){ //untere rechte ecke
 						if (construction[x-1][y] != 0){tempLeft = true;}
 						if (construction[x][y-1] != 0){tempTop = true;}
-						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight);
+						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode);
 						level[x][y] = tempRoom;
 						switch (construction[x][y]){ 
 						
@@ -629,7 +631,7 @@ public class CoreLevel {
 						if (construction[x+1][y] != 0){tempRight = true;}
 						if (construction[x][y-1] != 0){tempTop = true;}
 						if (construction[x][y+1] != 0){tempBottom = true;}
-						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight);
+						tempRoom = new CoreRoom(figure, stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode);
 						level[x][y] = tempRoom;
 						switch (construction[x][y]){ 
 						

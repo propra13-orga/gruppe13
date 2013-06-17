@@ -23,7 +23,7 @@ public class EnemyMelee extends Enemy{
 	private long 	regenerate;
 	
 	// Standard constructor, build enemies according to input 
-	EnemyMelee(double inx, double iny,double inWidth, double inHeight, int inType, int inStage){
+	EnemyMelee(double inx, double iny,double inWidth, double inHeight, int inType, int inStage, int inMode){
 		x 			= inx;
 		y 			= iny;
 		

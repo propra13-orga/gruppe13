@@ -1,3 +1,4 @@
+
 package hhu.propra_2013.gruppe_13;
 
 import java.io.FileInputStream;
@@ -23,17 +24,18 @@ public class CoreRoom {
 	int 		randomNumber; //speichert die Zufallsvariablevariable in der Raumerzeugung, je nachdem ob es ein  bossraum ist oder nicht
 	String 		type, boss;
 	int 		stage; //Nummer des Levels, für den NPC
-	
+	int			mode;
 	// Stream and Reader for reading data from file
 	InputStream roomStream 	= null;
 	Reader roomReader		= null;
 	
 	// Constructor
-	CoreRoom(Figure inFigure, int inStage, String inBoss, boolean inTopNeighbour, boolean inBottomNeighbour, boolean inLeftNeighbour, boolean inRightNeighbour){
+	CoreRoom(Figure inFigure, int inStage, String inBoss, boolean inTopNeighbour, boolean inBottomNeighbour, boolean inLeftNeighbour, boolean inRightNeighbour, int inMode){
 		figure 				= inFigure;
 		content 			= new ArrayList<CoreGameObjects>();
 		stage 				= inStage;
 		boss 				= inBoss;
+		mode				= inMode;
 		
 		//ja, ich hasse mich auch schon für solche langen namen
 		hasTopNeighbour 	= inTopNeighbour;  
@@ -126,7 +128,7 @@ public class CoreRoom {
 				switch (element) {
 				
 				case 'E':
-					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIRE, stage));
+					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIRE, stage, mode));
 					break;
 
 				case 'D': //looks where the door is, then sets destination accordingly
@@ -178,12 +180,12 @@ public class CoreRoom {
 					content.add(new MISCNPC (column-1+0.5, line-1,1,1, figure, "this is a stub",stage));
 					break;
 				case 'F':
-					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage));
+					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, mode));
 
 					break;
 				case 'B':
 
-					content.add(new EnemyBossMelee(column-1+0.5, line-1+0.5, 1 , 1 , Enemy.ENEMY_FIGURE_RUN, stage, this));
+					content.add(new EnemyBossMelee(column-1+0.5, line-1+0.5, 1 , 1 , Enemy.ENEMY_FIGURE_RUN, stage, this, mode));
 					break;				
 				}
 				column++; //sets column up for the next cycle of the switch-case

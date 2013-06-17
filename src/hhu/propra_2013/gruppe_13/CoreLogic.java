@@ -153,7 +153,7 @@ class CoreLogic implements Runnable {
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Initiate the current objects variables
-	CoreLogic(Figure inFigure, CoreO_Game inGame) {
+	CoreLogic(Figure inFigure, CoreO_Game inGame, int mode) {
 		gameRunning = true;
 
 		figure = inFigure;
@@ -163,7 +163,7 @@ class CoreLogic implements Runnable {
 		boss = "test";
 
 		// create Level
-		level = new CoreLevel(figure);
+		level = new CoreLevel(figure, mode);
 		level.buildLevel(stage, boss);
 		// find out where in the level we are, switching rooms will be relative
 		// to this value

@@ -15,15 +15,15 @@ class CoreO_Game {
 	CoreLevel		level;
 	
 	// Initialize method for the actual game
-	CoreO_Game(JFrame inFrame) {
+	CoreO_Game(JFrame inFrame , int mode) {
 		// Initiate object variables
 		gameWindow 		= inFrame;
 		figure 			= new Figure(10.5, 6.5, 1, 1);
 		
 		// Initialize Logic and Graphics
-		logic 		= new CoreLogic(figure, this);
+		logic 		= new CoreLogic(figure, this, mode);
 		level		= logic.getLevel();
-		statusBar	= new MISCStatusBar(figure);
+		statusBar	= new MISCStatusBar(figure, mode);
 		graphics 	= new CoreGameDrawer(level, gameWindow, statusBar);
 	
 		// set contentPane to JPanel returned by GameDrawer, set GameIO as keyboard manager
