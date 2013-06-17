@@ -10,13 +10,14 @@ public class MISCStatusBar {
 	private Figure 	figure;
 	
 	//variables  for the stats
-	private int		hp, maxHP, money, armor, chocolate;
+	private int		hp, maxHP, money, armor, chocolate, mode;
 	
 	//coordinates for initializing the draw
 	private double	hpx, hpy, mhpx, mhpy, ax, ay, chocolateX, chocolateY;
 	
-	public MISCStatusBar(Figure inFigure) {
+	public MISCStatusBar(Figure inFigure, int inMode) {
 		figure 	= inFigure;
+		mode = inMode;
 	}
 	
 	//here we get our working variables
@@ -49,6 +50,10 @@ public class MISCStatusBar {
 	}
 	
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
+		for(int i = 1; i <= mode; i++){
+		g.setColor(Color.yellow);
+		g.drawOval(xOffset+(int)(step*16+step/10*i), yOffset+(int)(step), (int)(step/10), (int)(step/10));
+		}
 		g.setColor(Color.BLUE);
 		this.work(step);
 		

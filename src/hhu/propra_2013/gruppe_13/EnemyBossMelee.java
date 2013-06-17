@@ -13,14 +13,17 @@ public class EnemyBossMelee extends Enemy{
 	private double 	v_weight;
 	
 	private double 	width, height; 
-	private int 	strength;
-	private boolean dying, dead, stopDrawing;
+	private int 	strength, mode;
+	private boolean dying, dead, stopDrawing, talk;
 	private int 	stage;
 	private int		maxHP;
+	private String 	enter;
+	private long 	enterMessageTime;
+	
 	
 	CoreRoom room;
 	
-	EnemyBossMelee(double inx, double iny,double inWidth, double inHeight, int inType, int inStage, CoreRoom inRoom){
+	EnemyBossMelee(double inx, double iny,double inWidth, double inHeight, int inType, int inStage, CoreRoom inRoom, int inMode){
 		x 			= inx;
 		y 			= iny;
 		
@@ -28,6 +31,7 @@ public class EnemyBossMelee extends Enemy{
 		height 		= inHeight;
 		
 		type 		= inType;
+		mode		= inMode;
 		
 		stage = inStage; // so we know in which level we are, useful once we spawn random enemies   
 		
@@ -48,23 +52,23 @@ public class EnemyBossMelee extends Enemy{
 							   //TODO write super cool spawnRandomBoss method
 			switch(stage){
 			case 1:
-				strength 	= 1;
-				hp			= 10;
-				v_weight	= 0.1;
+				strength 	= 1*mode/2;
+				hp			= 5*mode;
+				v_weight	= 0.1*mode/2;
 				maxHP		= hp;
 				break;
 				
 			case 2:
-				strength	=2;
-				hp			=5;
-				v_weight	=0.1;
+				strength	=1*mode;
+				hp			=5*mode/2;
+				v_weight	=0.1*mode/2;;
 				maxHP		= hp;
 				break;
 			
 			case 3:
-				strength	=2;
-				hp			=10;
-				v_weight	=0.1;
+				strength	=2*mode;
+				hp			=10*mode;
+				v_weight	=0.1*mode/2;
 				maxHP		= hp;
 				break;
 			}
@@ -165,7 +169,7 @@ public class EnemyBossMelee extends Enemy{
 				g.setColor(Color.RED);
 				g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 				stationary++;
-				g.fillRect(xOffset+(int)Math.round((x-width/2.)*step), yOffset+(int)Math.round((y-height/2.)*step - step), (int)Math.round(2*step/maxHP*hp), (int)Math.round(step/16));
+				g.fillRect(xOffset+(int)Math.round((x-width/2.)*step - step/2), yOffset+(int)Math.round((y-height/2.)*step - step/10), (int)Math.round(2*step/maxHP*hp), (int)Math.round(step/16));
 			} 
 			else {
 				// TODO: do cool shit whilst the thing is dying
@@ -345,6 +349,10 @@ public class EnemyBossMelee extends Enemy{
 			} else
 				x += vx;
 		}
+	}
+	
+	private void talkTimer(){ //timer for how long the npc talks
+		if(System.currentTimeMillis() >= enterMessageTime + 500) talk = false;
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
