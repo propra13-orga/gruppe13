@@ -34,6 +34,8 @@ public class EnemyRanged extends Enemy {
 		
 		type	= inType;
 		stage	= inStage;
+		
+		// TODO: 1. does this really need to be a class variable, 2. why divide an int by 2?!?
 		mode 	= inMode;
 		
 		fireCoolDown	= System.currentTimeMillis();
