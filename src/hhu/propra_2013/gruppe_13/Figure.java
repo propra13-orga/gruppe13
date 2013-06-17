@@ -50,6 +50,9 @@ class Figure extends CoreGameObjects {
 		width  	= initWidth;
 		height 	= initHeight;
 		
+//		width	= 0.5;
+//		height	= 0.5;
+		
 		v_x 	= 0.3;
 		v_y 	= 0.3;
 		r   	= Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_x)), 2)*Math.pow(Math.ceil(Math.abs(v_y)), 2);

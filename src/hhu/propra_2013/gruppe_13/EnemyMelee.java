@@ -100,13 +100,11 @@ public class EnemyMelee extends Enemy{
 	
 	@Override
 	double getWidth() {
-		// TODO Auto-generated method stub
 		return width;
 	}
 
 	@Override
 	double getHeight() {
-		// TODO Auto-generated method stub
 		return height;
 	}
 	
@@ -146,7 +144,6 @@ public class EnemyMelee extends Enemy{
 			if (!dying) {
 				g.setColor(Color.RED);
 				g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
-				stationary++;
 			} 
 			else {
 				// TODO: do cool shit whilst the thing is dying
@@ -218,7 +215,7 @@ public class EnemyMelee extends Enemy{
 			case ENEMY_FIRE: 
 				// See whether the last attack by the player is longer ago than 2 seconds, if so regenerate the fire
 				if (System.currentTimeMillis() - regenerate > 2000) {
-					if (hp != 0 && hp < maxHp) {
+					if (hp > 0 && hp < maxHp) {
 						hp++;
 						regenerate = System.currentTimeMillis();
 					}
@@ -237,21 +234,7 @@ public class EnemyMelee extends Enemy{
 		/*-------------------------------------------------------------------------------------*/
 
 			case ENEMY_FIGURE_RUN: //this one will run towards the figure
-				// only move the enemy if it isn't dying
-				if (!dying) {
-					double figX = figure.getPosX();
-					double figY = figure.getPosY();
-					
-					vx = v_weight*(figX-x)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
-					vy = v_weight*(figY-y)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
-					
-					if (stationary < 50) {
-						vx = 0;
-						vy = 0;
-					}
-					
-					propagateToFigure(currentRoom, figure);
-				}
+				propagateToFigure(currentRoom, figure);
 				break;
 
 		/*-------------------------------------------------------------------------------------*/
@@ -260,23 +243,10 @@ public class EnemyMelee extends Enemy{
 				break;
 		/*-------------------------------------------------------------------------------------*/
 			case ENEMY_FIGURE_FLYING:
-				// only move the enemy if it isn't dying
-				if (!dying) {
-					double figX = figure.getPosX();
-					double figY = figure.getPosY();
-					
-					vx = v_weight*(figX-x)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
-					vy = v_weight*(figY-y)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
-					
-					if (stationary < 50) {
-						vx = 0;
-						vy = 0;
-					}
-					
-					propagateToFigure(currentRoom, figure);
-				}
+				propagateToFigure(currentRoom, figure);
 				break;
 		}
+		stationary++;
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -378,6 +348,22 @@ public class EnemyMelee extends Enemy{
 	
 	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
 	void propagateToFigure (ArrayList<CoreGameObjects> room, Figure figure) {
+		
+		// check whether the enemy is still alive move toward figure if this is the case
+		if (!dying) {
+			double figX = figure.getPosX();
+			double figY = figure.getPosY();
+			
+			// parameterized velocity vector towards the figure
+			vx = v_weight*(figX-x)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
+			vy = v_weight*(figY-y)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
+			
+			// while the 
+			if (stationary < 50) {
+				vx = 0;
+				vy = 0;
+			}
+		}
 		
 		// Basic variables for checking each object within the room
 		CoreGameObjects collidable;

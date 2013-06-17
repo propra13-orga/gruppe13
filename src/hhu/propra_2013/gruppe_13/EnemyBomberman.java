@@ -22,7 +22,7 @@ public class EnemyBomberman extends Enemy{
 	private int 	stage;
 	private long 	regenerate;
 	
-	// Standard constructor, build enemies according to input tyoe
+	// Standard constructor, build enemies according to input 
 	EnemyBomberman (double inx, double iny,double inWidth, double inHeight, int inType, int inStage){
 		x 			= inx;
 		y 			= iny;
@@ -42,12 +42,6 @@ public class EnemyBomberman extends Enemy{
 			maxHp		= hp;
 			break;
 			
-		case ENEMY_PATROL:
-			break;
-		
-		case ENEMY_RANDOM_WALKER:
-			break;
-			
 		case ENEMY_FIGURE_RUN:
 			strength 	= 1;
 			hp			= 5;
@@ -55,7 +49,11 @@ public class EnemyBomberman extends Enemy{
 			v_weight	= 0.1;
 			break;
 			
-		case ENEMY_FLEEING:
+		case ENEMY_FIGURE_FLYING:
+			strength	= 1;
+			hp			= 3;
+			maxHp		= hp;
+			v_weight	= 0.07;
 			break;
 		}
 		
@@ -102,18 +100,15 @@ public class EnemyBomberman extends Enemy{
 	
 	@Override
 	double getWidth() {
-		// TODO Auto-generated method stub
 		return width;
 	}
 
 	@Override
 	double getHeight() {
-		// TODO Auto-generated method stub
 		return height;
 	}
 	
-/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
-
+	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
 	@Override
 	void setType(int inType) {
 		type = inType;
@@ -149,7 +144,6 @@ public class EnemyBomberman extends Enemy{
 			if (!dying) {
 				g.setColor(Color.RED);
 				g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
-				stationary++;
 			} 
 			else {
 				// TODO: do cool shit whilst the thing is dying
@@ -192,7 +186,11 @@ public class EnemyBomberman extends Enemy{
 	void takeDamage(int attackType, int inStrength) {
 		// Save when the last attack from the player occurred
 		regenerate 	= System.currentTimeMillis();
-		hp 			-= inStrength;
+		switch (attackType){
+		default:
+			hp -= inStrength;
+			break;
+		}
 		
 		// check whether the fucking thing is dead yet, initiate dying sequence if that is the case
 		if (hp <= 0) {
@@ -217,7 +215,7 @@ public class EnemyBomberman extends Enemy{
 			case ENEMY_FIRE: 
 				// See whether the last attack by the player is longer ago than 2 seconds, if so regenerate the fire
 				if (System.currentTimeMillis() - regenerate > 2000) {
-					if (hp != 0 && hp < maxHp) {
+					if (hp > 0 && hp < maxHp) {
 						hp++;
 						regenerate = System.currentTimeMillis();
 					}
@@ -236,21 +234,7 @@ public class EnemyBomberman extends Enemy{
 		/*-------------------------------------------------------------------------------------*/
 
 			case ENEMY_FIGURE_RUN: //this one will run towards the figure
-				// only move the enemy if it isn't dying
-				if (!dying) {
-					double figX = figure.getPosX();
-					double figY = figure.getPosY();
-					
-					vx = v_weight*(figX-x)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
-					vy = v_weight*(figY-y)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
-					
-					if (stationary < 50) {
-						vx = 0;
-						vy = 0;
-					}
-					
-					propagateToFigure(currentRoom, figure);
-				}
+				propagateToFigure(currentRoom, figure);
 				break;
 
 		/*-------------------------------------------------------------------------------------*/
@@ -258,77 +242,70 @@ public class EnemyBomberman extends Enemy{
 				//
 				break;
 		/*-------------------------------------------------------------------------------------*/
+			case ENEMY_FIGURE_FLYING:
+				propagateToFigure(currentRoom, figure);
+				break;
 		}
+		stationary++;
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
-	void propagateToFigure (ArrayList<CoreGameObjects> room, Figure figure) {
-		
-		CoreGameObjects collidable;
-		
-		// Basic variables for checking each object within the room
+	double[] collision(CoreGameObjects collidable, double distUp, double distDown, double distRight, double distLeft) {
 		double objX, objY, objR;
 		double tmpX, tmpY;
 		double objWidth, objHeight;
 		
-		double distUp		=  30;
-		double distDown		= -30;
-		double distLeft 	=  30;
-		double distRight 	= -30;
+		objX = collidable.getPosX();
+		objY = collidable.getPosY();
+		objR = collidable.getRad();
 		
-		// iterate over all elements within the room and check whether a collision occurs
-		for (int i=0; i<room.size(); i++) {
-			collidable = room.get(i);
+		// Check collision radius, save distance between objects
+		if ((x-objX)*(x-objX)+(y-objY)*(y-objY) < (objR+rad)*(objR+rad)) {
+			tmpX = x-objX;
+			tmpY = y-objY;
 			
-			// Check whether an object can be collided with, get data if necessary
-			if (collidable instanceof Figure || collidable instanceof MISCWall) {
-				objX = collidable.getPosX();
-				objY = collidable.getPosY();
-				objR = collidable.getRad();
-				
-				// Check collision radius, save distance between objects
-				if ((x-objX)*(x-objX)+(y-objY)*(y-objY) < (objR+rad)*(objR+rad)) {
-					tmpX = x-objX;
-					tmpY = y-objY;
-					
-					objHeight 	= collidable.getHeight();
-					objWidth 	= collidable.getWidth();
-					
-					// check in which direction the bullet is moving and act accordingly should a collision occur
-					if (vy < 0 && tmpY > 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
-						// Check whether there is a closer collision, save distance and object if there is
-						if ((/*collOne = */tmpY-(height+objHeight)/2.) < distUp) {
-							distUp = tmpY-(height+objHeight)/2.;
-						}
-					}
-					
-					// analogous to above
-					if (vy > 0 && tmpY < 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
-						// Check whether there is a closer collision, save distance and object if there is
-						if ((/*collTwo = */tmpY+(height+objHeight)/2.) > distDown) {
-							distDown = tmpY+(height+objHeight)/2.;
-						}
-					}
-					
-					// analogous to above
-					if (vx > 0 && tmpX < 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
-						// Check whether there is a closer collision, save distance and object if there is
-						if ((/*collThree = */tmpX+(width+objWidth)/2.) > distRight) {
-							distRight = tmpX+(width+objWidth)/2.;
-						}
-					}
-					
-					// analogous to above
-					if (vx < 0 && tmpX > 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
-						// Check whether there is a closer collision, save distance and object if there is
-						if ((/*collFour = */tmpX-(width+objWidth)/2.) < distLeft) {
-							distLeft = tmpX-(width+objWidth)/2.;
-						}
-					}
+			objHeight 	= collidable.getHeight();
+			objWidth 	= collidable.getWidth();
+			
+			// check in which direction the bullet is moving and act accordingly should a collision occur
+			if (vy < 0 && tmpY > 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
+				// Check whether there is a closer collision, save distance and object if there is
+				if ((tmpY-(height+objHeight)/2.) < distUp) {
+					distUp = tmpY-(height+objHeight)/2.;
+				}
+			}
+			
+			// analogous to above
+			if (vy > 0 && tmpY < 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
+				// Check whether there is a closer collision, save distance and object if there is
+				if ((tmpY+(height+objHeight)/2.) > distDown) {
+					distDown = tmpY+(height+objHeight)/2.;
+				}
+			}
+			
+			// analogous to above
+			if (vx > 0 && tmpX < 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
+				// Check whether there is a closer collision, save distance and object if there is
+				if ((tmpX+(width+objWidth)/2.) > distRight) {
+					distRight = tmpX+(width+objWidth)/2.;
+				}
+			}
+			
+			// analogous to above
+			if (vx < 0 && tmpX > 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
+				// Check whether there is a closer collision, save distance and object if there is
+				if ((tmpX-(width+objWidth)/2.) < distLeft) {
+					distLeft = tmpX-(width+objWidth)/2.;
 				}
 			}
 		}
 		
+		double[] toReturn = {distUp, distDown, distLeft, distRight};
+		return toReturn;
+	}
+	
+	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
+	void move (double distUp, double distDown, double distRight, double distLeft) {
 		/* check whether there is a collision and move the enemy along the wall at normal speed, 
 		 * this is to ensure that the enemy does not creep along walls while the player can pick him off from a distance. */
 		if (distUp == 0 || distDown == 0) {
@@ -367,5 +344,67 @@ public class EnemyBomberman extends Enemy{
 			} else
 				x += vx;
 		}
+	}
+	
+	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
+	void propagateToFigure (ArrayList<CoreGameObjects> room, Figure figure) {
+		
+		// check whether the enemy is still alive move toward figure if this is the case
+		if (!dying) {
+			double figX = figure.getPosX();
+			double figY = figure.getPosY();
+			
+			// parameterized velocity vector towards the figure
+			vx = v_weight*(figX-x)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
+			vy = v_weight*(figY-y)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
+			
+			// while the 
+			if (stationary < 50) {
+				vx = 0;
+				vy = 0;
+			}
+		}
+		
+		// Basic variables for checking each object within the room
+		CoreGameObjects collidable;
+		
+		double distUp		=  30;
+		double distDown		= -30;
+		double distLeft 	=  30;
+		double distRight 	= -30;
+		
+		// iterate over all elements within the room and check whether a collision occurs
+		for (int i=0; i<room.size(); i++) {
+			collidable = room.get(i);
+			
+			switch (type) {
+			case ENEMY_FIGURE_RUN:
+				// Check whether an object can be collided with, get data if necessary
+				if (collidable instanceof Figure || collidable instanceof MISCWall) {
+					double[] check = collision(collidable, distUp, distDown, distRight, distLeft);
+					
+					distUp 		= Math.min(distUp, check[0]);
+					distDown 	= Math.max(distDown, check[1]);
+					distLeft 	= Math.min(distLeft, check[2]);
+					distRight 	= Math.max(distRight, check[3]);
+				}
+				break;
+				
+			case ENEMY_FIGURE_FLYING:
+				// Check whether an object can be collided with, get data if necessary
+				if (collidable instanceof Figure) {
+					double[] check = collision(collidable, distUp, distDown, distRight, distLeft);
+					
+					distUp 		= Math.min(distUp, check[0]);
+					distDown 	= Math.max(distDown, check[1]);
+					distLeft 	= Math.min(distLeft, check[2]);
+					distRight 	= Math.max(distRight, check[3]);
+				}
+				break;
+			}
+
+		}
+		
+		move(distUp, distDown, distRight, distLeft);
 	}
 }

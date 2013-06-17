@@ -24,7 +24,11 @@ public class CoreRoom {
 	String 		type, boss;
 	int 		stage; //Nummer des Levels, für den NPC
 	
-	//Konstruktor
+	// Stream and Reader for reading data from file
+	InputStream roomStream 	= null;
+	Reader roomReader		= null;
+	
+	// Constructor
 	CoreRoom(Figure inFigure, int inStage, String inBoss, boolean inTopNeighbour, boolean inBottomNeighbour, boolean inLeftNeighbour, boolean inRightNeighbour){
 		figure 				= inFigure;
 		content 			= new ArrayList<CoreGameObjects>();
@@ -66,8 +70,9 @@ public class CoreRoom {
 			randomNumber = 0;
 		}
 		
-		InputStream roomStream 	= null;
-		Reader roomReader		= null;
+
+		
+		// First read all Walls into the ArrayList, that way Walls will  be drawn in  the background
 		try {
 			roomStream = new FileInputStream("Level/"+type+randomNumber+".txt");
 			roomReader = new InputStreamReader (roomStream);
@@ -76,13 +81,50 @@ public class CoreRoom {
 			column = 0; 
 			line = 0;	
 			dest = 0;
+			
 			while ((element = roomReader.read()) != -1){ //Goes trough the whole raumX.txt, and spawns Objects at their Positions
-				
 				switch (element) { 	//ASCII: W=87 D=68 E=69
 				case 'W':			//In order of probability
 					content.add(new MISCWall(column-1+0.5, line-1+0.5, 1, 1, 1)); 	//-1 because the top left corner seems to have
 					break;															//the coordinates 1:1
-					
+				}
+				
+				column++; //sets column up for the next cycle of the switch-case
+				
+				if (column==25){ //since we use 24 chars per line, the 25th should trigger the next line
+					column = 0;
+					line++;
+				}
+			}
+		}
+		catch (IOException e) {
+			System.out.println("File not found, system exiting.");
+			System.exit(1);
+		} finally {
+			try {
+				roomReader.close();
+			} catch (IOException e) {
+			}
+			try {
+				roomStream.close();
+			} catch (IOException e) {
+			}
+		}
+		
+		// Put all other stuff into the ArrayList
+		try {
+			roomStream = new FileInputStream("Level/"+type+randomNumber+".txt");
+			roomReader = new InputStreamReader (roomStream);
+			
+			element = 0;
+			column = 0; 
+			line = 0;	
+			dest = 0;
+			
+			while ((element = roomReader.read()) != -1){ //Goes trough the whole raumX.txt, and spawns Objects at their Positions
+				
+				switch (element) {
+				
 				case 'E':
 					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIRE, stage));
 					break;
@@ -152,8 +194,6 @@ public class CoreRoom {
 				}
 			}
 			
-
-			
 		} catch (IOException e) {
 			System.out.println("File not found, system exiting.");
 			System.exit(1);
@@ -167,8 +207,9 @@ public class CoreRoom {
 			} catch (IOException e) {
 			}
 		}
-
+		
 	}
+	
 	//Getter
 	//***********************************************************************************************************
 	boolean getFinished(){

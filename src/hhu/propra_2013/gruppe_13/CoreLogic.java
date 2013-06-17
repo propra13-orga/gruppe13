@@ -234,9 +234,9 @@ class CoreLogic implements Runnable {
 		distRight = 50;
 
 		// method variables for
-		double figR = figure.getRad();
-		double figWidth = figure.getWidth();
-		double figHeight = figure.getHeight();
+		double figR 		= figure.getRad();
+		double figWidth 	= figure.getWidth();
+		double figHeight 	= figure.getHeight();
 		double tmpX, tmpY;
 
 		double objX, objY;
@@ -245,8 +245,6 @@ class CoreLogic implements Runnable {
 
 		double collOne, collTwo, collThree, collFour;
 
-
-
 		ArrayList<CoreGameObjects> collidable = level.getRoom(locationX, locationY).getContent();
 		CoreGameObjects collided;
 
@@ -254,7 +252,7 @@ class CoreLogic implements Runnable {
 		for (int i = 0; i < collidable.size(); i++) {
 			collided = collidable.get(i);
 			if (collided instanceof Enemy){
-				if (((Enemy) collided).leftForDead() == false){
+				if (((Enemy) collided).leftForDead() == false && ((Enemy)collided).getType() != Enemy.ENEMY_FIRE){
 				finished = false;
 				}				
 			} 
