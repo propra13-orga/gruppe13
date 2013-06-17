@@ -2,8 +2,8 @@ package hhu.propra_2013.gruppe_13;
 
 public class CoreLevel {
 	
-	Figure figure;
-	int mode;
+	Figure 	figure;
+	int 	mode;
 	
 	int stage = 0; //in welchen Level sind wir, nützlich für das Endziel 
 	String boss; //damit man weiß was der Boss ist, hauptsächlich für den NPC

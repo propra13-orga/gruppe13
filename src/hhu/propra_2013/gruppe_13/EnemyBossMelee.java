@@ -13,7 +13,7 @@ public class EnemyBossMelee extends Enemy{
 	private double 	v_weight;
 	
 	private double 	width, height; 
-	private int 	strength;
+	private int 	strength, mode;
 	private boolean dying, dead, stopDrawing, talk;
 	private int 	stage;
 	private int		maxHP;
@@ -31,6 +31,7 @@ public class EnemyBossMelee extends Enemy{
 		height 		= inHeight;
 		
 		type 		= inType;
+		mode		= inMode;
 		
 		stage = inStage; // so we know in which level we are, useful once we spawn random enemies   
 		
@@ -51,23 +52,23 @@ public class EnemyBossMelee extends Enemy{
 							   //TODO write super cool spawnRandomBoss method
 			switch(stage){
 			case 1:
-				strength 	= 1;
-				hp			= 10;
-				v_weight	= 0.1;
+				strength 	= 1*mode/2;
+				hp			= 5*mode;
+				v_weight	= 0.1*mode/2;
 				maxHP		= hp;
 				break;
 				
 			case 2:
-				strength	=2;
-				hp			=5;
-				v_weight	=0.1;
+				strength	=1*mode;
+				hp			=5*mode/2;
+				v_weight	=0.1*mode/2;;
 				maxHP		= hp;
 				break;
 			
 			case 3:
-				strength	=2;
-				hp			=10;
-				v_weight	=0.1;
+				strength	=2*mode;
+				hp			=10*mode;
+				v_weight	=0.1*mode/2;
 				maxHP		= hp;
 				break;
 			}

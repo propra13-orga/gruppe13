@@ -17,7 +17,7 @@ public class EnemyRanged extends Enemy {
 	private double 	width, height, rad;
 	
 	// strength of the enemy and booleans for checking vital signs
-	private int 	strength;
+	private int 	strength, mode;
 	private boolean	dead, dying, stopDrawing;
 	
 	// the current stage of the game and a long for the time stamp
@@ -34,13 +34,14 @@ public class EnemyRanged extends Enemy {
 		
 		type	= inType;
 		stage	= inStage;
+		mode 	= inMode;
 		
 		fireCoolDown	= System.currentTimeMillis();
 		switch (type) {
 		case ENEMY_FIRE_SHOOTING:
 			regenerate	= System.currentTimeMillis();
-			strength 	= 1;
-			hp			= 5;
+			strength 	= 1*mode/2;
+			hp			= 5*mode/2;
 			maxHp		= hp;
 			stationary	= 0;
 			break;

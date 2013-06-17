@@ -15,7 +15,7 @@ public class EnemyMelee extends Enemy{
 	private double 	width, height, rad;
 	
 	// strength of the enemy and booleans for checking vital signs
-	private int 	strength;
+	private int 	strength, mode;
 	private boolean	dead, dying, stopDrawing;
 	
 	// the current stage of the game and a long for the time stamp
@@ -32,28 +32,29 @@ public class EnemyMelee extends Enemy{
 		
 		type 		= inType;
 		stage 		= inStage;
+		mode		= inMode;
 		
 		// initialize the program according to the type of the desired enemy
 		switch (type) {
 		case ENEMY_FIRE:
 			regenerate	= System.currentTimeMillis();
-			strength 	= 1;
-			hp			= 5;
+			strength 	= 1*mode/2;
+			hp			= 5*mode/2;
 			maxHp		= hp;
 			break;
 			
 		case ENEMY_FIGURE_RUN:
-			strength 	= 1;
-			hp			= 5;
+			strength 	= 1*mode/2;
+			hp			= 5*mode/2;
 			maxHp		= hp;
-			v_weight	= 0.1;
+			v_weight	= 0.1*mode/2;
 			break;
 			
 		case ENEMY_FIGURE_FLYING:
-			strength	= 1;
-			hp			= 3;
+			strength	= 1*mode/2;
+			hp			= 3*mode/2;
 			maxHp		= hp;
-			v_weight	= 0.07;
+			v_weight	= 0.07*mode/2;;
 			break;
 		}
 		
