@@ -16,6 +16,7 @@ public class EnemyBossMelee extends Enemy{
 	private int 	strength;
 	private boolean dying, dead, stopDrawing;
 	private int 	stage;
+	private int		maxHP;
 	
 	CoreRoom room;
 	
@@ -50,18 +51,21 @@ public class EnemyBossMelee extends Enemy{
 				strength 	= 1;
 				hp			= 10;
 				v_weight	= 0.1;
+				maxHP		= hp;
 				break;
 				
 			case 2:
 				strength	=2;
 				hp			=5;
 				v_weight	=0.1;
+				maxHP		= hp;
 				break;
 			
 			case 3:
 				strength	=2;
 				hp			=10;
 				v_weight	=0.1;
+				maxHP		= hp;
 				break;
 			}
 			break;
@@ -161,6 +165,7 @@ public class EnemyBossMelee extends Enemy{
 				g.setColor(Color.RED);
 				g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 				stationary++;
+				g.fillRect(xOffset+(int)Math.round((x-width/2.)*step), yOffset+(int)Math.round((y-height/2.)*step - step), (int)Math.round(2*step/maxHP*hp), (int)Math.round(step/16));
 			} 
 			else {
 				// TODO: do cool shit whilst the thing is dying
