@@ -14,26 +14,28 @@ public class CoreRoom {
 	
 	//Sachen die jeder Raum weiß
 	ArrayList<CoreGameObjects> content; //die alte innere Array list, enthält alle Objekte im Raum
-	boolean isBossRoom, isShop;
-	boolean hasTopNeighbour, hasBottomNeighbour, hasLeftNeighbour, hasRightNeighbour;
-	boolean isFinished;//for later use in the map
+	boolean 	isBossRoom, isShop;
+	boolean 	hasTopNeighbour, hasBottomNeighbour, hasLeftNeighbour, hasRightNeighbour;
+	boolean 	isFinished;//for later use in the map
 	
 	//Variablen zur Erzeugung
-	int element , column, line , dest;
-	int randomNumber; //speichert die Zufallsvariablevariable in der Raumerzeugung, je nachdem ob es ein  bossraum ist oder nicht
-	String type, boss;
-	int stage; //Nummer des Levels, für den NPC
+	int 		element , column, line , dest;
+	int 		randomNumber; //speichert die Zufallsvariablevariable in der Raumerzeugung, je nachdem ob es ein  bossraum ist oder nicht
+	String 		type, boss;
+	int 		stage; //Nummer des Levels, für den NPC
 	
 	//Konstruktor
 	CoreRoom(Figure inFigure, int inStage, String inBoss, boolean inTopNeighbour, boolean inBottomNeighbour, boolean inLeftNeighbour, boolean inRightNeighbour){
-		figure = inFigure;
-		content = new ArrayList<CoreGameObjects>();
-		stage = inStage;
-		boss = inBoss;
-		hasTopNeighbour = inTopNeighbour;  //ja, ich hasse mich auch schon für solche langen namen
-		hasBottomNeighbour = inBottomNeighbour;
-		hasLeftNeighbour = inLeftNeighbour;
-		hasRightNeighbour = inRightNeighbour;
+		figure 				= inFigure;
+		content 			= new ArrayList<CoreGameObjects>();
+		stage 				= inStage;
+		boss 				= inBoss;
+		
+		//ja, ich hasse mich auch schon für solche langen namen
+		hasTopNeighbour 	= inTopNeighbour;  
+		hasBottomNeighbour 	= inBottomNeighbour;
+		hasLeftNeighbour 	= inLeftNeighbour;
+		hasRightNeighbour 	= inRightNeighbour;
 		System.out.println("links "+hasLeftNeighbour+" rechts "+hasRightNeighbour+" oben "+hasTopNeighbour+" unten "+hasBottomNeighbour);
 	}
 	
@@ -64,9 +66,11 @@ public class CoreRoom {
 			randomNumber = 0;
 		}
 		
+		InputStream roomStream 	= null;
+		Reader roomReader		= null;
 		try {
-			InputStream roomStream = new FileInputStream("Level/"+type+randomNumber+".txt");
-			Reader roomReader = new InputStreamReader (roomStream);
+			roomStream = new FileInputStream("Level/"+type+randomNumber+".txt");
+			roomReader = new InputStreamReader (roomStream);
 			
 			element = 0;
 			column = 0; 
@@ -117,7 +121,7 @@ public class CoreRoom {
 					break;
 				
 				case 'S':
-					content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, 4));//'Door' leads to the next floor
+					//content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, 4));//'Door' leads to the next floor
 					break;
 					
 				case 'R': 
@@ -137,7 +141,7 @@ public class CoreRoom {
 					break;
 				case 'B':
 
-					content.add(new EnemyBossMelee(column-1+0.5, line-1+0.5, 1 , 1 , Enemy.ENEMY_FIGURE_RUN, stage));
+					content.add(new EnemyBossMelee(column-1+0.5, line-1+0.5, 1 , 1 , Enemy.ENEMY_FIGURE_RUN, stage, this));
 					break;				
 				}
 				column++; //sets column up for the next cycle of the switch-case
@@ -148,12 +152,20 @@ public class CoreRoom {
 				}
 			}
 			
-			roomReader.close();
-			roomStream.close();
+
 			
 		} catch (IOException e) {
 			System.out.println("File not found, system exiting.");
 			System.exit(1);
+		} finally {
+			try {
+				roomReader.close();
+			} catch (IOException e) {
+			}
+			try {
+				roomStream.close();
+			} catch (IOException e) {
+			}
 		}
 
 	}
@@ -163,7 +175,6 @@ public class CoreRoom {
 		return isFinished;
 	}
 	
-	
 	boolean getBossRoom(){
 		return isBossRoom;
 	}
@@ -171,9 +182,8 @@ public class CoreRoom {
 	boolean getShop(){
 		return isShop;
 	}
-	
-	
-	ArrayList getContent(){
+
+	ArrayList<CoreGameObjects> getContent() {
 		return content;
 	}
 	

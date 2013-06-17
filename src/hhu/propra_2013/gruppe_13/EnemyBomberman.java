@@ -276,19 +276,9 @@ public class EnemyBomberman extends Enemy{
 		double distLeft 	=  30;
 		double distRight 	= -30;
 		
-//		double collOne;
-//		double collTwo;
-//		double collThree;
-//		double collFour;
-		
 		// iterate over all elements within the room and check whether a collision occurs
 		for (int i=0; i<room.size(); i++) {
 			collidable = room.get(i);
-			
-//			collOne 	= 1;
-//			collTwo 	= 1;
-//			collThree 	= 1;
-//			collFour	= 1;
 			
 			// Check whether an object can be collided with, get data if necessary
 			if (collidable instanceof Figure || collidable instanceof MISCWall) {
@@ -335,10 +325,6 @@ public class EnemyBomberman extends Enemy{
 							distLeft = tmpX-(width+objWidth)/2.;
 						}
 					}
-					
-//					if ((collOne == 0 || collTwo == 0 || collThree == 0 || collFour == 0) && collidable instanceof Figure) {
-//						figure.takeDamage(type, strength);
-//					}
 				}
 			}
 		}

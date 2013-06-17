@@ -19,9 +19,10 @@ abstract class CoreGameObjects {
 	static final int ENEMY_FIGURE_RUN			= 43;
 	static final int ENEMY_FLEEING				= 44;
 	static final int ENEMY_FIRE					= 45;
+	static final int ENEMY_FIGURE_FLYING		= 46;
 	
 	// finals for defining ranged enemy type
-	static final int ENEMY_FIRE_SHOOTING		= 46;
+	static final int ENEMY_FIRE_SHOOTING		= 80;
 	
 	// Getter and Setter methods for Objects used by Logic and GameDrawer classes
 	abstract int 	getHP();	

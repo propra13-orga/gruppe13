@@ -15,9 +15,11 @@ public class EnemyBossMelee extends Enemy{
 	private double 	width, height; 
 	private int 	strength;
 	private boolean dying, dead, stopDrawing;
-	private int stage;
+	private int 	stage;
 	
-	EnemyBossMelee(double inx, double iny,double inWidth, double inHeight, int inType, int inStage){
+	CoreRoom room;
+	
+	EnemyBossMelee(double inx, double iny,double inWidth, double inHeight, int inType, int inStage, CoreRoom inRoom){
 		x 			= inx;
 		y 			= iny;
 		
@@ -28,6 +30,8 @@ public class EnemyBossMelee extends Enemy{
 		
 		stage = inStage; // so we know in which level we are, useful once we spawn random enemies   
 		
+		room = inRoom;
+	
 		// initialize the program according to the type of the desired enemy
 		switch (type) {
 		case ENEMY_TRAP:
@@ -174,10 +178,7 @@ public class EnemyBossMelee extends Enemy{
 	void takeDamage(int attackType, int inStrength) {
 		// depending on the attack, decrease the enemies health
 		switch(attackType) {
-		case Attack.PLAYER_BULLET_STD:
-			hp -= inStrength;
-			break;
-		case Attack.PLAYER_MELEE_AOE:
+		default:
 			hp -= inStrength;
 			break;
 		}
@@ -185,6 +186,7 @@ public class EnemyBossMelee extends Enemy{
 		// check whether the fucking thing is dead yet, initiate dying sequence if that is the case
 		if (hp <= 0) {
 			dying = true;
+			room.getContent().add(new MISCDoor(20, 7, 1, 1, 0.5, 4));
 		}
 		System.out.println("enemy hp: "+hp);
 
@@ -244,85 +246,70 @@ public class EnemyBossMelee extends Enemy{
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
-	void propagateToFigure (ArrayList<CoreGameObjects> room, Figure figure) {
-		
-		CoreGameObjects collidable;
-		
-		// Basic variables for checking each object within the room
+	double[] collision(CoreGameObjects collidable, double distUp, double distDown, double distRight, double distLeft) {
 		double objX, objY, objR;
 		double tmpX, tmpY;
 		double objWidth, objHeight;
 		
-		double distUp		=  30;
-		double distDown		= -30;
-		double distLeft 	=  30;
-		double distRight 	= -30;
+		objX = collidable.getPosX();
+		objY = collidable.getPosY();
+		objR = collidable.getRad();
 		
-		double collOne;
-		double collTwo;
-		double collThree;
-		double collFour;
-		
-		// iterate over all elements within the room and check whether a collision occurs
-		for (int i=0; i<room.size(); i++) {
-			collidable = room.get(i);
+		// Check collision radius, save distance between objects
+		if ((x-objX)*(x-objX)+(y-objY)*(y-objY) < (objR+rad)*(objR+rad)) {
+			tmpX = x-objX;
+			tmpY = y-objY;
 			
-			collOne 	= 1;
-			collTwo 	= 1;
-			collThree 	= 1;
-			collFour	= 1;
+			objHeight 	= collidable.getHeight();
+			objWidth 	= collidable.getWidth();
 			
-			// Check whether an object can be collided with, get data if necessary
-			if (collidable instanceof Figure || collidable instanceof MISCWall) {
-				objX = collidable.getPosX();
-				objY = collidable.getPosY();
-				objR = collidable.getRad();
-				
-				// Check collision radius, save distance between objects
-				if ((x-objX)*(x-objX)+(y-objY)*(y-objY) < (objR+rad)*(objR+rad)) {
-					tmpX = x-objX;
-					tmpY = y-objY;
-					
-					objHeight 	= collidable.getHeight();
-					objWidth 	= collidable.getWidth();
-					
-					// check in which direction the bullet is moving and act accordingly should a collision occur
-					if (vy < 0 && tmpY > 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
-						// Check whether there is a closer collision, save distance and object if there is
-						if ((collOne = tmpY-(height+objHeight)/2.) < distUp) {
-							distUp = tmpY-(height+objHeight)/2.;
-						}
-					}
-					
-					// analogous to above
-					if (vy > 0 && tmpY < 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
-						// Check whether there is a closer collision, save distance and object if there is
-						if ((collTwo = tmpY+(height+objHeight)/2.) > distDown) {
-							distDown = tmpY+(height+objHeight)/2.;
-						}
-					}
-					
-					// analogous to above
-					if (vx > 0 && tmpX < 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
-						// Check whether there is a closer collision, save distance and object if there is
-						if ((collThree = tmpX+(width+objWidth)/2.) > distRight) {
-							distRight = tmpX+(width+objWidth)/2.;
-						}
-					}
-					
-					// analogous to above
-					if (vx < 0 && tmpX > 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
-						// Check whether there is a closer collision, save distance and object if there is
-						if ((collFour = tmpX-(width+objWidth)/2.) < distLeft) {
-							distLeft = tmpX-(width+objWidth)/2.;
-						}
-					}
-					
-					if ((collOne == 0 || collTwo == 0 || collThree == 0 || collFour == 0) && collidable instanceof Figure) {
-						figure.takeDamage(type, strength);
-					}
+			// check in which direction the bullet is moving and act accordingly should a collision occur
+			if (vy < 0 && tmpY > 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
+				// Check whether there is a closer collision, save distance and object if there is
+				if ((tmpY-(height+objHeight)/2.) < distUp) {
+					distUp = tmpY-(height+objHeight)/2.;
 				}
 			}
+			
+			// analogous to above
+			if (vy > 0 && tmpY < 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
+				// Check whether there is a closer collision, save distance and object if there is
+				if ((tmpY+(height+objHeight)/2.) > distDown) {
+					distDown = tmpY+(height+objHeight)/2.;
+				}
+			}
+			
+			// analogous to above
+			if (vx > 0 && tmpX < 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
+				// Check whether there is a closer collision, save distance and object if there is
+				if ((tmpX+(width+objWidth)/2.) > distRight) {
+					distRight = tmpX+(width+objWidth)/2.;
+				}
+			}
+			
+			// analogous to above
+			if (vx < 0 && tmpX > 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
+				// Check whether there is a closer collision, save distance and object if there is
+				if ((tmpX-(width+objWidth)/2.) < distLeft) {
+					distLeft = tmpX-(width+objWidth)/2.;
+				}
+			}
+		}
+		
+		double[] toReturn = {distUp, distDown, distLeft, distRight};
+		return toReturn;
+	}
+	
+	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
+	void move (double distUp, double distDown, double distRight, double distLeft) {
+		/* check whether there is a collision and move the enemy along the wall at normal speed, 
+		 * this is to ensure that the enemy does not creep along walls while the player can pick him off from a distance. */
+		if (distUp == 0 || distDown == 0) {
+			vx = Math.signum(vx) * v_weight;
+		}
+		
+		if (distRight == 0 || distLeft == 0) {
+			vy = Math.signum(vy) * v_weight;
 		}
 		
 		// do the actual movement, should an object be encountered, kill it and destroy the bullet...
@@ -353,5 +340,51 @@ public class EnemyBossMelee extends Enemy{
 			} else
 				x += vx;
 		}
+	}
+	
+	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
+	void propagateToFigure (ArrayList<CoreGameObjects> room, Figure figure) {
+		
+		// Basic variables for checking each object within the room
+		CoreGameObjects collidable;
+		
+		double distUp		=  30;
+		double distDown		= -30;
+		double distLeft 	=  30;
+		double distRight 	= -30;
+		
+		// iterate over all elements within the room and check whether a collision occurs
+		for (int i=0; i<room.size(); i++) {
+			collidable = room.get(i);
+			
+			switch (type) {
+			case ENEMY_FIGURE_RUN:
+				// Check whether an object can be collided with, get data if necessary
+				if (collidable instanceof Figure || collidable instanceof MISCWall) {
+					double[] check = collision(collidable, distUp, distDown, distRight, distLeft);
+					
+					distUp 		= Math.min(distUp, check[0]);
+					distDown 	= Math.max(distDown, check[1]);
+					distLeft 	= Math.min(distLeft, check[2]);
+					distRight 	= Math.max(distRight, check[3]);
+				}
+				break;
+				
+			case ENEMY_FIGURE_FLYING:
+				// Check whether an object can be collided with, get data if necessary
+				if (collidable instanceof Figure) {
+					double[] check = collision(collidable, distUp, distDown, distRight, distLeft);
+					
+					distUp 		= Math.min(distUp, check[0]);
+					distDown 	= Math.max(distDown, check[1]);
+					distLeft 	= Math.min(distLeft, check[2]);
+					distRight 	= Math.max(distRight, check[3]);
+				}
+				break;
+			}
+
+		}
+		
+		move(distUp, distDown, distRight, distLeft);
 	}
 }
