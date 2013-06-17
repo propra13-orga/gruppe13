@@ -28,8 +28,12 @@ class Bullet extends Attack {
 	private int 	hitCounter;
 	private boolean up, down, left, right;
 	
+	// Needed for collisions
+	double[] 			dist = new double[4];
+	CoreGameObjects[] 	coll = new CoreGameObjects[4];
+	
 	// Bullet constructor
-	Bullet(int inType, double initX, double initY, double figVX, double figVY, double signVX, double signVY) {
+	Bullet(int inType, double initX, double initY, double objVX, double objVY, double signVX, double signVY) {
 		// Save initial position and type data
 		posX	= initX;
 		posY	= initY;
@@ -56,25 +60,31 @@ class Bullet extends Attack {
 		
 		// Bullet type and hitpoints, this way there is a possibility of building Bullets that can hit multiple enemies.  
 		switch (type) {
-		// Standard player Bullet
-		case PLAYER_BULLET_STD:
-			width 	= 0.2;
-			height 	= 0.2;
-			
-			v_x	= signVX*0.2 + Math.signum(signVX)*figVX;
-			v_y = signVY*0.2 + Math.signum(signVY)*figVY;
-			
-			hp 			= 20;
-			hitCounter 	= 5;
-			strength	= 1;
+		default:
+			v_x	= signVX*0.5;// + Math.signum(signVX)*Math.abs(objVX);
+			v_y = signVY*0.5;// + Math.signum(signVY)*Math.abs(objVY);
 			break;
+		}
+		switch (type) {
+		// Standard player Bullet
+//		case PLAYER_BULLET_STD:
+//			width 	= 0.2;
+//			height 	= 0.2;
+//			
+//			v_x	= signVX*0.5;// + Math.signum(signVX)*Math.abs(objVX);
+//			v_y = signVY*0.5;// + Math.signum(signVY)*Math.abs(objVY);
+//			
+//			hp 			= 20;
+//			hitCounter 	= 5;
+//			strength	= 1;
+//			break;
 			
 		case PLAYER_SPECIAL_BULLET_ONE:
 			width 	= 0.3;
 			height 	= 0.3;
 			
-			v_x	= signVX*0.2 + Math.signum(signVX)*figVX;
-			v_y = signVY*0.2 + Math.signum(signVY)*figVY;
+			v_x	= signVX*0.5;// + Math.signum(signVX)*Math.abs(objVX);
+			v_y = signVY*0.5;// + Math.signum(signVY)*Math.abs(objVY);
 			
 			hp 			= 20;
 			hitCounter 	= 5;
@@ -84,7 +94,25 @@ class Bullet extends Attack {
 		case PLAYER_SPECIAL_BULLET_TWO:
 			break;
 			
-		case ENEMY_BULLET_STD: 
+//		case ENEMY_BULLET_STD: 
+//			width 	= 0.2;
+//			height 	= 0.2;
+//			
+//			v_x	= signVX*0.5;// + Math.signum(signVX)*Math.abs(objVX);
+//			v_y = signVY*0.5;// + Math.signum(signVY)*Math.abs(objVY);
+//			
+//			hp 			= 20;
+//			hitCounter 	= 5;
+//			strength	= 1;
+//			break;
+		
+		default:
+			width 		= 0.2;
+			height 		= 0.2;
+			
+			hp 			= 20;
+			hitCounter 	= 5;
+			strength	= 1;
 			break;
 		}
 		
@@ -159,6 +187,20 @@ class Bullet extends Attack {
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
 		switch (type) {
+		case Bullet.ENEMY_BULLET_STD:
+			// determine whether the bullet is still traveling and active, or whether it has hit something
+			if (!hit) {
+				g.setColor(Color.BLUE);
+				g.fillOval(xOffset+(int)Math.round((posX-width/2.)*step),  yOffset+(int)Math.round((posY-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+			} else {
+				g.setColor(Color.BLACK);
+				g.fillOval(xOffset+(int)Math.round((posX-width/2.)*step),  yOffset+(int)Math.round((posY-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+				// decrease the hit counter and destroy the object when the counter reaches zero. 
+				hitCounter--;
+				if (hitCounter == 0) destroyed = true;
+			}
+			break;
+			
 		// draw a standard bullet
 		default: //TODO: Change animation when the bullet hits something, animate real bullets, not just red dots...
 			// determine whether the bullet is still traveling and active, or whether it has hit something
@@ -195,114 +237,92 @@ class Bullet extends Attack {
 		return destroyed;
 	}
 
-	// check collisions with other objects and propagate the bullet accordingly
-	void propagate(ArrayList<CoreGameObjects> room) {
+	// Remember: double[] dist = {distUp, distDown, distRight, distLeft};
+	private void checkCollision (CoreGameObjects collidable) {
+		double objX = collidable.getPosX();
+		double objY = collidable.getPosY();
+		double objR = collidable.getRad();
 		
-		// objects for checking which object to kill
-		CoreGameObjects collidable;
-		CoreGameObjects collUp 		= null;
-		CoreGameObjects collDown 	= null;
-		CoreGameObjects collRight 	= null;
-		CoreGameObjects collLeft 	= null;
-		
-		// Basic variables for checking each object within the room
-		double objX, objY, objR;
-		double tmpX, tmpY;
-		double objWidth, objHeight;
-		
-		double distUp 		=  30;
-		double distDown 	= -30;
-		double distRight	= -30;
-		double distLeft		=  30;
-		
-		// iterate over all objects within the room, ignore other bullets and itself of course
-		for(int i=0; i<room.size(); i++) {
-			collidable = room.get(i);
-			if (collidable instanceof Enemy || collidable instanceof MISCWall) {
-				objX = collidable.getPosX();
-				objY = collidable.getPosY();
-				objR = collidable.getRad();
-				
-				// check whether the object in question is close enough
-				if ((posX-objX)*(posX-objX)+(posY-objY)*(posY-objY) < (objR+rad)*(objR+rad)) {
-					tmpX = posX-objX;
-					tmpY = posY-objY;
-					
-					// save the objects width and heigth
-					objWidth 	= collidable.getWidth();
-					objHeight 	= collidable.getHeight();
-					
-					// check in which direction the bullet is moving and act accordingly should a collision occur
-					if (up && tmpY > 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
-						// Check whether there is a closer collision, save distance and object if there is
-						if (tmpY-objHeight/2. < distUp) {
-							distUp = tmpY-objHeight/2.;
-							collUp = collidable;
-						}
-					}
-					
-					// analogous to above
-					if (down && tmpY < 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
-						// Check whether there is a closer collision, save distance and object if there is
-						if (tmpY+objHeight/2. > distDown) {
-							distDown = tmpY+objHeight/2.;
-							collDown = collidable;
-						}
-					}
-					
-					// analogous to above
-					if (right && tmpX < 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
-						// Check whether there is a closer collision, save distance and object if there is
-						if (tmpX+objWidth/2. > distRight) {
-							distRight = tmpX+objWidth/2.;
-							collRight = collidable;
-						}
-					}
-					
-					// analogous to above
-					if (left && tmpX > 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
-						// Check whether there is a closer collision, save distance and object if there is
-						if (tmpX-objWidth/2. < distLeft) {
-							distLeft = tmpX-objWidth/2.;
-							collLeft = collidable;
-						}
-					}
+		// check whether the object in question is close enough
+		if ((posX-objX)*(posX-objX)+(posY-objY)*(posY-objY) < (objR+rad)*(objR+rad)) {
+			double tmpX = posX-objX;
+			double tmpY = posY-objY;
+			
+			// save the objects width and heigth
+			double objWidth  = collidable.getWidth();
+			double objHeight = collidable.getHeight();
+			
+			// check in which direction the bullet is moving and act accordingly should a collision occur
+			if (up && tmpY > 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
+				// Check whether there is a closer collision, save distance and object if there is
+				if (tmpY-objHeight/2. < dist[0]) {
+					dist[0] 	= tmpY-objHeight/2.;
+					coll[0] 	= collidable;
+				}
+			}
+			
+			// analogous to above
+			if (down && tmpY < 0 && Math.abs(tmpX)<(width+objWidth)/2.) {
+				// Check whether there is a closer collision, save distance and object if there is
+				if (tmpY+objHeight/2. > dist[1]) {
+					dist[1] 	= tmpY+objHeight/2.;
+					coll[1] 	= collidable;
+				}
+			}
+			
+			// analogous to above
+			if (right && tmpX < 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
+				// Check whether there is a closer collision, save distance and object if there is
+				if (tmpX+objWidth/2. > dist[2]) {
+					dist[2] 	= tmpX+objWidth/2.;
+					coll[2] 	= collidable;
+				}
+			}
+			
+			// analogous to above
+			if (left && tmpX > 0 && Math.abs(tmpY)<(height + objHeight)/2.) {
+				// Check whether there is a closer collision, save distance and object if there is
+				if (tmpX-objWidth/2. < dist[3]) {
+					dist[3] 	= tmpX-objWidth/2.;
+					coll[3] 	= collidable;
 				}
 			}
 		}
-		
-		// do the actual movement, should an object be encountered, kill it and destroy the bullet...
+	}
+	
+	// do the actual movement, should an object be encountered, kill it and destroy the bullet...
+	private void move() {
 		if (up) {
-			if (distUp*distUp < v_y*v_y) {
-				posY -= distUp;
-				collUp.takeDamage(type, strength);
+			if (dist[0]*dist[0] < v_y*v_y) {
+				posY -= dist[0];
+				coll[0].takeDamage(type, strength);
 				attack();
 			} else
 				posY += v_y;
 		}
 		
 		if (down) {
-			if (distDown*distDown < v_y*v_y) {
-				posY -= distDown;
-				collDown.takeDamage(type, strength);
+			if (dist[1]*dist[1] < v_y*v_y) {
+				posY -= dist[1];
+				coll[1].takeDamage(type, strength);
 				attack();
 			} else
 				posY += v_y;
 		}
 		
 		if (right) {
-			if (distRight*distRight < v_x*v_x) {
-				posX -= distRight;
-				collRight.takeDamage(type, strength);
+			if (dist[2]*dist[2] < v_x*v_x) {
+				posX -= dist[2];
+				coll[2].takeDamage(type, strength);
 				attack();
 			} else
 				posX += v_x;
 		}
 		
 		if (left) {
-			if (distLeft*distLeft < v_x*v_x) {
-				posX -= distLeft;
-				collLeft.takeDamage(type, strength);
+			if (dist[3]*dist[3] < v_x*v_x) {
+				posX -= dist[3];
+				coll[3].takeDamage(type, strength);
 				attack();
 			} else
 				posX += v_x;
@@ -331,5 +351,43 @@ class Bullet extends Attack {
 		// decrease bullet hp, destroy the bullet when hp reaches zero. This effectively determines the bullets range
 		hp--;
 		if (hp == 0) attack();
+	}
+	
+	// check collisions with other objects and propagate the bullet accordingly
+	void propagate(ArrayList<CoreGameObjects> room) {
+		
+		// objects for checking which object to kill, reset basic variables for this iteration
+		CoreGameObjects collidable;
+		
+		coll[0] = null;
+		coll[1] = null;
+		coll[2] = null;
+		coll[3] = null;
+		
+		dist[0] =  30;
+		dist[1] = -30;
+		dist[2] = -30;
+		dist[3] =  30;
+		
+		// iterate over all objects within the room, ignore other bullets and itself of course
+		for(int i=0; i<room.size(); i++) {
+			collidable = room.get(i);
+			
+			switch (type) {
+			case ENEMY_BULLET_STD:
+				if (collidable instanceof Enemy || collidable instanceof MISCWall || collidable instanceof Figure) {
+					checkCollision(collidable);
+				}
+				break;
+				
+			default:
+				if (collidable instanceof Enemy || collidable instanceof MISCWall) {
+					checkCollision(collidable);
+				}
+				break;
+			}
+
+		}
+		move();
 	}
 }

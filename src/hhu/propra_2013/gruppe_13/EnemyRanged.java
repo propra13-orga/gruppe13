@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+import com.sun.org.apache.bcel.internal.generic.ALOAD;
+
 public class EnemyRanged extends Enemy {
 	
 	// type, maximum hp and hp and a stationary variable for initial waiting as the player enters the room
@@ -20,8 +22,9 @@ public class EnemyRanged extends Enemy {
 	
 	// the current stage of the game and a long for the time stamp
 	private int 	stage;
-	private long 	regenerate;
+	private long 	regenerate, fireCoolDown;
 	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	EnemyRanged (double inx, double iny,double inWidth, double inHeight, int inType, int inStage) {
 		x = inx;
 		y = iny;
@@ -30,21 +33,23 @@ public class EnemyRanged extends Enemy {
 		height 	= inHeight;
 		
 		type	= inType;
-		
 		stage	= inStage;
 		
+		fireCoolDown	= System.currentTimeMillis();
 		switch (type) {
 		case ENEMY_FIRE_SHOOTING:
 			regenerate	= System.currentTimeMillis();
 			strength 	= 1;
 			hp			= 5;
 			maxHp		= hp;
+			stationary	= 0;
 			break;
 		}
 		
 		rad = Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_weight)),2);
 	}
 
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	@Override
 	int getType() {
 		return type;
@@ -160,13 +165,44 @@ public class EnemyRanged extends Enemy {
 			break;
 		}
 	}
-
+	
 	@Override
 	void artificialIntelligence(Figure inFigure, ArrayList<CoreGameObjects> currentRoom) {
+		switch (type) {
+		case ENEMY_FIRE_SHOOTING:
+			// See whether the last attack by the player is longer ago than 2 seconds, if so regenerate the fire
+			if (System.currentTimeMillis() - regenerate > 2000) {
+				if (hp > 0 && hp < maxHp) {
+					hp++;
+					regenerate = System.currentTimeMillis();
+				}
+			}
+			
+			if (stationary > 60 && System.currentTimeMillis()-fireCoolDown > 3000 && !dead) {
+				fireToFigure(inFigure, Bullet.ENEMY_BULLET_STD, currentRoom);
+				fireCoolDown = System.currentTimeMillis();
+			}
+			
+			stationary++;
+			dead = dying;
+			break;
+		}
 	}
 
+	private void fireToFigure (Figure figure, int bulletType, ArrayList<CoreGameObjects> currentRoom) {
+		double figX = figure.getPosX();
+		double figY = figure.getPosY();
+		
+		// parameterized velocity vector towards the figure
+		double vxBullet = (figX-x)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
+		double vyBullet = (figY-y)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
+		
+		CoreGameObjects initBullet = new Bullet(bulletType, x, y, vx, vy, vxBullet, vyBullet);
+		currentRoom.add(initBullet);
+	}
+	
 	@Override
-	void takeDamage(int type, int strength) {
+	void takeDamage(int attackType, int strength) {
 		regenerate = System.currentTimeMillis();
 		
 		switch (type) {
