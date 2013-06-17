@@ -178,7 +178,7 @@ public class EnemyRanged extends Enemy {
 				}
 			}
 			
-			if (stationary > 60 && System.currentTimeMillis()-fireCoolDown > 3000 && !dead) {
+			if (System.currentTimeMillis()-fireCoolDown > 3000 && !dead && hp == maxHp && stationary > 60) {
 				fireToFigure(inFigure, Bullet.ENEMY_BULLET_STD, currentRoom);
 				fireCoolDown = System.currentTimeMillis();
 			}

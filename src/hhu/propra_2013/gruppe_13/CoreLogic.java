@@ -164,8 +164,8 @@ class CoreLogic implements Runnable {
 		// create Level
 		level = new CoreLevel(figure);
 		level.buildLevel(stage, boss);
-		// find out where in the level we are, switching rooms will be relative
-		// to this value
+		
+		// find out where in the level we are, switching rooms will be relative to this value
 		locationX = level.getStartX();
 		locationY = level.getStartY();
 		currentRoom = level.getRoom(locationX, locationY);
@@ -318,7 +318,7 @@ class CoreLogic implements Runnable {
 				}
 
 				// Check collisions with objects, act accordingly
-				if (distRight == 0 || distLeft == 0 || distUp == 0 || distDown == 0) {
+				if (collOne == 0 || collTwo == 0 || collThree == 0 || collFour == 0) {
 					doCollision(collidable, collided);
 				}
 			}
@@ -349,17 +349,15 @@ class CoreLogic implements Runnable {
 		}
 		
 		if (collided instanceof MISCDoor) { //Doors MUST be checked last because of the new Method of Room-finishing
-			//System.out.println("I just found a Door, and I like it!");
-			destination = ((MISCDoor) collided).getDestination(); // cast because eclipse wants it
+			destination = ((MISCDoor) collided).getDestination();
 
-			if (finished == true) {// check if there is no enemy found in the room
+			if (finished == true) {			// check if there is no enemy found in the room
 
-				// before switching the room we make a copy of our
-				// figure for resurrection
+				// before switching the room we make a copy of our figure for resurrection
 				saveFigure = figure;
 
-				switch (destination) { // only advance trough door if player is moving in the direction of the door
-										// diagonal movement should work too
+				switch (destination) { // only advance trough door if player is moving in the direction of the door diagonal movement should work too
+				
 				case 0:
 					if (upLeft == true || up == true || upRight == true) {
 						this.switchRoom(destination);
