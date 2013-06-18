@@ -171,6 +171,7 @@ public class EnemyMelee extends Enemy{
 
 	@Override
 	void attack(Figure figure) {
+		System.out.println("in attack");
 		switch (type) {
 		case ENEMY_FIRE:
 			if (hp > 0) 

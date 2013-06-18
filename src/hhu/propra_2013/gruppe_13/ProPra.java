@@ -44,6 +44,10 @@ public class ProPra {
 	static void errorOutput (int error, Exception e) {
 		
 	}
+
+	static void setFullscreen(boolean toggle) {
+		windowMode = toggle;
+	}
 	
 	/*-----------------------------------------------------------------------------------------------*/
 	public static void main(String[] args) {
@@ -55,9 +59,5 @@ public class ProPra {
 		gameWindow.setUndecorated(windowMode);
 		
 		initMenu();
-	}
-
-	static void setFullscreen(boolean toggle) {
-		windowMode = toggle;
 	}
 }
