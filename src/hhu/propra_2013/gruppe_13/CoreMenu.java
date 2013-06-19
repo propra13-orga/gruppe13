@@ -26,6 +26,8 @@ public class CoreMenu{
 		JButton endProgram 	= new JButton("I'm out of here!");
 		JButton startGame	= new JButton("May the coding begin...");
 		JButton options		= new JButton("Optionen");
+		JButton multi		= new JButton("Multiplayer");
+		JButton edit		= new JButton("Editor");
 		
 		
 		// implement action listeners to start and end the game
@@ -33,7 +35,7 @@ public class CoreMenu{
 			
 			@Override	// initiate the game
 			public void actionPerformed(ActionEvent arg0) {
-				ProPra.initGame();
+				ProPra.initStartup();
 			}
 		});
 		
@@ -51,6 +53,22 @@ public class CoreMenu{
 			@Override	// initiate the options
 			public void actionPerformed(ActionEvent arg0) {
 				ProPra.initOptions();
+			}
+		});
+		
+		multi.addActionListener(new ActionListener() {
+			
+			@Override	// initiate the options
+			public void actionPerformed(ActionEvent arg0) {
+				//TODO:have a multiplayer setup
+			}
+		});
+		
+		edit.addActionListener(new ActionListener() {
+			
+			@Override	// initiate the options
+			public void actionPerformed(ActionEvent arg0) {
+				//TODO:have a room builder
 			}
 		});
 		

@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 public class ProPra {
 	// the entire game will run here
 	static JFrame 	gameWindow;
-	static int 		mode;
+	static int 		mode = 2;
 	static boolean 	windowMode;
 	
 	// initializer method
@@ -13,6 +13,10 @@ public class ProPra {
 		System.out.println("Initiate game");
 		CoreO_Game game = new CoreO_Game(gameWindow, mode);
 		game.start();
+	}
+	
+	static void initStartup() {
+		gameWindow.setContentPane(CoreStartup.showStartup(gameWindow));
 	}
 	
 	static void setMode(int inMode){
@@ -46,7 +50,7 @@ public class ProPra {
 	}
 
 	static void setFullscreen(boolean toggle) {
-		windowMode = toggle;
+		gameWindow.setUndecorated(toggle);
 	}
 	
 	/*-----------------------------------------------------------------------------------------------*/
