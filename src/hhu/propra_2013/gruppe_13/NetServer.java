@@ -4,8 +4,6 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
-import sun.print.resources.serviceui;
-
 class NetServer implements Runnable {
 	// Exit codes, needed by the program to know whether to continue execution
 	static final int EXIT_SUCCESS				= 0;
