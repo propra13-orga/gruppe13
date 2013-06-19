@@ -26,6 +26,8 @@ public class CoreMenu{
 		JButton endProgram 	= new JButton("I'm out of here!");
 		JButton startGame	= new JButton("May the coding begin...");
 		JButton options		= new JButton("Optionen");
+		JButton multi		= new JButton("Multiplayer");
+		JButton edit		= new JButton("Editor");
 		
 		
 		// implement action listeners to start and end the game
@@ -33,7 +35,7 @@ public class CoreMenu{
 			
 			@Override	// initiate the game
 			public void actionPerformed(ActionEvent arg0) {
-				ProPra.initGame();
+				ProPra.initStartup();
 			}
 		});
 		
@@ -54,6 +56,22 @@ public class CoreMenu{
 			}
 		});
 		
+		multi.addActionListener(new ActionListener() {
+			
+			@Override	// initiate the options
+			public void actionPerformed(ActionEvent arg0) {
+				ProPra.initMulti();
+			}
+		});
+		
+		edit.addActionListener(new ActionListener() {
+			
+			@Override	// initiate the options
+			public void actionPerformed(ActionEvent arg0) {
+				//TODO:have a room builder
+			}
+		});
+		
 		// implement the layout manager
 		menu.setLayout(new GridBagLayout());
 		
@@ -69,10 +87,17 @@ public class CoreMenu{
 		cButtons.gridy = 1;
 		menu.add(endProgram, cButtons);
 		
-		cButtons.insets = new Insets(400 , 0 , 0 ,0 );
+		cButtons.insets = new Insets(300 , 0 , 0 ,0 );
 		cButtons.gridx = 1;
 		cButtons.gridy = 2;
+		menu.add(multi, cButtons);
+		
+		cButtons.insets = new Insets(400 , 0 , 0 ,0 );
+		cButtons.gridx = 1;
+		cButtons.gridy = 3;
 		menu.add(options, cButtons);
+		
+		
 		
 		return menu;
 	}
