@@ -4,9 +4,9 @@ import javax.swing.JFrame;
 
 public class ProPra {
 	// the entire game will run here
-	static JFrame gameWindow;
-	static int mode;
-	static boolean windowMode;
+	static JFrame 	gameWindow;
+	static int 		mode;
+	static boolean 	windowMode;
 	
 	// initializer method
 	static void initGame() {
@@ -40,6 +40,15 @@ public class ProPra {
 		gameWindow.setContentPane(CoreOptions.showOptions(gameWindow));
 		gameWindow.setVisible(true);
 	}
+	
+	static void errorOutput (int error, Exception e) {
+		
+	}
+
+	static void setFullscreen(boolean toggle) {
+		windowMode = toggle;
+	}
+	
 	/*-----------------------------------------------------------------------------------------------*/
 	public static void main(String[] args) {
 		// Initiate a new window to run the game in, default parameters are 800x600 and title "Propra 2013"
@@ -50,9 +59,5 @@ public class ProPra {
 		gameWindow.setUndecorated(windowMode);
 		
 		initMenu();
-	}
-
-	public static void setFullscreen(boolean toggle) {
-		windowMode = toggle;
 	}
 }

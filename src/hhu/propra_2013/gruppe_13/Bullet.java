@@ -32,6 +32,7 @@ class Bullet extends Attack {
 	double[] 			dist = new double[4];
 	CoreGameObjects[] 	coll = new CoreGameObjects[4];
 	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Bullet constructor
 	Bullet(int inType, double initX, double initY, double objVX, double objVY, double signVX, double signVY) {
 		// Save initial position and type data
@@ -61,30 +62,15 @@ class Bullet extends Attack {
 		// Bullet type and hitpoints, this way there is a possibility of building Bullets that can hit multiple enemies.  
 		switch (type) {
 		default:
-			v_x	= signVX*0.5;// + Math.signum(signVX)*Math.abs(objVX);
-			v_y = signVY*0.5;// + Math.signum(signVY)*Math.abs(objVY);
+			v_x	= signVX*0.5;
+			v_y = signVY*0.5;
 			break;
 		}
 		switch (type) {
-		// Standard player Bullet
-//		case PLAYER_BULLET_STD:
-//			width 	= 0.2;
-//			height 	= 0.2;
-//			
-//			v_x	= signVX*0.5;// + Math.signum(signVX)*Math.abs(objVX);
-//			v_y = signVY*0.5;// + Math.signum(signVY)*Math.abs(objVY);
-//			
-//			hp 			= 20;
-//			hitCounter 	= 5;
-//			strength	= 1;
-//			break;
 			
 		case PLAYER_SPECIAL_BULLET_ONE:
-			width 	= 0.3;
-			height 	= 0.3;
-			
-			v_x	= signVX*0.5;// + Math.signum(signVX)*Math.abs(objVX);
-			v_y = signVY*0.5;// + Math.signum(signVY)*Math.abs(objVY);
+			width 		= 0.3;
+			height 		= 0.3;
 			
 			hp 			= 20;
 			hitCounter 	= 5;
@@ -93,18 +79,6 @@ class Bullet extends Attack {
 			
 		case PLAYER_SPECIAL_BULLET_TWO:
 			break;
-			
-//		case ENEMY_BULLET_STD: 
-//			width 	= 0.2;
-//			height 	= 0.2;
-//			
-//			v_x	= signVX*0.5;// + Math.signum(signVX)*Math.abs(objVX);
-//			v_y = signVY*0.5;// + Math.signum(signVY)*Math.abs(objVY);
-//			
-//			hp 			= 20;
-//			hitCounter 	= 5;
-//			strength	= 1;
-//			break;
 		
 		default:
 			width 		= 0.2;
@@ -119,6 +93,7 @@ class Bullet extends Attack {
 		rad	= Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_x)), 2)*Math.pow(Math.ceil(Math.abs(v_y)), 2);
 	}
 	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Various getter methods
 	@Override
 	int getHP() {
@@ -160,6 +135,12 @@ class Bullet extends Attack {
 		return height;
 	}
 	
+	// check whether the bullet has finished disintegrating and can be deleted from the program
+	boolean getFinished() {
+		return destroyed;
+	}
+	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Various setter methods
 	@Override
 	void setPos(double inX, double inY) {
@@ -183,18 +164,21 @@ class Bullet extends Attack {
 		hp = inHP;
 	}
 
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Drawing method
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
 		switch (type) {
+		
 		case Bullet.ENEMY_BULLET_STD:
 			// determine whether the bullet is still traveling and active, or whether it has hit something
 			if (!hit) {
-				g.setColor(Color.BLUE);
+				g.setColor(new Color(0, 255, 255));
 				g.fillOval(xOffset+(int)Math.round((posX-width/2.)*step),  yOffset+(int)Math.round((posY-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 			} else {
 				g.setColor(Color.BLACK);
 				g.fillOval(xOffset+(int)Math.round((posX-width/2.)*step),  yOffset+(int)Math.round((posY-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+				
 				// decrease the hit counter and destroy the object when the counter reaches zero. 
 				hitCounter--;
 				if (hitCounter == 0) destroyed = true;
@@ -210,6 +194,7 @@ class Bullet extends Attack {
 			} else {
 				g.setColor(Color.RED);
 				g.fillOval(xOffset+(int)Math.round((posX-width/2.)*step),  yOffset+(int)Math.round((posY-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+				
 				// decrease the hit counter and destroy the object when the counter reaches zero. 
 				hitCounter--;
 				if (hitCounter == 0) destroyed = true;
@@ -218,6 +203,7 @@ class Bullet extends Attack {
 		}
 	}
 
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	@Override
 	void attack() {
 		v_x = 0;
@@ -227,16 +213,7 @@ class Bullet extends Attack {
 		//TODO: Change Animation to an exploding bullet or some such
 	}
 
-	@Override
-	void takeDamage(int type, int strength) {
-		// Keep empty, since a bullet cannot take damage, but only deal damage. 
-	}
-	
-	// check whether the bullet has finished disintegrating and can be deleted from the program
-	boolean getFinished() {
-		return destroyed;
-	}
-
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Remember: double[] dist = {distUp, distDown, distRight, distLeft};
 	private void checkCollision (CoreGameObjects collidable) {
 		double objX = collidable.getPosX();
@@ -290,6 +267,7 @@ class Bullet extends Attack {
 		}
 	}
 	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// do the actual movement, should an object be encountered, kill it and destroy the bullet...
 	private void move() {
 		if (up) {
@@ -353,6 +331,7 @@ class Bullet extends Attack {
 		if (hp == 0) attack();
 	}
 	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// check collisions with other objects and propagate the bullet accordingly
 	void propagate(ArrayList<CoreGameObjects> room) {
 		
@@ -389,5 +368,11 @@ class Bullet extends Attack {
 
 		}
 		move();
+	}
+	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
+	@Override
+	void takeDamage(int type, int strength) {
+		// Keep empty, since a bullet cannot take damage, but only deal damage. 
 	}
 }

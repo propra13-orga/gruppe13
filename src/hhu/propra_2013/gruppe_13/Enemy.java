@@ -25,8 +25,9 @@ public abstract class Enemy extends CoreGameObjects{
 	abstract void attack(Figure figure);
 	abstract double getWidth();
 	abstract double getHeight();
+	 
+	// Methods for manipulating enemy objects
+	abstract void artificialIntelligence(Figure inFigure, ArrayList<CoreGameObjects> currentRoom);
 	abstract boolean leftForDead();
 	abstract boolean stopDrawing();
-	 
-	abstract void artificialIntelligence(Figure inFigure, ArrayList<CoreGameObjects> currentRoom);
-	}
+}

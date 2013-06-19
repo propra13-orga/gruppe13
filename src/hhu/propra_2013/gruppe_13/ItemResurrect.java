@@ -9,9 +9,7 @@ public class ItemResurrect extends Item{
 
 	private double 	x, y;
 	private double	r;
-	private double 	v_x, v_y;
 	private double 	height, width;
-	private int 	hp;
 	private int 	prize;
 	private Figure 	figure;
 	

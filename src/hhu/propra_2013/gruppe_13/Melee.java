@@ -9,7 +9,10 @@ public class Melee extends Attack {
 	private int 	hp, type, strength;
 	private double 	x, y, vx, vy, rad;
 	private double	width, height;
+	
 	private int 	counter_one;
+	private int 	radMax;
+	private int 	fadeOut;
 	
 	Figure 						figure;
 	ArrayList<CoreGameObjects>	room;
@@ -33,6 +36,8 @@ public class Melee extends Attack {
 			height	= figure.getHeight();
 			rad		= 5*Math.max(width, height);
 			
+			radMax 	= 5;
+			fadeOut = 14;
 			attack();
 			break;
 		}
@@ -113,11 +118,11 @@ public class Melee extends Attack {
 		switch (type) {
 		case PLAYER_MELEE_AOE:
 			g.setColor(new Color(1.0f, 51/255.f, 201/255.f));
-			if (counter_one < 5) {
-				g.fillOval(xOffset+(int)Math.round((x-(width+counter_one*(rad-width)/5.)/2.)*step),  yOffset+(int)Math.round((y-(height+counter_one*(rad-height)/5.)/2.)*step), (int)Math.round(step*(width+counter_one*(rad-width)/5.)), (int)Math.round(step*(height+counter_one*(rad-height)/5.)));
+			if (counter_one < radMax) {
+				g.fillOval(xOffset+(int)Math.round((x-(width+counter_one*(rad-width)/radMax)/2.)*step),  yOffset+(int)Math.round((y-(height+counter_one*(rad-height)/radMax)/2.)*step), (int)Math.round(step*(width+counter_one*(rad-width)/radMax)), (int)Math.round(step*(height+counter_one*(rad-height)/radMax)));
 				counter_one++;
-			} else if (counter_one < 15){
-				g.setColor(new Color(1.0f, 51/255.f, 201/255.f, -1/9.f*counter_one+14/9.f));
+			} else if (counter_one < fadeOut){
+				g.setColor(new Color(1.0f, 51/255.f, 201/255.f, 1.f/(radMax-fadeOut)*counter_one+1.f*fadeOut/(fadeOut-radMax)));
 				g.fillOval(xOffset+(int)Math.round((x-rad/2.)*step),  yOffset+(int)Math.round((y-rad/2.)*step), (int)Math.round(step*rad), (int)Math.round(step*rad));
 				counter_one++;
 			}

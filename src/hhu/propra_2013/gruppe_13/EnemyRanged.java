@@ -34,6 +34,8 @@ public class EnemyRanged extends Enemy {
 		
 		type	= inType;
 		stage	= inStage;
+		
+		// TODO: 1. does this really need to be a class variable, 2. why divide an int by 2?!?
 		mode 	= inMode;
 		
 		fireCoolDown	= System.currentTimeMillis();
@@ -179,7 +181,7 @@ public class EnemyRanged extends Enemy {
 				}
 			}
 			
-			if (stationary > 60 && System.currentTimeMillis()-fireCoolDown > 3000 && !dead) {
+			if (System.currentTimeMillis()-fireCoolDown > 3000 && !dead && hp == maxHp && stationary > 60) {
 				fireToFigure(inFigure, Bullet.ENEMY_BULLET_STD, currentRoom);
 				fireCoolDown = System.currentTimeMillis();
 			}

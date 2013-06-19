@@ -22,6 +22,7 @@ public class EnemyMelee extends Enemy{
 	private int 	stage;
 	private long 	regenerate;
 	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Standard constructor, build enemies according to input 
 	EnemyMelee(double inx, double iny,double inWidth, double inHeight, int inType, int inStage, int inMode){
 		x 			= inx;
@@ -60,7 +61,6 @@ public class EnemyMelee extends Enemy{
 		
 		rad = Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_weight)),2);
 	}
-		
 	
 	
 /*getter and setter methods for the melee enemy--------------------------------------------------------------------------------------------------------*/
@@ -171,6 +171,7 @@ public class EnemyMelee extends Enemy{
 
 	@Override
 	void attack(Figure figure) {
+		System.out.println("in attack");
 		switch (type) {
 		case ENEMY_FIRE:
 			if (hp > 0) 
