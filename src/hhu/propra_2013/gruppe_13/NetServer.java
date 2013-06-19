@@ -66,11 +66,12 @@ class NetServer implements Runnable {
 			thread.start();
 		}
 		
-		// terminate all threads and wait a couple of milliseconds
+		// terminate all threads
 		for (int i=0; i<list.size(); i++) {
 			list.get(i).setRunning(false);
 		}
 		
+		// wait a little so all threads have a chance to actually terminate
 		try {
 			Thread.sleep(50);
 		} catch (InterruptedException e) {
