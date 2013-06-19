@@ -45,6 +45,11 @@ public class ProPra {
 		gameWindow.setVisible(true);
 	}
 	
+	public static void initMulti() {
+		gameWindow.setContentPane(CoreMulti.showMulti(gameWindow));
+		gameWindow.setVisible(true);
+	}
+	
 	static void errorOutput (int error, Exception e) {
 		
 	}
@@ -64,4 +69,6 @@ public class ProPra {
 		
 		initMenu();
 	}
+
+
 }

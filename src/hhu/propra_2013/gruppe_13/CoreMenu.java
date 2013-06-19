@@ -60,7 +60,7 @@ public class CoreMenu{
 			
 			@Override	// initiate the options
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO:have a multiplayer setup
+				ProPra.initMulti();
 			}
 		});
 		
@@ -87,10 +87,17 @@ public class CoreMenu{
 		cButtons.gridy = 1;
 		menu.add(endProgram, cButtons);
 		
-		cButtons.insets = new Insets(400 , 0 , 0 ,0 );
+		cButtons.insets = new Insets(300 , 0 , 0 ,0 );
 		cButtons.gridx = 1;
 		cButtons.gridy = 2;
+		menu.add(multi, cButtons);
+		
+		cButtons.insets = new Insets(400 , 0 , 0 ,0 );
+		cButtons.gridx = 1;
+		cButtons.gridy = 3;
 		menu.add(options, cButtons);
+		
+		
 		
 		return menu;
 	}
