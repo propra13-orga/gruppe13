@@ -23,9 +23,6 @@ class NetServer implements Runnable {
 	// needed to know how long the server should remain active, and port
 	private boolean 	serverActive;
 	private int			port;
-	
-	// interaction with the game
-	private CoreLogic 	logic;
 
 	/*------------------------------------------------------------------------------------------------------------------------*/
 	NetServer (int inPort) {
@@ -34,10 +31,6 @@ class NetServer implements Runnable {
 	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
-	void setLogic (CoreLogic inLogic) {
-		logic = inLogic;
-	}
-	
 	void setActive (boolean activity) {
 		serverActive = activity;
 	}
@@ -69,7 +62,7 @@ class NetServer implements Runnable {
 			
 			/* create new serverIO for this connection and run in a seperate thread, this enables multiple connections 
 			 * as one connection otherwise blocks the server */
-			NetServerIO serverIO = new NetServerIO(logic, connection);
+			NetServerIO serverIO = new NetServerIO(connection);
 			list.add(serverIO);
 			Thread thread = new Thread(serverIO);
 			thread.start();

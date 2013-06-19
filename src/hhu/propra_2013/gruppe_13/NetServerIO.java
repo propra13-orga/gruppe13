@@ -11,8 +11,7 @@ class NetServerIO implements Runnable {
 	long timerTemp;
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
-	NetServerIO (CoreLogic inLogic, Socket inSocket) {
-		logic 	= inLogic;
+	NetServerIO (Socket inSocket) {
 		socket 	= inSocket;
 		
 		running 	= true;
