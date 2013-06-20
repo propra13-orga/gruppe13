@@ -38,7 +38,9 @@ class CoreLogic implements Runnable {
 	// figure values
 	private double 		figX, figY;
 	private double 		figVX, figVY;
-	private boolean 	punch, use, aoe, showMap; // für Aktionen map zeigt Map an
+
+	private boolean 	punch, use, aoe, showMap, esc; // für Aktionen map zeigt Map an
+
 	private int 		figHP;
 
 	// List of all Objects within the game
@@ -99,6 +101,10 @@ class CoreLogic implements Runnable {
 		map.setDraw(showMap);
 	}
 
+	void setEsc(boolean in){
+		esc = in;
+	}
+	
 	void setFireUp(boolean in) {
 		north = in;
 	}
