@@ -106,12 +106,28 @@ class Map extends CoreGameObjects {
 			g.setColor(new Color(0,0,0,100));
 			g.fillRect(xOffset -(int)step, yOffset - (int)step, (int)(step*24), (int)(step*15));
 			g.setColor(Color.BLACK);
-			Color c = new Color(0,0,0);
+//			Color c = new Color(0,0,0);
 			for(y = minY;y <= maxY;y++){
 				for(x = minX;x <= maxX;x++){
 					if(map[x][y]-10 > 0){
-						g.setColor(c);
-						g.fillRect(xOffset+ (int)step*(x-minX), yOffset+(int)(step*16/9)*(y - minY), (int)(step), (int)(step*16/9));
+						if(map[x][y]%10 == 2){
+							g.setColor(Color.BLACK);
+							g.fillRect(xOffset+ (int)step*(16/9)*(x-minX), yOffset+(int)(step)*(y - minY), (int)(step*16/9), (int)(step));
+							g.setColor(Color.WHITE);
+							g.drawRect(xOffset+ (int)step*(16/9)*(x-minX), yOffset+(int)(step)*(y - minY), (int)(step*16/9), (int)(step));
+						}
+						if(map[x][y]%10 == 3){
+							g.setColor(Color.DARK_GRAY);
+							g.fillRect(xOffset+ (int)step*(16/9)*(x-minX), yOffset+(int)(step)*(y - minY), (int)(step*16/9), (int)(step));
+							g.setColor(Color.WHITE);
+							g.drawRect(xOffset+ (int)step*(16/9)*(x-minX), yOffset+(int)(step)*(y - minY), (int)(step*16/9), (int)(step));
+						}
+						if(map[x][y]%10 == 4){
+							g.setColor(Color.LIGHT_GRAY);
+							g.fillRect(xOffset+ (int)step*(16/9)*(x-minX), yOffset+(int)(step)*(y - minY), (int)(step*16/9), (int)(step));
+							g.setColor(Color.WHITE);
+							g.drawRect(xOffset+ (int)step*(16/9)*(x-minX), yOffset+(int)(step)*(y - minY), (int)(step*16/9), (int)(step));
+						}
 						System.out.println("i'm a rect");
 					}
 				}
