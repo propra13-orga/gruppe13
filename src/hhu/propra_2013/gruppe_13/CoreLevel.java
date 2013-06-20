@@ -4,6 +4,7 @@ public class CoreLevel {
 	
 	Figure 	figure;
 	int 	mode;
+	Map		map;
 	
 	int stage = 0; //in welchen Level sind wir, nützlich für das Endziel 
 	String boss; //damit man weiß was der Boss ist, hauptsächlich für den NPC
@@ -14,9 +15,10 @@ public class CoreLevel {
 	//Array muss der Klasse bekannt sein um eine get Methode zu implementieren, wird beim Builder resettet 
 	CoreRoom level[][] = new CoreRoom[10][10]; //Sollte genug Platz für ausreichend seltsame Konstruktionen bieten, der erste Wert sei der X Wert
 	//Konstruktor
-	CoreLevel(Figure inFigure, int inMode){
+	CoreLevel(Figure inFigure, int inMode, Map inMap){
 		figure 	= inFigure;
 		mode	= inMode;
+		map		= inMap;
 	}
 	
 	//Getter
@@ -659,8 +661,8 @@ public class CoreLevel {
 		}
 		
 		
-		Map map = new Map();
-		
+//		Map map = new Map();
+		map.setRoom(construction);
 		
 		System.out.println("Level Fertig!");
 		for(y = 0;y <= 9;y++){

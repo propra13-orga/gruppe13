@@ -299,7 +299,7 @@ class CoreGame_IO implements KeyEventDispatcher {
 				logic.setBomb(true);					//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
 				break;
 			case 77:
-				logic.setMap(true);
+				logic.setShowMap(true);
 				break;
 			}						
 			
