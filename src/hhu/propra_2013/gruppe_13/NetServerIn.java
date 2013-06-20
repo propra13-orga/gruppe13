@@ -1,8 +1,8 @@
 package hhu.propra_2013.gruppe_13;
 
-import java.net.*;
+import java.net.Socket;
 
-class NetServerIO implements Runnable {
+class NetServerIn extends NetIO {
 	private CoreLogic 	logic;
 	private Socket 		socket;
 	
@@ -11,15 +11,20 @@ class NetServerIO implements Runnable {
 	long timerTemp;
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
-	NetServerIO (Socket inSocket) {
+	NetServerIn (Socket inSocket) {
 		socket 	= inSocket;
 		
 		running 	= true;
 	}
 
 	/*------------------------------------------------------------------------------------------------------------------------*/
+	@Override
 	void setRunning (boolean inRunning) {
 		running = inRunning;
+	}
+	
+	void setLogic (CoreLogic inLogic) {
+		logic = inLogic;
 	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/

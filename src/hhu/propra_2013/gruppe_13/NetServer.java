@@ -4,19 +4,11 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
-class NetServer implements Runnable {
-	// Exit codes, needed by the program to know whether to continue execution
-	static final int EXIT_SUCCESS				= 0;
-	static final int EXIT_FAILURE				= 1;
-	
-	// Needed for error codes
-	static final int SERVER_SOCKET_ERROR 		= 0;
-	static final int CONNECTION_SOCKET_ERROR 	= 1;
-	
+class NetServer extends NetIO implements Runnable {
 	// Sockets needed for the connection
-	ServerSocket socket			= null;
-	Socket connection			= null;
-	ArrayList<NetServerIO> list	= null;
+	ServerSocket socket		= null;
+	Socket connection		= null;
+	ArrayList<NetIO> list	= null;
 	
 	// needed to know how long the server should remain active, and port
 	private boolean 	serverActive;
@@ -29,7 +21,8 @@ class NetServer implements Runnable {
 	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
-	void setActive (boolean activity) {
+	@Override
+	void setRunning (boolean activity) {
 		serverActive = activity;
 	}
 	
@@ -60,9 +53,11 @@ class NetServer implements Runnable {
 			
 			/* create new serverIO for this connection and run in a seperate thread, this enables multiple connections 
 			 * as one connection otherwise blocks the server */
-			NetServerIO serverIO = new NetServerIO(connection);
-			list.add(serverIO);
-			Thread thread = new Thread(serverIO);
+			NetServerOut serverOut = new NetServerOut(connection);
+			NetServerIn  serverIn  = new NetServerIn(connection);
+			list.add(serverOut);
+			list.add(serverIn);
+			Thread thread = new Thread(serverOut);
 			thread.start();
 		}
 		
