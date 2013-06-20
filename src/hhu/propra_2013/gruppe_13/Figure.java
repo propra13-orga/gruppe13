@@ -15,6 +15,9 @@ class Figure extends CoreGameObjects {
 	static final int DOWNLEFT		= 7;
 	static final int DOWNRIGHT		= 8;
 	
+	// Movement direction of the figure, this is needed by the logic in a server implementation
+	private boolean up, down, left, right, upLeft, upRight, downLeft, downRight;
+	
 	/* hp: Hitpoints, money is, well, money and chocolate is a very fun stuff to many people eat way too much of. 
 	 * Here it is our mana though. */
 	private int 	hp;
@@ -37,6 +40,8 @@ class Figure extends CoreGameObjects {
 	// special attack and attack type is needed in order to draw the current attack
 	private boolean	specialAttack;
 	private int 	attackType;
+	private int 	bulletType;
+	private int 	bulletCoolDownTime;
 	
 	// this variables is needed to set the direction in which the figure is looking
 	private int 	direction;
@@ -63,11 +68,21 @@ class Figure extends CoreGameObjects {
 		
 		cooldown = System.currentTimeMillis();
 		armor	 = 5;
+		
+		bulletType = Bullet.PLAYER_BULLET_STD;
+		bulletCoolDownTime = 500;
 	}
 	
 	
 	/*-----------------------------------------------------------------------------------------------*/
-	// Getter and Setter methods for above variables
+	int getBulletCoolDownTime() {
+		return bulletCoolDownTime;
+	}
+	
+	int getBulletType() {
+		return bulletType;
+	}
+	
 	int getArmor(){
 		return armor;
 	}
@@ -125,7 +140,48 @@ class Figure extends CoreGameObjects {
 		return chocolate;
 	}
 	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
+	boolean getUp() {
+		return up;
+	}
+	
+	boolean getDown() {
+		return down;
+	}
+	
+	boolean getRight() {
+		return right;
+	}
+	
+	boolean getLeft() {
+		return left;
+	}
+	
+	boolean getUpRight() {
+		return upRight;
+	}
+	
+	boolean getUpLeft() {
+		return upLeft;
+	}
+	
+	boolean getDownRight() {
+		return downRight;
+	}
+	
+	boolean getDownLeft() {
+		return downLeft;
+	}
+
 	/*-----------------------------------------------------------------------------------------------*/
+	void setBulletCoolDownTime (int cooldown) {
+		bulletCoolDownTime = cooldown;
+	}
+	
+	void setBulletType (int inType) {
+		bulletType = inType;
+	}
+	
 	void setArmor(int inArmor){
 		armor = inArmor;
 	}
@@ -172,14 +228,49 @@ class Figure extends CoreGameObjects {
 	void setItem1 (Item inItem){
 		item1 = inItem;
 	}
+	
 	void setItem2 (Item inItem){
 		item2 = inItem;
 	}
+	
 	void setItem3 (Item inItem){
 		item3 = inItem;
 	}
 
-	/*-----------------------------------------------------------------------------------------------*/
+	/*-----------------------------------------------------------------------------------------------------------------------*/
+	void setUp (boolean in) {
+		up = in;
+	}
+	
+	void setDown (boolean in) {
+		down = in;
+	}
+	
+	void setRight (boolean in) {
+		right = in;
+	}
+	
+	void setLeft (boolean in) {
+		left = in;
+	}
+	
+	void setUpRight (boolean in) {
+		upRight = in;
+	}
+	
+	void setUpLeft (boolean in) {
+		upLeft = in;
+	}
+	
+	void setDownRight (boolean in) {
+		downRight = in;
+	}
+	
+	void setDownLeft (boolean in) {
+		downLeft = in;
+	}
+	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	boolean checkRes() {
 		if(item1 instanceof ItemResurrect){
 			return true;

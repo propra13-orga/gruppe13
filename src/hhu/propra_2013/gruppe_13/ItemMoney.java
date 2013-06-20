@@ -9,7 +9,6 @@ public class ItemMoney extends Item {
 	private double 	height, width;
 	private double 	x, y;
 	private double	r;
-	private boolean pickedUp;
 	
 	ItemMoney(double initX, double initY, int initHeight, int initWidth){
 		x	= initX;
@@ -25,7 +24,7 @@ public class ItemMoney extends Item {
 		geld = figure.getGeld();			
 		geld++;
 		figure.setGeld(geld);
-		pickedUp = true;
+		room.remove(this);
 	}
 
 	@Override
@@ -54,10 +53,8 @@ public class ItemMoney extends Item {
 
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		if (!pickedUp) {
-			g.setColor(Color.yellow);
-			g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
-		}
+		g.setColor(Color.yellow);
+		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 	}
 
 	@Override

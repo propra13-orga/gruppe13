@@ -73,7 +73,7 @@ class NetServer extends NetIO implements Runnable {
 				ProPra.errorOutput(CONNECTION_SOCKET_ERROR, e);
 			}
 			
-			/* create new serverIO for this connection and run in a seperate thread, this enables multiple connections 
+			/* create new serverIO for this connection and run in a separate thread, this enables multiple connections 
 			 * as one connection otherwise blocks the server */
 			NetServerOut serverOut = new NetServerOut(connection);
 			NetServerIn  serverIn  = new NetServerIn(connection);

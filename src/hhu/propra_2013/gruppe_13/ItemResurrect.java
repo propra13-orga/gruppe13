@@ -12,7 +12,6 @@ class ItemResurrect extends Item{
 	private double 	height, width;
 	private int 	prize;
 	private Figure 	figure;
-	private boolean pickedUp;
 	
 	ItemResurrect(double initX, double initY, int initWidth, int initHeight, Figure inFigure) {
 		x	= initX;
@@ -35,7 +34,7 @@ class ItemResurrect extends Item{
 			money = money - 5;
 			figure.setGeld(money);
 			figure.pickUpItem(this);
-			pickedUp = true;
+			room.remove(this);
 		}		
 	}
 
@@ -65,19 +64,17 @@ class ItemResurrect extends Item{
 
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		if (!pickedUp) {
-			g.setColor(Color.gray);
-			g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
-			Font font = new Font("Arial", Font.PLAIN, (int)step/2);
-			g.setFont(font);
-			if(figure.getGeld() >= prize){
-				g.setColor(Color.yellow);
-			}
-			if(figure.getGeld() < prize){
-				g.setColor(Color.red);
-			}
-			g.drawString(prize + "#", xOffset+(int)Math.round(x*step), yOffset+(int)(y*step) );
+		g.setColor(Color.gray);
+		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+		Font font = new Font("Arial", Font.PLAIN, (int)step/2);
+		g.setFont(font);
+		if(figure.getGeld() >= prize){
+			g.setColor(Color.yellow);
 		}
+		if(figure.getGeld() < prize){
+			g.setColor(Color.red);
+		}
+		g.drawString(prize + "#", xOffset+(int)Math.round(x*step), yOffset+(int)(y*step) );
 	}
 
 	@Override

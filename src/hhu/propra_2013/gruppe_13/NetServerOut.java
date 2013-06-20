@@ -50,22 +50,22 @@ class NetServerOut extends NetIO {
 		while (running) {
 			threadTimer = System.currentTimeMillis();
 			
-			// get all current objects within the room
-			gameObjects = logic.getRoom().getContent();
-			
-			// iterate over all game objects
-			for (int i = 0; i<gameObjects.size(); i++) {
-				toSend = gameObjects.get(i);
-				
-				// try to send the object if it is of any importance
-				if (toSend instanceof MISCWall || toSend instanceof Figure || toSend instanceof Attack || toSend instanceof Enemy || toSend instanceof Item) {
-					try {
-						sendObjects.writeObject(toSend);
-					} catch (IOException e) {
-						System.err.println("Failed to send object. ");
-					}
-				}
-			}
+//			// get all current objects within the room
+//			gameObjects = logic.getRoom().getContent();
+//			
+//			// iterate over all game objects
+//			for (int i = 0; i<gameObjects.size(); i++) {
+//				toSend = gameObjects.get(i);
+//				
+//				// try to send the object if it is of any importance
+//				if (toSend instanceof MISCWall || toSend instanceof Figure || toSend instanceof Attack || toSend instanceof Enemy || toSend instanceof Item) {
+//					try {
+//						sendObjects.writeObject(toSend);
+//					} catch (IOException e) {
+//						System.err.println("Failed to send object. ");
+//					}
+//				}
+//			}
 
 			// Try to set the thread asleep, so that other components also have a chance of using system time
 			try {

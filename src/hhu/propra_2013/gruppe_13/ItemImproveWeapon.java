@@ -10,8 +10,6 @@ class ItemImproveWeapon extends Item{
 	private double 	x, y;
 	private double	r;
 	private double 	height, width;
-	private boolean pickedUp;
-
 	
 	ItemImproveWeapon(double initX, double initY, int initWidth, int initHeight, int inHP) {
 		x	= initX;
@@ -46,10 +44,8 @@ class ItemImproveWeapon extends Item{
 
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		if (!pickedUp) {
-			g.setColor(Color.orange);
-			g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
-		}
+		g.setColor(Color.orange);
+		g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 	}
 
 	@Override
@@ -94,7 +90,9 @@ class ItemImproveWeapon extends Item{
 	
 	@Override
 	void modFigure(ArrayList<CoreGameObjects> room, Figure figure) {
-		pickedUp = true;
+		figure.setBulletType(Bullet.PLAYER_SPECIAL_BULLET_ONE);
+		figure.setBulletCoolDownTime(figure.getBulletCoolDownTime()/2);
+		room.remove(this);
 	}
 
 	@Override

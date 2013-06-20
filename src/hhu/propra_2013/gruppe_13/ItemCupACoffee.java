@@ -9,7 +9,6 @@ class ItemCupACoffee extends Item {
 	private double 	x, y;
 	private double	r;
 	private double 	height, width;
-	private boolean pickedUp;
 	
 	ItemCupACoffee(double initX, double initY, int initWidth, int initHeight, int inHP) {
 		x	= initX;
@@ -46,10 +45,8 @@ class ItemCupACoffee extends Item {
 
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		if (!pickedUp) {
-			g.setColor(Color.cyan);
-			g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
-		}
+		g.setColor(Color.cyan);
+		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 	}
 
 	@Override
@@ -102,7 +99,7 @@ class ItemCupACoffee extends Item {
 		if(figure.getMaxHP()*2 > hp){				
 			hp++;
 			figure.setHP(hp);
-			pickedUp = true;
+			room.remove(this);
 		}
 	}
 

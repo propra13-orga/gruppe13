@@ -8,9 +8,7 @@ class CoreLogic implements Runnable {
 	private static final double SQRT_2 = 1.41421356237309504880168872420969807856967187537694807317667973799; // http://en.wikipedia.org/wiki/Square_root_of_2
 	private boolean 	gameRunning;
 	private boolean 	bulletEnable;
-	private int 		bulletType;
 	private long 		bulletCoolDown;
-	private int 		bulletCoolDownTime;
 
 	// Boolean variables for movement and collision detection, location counter for the room
 	private boolean 	down, up, right, left, upLeft, upRight, downLeft, downRight; // für die Bewegungsrichtungen
@@ -38,7 +36,6 @@ class CoreLogic implements Runnable {
 	// figure values
 	private double 		figX, figY;
 	private double 		figVX, figVY;
-
 
 	private boolean 	punch, use, aoe, showMap, esc; // für Aktionen map zeigt Map an
 
@@ -186,23 +183,20 @@ class CoreLogic implements Runnable {
 		freeDown = true;
 
 		bulletEnable = true;
-		bulletType = Bullet.PLAYER_BULLET_STD;
-		bulletCoolDownTime = 500;
-
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
-	private void setRoom(int newLocationX, int newLocationY, Figure inFigure, Map inMap) {
-		CoreRoom tempRoom;
-		figure = inFigure;
+	private void setRoom(int newLocationX, int newLocationY) {
 		locationX = newLocationX;
 		locationY = newLocationY;
-		tempRoom = level.getRoom(locationX, locationY);
+
+		currentRoom = level.getRoom(locationX, locationY);
 		map.setVisited(locationX, locationY);
-		currentRoom = tempRoom;
-		tempRoom.getContent().add(figure);
-		tempRoom.getContent().add(map);
-		game.setRoom(tempRoom);
+
+		currentRoom.getContent().add(figure);
+		currentRoom.getContent().add(map);
+
+		game.setRoom(currentRoom);
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
@@ -270,24 +264,24 @@ class CoreLogic implements Runnable {
 		
 		// iterate over all objects within the room, excepting the figure, of course
 		for (int i = 0; i < collidable.size(); i++) {
-			collided = collidable.get(i);
-			objX	 = collided.getPosX();
-			objY	 = collided.getPosY();
-			objR	 = collided.getRad();
+			collided 	= collidable.get(i);
+			objX	 	= collided.getPosX();
+			objY	 	= collided.getPosY();
+			objR	 	= collided.getRad();
 
-			objWidth = collided.getWidth();
-			objHeight = collided.getHeight();
+			objWidth 	= collided.getWidth();
+			objHeight 	= collided.getHeight();
 
-			collOne = 1;
-			collTwo = 1;
-			collThree = 1;
-			collFour = 1;
+			collOne 	= 1;
+			collTwo 	= 1;
+			collThree 	= 1;
+			collFour 	= 1;
 
 			// First check whether the objects are close enough to encounter one
 			// another within the next couple of moves, use squares, saves a
 			// couple of sqrt calls
 			if ((((objX - figX) * (objX - figX) + (objY - figY) * (objY - figY)) < ((figR + objR) * (figR + objR))) 
-					&& !(collided instanceof Figure) && !(collided instanceof Melee) && !(collided instanceof Bullet)) {
+					&& !(collided == figure) && !(collided instanceof Attack)) {
 				tmpX = figX - objX;
 				tmpY = figY - objY;
 
@@ -346,11 +340,6 @@ class CoreLogic implements Runnable {
 			((EnemyMelee) collided).attack(figure);
 		}
 		
-		if(collided instanceof ItemImproveWeapon){
-			bulletCoolDownTime = bulletCoolDownTime/2 ;
-			bulletType = Bullet.PLAYER_SPECIAL_BULLET_ONE;
-		}
-
 		if (collided instanceof Item) {
 			((Item) collided).modFigure(collidable, (Figure) figure);
 		}
@@ -548,7 +537,7 @@ class CoreLogic implements Runnable {
 		if (north || east || south || west || northeast || northwest || southeast || southwest) {
 			
 			if (!bulletEnable) {
-				if (System.currentTimeMillis() - bulletCoolDown > bulletCoolDownTime)
+				if (System.currentTimeMillis() - bulletCoolDown > figure.getBulletCoolDownTime())
 					bulletEnable = true;
 			}
 			
@@ -600,7 +589,7 @@ class CoreLogic implements Runnable {
 					signVY = 1;
 				}
 
-				CoreGameObjects initBullet = new Bullet(bulletType, figX, figY, figVX, figVY, signVX, signVY);
+				CoreGameObjects initBullet = new Bullet(figure.getBulletType(), figX, figY, figVX, figVY, signVX, signVY);
 
 				currentRoom.getContent().add(initBullet);
 				bulletEnable = false;
@@ -623,7 +612,7 @@ class CoreLogic implements Runnable {
 			figure.setItem1(null);
 			figure.setItem2(null);
 			figure.setItem3(null);
-			this.setRoom(level.getStartX(), level.getStartY(), figure, map);
+			this.setRoom(level.getStartX(), level.getStartY());
 		}
 	}
 
@@ -636,25 +625,25 @@ class CoreLogic implements Runnable {
 		case (0):// Door leads up
 			locationY--;
 			figY = 12.49;
-			this.setRoom(locationX, locationY, figure, map);
+			this.setRoom(locationX, locationY);
 			break;
 
 		case (1): // Door leads to the right
 			locationX++;
 			figX = 0.51; // linker Spielfeldrand
-			this.setRoom(locationX, locationY, figure, map); // neuen Raum and Grafik und Logik geben
+			this.setRoom(locationX, locationY); // neuen Raum and Grafik und Logik geben
 			break;
 
 		case (2): // Door leads down
 			locationY++;
 			figY = 0.51;
-			this.setRoom(locationX, locationY, figure, map);
+			this.setRoom(locationX, locationY);
 			break;
 
 		case (3): // Door leads left
 			locationX--;
 			figX = 21.49;// rechter Spielfeldrand
-			this.setRoom(locationX, locationY, figure, map);
+			this.setRoom(locationX, locationY);
 			break;
 
 		case (4):
@@ -666,7 +655,7 @@ class CoreLogic implements Runnable {
 			locationY = level.getStartY();
 			figX = 11.5; //put figure in the middle of the start room
 			figY = 6.5;
-			this.setRoom(locationX, locationY, figure, map);
+			this.setRoom(locationX, locationY);
 			}
 			else{
 				game.end(true);

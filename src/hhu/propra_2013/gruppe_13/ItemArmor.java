@@ -9,7 +9,6 @@ class ItemArmor extends Item{
 	private double 	x, y;
 	private double	r;
 	private double 	height, width;
-	private boolean pickedUp;
 
 	
 	ItemArmor(double initX, double initY, int initWidth, int initHeight, int inHP) {
@@ -48,10 +47,8 @@ class ItemArmor extends Item{
 
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		if (!pickedUp) {
-			g.setColor(Color.orange);
-			g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
-		}
+		g.setColor(Color.orange);
+		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 	}
 
 	@Override
@@ -100,7 +97,7 @@ class ItemArmor extends Item{
 		armor = figure.getArmor();				
 		armor++;
 		figure.setArmor(armor);
-		pickedUp = true;
+		room.remove(this);
 	}
 
 	@Override

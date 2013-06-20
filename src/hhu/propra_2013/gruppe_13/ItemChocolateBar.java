@@ -9,7 +9,6 @@ class ItemChocolateBar extends Item{
 	private double 	x, y;
 	private double	r;
 	private double 	height, width;
-	private boolean pickedUp;
 	
 	ItemChocolateBar(double initX, double initY, int initWidth, int initHeight, int inHP) {
 		x	= initX;
@@ -47,10 +46,8 @@ class ItemChocolateBar extends Item{
 
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		if (!pickedUp) {
-			g.setColor(Color.WHITE);
-			g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
-		}
+		g.setColor(Color.WHITE);
+		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 	}
 
 	@Override
@@ -102,7 +99,7 @@ class ItemChocolateBar extends Item{
 		chocolate = figure.getChocolate();				
 		chocolate++;
 		figure.setChocolate(chocolate);
-		pickedUp = true;
+		room.remove(this);
 	}
 
 	@Override
