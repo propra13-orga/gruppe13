@@ -39,28 +39,9 @@ class NetServer extends NetIO implements Runnable {
 		// In case of success
 		return EXIT_SUCCESS;
 	}
-
+	
 	/*------------------------------------------------------------------------------------------------------------------------*/
-	@Override
-	public void run() {
-		// only run as long as desired
-		while (serverActive == true) {
-			try {
-				connection = socket.accept();
-			} catch (IOException e) {
-				ProPra.errorOutput(CONNECTION_SOCKET_ERROR, e);
-			}
-			
-			/* create new serverIO for this connection and run in a seperate thread, this enables multiple connections 
-			 * as one connection otherwise blocks the server */
-			NetServerOut serverOut = new NetServerOut(connection);
-			NetServerIn  serverIn  = new NetServerIn(connection);
-			list.add(serverOut);
-			list.add(serverIn);
-			Thread thread = new Thread(serverOut);
-			thread.start();
-		}
-		
+	private void terminate() {
 		// terminate all threads
 		for (int i=0; i<list.size(); i++) {
 			list.get(i).setRunning(false);
@@ -79,5 +60,29 @@ class NetServer extends NetIO implements Runnable {
 		} catch (IOException e) {
 			// not really worth handling, since we are going to close the program now anyways
 		}
+	}
+
+	/*------------------------------------------------------------------------------------------------------------------------*/
+	@Override
+	public void run() {
+		// only run as long as desired
+		while (serverActive) {
+			try {
+				connection = socket.accept();
+			} catch (IOException e) {
+				ProPra.errorOutput(CONNECTION_SOCKET_ERROR, e);
+			}
+			
+			/* create new serverIO for this connection and run in a seperate thread, this enables multiple connections 
+			 * as one connection otherwise blocks the server */
+			NetServerOut serverOut = new NetServerOut(connection);
+			NetServerIn  serverIn  = new NetServerIn(connection);
+			list.add(serverOut);
+			list.add(serverIn);
+			Thread thread = new Thread(serverOut);
+			thread.start();
+		}
+		
+		this.terminate();
 	}
 }

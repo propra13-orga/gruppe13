@@ -5,15 +5,16 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-public class ItemResurrect extends Item{
+class ItemResurrect extends Item{
 
 	private double 	x, y;
 	private double	r;
 	private double 	height, width;
 	private int 	prize;
 	private Figure 	figure;
+	private boolean pickedUp;
 	
-	public ItemResurrect(double initX, double initY, int initWidth, int initHeight, Figure inFigure) {
+	ItemResurrect(double initX, double initY, int initWidth, int initHeight, Figure inFigure) {
 		x	= initX;
 		y	= initY;
 		r = Math.max(width, height);
@@ -34,7 +35,7 @@ public class ItemResurrect extends Item{
 			money = money - 5;
 			figure.setGeld(money);
 			figure.pickUpItem(this);
-			room.remove(this);
+			pickedUp = true;
 		}		
 	}
 
@@ -64,18 +65,19 @@ public class ItemResurrect extends Item{
 
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		g.setColor(Color.gray);
-		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
-		Font font = new Font("Arial", Font.PLAIN, (int)step/2);
-		g.setFont(font);
-		if(figure.getGeld() >= prize){
-			g.setColor(Color.yellow);
+		if (!pickedUp) {
+			g.setColor(Color.gray);
+			g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+			Font font = new Font("Arial", Font.PLAIN, (int)step/2);
+			g.setFont(font);
+			if(figure.getGeld() >= prize){
+				g.setColor(Color.yellow);
+			}
+			if(figure.getGeld() < prize){
+				g.setColor(Color.red);
+			}
+			g.drawString(prize + "#", xOffset+(int)Math.round(x*step), yOffset+(int)(y*step) );
 		}
-		if(figure.getGeld() < prize){
-			g.setColor(Color.red);
-		}
-		g.drawString(prize + "#", xOffset+(int)Math.round(x*step), yOffset+(int)(y*step) );
-		
 	}
 
 	@Override

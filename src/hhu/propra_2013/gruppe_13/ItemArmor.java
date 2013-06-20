@@ -4,13 +4,15 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-public class ItemArmor extends Item{
+class ItemArmor extends Item{
 
 	private double 	x, y;
 	private double	r;
 	private double 	height, width;
+	private boolean pickedUp;
+
 	
-	public ItemArmor(double initX, double initY, int initWidth, int initHeight, int inHP) {
+	ItemArmor(double initX, double initY, int initWidth, int initHeight, int inHP) {
 		x	= initX;
 		y	= initY;
 		r = Math.max(width, height);
@@ -46,9 +48,10 @@ public class ItemArmor extends Item{
 
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		g.setColor(Color.orange);
-		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
-		
+		if (!pickedUp) {
+			g.setColor(Color.orange);
+			g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+		}
 	}
 
 	@Override
@@ -97,14 +100,11 @@ public class ItemArmor extends Item{
 		armor = figure.getArmor();				
 		armor++;
 		figure.setArmor(armor);
-		room.remove(this);
+		pickedUp = true;
 	}
 
 	@Override
 	void takeDamage(int type, int strength) {
 		// Keep empty since items should probably not be able to take damage
 	}
-
-	
-
 }

@@ -7,21 +7,23 @@ import java.net.*;
 import java.util.ArrayList;
 
 class NetServerOut extends NetIO {
-	private CoreLogic 	logic;
-	private Socket 		socket;
+	// Socket and OOS for output to Internet
+	private Socket 				socket;
+	private ObjectOutputStream 	sendObjects;
 	
-	private ObjectOutputStream sendObjects;
-	
+	// variables for objects to send
+	private NetServerLogic 				logic;
 	private ArrayList<CoreGameObjects> 	gameObjects;
 	private CoreGameObjects				toSend;
 	
+	// variables for checking the threads liveliness and storing sleep time
 	boolean running;
-	long threadTimer;
-	long timerTemp;
+	long 	threadTimer;
+	long 	timerTemp;
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
 	NetServerOut (Socket inSocket) {
-		socket 	= inSocket;
+		socket 		= inSocket;
 		running 	= true;
 		
 		// open the output stream to send objects over
@@ -38,7 +40,7 @@ class NetServerOut extends NetIO {
 		running = inRunning;
 	}
 	
-	void setLogic (CoreLogic inLogic) {
+	void setLogic (NetServerLogic inLogic) {
 		logic = inLogic;
 	}
 	

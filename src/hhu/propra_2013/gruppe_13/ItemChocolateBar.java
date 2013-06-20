@@ -4,13 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-public class ItemChocolateBar extends Item{
+class ItemChocolateBar extends Item{
 
 	private double 	x, y;
 	private double	r;
 	private double 	height, width;
+	private boolean pickedUp;
 	
-	public ItemChocolateBar(double initX, double initY, int initWidth, int initHeight, int inHP) {
+	ItemChocolateBar(double initX, double initY, int initWidth, int initHeight, int inHP) {
 		x	= initX;
 		y	= initY;
 		r = Math.max(width, height);
@@ -46,9 +47,10 @@ public class ItemChocolateBar extends Item{
 
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		g.setColor(Color.WHITE);
-		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
-		
+		if (!pickedUp) {
+			g.setColor(Color.WHITE);
+			g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+		}
 	}
 
 	@Override
@@ -100,7 +102,7 @@ public class ItemChocolateBar extends Item{
 		chocolate = figure.getChocolate();				
 		chocolate++;
 		figure.setChocolate(chocolate);
-		room.remove(this);
+		pickedUp = true;
 	}
 
 	@Override

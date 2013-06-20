@@ -11,30 +11,30 @@ import java.util.ArrayList;
 public class CoreRoom {
 
 	//Geerbtes <- gelogen!!
-	Figure 		figure;
+	private Figure 		figure;
 	
 	//Sachen die jeder Raum weiß
-	ArrayList<CoreGameObjects> content; //die alte innere Array list, enthält alle Objekte im Raum
-	boolean 	isBossRoom, isShop;
-	boolean 	hasTopNeighbour, hasBottomNeighbour, hasLeftNeighbour, hasRightNeighbour;
-	boolean 	isFinished;//for later use in the map
+	private ArrayList<CoreGameObjects> content; //die alte innere Array list, enthält alle Objekte im Raum
+	private boolean 	isBossRoom, isShop;
+	private boolean 	hasTopNeighbour, hasBottomNeighbour, hasLeftNeighbour, hasRightNeighbour;
+	private boolean 	isFinished;//for later use in the map
 	
 	//Variablen zur Erzeugung
-	int 		element , column, line , dest;
-	int 		randomNumber; //speichert die Zufallsvariablevariable in der Raumerzeugung, je nachdem ob es ein  bossraum ist oder nicht
-	String 		type, boss;
-	int 		stage; //Nummer des Levels, für den NPC
-	int			mode;
+	private int 		element , column, line , dest;
+	private int 		randomNumber; //speichert die Zufallsvariablevariable in der Raumerzeugung, je nachdem ob es ein  bossraum ist oder nicht
+	private String 		type;
+	private int 		stage; //Nummer des Levels, für den NPC
+	private int			mode;
+	
 	// Stream and Reader for reading data from file
-	InputStream roomStream 	= null;
-	Reader roomReader		= null;
+	private InputStream roomStream 	= null;
+	private Reader roomReader		= null;
 	
 	// Constructor
 	CoreRoom(Figure inFigure, int inStage, String inBoss, boolean inTopNeighbour, boolean inBottomNeighbour, boolean inLeftNeighbour, boolean inRightNeighbour, int inMode){
 		figure 				= inFigure;
 		content 			= new ArrayList<CoreGameObjects>();
 		stage 				= inStage;
-		boss 				= inBoss;
 		mode				= inMode;
 		
 		//ja, ich hasse mich auch schon für solche langen namen
@@ -197,7 +197,7 @@ public class CoreRoom {
 			}
 			
 		} catch (IOException e) {
-			System.out.println("File not found, system exiting.");
+			System.out.println("File \"Level/"+type+randomNumber+".txt\" not found, system exiting.");
 			System.exit(1);
 		} finally {
 			try {

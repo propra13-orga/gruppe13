@@ -9,8 +9,9 @@ public class ItemMoney extends Item {
 	private double 	height, width;
 	private double 	x, y;
 	private double	r;
+	private boolean pickedUp;
 	
-	public ItemMoney(double initX, double initY, int initHeight, int initWidth){
+	ItemMoney(double initX, double initY, int initHeight, int initWidth){
 		x	= initX;
 		y	= initY;
 		r = Math.max(width, height);
@@ -18,17 +19,13 @@ public class ItemMoney extends Item {
 		width	= initHeight;
 	}
 	
-	
-	
-	
-	
 	@Override
 	void modFigure(ArrayList<CoreGameObjects> room, Figure figure) {
 		int geld;
 		geld = figure.getGeld();			
 		geld++;
 		figure.setGeld(geld);
-		room.remove(this);
+		pickedUp = true;
 	}
 
 	@Override
@@ -57,10 +54,10 @@ public class ItemMoney extends Item {
 
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		// TODO Auto-generated method stub
-		g.setColor(Color.yellow);
-		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
-		
+		if (!pickedUp) {
+			g.setColor(Color.yellow);
+			g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+		}
 	}
 
 	@Override

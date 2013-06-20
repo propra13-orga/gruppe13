@@ -2,19 +2,17 @@ package hhu.propra_2013.gruppe_13;
 
 import java.util.ArrayList;
 
-class CoreLogic implements Runnable {
-
-	// set square root of 2 and define a boolean variable for the game loop
+class NetClientLogic extends NetIO implements Runnable {
 	private static final double SQRT_2 = 1.41421356237309504880168872420969807856967187537694807317667973799; // http://en.wikipedia.org/wiki/Square_root_of_2
-	private boolean 	gameRunning;
+	private boolean 	running;
 	private boolean 	bulletEnable;
 	private int 		bulletType;
 	private long 		bulletCoolDown;
 	private int 		bulletCoolDownTime;
 
 	// Boolean variables for movement and collision detection, location counter for the room
-	private boolean 	down, up, right, left, upLeft, upRight, downLeft, downRight; // für die Bewegungsrichtungen
-	private boolean 	north, east, south, west, northwest, northeast, southwest, southeast; // zum schießen in die Himmelsrichtungen
+	private boolean 	down, up, right, left, upLeft, upRight, downLeft, downRight; 			// für die Bewegungsrichtungen
+	private boolean 	north, east, south, west, northwest, northeast, southwest, southeast; 	// zum schießen in die Himmelsrichtungen
 
 	// variables for collision detection
 	private boolean 	freeRight, freeUp, freeDown, freeLeft;
@@ -39,15 +37,14 @@ class CoreLogic implements Runnable {
 	private double 		figX, figY;
 	private double 		figVX, figVY;
 
-
 	private boolean 	punch, use, aoe, showMap, esc; // für Aktionen map zeigt Map an
-
+	
 	// List of all Objects within the game
 	private CoreLevel 	level;
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
-	void setGameRunning(boolean boolIn) {
-		gameRunning = boolIn;
+	void setRunning(boolean boolIn) {
+		running = boolIn;
 	}
 
 	void setDown(boolean in) {
@@ -159,8 +156,8 @@ class CoreLogic implements Runnable {
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Initiate the current objects variables
-	CoreLogic(Figure inFigure, CoreO_Game inGame, int mode) {
-		gameRunning = true;
+	NetClientLogic (Figure inFigure, CoreO_Game inGame, int mode) {
+		running = true;
 
 		figure = inFigure;
 		game = inGame;
@@ -206,24 +203,24 @@ class CoreLogic implements Runnable {
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
-	// Do the Artificial Intelligence for all Enemies
-	private void enemyAI() {
-		Enemy enemy;
-		ArrayList<CoreGameObjects> collidable = currentRoom.getContent();
-
-		// iterate over all objects and do the AI of all Enemies
-		for (int i = 0; i < collidable.size(); i++) {
-			if (collidable.get(i) instanceof Enemy) {
-				enemy = (Enemy) collidable.get(i);
-				enemy.artificialIntelligence(figure, collidable);
-
-				// check whether the enemy is dead yet
-				if (enemy.stopDrawing()) {
-					currentRoom.getContent().remove(enemy);
-				}
-			}
-		}
-	}
+//	// Do the Artificial Intelligence for all Enemies
+//	private void enemyAI() {
+//		Enemy enemy;
+//		ArrayList<CoreGameObjects> collidable = currentRoom.getContent();
+//
+//		// iterate over all objects and do the AI of all Enemies
+//		for (int i = 0; i < collidable.size(); i++) {
+//			if (collidable.get(i) instanceof Enemy) {
+//				enemy = (Enemy) collidable.get(i);
+//				enemy.artificialIntelligence(figure, collidable);
+//
+//				// check whether the enemy is dead yet
+//				if (enemy.stopDrawing()) {
+//					currentRoom.getContent().remove(enemy);
+//				}
+//			}
+//		}
+//	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	private void checkCollision() {
@@ -358,11 +355,11 @@ class CoreLogic implements Runnable {
 		if (collided instanceof MISCNPC){
 			((MISCNPC) collided).talk();
 		}
-		
+
 		if (collided instanceof MISCDoor) { //Doors MUST be checked last because of the new Method of Room-finishing
 			destination = ((MISCDoor) collided).getDestination();
 
-			if (finished) {			// check if there is no enemy found in the room
+			if (finished == true) {			// check if there is no enemy found in the room
 
 				// before switching the room we make a copy of our figure for resurrection
 				saveFigure = figure;
@@ -370,25 +367,25 @@ class CoreLogic implements Runnable {
 				switch (destination) { // only advance trough door if player is moving in the direction of the door diagonal movement should work too
 				
 				case 0:
-					if (upLeft || up || upRight) {
+					if (upLeft == true || up == true || upRight == true) {
 						this.switchRoom(destination);
 					}
 					break;
 
 				case 1:
-					if (right || upRight || downRight) {
+					if (right == true || upRight == true || downRight == true) {
 						this.switchRoom(destination);
 					}
 					break;
 
 				case 2:
-					if (down || downRight || downLeft) {
+					if (down == true || downRight == true || downLeft == true) {
 						this.switchRoom(destination);
 					}
 					break;
 
 				case 3:
-					if (left || downLeft || upLeft) {
+					if (left == true || downLeft == true || upLeft == true) {
 						this.switchRoom(destination);
 					}
 					break;
@@ -405,7 +402,8 @@ class CoreLogic implements Runnable {
 	/* This is the actual movement method, which checks for all directions
 	 * whether the figure needs to be moved. Additionally the method checks
 	 * whether the figure has reached a boundary and will prevent it from moving
-	 * out of the gaming area. */
+	 * out of the gaming area.
+	 */
 	private void moveFigure() {
 		// First set the direction of the figure,as we are gonna fuck around with the input variables just now
 		this.setDirection();
@@ -507,31 +505,31 @@ class CoreLogic implements Runnable {
 	private void attacks() {
 		// Iterate over all Bullets and propagate them
 		ArrayList<CoreGameObjects> collidable = currentRoom.getContent();
-		Attack attack;
-		MISCWall wall;
-		boolean deleted;
+//		Attack attack;
+//		MISCWall wall;
+//		boolean deleted;
 
-		for (int i = 0; i < collidable.size(); i++) {
-
-			deleted = false;
-			// handle attack propagation and check whether the attack is finished
-			if (collidable.get(i) instanceof Attack) {
-				attack = (Attack) collidable.get(i);
-				attack.propagate(collidable);
-
-				// Check whether we can destroy the bullet
-				if (attack.getFinished()) {
-					currentRoom.getContent().remove(attack);
-					deleted = true;
-				}
-			}
-	
-			if (!deleted && collidable.get(i) instanceof MISCWall) {
-				wall = (MISCWall) collidable.get(i);
-				if (wall.getHP() == 0)
-					currentRoom.getContent().remove(wall);
-			}
-		}
+//		for (int i = 0; i < collidable.size(); i++) {
+//
+//			deleted = false;
+//			// handle attack propagation and check whether the attack is finished
+//			if (collidable.get(i) instanceof Attack) {
+//				attack = (Attack) collidable.get(i);
+//				attack.propagate(collidable);
+//
+//				// Check whether we can destroy the bullet
+//				if (attack.getFinished()) {
+//					currentRoom.getContent().remove(attack);
+//					deleted = true;
+//				}
+//			}
+//	
+//			if (!deleted && collidable.get(i) instanceof MISCWall) {
+//				wall = (MISCWall) collidable.get(i);
+//				if (wall.getHP() == 0)
+//					currentRoom.getContent().remove(wall);
+//			}
+//		}
 
 		// If the player has enough resources, create a new area of effect attack
 		if (aoe && figure.getChocolate() > 0) {
@@ -610,22 +608,22 @@ class CoreLogic implements Runnable {
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
-	private void checkFigure() {
-		if (figure.getHP() <= 0 && !figure.checkRes()) {
-			game.end(false);
-			System.out.println("You died!");
-		}
-		if (figure.getHP() <= 0 && figure.checkRes()) {
-			figure = saveFigure;
-			figure.setHP(3);
-			figX = 11.5;
-			figY = 6.5;
-			figure.setItem1(null);
-			figure.setItem2(null);
-			figure.setItem3(null);
-			this.setRoom(level.getStartX(), level.getStartY(), figure, map);
-		}
-	}
+//	private void checkFigure() {
+//		if (figure.getHP() <= 0 && !figure.checkRes()) {
+//			game.end(false);
+//			System.out.println("You died!");
+//		}
+//		if (figure.getHP() <= 0 && figure.checkRes()) {
+//			figure = saveFigure;
+//			figure.setHP(3);
+//			figX = 11.5;
+//			figY = 6.5;
+//			figure.setItem1(null);
+//			figure.setItem2(null);
+//			figure.setItem3(null);
+//			this.setRoom(level.getStartX(), level.getStartY(), figure, map);
+//		}
+//	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	private void switchRoom(int destination) {
@@ -684,7 +682,7 @@ class CoreLogic implements Runnable {
 		long temp;
 
 		// game loop
-		while (gameRunning) {
+		while (running) {
 			time = System.currentTimeMillis();
 
 			// get current figure positions and velocities
@@ -698,8 +696,7 @@ class CoreLogic implements Runnable {
 				this.checkCollision();
 				this.moveFigure();
 				this.attacks();
-				this.enemyAI();
-				this.checkFigure();
+//				this.checkFigure();
 			}
 
 			// set the thread asleep, we don't need it too often
