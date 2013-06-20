@@ -38,7 +38,7 @@ class CoreLogic implements Runnable {
 	// figure values
 	private double 		figX, figY;
 	private double 		figVX, figVY;
-	private boolean 	punch, use, aoe, map, ecs; // für Aktionen map zeigt Map an esc zeigt
+	private boolean 	punch, use, aoe, map, esc; // für Aktionen map zeigt Map an esc zeigt
 	private int 		figHP;
 
 	// List of all Objects within the game

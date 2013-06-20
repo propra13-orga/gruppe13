@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-public class ItemArmor extends  Item{
+public class ItemArmor extends Item{
 
 	private double 	x, y;
 	private double	r;
