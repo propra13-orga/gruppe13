@@ -298,8 +298,10 @@ class CoreGame_IO implements KeyEventDispatcher {
 			case 101:									//101='numpad 5'
 				logic.setBomb(true);					//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
 				break;
-			case 77:									//77='m'
-				logic.setMap(true);						//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
+
+			case 77:
+				logic.setShowMap(true);
+
 				break;
 			case 27:									//77='esc'
 				logic.setEsc(true);						//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.

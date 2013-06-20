@@ -32,13 +32,16 @@ class CoreLogic implements Runnable {
 	private boolean 	finished; //to open doors once there are no enemys in the room, can be done by the collision
 	
 	private Figure 		figure, saveFigure; // TODO check why it was GameObjects
-		
+	private Map			map;
 	private CoreO_Game 	game;
 
 	// figure values
 	private double 		figX, figY;
 	private double 		figVX, figVY;
-	private boolean 	punch, use, aoe, map, esc; // für Aktionen map zeigt Map an esc zeigt
+
+
+	private boolean 	punch, use, aoe, showMap, esc; // für Aktionen map zeigt Map an
+
 	private int 		figHP;
 
 	// List of all Objects within the game
@@ -93,8 +96,10 @@ class CoreLogic implements Runnable {
 		aoe = in;
 	}
 	
-	void setMap(boolean in){
-		map = in;
+	void setShowMap(boolean in){
+		showMap = in;
+		if(map.getDraw() == true) showMap = false;
+		map.setDraw(showMap);
 	}
 
 	void setEsc(boolean in){
@@ -164,9 +169,10 @@ class CoreLogic implements Runnable {
 
 		stage = 1;
 		boss = "test";
-
+		//create map
+		map	= new Map();
 		// create Level
-		level = new CoreLevel(figure, mode);
+		level = new CoreLevel(figure, mode, map);
 		level.buildLevel(stage, boss);
 		
 		// find out where in the level we are, switching rooms will be relative to this value
@@ -174,6 +180,7 @@ class CoreLogic implements Runnable {
 		locationY = level.getStartY();
 		currentRoom = level.getRoom(locationX, locationY);
 		currentRoom.getContent().add(figure);
+		currentRoom.getContent().add(map);
 		
 		freeRight = true;
 		freeLeft = true;
@@ -187,14 +194,16 @@ class CoreLogic implements Runnable {
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
-	private void setRoom(int newLocationX, int newLocationY, Figure inFigure) {
+	private void setRoom(int newLocationX, int newLocationY, Figure inFigure, Map inMap) {
 		CoreRoom tempRoom;
 		figure = inFigure;
 		locationX = newLocationX;
 		locationY = newLocationY;
 		tempRoom = level.getRoom(locationX, locationY);
+		map.setVisited(locationX, locationY);
 		currentRoom = tempRoom;
 		tempRoom.getContent().add(figure);
+		tempRoom.getContent().add(map);
 		game.setRoom(tempRoom);
 	}
 
@@ -617,7 +626,7 @@ class CoreLogic implements Runnable {
 			figure.setItem1(null);
 			figure.setItem2(null);
 			figure.setItem3(null);
-			this.setRoom(level.getStartX(), level.getStartY(), figure);
+			this.setRoom(level.getStartX(), level.getStartY(), figure, map);
 		}
 	}
 
@@ -630,25 +639,25 @@ class CoreLogic implements Runnable {
 		case (0):// Door leads up
 			locationY--;
 			figY = 12.49;
-			this.setRoom(locationX, locationY, figure);
+			this.setRoom(locationX, locationY, figure, map);
 			break;
 
 		case (1): // Door leads to the right
 			locationX++;
 			figX = 0.51; // linker Spielfeldrand
-			this.setRoom(locationX, locationY, figure); // neuen Raum and Grafik und Logik geben
+			this.setRoom(locationX, locationY, figure, map); // neuen Raum and Grafik und Logik geben
 			break;
 
 		case (2): // Door leads down
 			locationY++;
 			figY = 0.51;
-			this.setRoom(locationX, locationY, figure);
+			this.setRoom(locationX, locationY, figure, map);
 			break;
 
 		case (3): // Door leads left
 			locationX--;
 			figX = 21.49;// rechter Spielfeldrand
-			this.setRoom(locationX, locationY, figure);
+			this.setRoom(locationX, locationY, figure, map);
 			break;
 
 		case (4):
@@ -660,7 +669,7 @@ class CoreLogic implements Runnable {
 			locationY = level.getStartY();
 			figX = 11.5; //put figure in the middle of the start room
 			figY = 6.5;
-			this.setRoom(locationX, locationY, figure);
+			this.setRoom(locationX, locationY, figure, map);
 			}
 			else{
 				game.end(true);
@@ -689,11 +698,13 @@ class CoreLogic implements Runnable {
 			figHP = figure.getHP();
 
 			// do the actual logic in this game
-			this.checkCollision();
-			this.moveFigure();
-			this.attacks();
-			this.enemyAI();
-			this.checkFigure();
+			if(!showMap){
+				this.checkCollision();
+				this.moveFigure();
+				this.attacks();
+				this.enemyAI();
+				this.checkFigure();
+			}
 
 			// set the thread asleep, we don't need it too often
 			try {
