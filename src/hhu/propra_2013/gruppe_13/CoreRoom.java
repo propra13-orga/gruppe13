@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class CoreRoom {
 
 	//Geerbtes <- gelogen!!
-	private Figure 		figure;
+//	private Figure 		figure;
 	
 	//Sachen die jeder Raum weiß
 	private ArrayList<CoreGameObjects> content; //die alte innere Array list, enthält alle Objekte im Raum
@@ -31,8 +31,8 @@ public class CoreRoom {
 	private Reader roomReader		= null;
 	
 	// Constructor
-	CoreRoom(Figure inFigure, int inStage, String inBoss, boolean inTopNeighbour, boolean inBottomNeighbour, boolean inLeftNeighbour, boolean inRightNeighbour, int inMode){
-		figure 				= inFigure;
+	CoreRoom(int inStage, String inBoss, boolean inTopNeighbour, boolean inBottomNeighbour, boolean inLeftNeighbour, boolean inRightNeighbour, int inMode){
+//		figure 				= inFigure;
 		content 			= new ArrayList<CoreGameObjects>();
 		stage 				= inStage;
 		mode				= inMode;
@@ -169,7 +169,7 @@ public class CoreRoom {
 					break;
 					
 				case 'R': 
-					content.add(new ItemResurrect(column-1+0.5, line-1+0.5,1,1,figure));
+					content.add(new ItemResurrect(column-1+0.5, line-1+0.5,1,1));
 					break;
 					
 				case 'G':
@@ -177,7 +177,7 @@ public class CoreRoom {
 					break;
 					
 				case 'N':
-					content.add(new MISCNPC (column-1+0.5, line-1,1,1, figure, "this is a stub",stage));
+					content.add(new MISCNPC (column-1+0.5, line-1,1,1, "this is a stub",stage));
 					break;
 				case 'F':
 					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, mode));

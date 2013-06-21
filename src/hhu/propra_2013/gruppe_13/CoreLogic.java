@@ -164,23 +164,26 @@ class CoreLogic implements Runnable {
 
 		stage = 1;
 		boss = "test";
-		//create map
-		map	= new Map();
-		// create Level
-		level = new CoreLevel(figure, mode, map);
+		
+		// create Level and Map
+		level = new CoreLevel(mode);
 		level.buildLevel(stage, boss);
+
+		map	= new Map();
+		map.setRoom(level.getConstruction());
 		
 		// find out where in the level we are, switching rooms will be relative to this value
 		locationX = level.getStartX();
 		locationY = level.getStartY();
+		
 		currentRoom = level.getRoom(locationX, locationY);
 		currentRoom.getContent().add(figure);
 		currentRoom.getContent().add(map);
 		
-		freeRight = true;
-		freeLeft = true;
-		freeUp = true;
-		freeDown = true;
+		freeRight 	= true;
+		freeLeft 	= true;
+		freeUp 		= true;
+		freeDown 	= true;
 
 		bulletEnable = true;
 	}
@@ -525,7 +528,7 @@ class CoreLogic implements Runnable {
 		// If the player has enough resources, create a new area of effect attack
 		if (aoe && figure.getChocolate() > 0) {
 			figure.setChocolate(figure.getChocolate()-1);
-			CoreGameObjects melee = new Melee(figX, figY, 0, 0, Attack.PLAYER_MELEE_AOE, figure, collidable);
+			CoreGameObjects melee = new Melee(figX, figY, 0, 0, Attack.PLAYER_MELEE_AOE, figure, collidable, figure.getPlayer());
 			currentRoom.getContent().add(melee);
 		}
 		
@@ -589,7 +592,7 @@ class CoreLogic implements Runnable {
 					signVY = 1;
 				}
 
-				CoreGameObjects initBullet = new Bullet(figure.getBulletType(), figX, figY, figVX, figVY, signVX, signVY);
+				CoreGameObjects initBullet = new Bullet(figure.getBulletType(), figX, figY, figVX, figVY, signVX, signVY, figure.getPlayer());
 
 				currentRoom.getContent().add(initBullet);
 				bulletEnable = false;

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 abstract class Attack extends CoreGameObjects {
 
-	
 	// Getter and Setter methods for Objects used by Logic and GameDrawer classes
 	abstract int 	getHP();	
 	abstract double getPosX();
@@ -28,4 +27,6 @@ abstract class Attack extends CoreGameObjects {
 	// Attack specific propagation and finished status
 	abstract boolean getFinished();
 	abstract void propagate(ArrayList<CoreGameObjects> room);
+	abstract int getPlayer();
+	abstract Attack copy();
 }

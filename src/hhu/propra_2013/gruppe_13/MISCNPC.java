@@ -14,7 +14,6 @@ public class MISCNPC extends CoreGameObjects{
 	private double 	height, width;
 	private int		strength;
 	private int 	type;
-	private Figure 	figure;
 	private String 	text; 
 	private int 	stage; 		//NPC should know which area he is in, so he can refer to the level Theme or something
 	private String 	boss;	//NPC should know what the area boss is, so he can say funny stuff about him 
@@ -22,7 +21,7 @@ public class MISCNPC extends CoreGameObjects{
 	private long 	npcTalkTime;
 	
 	//Constructor for NPC - TODO Think what the NPC should be able to do, and implement the useful thoughts
-	MISCNPC(double initX, double initY, double initHeight, double initWidth, Figure inFigure, String inBoss, int inStage){
+	MISCNPC(double initX, double initY, double initHeight, double initWidth, String inBoss, int inStage){
 		
 		x = initX;
 		y = initY;
@@ -35,7 +34,6 @@ public class MISCNPC extends CoreGameObjects{
 		r = Math.max(width, height)+v_x*v_x+v_y*v_y;
 		hp = 1; 		//should not be harmed at all, but GameObjects wants it kinda badly
 		strength = 1;	//should harm anyone else either, but you never know when a NPC will snap...
-		figure = inFigure;
 		//Stuff to tell the NPC what he can talk about
 		boss = inBoss;
 		stage = inStage;

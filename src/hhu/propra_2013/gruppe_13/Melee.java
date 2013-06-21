@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 public class Melee extends Attack {
 
+	private int 	player;
+	
 	private int 	hp, type, strength;
 	private double 	x, y, vx, vy, rad;
 	private double	width, height;
@@ -20,13 +22,14 @@ public class Melee extends Attack {
 	private boolean destroyed;
 	
 	/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-	Melee (double inX, double inY, double inVX, double inVY, int inType, Figure inFigure, ArrayList<CoreGameObjects> InRoom) {
+	Melee (double inX, double inY, double inVX, double inVY, int inType, Figure inFigure, ArrayList<CoreGameObjects> InRoom, int player) {
 		x	= inX;
 		y	= inY;
 		
-		type 	= inType;
-		figure 	= inFigure;
-		room	= InRoom;
+		this.type 	= inType;
+		this.figure = inFigure;
+		this.room	= InRoom;
+		this.player = player;
 		
 		switch (type) {
 		case PLAYER_MELEE_AOE:
@@ -85,8 +88,14 @@ public class Melee extends Attack {
 	}
 	
 	// check whether the bullet has finished disintegrating and can be deleted from the program
+	@Override
 	boolean getFinished() {
 		return destroyed;
+	}
+	
+	@Override
+	int getPlayer() {
+		return player;
 	}
 	
 	/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -112,6 +121,13 @@ public class Melee extends Attack {
 		hp = inHP;
 	}
 
+	void setCounterOne (int counter_one) {
+		this.counter_one = counter_one;
+	}
+	
+	void setDestroyed (boolean destroyed) {
+		this.destroyed = destroyed;
+	}
 	/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
@@ -157,6 +173,15 @@ public class Melee extends Attack {
 			}
 			break;
 		}
+	}
+	
+	@Override
+	Attack copy() {
+		// return a new bullet object with the same attributes as the old one
+		Melee melee = new Melee(this.x, this.y, this.vx, this.vy, this.type, this.figure, this.room, this.player);
+		melee.setCounterOne(this.counter_one);
+		melee.setDestroyed(this.destroyed);
+		return melee;
 	}
 
 	@Override

@@ -11,16 +11,16 @@ class ItemResurrect extends Item{
 	private double	r;
 	private double 	height, width;
 	private int 	prize;
-	private Figure 	figure;
+//	private Figure 	figure;
 	
-	ItemResurrect(double initX, double initY, int initWidth, int initHeight, Figure inFigure) {
+	ItemResurrect(double initX, double initY, int initWidth, int initHeight) {
 		x	= initX;
 		y	= initY;
 		r = Math.max(width, height);
 		height	= initWidth;
 		width	= initHeight;
 		prize 	= 5;
-		figure 	= inFigure;
+//		figure 	= inFigure;
 	}
 	
 	int getPrize(){
@@ -68,12 +68,12 @@ class ItemResurrect extends Item{
 		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 		Font font = new Font("Arial", Font.PLAIN, (int)step/2);
 		g.setFont(font);
-		if(figure.getGeld() >= prize){
+//		if(figure.getGeld() >= prize){
 			g.setColor(Color.yellow);
-		}
-		if(figure.getGeld() < prize){
-			g.setColor(Color.red);
-		}
+//		}
+//		if(figure.getGeld() < prize){
+//			g.setColor(Color.red);
+//		}
 		g.drawString(prize + "#", xOffset+(int)Math.round(x*step), yOffset+(int)(y*step) );
 	}
 
