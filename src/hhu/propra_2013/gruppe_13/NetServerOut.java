@@ -12,9 +12,7 @@ class NetServerOut extends NetIO {
 	private ObjectOutputStream 	sendObjects;
 	
 	// variables for objects to send
-	private NetServerLogic 				logic;
 	private ArrayList<CoreGameObjects> 	gameObjects;
-	private CoreGameObjects				toSend;
 	
 	// variables for checking the threads liveliness and storing sleep time
 	boolean running;
@@ -30,7 +28,7 @@ class NetServerOut extends NetIO {
 		try {
 			sendObjects = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 		} catch (IOException e) {
-			ProPra.errorOutput(CONNECTION_OOS_ERROR, e);
+			ProPra.errorOutput(CONNECTION_SERVER_OOS, e);
 		}
 	}
 
@@ -40,42 +38,36 @@ class NetServerOut extends NetIO {
 		running = inRunning;
 	}
 	
-	void setLogic (NetServerLogic inLogic) {
-		logic = inLogic;
-	}
-	
 	/*------------------------------------------------------------------------------------------------------------------------*/
-	void sendRoom (ArrayList<CoreGameObjects> sendList) {
-		
+	void setRoom (ArrayList<CoreGameObjects> sendList) {
+		gameObjects = sendList;
 	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
 	@Override
 	public void run() {
+		CoreGameObjects toSend;
+
 		while (running) {
 			threadTimer = System.currentTimeMillis();
 			
-//			// get all current objects within the room
-//			gameObjects = logic.getRoom().getContent();
-//			
-//			// iterate over all game objects
-//			for (int i = 0; i<gameObjects.size(); i++) {
-//				toSend = gameObjects.get(i);
-//				
-//				// try to send the object if it is of any importance
-//				if (toSend instanceof MISCWall || toSend instanceof Figure || toSend instanceof Attack || toSend instanceof Enemy || toSend instanceof Item) {
-//					try {
-//						sendObjects.writeObject(toSend);
-//					} catch (IOException e) {
-//						System.err.println("Failed to send object. ");
-//					}
-//				}
-//			}
+			/* Iterate over all objects and send them. Since the servers logic should always overwrite anything at the clients 
+			 * the entire room will be sent. */ 
+			for (int i=0; i<gameObjects.size(); i++) {
+				toSend = gameObjects.get(i);
+				
+				try {
+					sendObjects.writeObject(toSend);
+					sendObjects.flush();
+				} catch (IOException e) {
+					ProPra.errorOutput(CONNECTION_SERVER_WRITE, e);
+				}
+			}
 
 			// Try to set the thread asleep, so that other components also have a chance of using system time
 			try {
-				if ((timerTemp = System.currentTimeMillis()-threadTimer) < 16) 
-					Thread.sleep(16-timerTemp);
+				if ((timerTemp = System.currentTimeMillis()-threadTimer) < 8) 
+					Thread.sleep(8-timerTemp);
 			} catch (InterruptedException e) {
 				// Do nothing as we don't care if the thread is interrupted
 			}

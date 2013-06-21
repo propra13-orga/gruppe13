@@ -1,18 +1,23 @@
 package hhu.propra_2013.gruppe_13;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
 class NetServerIn extends NetIO {
-	private NetServerLogic 	logic;
-	private Socket 			socket;
+
+	private Socket 				socket;
+	private ObjectInputStream	receiveObjects;
 	
-	private boolean 		running;
+	private boolean 			running;
 	
-	private int[]			location;
-	private Figure			figure;
+	private int[]				location;
+	private Figure				figure;
+	private Map 				map;
 	
-	private ArrayList<Attack> attacks;
+	private ArrayList<Attack> 	attacks;
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
 	NetServerIn (Socket inSocket) {
@@ -21,7 +26,15 @@ class NetServerIn extends NetIO {
 		
 		location 	= new int[2];
 		figure		= null;
+		map 		= null;
 		attacks		= null;
+		
+		try{
+			receiveObjects = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+		}
+		catch (IOException e) {
+			ProPra.errorOutput(CONNECTION_SERVER_OIS, e);
+		}
 	}
 
 	/*------------------------------------------------------------------------------------------------------------------------*/
@@ -30,8 +43,12 @@ class NetServerIn extends NetIO {
 		return location[i];
 	}
 	
-	Figure getFigure () {
+	Figure getFigure() {
 		return figure;
+	}
+	
+	Map getMap() {
+		return map;
 	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
@@ -40,8 +57,13 @@ class NetServerIn extends NetIO {
 		running = inRunning;
 	}
 	
-	void setLogic (NetServerLogic inLogic) {
-		logic = inLogic;
+	void setLocation (int locX, int locY) {
+		location[0] = locX;
+		location[1] = locY;
+	}
+	
+	void setMap(Map map) {
+		this.map = map;
 	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
@@ -53,24 +75,44 @@ class NetServerIn extends NetIO {
 			
 			if (object instanceof Figure && ((Figure)object).getPlayer() == player) 
 				content.remove(i);
-			
-			if (object instanceof Attack && ((Attack)object).getPlayer() == player)
-				content.remove(i);
 		}
 		
 		// add a copy of the figure and all attacks into the current room used by the logic
 		content.add(figure.copy());
 		
 		for (int i=0; i<attacks.size(); i++) {
-			content.add(attacks.get(i).copy());
+			if (!content.contains(attacks.get(i)))
+				content.add(attacks.get(i).copy());
 		}
+	}
+	
+	/*------------------------------------------------------------------------------------------------------------------------*/
+	void removeAttack(Attack attack) {
+		attacks.remove(attack);
 	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
 	@Override
 	public void run() {
+		Object incoming = null;
 		while (running) {
-			
+			try {
+				// read an object from the input stream
+				incoming = receiveObjects.readObject();
+				
+				// check what class the object is and act accordingly
+				if 		(incoming instanceof Figure)
+					figure	= (Figure)incoming;
+				
+				else if (incoming instanceof Attack){
+					if  (!attacks.contains(((Attack)incoming)))
+						attacks.add(((Attack)incoming));
+				}
+					
+			} catch (ClassNotFoundException | IOException e) {
+				System.err.println("Object could not be read. ");
+				System.err.println(e.getMessage());
+			}
 		}
 	}
 }

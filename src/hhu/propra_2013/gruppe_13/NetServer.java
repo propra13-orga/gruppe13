@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.ArrayList;
 
-class NetServer extends NetIO implements Runnable {
+class NetServer extends NetIO {
 	// Sockets needed for the connection
 	ServerSocket socket		= null;
 	Socket connection		= null;

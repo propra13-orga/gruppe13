@@ -1,6 +1,6 @@
 package hhu.propra_2013.gruppe_13;
 
-class NetClientLogic extends NetIO implements Runnable {
+class NetClientIn extends NetIO {
 
 	@Override
 	void setRunning(boolean running) {

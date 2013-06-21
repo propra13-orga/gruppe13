@@ -165,16 +165,18 @@ class CoreLogic implements Runnable {
 		stage = 1;
 		boss = "test";
 		
-		// create Level and Map
+		// create Level
 		level = new CoreLevel(mode);
 		level.buildLevel(stage, boss);
 
-		map	= new Map();
-		map.setRoom(level.getConstruction());
-		
 		// find out where in the level we are, switching rooms will be relative to this value
 		locationX = level.getStartX();
 		locationY = level.getStartY();
+		
+		// create the Map
+		map	= new Map();
+		map.setRoom(level.getConstruction());
+		map.setVisited(locationX, locationY);
 		
 		currentRoom = level.getRoom(locationX, locationY);
 		currentRoom.getContent().add(figure);
@@ -240,7 +242,7 @@ class CoreLogic implements Runnable {
 		distLeft = 50;
 		distRight = 50;
 
-		// method variables for
+		// method variables for the figure, object in question and the object that was collided with
 		double figR 		= figure.getRad();
 		double figWidth 	= figure.getWidth();
 		double figHeight 	= figure.getHeight();
@@ -362,29 +364,28 @@ class CoreLogic implements Runnable {
 				switch (destination) { // only advance trough door if player is moving in the direction of the door diagonal movement should work too
 				
 				case 0:
-					if (upLeft || up || upRight) {
+					if (figure.getUpLeft() || figure.getUp() || figure.getUpRight()) {
 						this.switchRoom(destination);
 					}
 					break;
 
 				case 1:
-					if (right || upRight || downRight) {
+					if (figure.getRight() || figure.getUpRight() || figure.getDownRight()) {
 						this.switchRoom(destination);
 					}
 					break;
 
 				case 2:
-					if (down || downRight || downLeft) {
+					if (figure.getDown() || figure.getDownRight() || figure.getDownLeft()) {
 						this.switchRoom(destination);
 					}
 					break;
 
 				case 3:
-					if (left || downLeft || upLeft) {
+					if (figure.getLeft() || figure.getDownLeft() || figure.getUpLeft()) {
 						this.switchRoom(destination);
 					}
 					break;
-
 				case 4:
 					this.switchRoom(destination);
 
