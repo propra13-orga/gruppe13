@@ -256,7 +256,7 @@ class CoreLogic implements Runnable {
 		for (int i = 0; i < collidable.size(); i++) {
 			collided = collidable.get(i);
 			if (collided instanceof Enemy){
-				if (((Enemy) collided).leftForDead() == false && ((((Enemy)collided).getType() != Enemy.ENEMY_FIRE) || ((Enemy)collided).getType() != Enemy.ENEMY_FIRE)) {
+				if (((Enemy) collided).leftForDead() == false && ((((Enemy)collided).getType() != Enemy.ENEMY_FIRE) || ((Enemy)collided).getType() != Enemy.ENEMY_FIRE_SHOOTING)) {
 				finished = false;
 				}				
 			} 

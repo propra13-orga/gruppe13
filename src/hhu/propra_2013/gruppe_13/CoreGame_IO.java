@@ -6,37 +6,39 @@ import java.awt.event.KeyEvent;
 
 class CoreGame_IO implements KeyEventDispatcher {
 	private int		move = 0;
+	private int		fire = 0;
+
 	private boolean up = false;
 	private boolean down = false;
 	private boolean left = false;
 	private boolean right = false;
-	private int		fire = 0;
+	
 	private boolean fireup = false;
 	private boolean firedown = false;
 	private boolean fireleft = false;
 	private boolean fireright = false;
 
-
-
+	private Figure 	figure;
 	
 	// Logic used by the class, set within the constructor
 	CoreLogic logic;
-	CoreGame_IO(CoreLogic inLogic) {
-		logic =inLogic;
+	CoreGame_IO(CoreLogic inLogic, Figure inFigure) {
+		logic 	= inLogic;
+		figure 	= inFigure;
 	}
 
 	@Override //reacts to any key event no matter where the focus is. Thus it doesn't matter in what order objects are drawn to the screen
 	public boolean dispatchKeyEvent(KeyEvent e) {
-
-	
 		
 		if (e.getID() == KeyEvent.KEY_PRESSED) {
 			move = 0;
 			fire = 0;
+			
 			if (up) move++;								//Zaehle Anzahl gleichzeitig gedrueckter Bewegungstasten
 			if (down) move++;
 			if (left) move++;
 			if (right) move++;
+			
 			if (fireup) fire++;							//Zaehle Anzahl gleichzeitig gedrueckter Feuertasten
 			if (firedown) fire++;
 			if (fireleft) fire++;
@@ -314,11 +316,13 @@ class CoreGame_IO implements KeyEventDispatcher {
 		else if (e.getID() == KeyEvent.KEY_RELEASED) {
 
 			move = 0;
+			fire = 0;
+
 			if (up) move++;								//Zaehle Anzahl gleichzeitig gedrueckter Bewegungstasten
 			if (down) move++;
 			if (left) move++;
 			if (right) move++;
-			fire = 0;
+			
 			if (fireup) fire++;							//Zaehle Anzahl gleichzeitig gedrueckter Feuertasten
 			if (firedown) fire++;
 			if (fireleft) fire++;

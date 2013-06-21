@@ -18,7 +18,7 @@ class NetServerLogic extends NetIO implements Runnable {
 	// information about the room
 	private boolean 	finished; //to open doors once there are no enemys in the room, can be done by the collision
 	
-	private Figure 		figure; // TODO check why it was GameObjects
+	private Figure 		figure;
 	private Map			map;
 	private CoreO_Game 	game;
 
@@ -56,16 +56,16 @@ class NetServerLogic extends NetIO implements Runnable {
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Initiate the current objects variables
-	NetServerLogic(Figure inFigure, CoreO_Game inGame, int mode) {
+	NetServerLogic(CoreO_Game inGame, int mode) {
 		running = true;
-
-		figure = inFigure;
 		game = inGame;
 
 		stage = 1;
 		boss = "test";
+		
 		//create map
 		map	= new Map();
+		
 		// create Level
 		level = new CoreLevel(figure, mode, map);
 		level.buildLevel(stage, boss);
@@ -134,7 +134,7 @@ class NetServerLogic extends NetIO implements Runnable {
 		for (int i = 0; i < collidable.size(); i++) {
 			collided = collidable.get(i);
 			if (collided instanceof Enemy){
-				if (((Enemy) collided).leftForDead() == false && ((((Enemy)collided).getType() != Enemy.ENEMY_FIRE) || ((Enemy)collided).getType() != Enemy.ENEMY_FIRE)) {
+				if (((Enemy) collided).leftForDead() == false && ((((Enemy)collided).getType() != Enemy.ENEMY_FIRE) || ((Enemy)collided).getType() != Enemy.ENEMY_FIRE_SHOOTING)) {
 				finished = false;
 				}				
 			} 

@@ -29,7 +29,7 @@ class CoreO_Game {
 		// set contentPane to JPanel returned by GameDrawer, set GameIO as keyboard manager
 		gameWindow.setContentPane(graphics.init(logic));
 		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        manager.addKeyEventDispatcher(new CoreGame_IO(logic));
+        manager.addKeyEventDispatcher(new CoreGame_IO(logic, figure));
 	}
 	
 	// Setter method so the graphic will know which room to paint
