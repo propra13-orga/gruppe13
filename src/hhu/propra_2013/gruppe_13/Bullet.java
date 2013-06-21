@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 class Bullet extends Attack {
 	
+	private int 	player;
+	
 	// position and velocity data
 	private double 	posX;
 	private double 	posY;
@@ -34,11 +36,12 @@ class Bullet extends Attack {
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Bullet constructor
-	Bullet(int inType, double initX, double initY, double objVX, double objVY, double signVX, double signVY) {
+	Bullet(int inType, double initX, double initY, double objVX, double objVY, double signVX, double signVY, int player) {
 		// Save initial position and type data
-		posX	= initX;
-		posY	= initY;
-		type	= inType;
+		posX		= initX;
+		posY		= initY;
+		type		= inType;
+		this.player = player;
 		
 		// save in which direction the bullet is flying, it is not anticipated, that we will have direction changing projectiles		
 		if (signVX > 0) 		right	= true;
@@ -135,9 +138,15 @@ class Bullet extends Attack {
 		return height;
 	}
 	
+	@Override
 	// check whether the bullet has finished disintegrating and can be deleted from the program
 	boolean getFinished() {
 		return destroyed;
+	}
+	
+	@Override
+	int getPlayer() {
+		return player;
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
@@ -163,6 +172,18 @@ class Bullet extends Attack {
 	void setHP(int inHP) {
 		hp = inHP;
 	}
+	
+	void setHitCounter(int counter) {
+		hitCounter = counter;
+	}
+	
+	void setHit (boolean inHit) {
+		hit = inHit;
+	}
+	
+	void setDestroyed (boolean destroyed) {
+		this.destroyed = destroyed;
+	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Drawing method
@@ -178,10 +199,6 @@ class Bullet extends Attack {
 			} else {
 				g.setColor(Color.BLACK);
 				g.fillOval(xOffset+(int)Math.round((posX-width/2.)*step),  yOffset+(int)Math.round((posY-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
-				
-				// decrease the hit counter and destroy the object when the counter reaches zero. 
-				hitCounter--;
-				if (hitCounter == 0) destroyed = true;
 			}
 			break;
 			
@@ -194,10 +211,6 @@ class Bullet extends Attack {
 			} else {
 				g.setColor(Color.RED);
 				g.fillOval(xOffset+(int)Math.round((posX-width/2.)*step),  yOffset+(int)Math.round((posY-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
-				
-				// decrease the hit counter and destroy the object when the counter reaches zero. 
-				hitCounter--;
-				if (hitCounter == 0) destroyed = true;
 			}
 			break;
 		}
@@ -367,6 +380,14 @@ class Bullet extends Attack {
 			}
 
 		}
+		
+		// decrease the hit counter and destroy the object when the counter reaches zero. 
+		if (hit) {
+			hitCounter--;
+			if (hitCounter == 0) destroyed = true;
+		}
+		
+		// do the actual movement
 		move();
 	}
 	
@@ -374,5 +395,21 @@ class Bullet extends Attack {
 	@Override
 	void takeDamage(int type, int strength) {
 		// Keep empty, since a bullet cannot take damage, but only deal damage. 
+	}
+	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
+	@Override
+	Attack copy() {
+		// return a new bullet object with the same attributes as the old one
+		Bullet bullet = new Bullet(this.type, this.posX, this.posY, 0.0, 0.0, Math.signum(v_x), Math.signum(v_y), this.player);
+		
+		// set all variables to as they are in the original
+		bullet.setSpeed(this.v_x, this.v_y);
+		bullet.setHP(this.hp);
+		bullet.setHit(this.hit);
+		bullet.setHitCounter(hitCounter);
+		bullet.setDestroyed(destroyed);
+		
+		return bullet;
 	}
 }

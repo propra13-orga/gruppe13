@@ -2,6 +2,7 @@ package hhu.propra_2013.gruppe_13;
 
 import java.util.ArrayList;
 
+
 class NetServerLogic extends NetIO implements Runnable {
 
 	// variable for the game loop
@@ -16,17 +17,19 @@ class NetServerLogic extends NetIO implements Runnable {
 	private String 		boss;
 
 	// information about the room
-	private boolean 	finished; //to open doors once there are no enemys in the room, can be done by the collision
-	
-	private Figure 		figure; // TODO check why it was GameObjects
-	private Map			map;
+	private boolean 	finished; //to open doors once there are no enemies in the room, can be done by the collision	
 	private CoreO_Game 	game;
 
 	// figure values
+	private Figure		figure;
 	private double 		figX, figY;
+	private Map			map;
 
 	// List of all Objects within the game
-	private CoreLevel 	level;
+	private CoreLevel 				level;
+	private ArrayList<NetServerIn>	incoming;
+	private ArrayList<NetServerOut> outgoing;
+	private ArrayList<Map>			maps;
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	void setRunning(boolean boolIn) {
@@ -56,26 +59,27 @@ class NetServerLogic extends NetIO implements Runnable {
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Initiate the current objects variables
-	NetServerLogic(Figure inFigure, CoreO_Game inGame, int mode) {
+	NetServerLogic(CoreO_Game inGame, int mode, ArrayList<NetServerIn> incoming, ArrayList<NetServerOut> outgoing, ArrayList<Map> maps) {
 		running = true;
 
-		figure = inFigure;
 		game = inGame;
 
 		stage = 1;
 		boss = "test";
-		//create map
-		map	= new Map();
+
 		// create Level
-		level = new CoreLevel(figure, mode, map);
+		level = new CoreLevel(mode);
 		level.buildLevel(stage, boss);
 		
 		// find out where in the level we are, switching rooms will be relative to this value
 		locationX = level.getStartX();
 		locationY = level.getStartY();
 		currentRoom = level.getRoom(locationX, locationY);
-		currentRoom.getContent().add(figure);
-		currentRoom.getContent().add(map);
+		
+		// Get ArrayLists for all connections
+		this.incoming 	= incoming;
+		this.outgoing 	= outgoing;
+		this.maps 		= maps;
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
@@ -331,19 +335,32 @@ class NetServerLogic extends NetIO implements Runnable {
 		while (running) {
 			time = System.currentTimeMillis();
 
-			// get current figure positions and velocities
-			figX = figure.getPosX();
-			figY = figure.getPosY();
+			// iterate over all connections
+			for (int i=0; i<incoming.size(); i++) {
+				// get the figure and map and the current room
+				figure 		= incoming.get(i).getFigure();
+				map 		= maps.get(i);
+				currentRoom = level.getRoom(incoming.get(i).getLocation(0), incoming.get(i).getLocation(1));
+				
+				// update the room according to all changes made by the client
+				incoming.get(i).updateRoom(currentRoom.getContent(), figure.getPlayer());
+				
+				// get current figure positions and velocities
+				figX = figure.getPosX();
+				figY = figure.getPosY();
 
-			// do the actual logic in this game
-			this.checkCollision();
-			this.attacks();
-			this.enemyAI();
+				// do the actual logic in this game
+				this.checkCollision();
+				this.attacks();
+				this.enemyAI();
+				
+				outgoing.get(i).sendRoom(currentRoom.getContent());
+			}
 
 			// set the thread asleep, we don't need it too often
 			try {
-				if ((temp = System.currentTimeMillis() - time) < 16)
-					Thread.sleep(16 - temp);
+				if ((temp = System.currentTimeMillis() - time) < 8)
+					Thread.sleep(8 - temp);
 			} catch (InterruptedException e) {
 				// don't care if the thread is interrupted
 			}

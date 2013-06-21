@@ -167,7 +167,7 @@ class NetClientLogic extends NetIO implements Runnable {
 		//create map
 		map	= new Map();
 		// create Level
-		level = new CoreLevel(figure, mode, map);
+		level = new CoreLevel(mode);
 		level.buildLevel(stage, boss);
 		
 		// find out where in the level we are, switching rooms will be relative to this value
@@ -534,7 +534,7 @@ class NetClientLogic extends NetIO implements Runnable {
 		// If the player has enough resources, create a new area of effect attack
 		if (aoe && figure.getChocolate() > 0) {
 			figure.setChocolate(figure.getChocolate()-1);
-			CoreGameObjects melee = new Melee(figX, figY, 0, 0, Attack.PLAYER_MELEE_AOE, figure, collidable);
+			CoreGameObjects melee = new Melee(figX, figY, 0, 0, Attack.PLAYER_MELEE_AOE, figure, collidable, figure.getPlayer());
 			currentRoom.getContent().add(melee);
 		}
 		
@@ -598,7 +598,7 @@ class NetClientLogic extends NetIO implements Runnable {
 					signVY = 1;
 				}
 
-				CoreGameObjects initBullet = new Bullet(bulletType, figX, figY, figVX, figVY, signVX, signVY);
+				CoreGameObjects initBullet = new Bullet(bulletType, figX, figY, figVX, figVY, signVX, signVY, figure.getPlayer());
 
 				currentRoom.getContent().add(initBullet);
 				bulletEnable = false;

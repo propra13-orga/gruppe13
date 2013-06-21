@@ -77,8 +77,10 @@ class NetServer extends NetIO implements Runnable {
 			 * as one connection otherwise blocks the server */
 			NetServerOut serverOut = new NetServerOut(connection);
 			NetServerIn  serverIn  = new NetServerIn(connection);
+			
 			list.add(serverOut);
 			list.add(serverIn);
+			
 			Thread thread = new Thread(serverOut);
 			thread.start();
 		}

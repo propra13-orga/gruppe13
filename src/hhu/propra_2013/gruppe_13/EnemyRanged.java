@@ -200,7 +200,7 @@ public class EnemyRanged extends Enemy {
 		double vxBullet = (figX-x)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
 		double vyBullet = (figY-y)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
 		
-		CoreGameObjects initBullet = new Bullet(bulletType, x, y, vx, vy, vxBullet, vyBullet);
+		CoreGameObjects initBullet = new Bullet(bulletType, x, y, vx, vy, vxBullet, vyBullet, figure.getPlayer());
 		currentRoom.add(initBullet);
 	}
 	

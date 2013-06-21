@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 class Figure extends CoreGameObjects {
-	/*-----------------------------------------------------------------------------------------------*/
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// set these for the viewing direction of the figure
 	static final int UP				= 1;
 	static final int DOWN			= 2;
@@ -17,6 +17,7 @@ class Figure extends CoreGameObjects {
 	
 	// Movement direction of the figure, this is needed by the logic in a server implementation
 	private boolean up, down, left, right, upLeft, upRight, downLeft, downRight;
+	private int 	player;
 	
 	/* hp: Hitpoints, money is, well, money and chocolate is a very fun stuff to many people eat way too much of. 
 	 * Here it is our mana though. */
@@ -46,8 +47,9 @@ class Figure extends CoreGameObjects {
 	// this variables is needed to set the direction in which the figure is looking
 	private int 	direction;
 	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// class constructor
-	Figure(double initX, double initY, double initHeight, double initWidth) {
+	Figure(double initX, double initY, double initHeight, double initWidth, int player) {
 		x 		= initX;
 		y 		= initY;
 		
@@ -71,10 +73,11 @@ class Figure extends CoreGameObjects {
 		
 		bulletType = Bullet.PLAYER_BULLET_STD;
 		bulletCoolDownTime = 500;
+		
+		this.player = player;
 	}
 	
-	
-	/*-----------------------------------------------------------------------------------------------*/
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	int getBulletCoolDownTime() {
 		return bulletCoolDownTime;
 	}
@@ -140,6 +143,10 @@ class Figure extends CoreGameObjects {
 		return chocolate;
 	}
 	
+	int getPlayer() {
+		return player;
+	}
+	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	boolean getUp() {
 		return up;
@@ -173,7 +180,7 @@ class Figure extends CoreGameObjects {
 		return downLeft;
 	}
 
-	/*-----------------------------------------------------------------------------------------------*/
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	void setBulletCoolDownTime (int cooldown) {
 		bulletCoolDownTime = cooldown;
 	}
@@ -236,7 +243,11 @@ class Figure extends CoreGameObjects {
 	void setItem3 (Item inItem){
 		item3 = inItem;
 	}
-
+	
+	void setCooldown (long cooldown) {
+		this.cooldown = cooldown;
+	}
+	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	void setUp (boolean in) {
 		up = in;
@@ -270,6 +281,10 @@ class Figure extends CoreGameObjects {
 		downLeft = in;
 	}
 	
+	void setSpecialAttack (boolean specialAttack) {
+		this.specialAttack = specialAttack;
+	}
+	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	boolean checkRes() {
 		if(item1 instanceof ItemResurrect){
@@ -286,7 +301,7 @@ class Figure extends CoreGameObjects {
 			return false;
 	}
 	
-	/*-----------------------------------------------------------------------------------------------*/
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
 		/* Durch die Variable step ist eine Umrechnung auf den Screen möglich, ansonsten würde das Spiel immer unterschiedlich angezeigt werden, 
@@ -318,5 +333,52 @@ class Figure extends CoreGameObjects {
 			
 			cooldown = System.currentTimeMillis();
 		}
+	}
+	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
+	Figure copy() {
+		// create a new figure object
+		Figure figure = new Figure(this.x, this.y, this.height, this.width, this.player);
+		
+		// set the viewing direction of the new figure
+		figure.setUp(this.up);
+		figure.setDown(this.down);
+		figure.setLeft(this.left);
+		figure.setRight(this.right);
+		figure.setUpLeft(this.upLeft);
+		figure.setUpRight(this.upRight);
+		figure.setDownLeft(this.downLeft);
+		figure.setDownRight(this.downRight);
+
+		// set hp, money and chocolate variables
+		figure.setHP(this.hp);
+		figure.setGeld(this.money);
+		figure.setChocolate(this.chocolate);
+		
+		// set speed and collision detection radius
+		figure.setSpeed(this.v_x, this.v_y);
+		figure.setRad(this.r);
+		
+		// maximum HP and cooldown timer
+		figure.setMaxHP(this.maxHP);
+		figure.setCooldown(this.cooldown);
+		
+		// transfer armor and items
+		figure.setArmor(this.armor);
+		figure.setItem1(this.item1);
+		figure.setItem2(this.item2);
+		figure.setItem3(this.item3);
+		
+		// variables for the attack types and what type of attack to draw
+		figure.setSpecialAttack (this.specialAttack);
+		figure.setAttackType(this.attackType);
+		figure.setBulletType(this.bulletType);
+		figure.setBulletCoolDownTime(this.bulletCoolDownTime);
+
+		// set the viewing direction of the figure
+		figure.setDirection(this.direction);
+		
+		// return the newly created figure
+		return figure;
 	}
 }
