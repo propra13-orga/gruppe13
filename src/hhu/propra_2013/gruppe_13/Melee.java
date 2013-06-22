@@ -128,6 +128,11 @@ public class Melee extends Attack {
 	void setDestroyed (boolean destroyed) {
 		this.destroyed = destroyed;
 	}
+	
+	@Override
+	void setTime() {
+		// Keep empty, we don't need a timer here
+	}
 	/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
@@ -190,7 +195,7 @@ public class Melee extends Attack {
 	}
 
 	@Override
-	void propagate(ArrayList<CoreGameObjects> room) {
+	void propagate(ArrayList<CoreGameObjects> room, boolean server) {
 		// Most likely kept empty, since Melee attacks are stationary and only the animation moves
 	}
 }

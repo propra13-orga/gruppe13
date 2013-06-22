@@ -22,6 +22,10 @@ public class EnemyBomberman extends Enemy{
 	private int 	stage;
 	private long 	regenerate;
 	
+	// timers for the server
+	private long 	timer;
+	private long	timeout;
+	
 	// Standard constructor, build enemies according to input 
 	EnemyBomberman (double inx, double iny,double inWidth, double inHeight, int inType, int inStage){
 		x 			= inx;
@@ -58,6 +62,8 @@ public class EnemyBomberman extends Enemy{
 		}
 		
 		rad = Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_weight)),2);
+		timeout = 16;
+		timer = System.currentTimeMillis();
 	}
 		
 	
@@ -208,7 +214,13 @@ public class EnemyBomberman extends Enemy{
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
-	void artificialIntelligence(Figure figure, ArrayList<CoreGameObjects> currentRoom){
+	void artificialIntelligence(Figure figure, ArrayList<CoreGameObjects> currentRoom, boolean server){
+		
+		if (server && (System.currentTimeMillis()-timer)<timeout)
+			return;
+		else if (server)
+			timer = System.currentTimeMillis();
+		
 		switch(type){
 		
 			//this will be the fire type

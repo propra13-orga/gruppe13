@@ -31,8 +31,12 @@ class Bullet extends Attack {
 	private boolean up, down, left, right;
 	
 	// Needed for collisions
-	double[] 			dist = new double[4];
-	CoreGameObjects[] 	coll = new CoreGameObjects[4];
+	private double[] 			dist = new double[4];
+	private CoreGameObjects[] 	coll = new CoreGameObjects[4];
+	
+	// In case of being on a server the bullet needs to check itself whether it should propagate
+	private long 	time;
+	private int 	timeout;
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Bullet constructor
@@ -94,6 +98,7 @@ class Bullet extends Attack {
 		}
 		
 		rad	= Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_x)), 2)*Math.pow(Math.ceil(Math.abs(v_y)), 2);
+		timeout = 16;
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
@@ -185,6 +190,10 @@ class Bullet extends Attack {
 		this.destroyed = destroyed;
 	}
 
+	void setTime() {
+		time = System.currentTimeMillis();
+	}
+	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Drawing method
 	@Override
@@ -346,7 +355,12 @@ class Bullet extends Attack {
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// check collisions with other objects and propagate the bullet accordingly
-	void propagate(ArrayList<CoreGameObjects> room) {
+	void propagate(ArrayList<CoreGameObjects> room, boolean server) {
+		
+		if (server && (System.currentTimeMillis()-time) < timeout)
+			return;
+		else if (server)
+			time = System.currentTimeMillis();
 		
 		// objects for checking which object to kill, reset basic variables for this iteration
 		CoreGameObjects collidable;

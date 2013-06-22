@@ -11,6 +11,10 @@ abstract class NetIO implements Runnable {
 	static final int CONNECTION_SERVER_OOS		= 2;
 	static final int CONNECTION_SERVER_OIS		= 3;
 	static final int CONNECTION_SERVER_WRITE	= 4;
+	static final int CONNECTION_CLIENT_OIS		= 5;
+	static final int CONNECTION_CLIENT_OOS		= 6;
+	static final int CONNECTION_CLIENT_WRITE	= 7;
+	static final int CLIENT_SOCKET_ERROR		= 8;
 	
 	abstract void setRunning(boolean running);
 }

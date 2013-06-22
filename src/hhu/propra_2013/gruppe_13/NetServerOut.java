@@ -7,21 +7,18 @@ import java.net.*;
 import java.util.ArrayList;
 
 class NetServerOut extends NetIO {
-	// Socket and OOS for output to Internet
-	private Socket 				socket;
+	// OOS for output to Internet
 	private ObjectOutputStream 	sendObjects;
 	
 	// variables for objects to send
 	private ArrayList<CoreGameObjects> 	gameObjects;
 	
-	// variables for checking the threads liveliness and storing sleep time
+	// variable for checking the threads liveliness
 	boolean running;
-	long 	threadTimer;
-	long 	timerTemp;
+
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
-	NetServerOut (Socket inSocket) {
-		socket 		= inSocket;
+	NetServerOut (Socket socket) {
 		running 	= true;
 		
 		// open the output stream to send objects over
@@ -49,7 +46,7 @@ class NetServerOut extends NetIO {
 		CoreGameObjects toSend;
 
 		while (running) {
-			threadTimer = System.currentTimeMillis();
+//			threadTimer = System.currentTimeMillis();
 			
 			/* Iterate over all objects and send them. Since the servers logic should always overwrite anything at the clients 
 			 * the entire room will be sent. */ 
@@ -64,13 +61,13 @@ class NetServerOut extends NetIO {
 				}
 			}
 
-			// Try to set the thread asleep, so that other components also have a chance of using system time
-			try {
-				if ((timerTemp = System.currentTimeMillis()-threadTimer) < 8) 
-					Thread.sleep(8-timerTemp);
-			} catch (InterruptedException e) {
-				// Do nothing as we don't care if the thread is interrupted
-			}
+//			// Try to set the thread asleep, so that other components also have a chance of using system time
+//			try {
+//				if ((timerTemp = System.currentTimeMillis()-threadTimer) < 8) 
+//					Thread.sleep(8-timerTemp);
+//			} catch (InterruptedException e) {
+//				// Do nothing as we don't care if the thread is interrupted
+//			}
 		}
 	}
 }

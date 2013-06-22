@@ -42,4 +42,5 @@ abstract class CoreGameObjects {
 	abstract double getWidth();
 	abstract double getHeight();
 	abstract void takeDamage(int type, int strength);
+//	abstract CoreGameObjects copy();
 }

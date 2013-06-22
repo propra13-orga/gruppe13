@@ -37,7 +37,7 @@ class CoreLogic implements Runnable {
 	private double 		figX, figY;
 	private double 		figVX, figVY;
 
-	private boolean 	punch, use, aoe, showMap, esc; // für Aktionen map zeigt Map an
+	private boolean 	aoe, esc, showMap, use; // für Aktionen map zeigt Map an
 
 	// List of all Objects within the game
 	private CoreLevel 	level;
@@ -79,14 +79,6 @@ class CoreLogic implements Runnable {
 		downLeft = in;
 	}
 
-	void setPunch(boolean in) {
-		punch = in;
-	}
-
-	void setUse(boolean in) {
-		use = in;
-	}
-
 	void setBomb(boolean in) {
 		aoe = in;
 	}
@@ -99,6 +91,10 @@ class CoreLogic implements Runnable {
 
 	void setEsc(boolean in){
 		esc = in;
+	}
+	
+	void setUse (boolean in) {
+		use = in;
 	}
 	
 	void setFireUp(boolean in) {
@@ -214,7 +210,7 @@ class CoreLogic implements Runnable {
 		for (int i = 0; i < collidable.size(); i++) {
 			if (collidable.get(i) instanceof Enemy) {
 				enemy = (Enemy) collidable.get(i);
-				enemy.artificialIntelligence(figure, collidable);
+				enemy.artificialIntelligence(figure, collidable, false);
 
 				// check whether the enemy is dead yet
 				if (enemy.stopDrawing()) {
@@ -277,10 +273,10 @@ class CoreLogic implements Runnable {
 			objWidth 	= collided.getWidth();
 			objHeight 	= collided.getHeight();
 
-			collOne 	= 1;
-			collTwo 	= 1;
-			collThree 	= 1;
-			collFour 	= 1;
+			collOne 	= 10;
+			collTwo 	= 10;
+			collThree 	= 10;
+			collFour 	= 10;
 
 			// First check whether the objects are close enough to encounter one
 			// another within the next couple of moves, use squares, saves a
@@ -510,7 +506,7 @@ class CoreLogic implements Runnable {
 			// handle attack propagation and check whether the attack is finished
 			if (collidable.get(i) instanceof Attack) {
 				attack = (Attack) collidable.get(i);
-				attack.propagate(collidable);
+				attack.propagate(collidable, false);
 
 				// Check whether we can destroy the bullet
 				if (attack.getFinished()) {

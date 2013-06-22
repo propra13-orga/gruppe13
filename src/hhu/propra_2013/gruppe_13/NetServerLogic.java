@@ -57,7 +57,7 @@ class NetServerLogic extends NetIO {
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Initiate the current objects variables
-	NetServerLogic(CoreO_Game inGame, int mode, ArrayList<NetServerIn> incoming, ArrayList<NetServerOut> outgoing) {
+	NetServerLogic(CoreO_Game inGame, CoreLevel level, ArrayList<NetServerIn> incoming, ArrayList<NetServerOut> outgoing) {
 		running = true;
 		game 	= inGame;
 
@@ -65,8 +65,7 @@ class NetServerLogic extends NetIO {
 		boss 	= "test";
 
 		// create Level
-		level = new CoreLevel(mode);
-		level.buildLevel(stage, boss);
+		this.level = level;
 		
 		// find out where in the level we are, switching rooms will be relative to this value
 		locationX	= level.getStartX();
@@ -109,7 +108,7 @@ class NetServerLogic extends NetIO {
 		for (int i = 0; i < collidable.size(); i++) {
 			if (collidable.get(i) instanceof Enemy) {
 				enemy = (Enemy) collidable.get(i);
-				enemy.artificialIntelligence(figure, collidable);
+				enemy.artificialIntelligence(figure, collidable, true);
 
 				// check whether the enemy is dead yet
 				if (enemy.stopDrawing()) {
@@ -263,7 +262,7 @@ class NetServerLogic extends NetIO {
 			// handle attack propagation and check whether the attack is finished
 			if (collidable.get(i) instanceof Attack) {
 				attack = (Attack) collidable.get(i);
-				attack.propagate(collidable);
+				attack.propagate(collidable, true);
 
 				// Check whether we can destroy the bullet
 				if (attack.getFinished()) {
@@ -331,13 +330,22 @@ class NetServerLogic extends NetIO {
 			break;
 		}
 	}
+	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
+	// TODO: implement serious ending for the client, maybe do this in the client as well
+	private void checkFigure() {
+		if (figure.getHP() <= 0) {
+//			game.end(false);
+//			System.out.println("You died!");
+		}
+	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	@Override
 	// Override run method from interface, this will have the game loop
 	public void run() {
-		long time;
-		long temp;
+//		long time;
+//		long temp;
 
 		// set the maps of all clients and add to internal array list
 		for (int i=0; i<incoming.size(); i++) {
@@ -347,7 +355,7 @@ class NetServerLogic extends NetIO {
 		
 		// game loop
 		while (running) {
-			time = System.currentTimeMillis();
+//			time = System.currentTimeMillis();
 
 			// iterate over all connections
 			for (int i=0; i<incoming.size(); i++) {
@@ -368,18 +376,19 @@ class NetServerLogic extends NetIO {
 				this.checkCollision(i);
 				this.attacks(i);
 				this.enemyAI();
+				this.checkFigure();
 				
 				// set the objects to send back to the client
 				outgoing.get(i).setRoom(currentRoom.getContent());
 			}
 
-			// set the thread asleep, we don't need it too often
-			try {
-				if ((temp = System.currentTimeMillis() - time) < 8)
-					Thread.sleep(8 - temp);
-			} catch (InterruptedException e) {
-				// don't care if the thread is interrupted
-			}
+//			// set the thread asleep, we don't need it too often
+//			try {
+//				if ((temp = System.currentTimeMillis() - time) < 8)
+//					Thread.sleep(8 - temp);
+//			} catch (InterruptedException e) {
+//				// don't care if the thread is interrupted
+//			}
 		}
 	}
 }

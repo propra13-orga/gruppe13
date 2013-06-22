@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 class NetServerIn extends NetIO {
 
-	private Socket 				socket;
 	private ObjectInputStream	receiveObjects;
 	
 	private boolean 			running;
@@ -20,8 +19,7 @@ class NetServerIn extends NetIO {
 	private ArrayList<Attack> 	attacks;
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
-	NetServerIn (Socket inSocket) {
-		socket 		= inSocket;
+	NetServerIn (Socket socket) {
 		running 	= true;
 		
 		location 	= new int[2];
@@ -65,6 +63,10 @@ class NetServerIn extends NetIO {
 	void setMap(Map map) {
 		this.map = map;
 	}
+
+	void setFigure (Figure figure) {
+		this.figure = figure;
+	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
 	void updateRoom(ArrayList<CoreGameObjects> content, int player) {
@@ -95,6 +97,7 @@ class NetServerIn extends NetIO {
 	@Override
 	public void run() {
 		Object incoming = null;
+		
 		while (running) {
 			try {
 				// read an object from the input stream
@@ -105,8 +108,10 @@ class NetServerIn extends NetIO {
 					figure	= (Figure)incoming;
 				
 				else if (incoming instanceof Attack){
-					if  (!attacks.contains(((Attack)incoming)))
+					if  (!attacks.contains(((Attack)incoming))) {
 						attacks.add(((Attack)incoming));
+						((Attack)incoming).setTime();
+					}
 				}
 					
 			} catch (ClassNotFoundException | IOException e) {

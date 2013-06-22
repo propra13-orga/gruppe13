@@ -285,9 +285,9 @@ class CoreGame_IO implements KeyEventDispatcher {
 				}	
 				break;
 				
-			case 17:									//17='ctrl'
-				logic.setPunch(true);					//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
-				break;
+//			case 17:									//17='ctrl'
+//				logic.setPunch(true);					//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
+//				break;
 			case 69:									//96='e'
 				logic.setUse(true);						//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
 				break;

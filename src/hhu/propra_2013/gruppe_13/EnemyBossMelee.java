@@ -20,6 +20,8 @@ public class EnemyBossMelee extends Enemy{
 	private String 	enter;
 	private long 	enterMessageTime;
 	
+	private long 	timer;
+	private long 	timeout;
 	
 	CoreRoom room;
 	
@@ -79,6 +81,8 @@ public class EnemyBossMelee extends Enemy{
 		}
 		
 		rad = Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_weight)),2);
+		timeout = 16;
+		timer = System.currentTimeMillis();
 	}
 		
 	
@@ -212,7 +216,14 @@ public class EnemyBossMelee extends Enemy{
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
-	void artificialIntelligence(Figure figure, ArrayList<CoreGameObjects> currentRoom){
+	void artificialIntelligence(Figure figure, ArrayList<CoreGameObjects> currentRoom, boolean server){
+		
+		if (server && (System.currentTimeMillis()-timer)<timeout)
+			return;
+		else if (server)
+			timer = System.currentTimeMillis();
+		
+		
 		switch(type){
 		
 			case ENEMY_TRAP: //this will be the trap type

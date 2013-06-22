@@ -81,8 +81,11 @@ class NetServer extends NetIO {
 			list.add(serverOut);
 			list.add(serverIn);
 			
-			Thread thread = new Thread(serverOut);
-			thread.start();
+			Thread threadOut 	= new Thread(serverOut);
+			Thread threadIn		= new Thread(serverIn);
+			threadOut.start();
+			threadIn.start();
+			
 		}
 		
 		this.terminate();

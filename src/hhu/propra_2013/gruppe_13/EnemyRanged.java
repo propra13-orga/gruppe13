@@ -24,6 +24,10 @@ public class EnemyRanged extends Enemy {
 	private int 	stage;
 	private long 	regenerate, fireCoolDown;
 	
+	// timer and timeout for doing enemy AI on a server
+	private long 	timer;
+	private long 	timeout;
+	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	EnemyRanged (double inx, double iny,double inWidth, double inHeight, int inType, int inStage, int inMode) {
 		x = inx;
@@ -50,6 +54,8 @@ public class EnemyRanged extends Enemy {
 		}
 		
 		rad = Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_weight)),2);
+		timeout = 16;
+		timer = System.currentTimeMillis();
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
@@ -170,7 +176,13 @@ public class EnemyRanged extends Enemy {
 	}
 	
 	@Override
-	void artificialIntelligence(Figure inFigure, ArrayList<CoreGameObjects> currentRoom) {
+	void artificialIntelligence(Figure inFigure, ArrayList<CoreGameObjects> currentRoom, boolean server) {
+		
+		if (server && (System.currentTimeMillis()-timer)<timeout)
+			return;
+		else if (server)
+			timer = System.currentTimeMillis();
+		
 		switch (type) {
 		case ENEMY_FIRE_SHOOTING:
 			// See whether the last attack by the player is longer ago than 2 seconds, if so regenerate the fire

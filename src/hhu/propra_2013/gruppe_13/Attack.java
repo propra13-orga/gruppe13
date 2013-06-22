@@ -26,7 +26,9 @@ abstract class Attack extends CoreGameObjects {
 	
 	// Attack specific propagation and finished status
 	abstract boolean getFinished();
-	abstract void propagate(ArrayList<CoreGameObjects> room);
+	abstract void propagate(ArrayList<CoreGameObjects> room, boolean server);
 	abstract int getPlayer();
 	abstract Attack copy();
+
+	abstract void setTime();
 }
