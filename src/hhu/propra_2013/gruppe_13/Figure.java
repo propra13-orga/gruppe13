@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 class Figure extends CoreGameObjects {
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// set these for the viewing direction of the figure
+	static final int NONE			= 0;
 	static final int UP				= 1;
 	static final int DOWN			= 2;
 	static final int LEFT			= 3;
@@ -45,7 +46,7 @@ class Figure extends CoreGameObjects {
 	private int 	bulletCoolDownTime;
 	
 	// this variables is needed to set the direction in which the figure is looking
-	private int 	direction;
+	private int 	direction = CoreLogic.NONE;
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// class constructor
@@ -145,6 +146,10 @@ class Figure extends CoreGameObjects {
 	
 	int getPlayer() {
 		return player;
+	}
+	
+	int getDirection() {
+		return direction;
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/

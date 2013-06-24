@@ -17,7 +17,6 @@ class NetServerLogic extends NetIO {
 
 	// information about the room
 	private boolean 	finished; //to open doors once there are no enemies in the room, can be done by the collision	
-	private CoreO_Game 	game;
 
 	// figure values
 	private Figure		figure;
@@ -57,9 +56,8 @@ class NetServerLogic extends NetIO {
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Initiate the current objects variables
-	NetServerLogic(CoreO_Game inGame, CoreLevel level, ArrayList<NetServerIn> incoming, ArrayList<NetServerOut> outgoing) {
+	NetServerLogic(CoreLevel level, ArrayList<NetServerIn> incoming, ArrayList<NetServerOut> outgoing) {
 		running = true;
-		game 	= inGame;
 
 		stage 	= 1;
 		boss 	= "test";
@@ -324,19 +322,11 @@ class NetServerLogic extends NetIO {
 			this.setRoom(locationX, locationY, client);
 			}
 			else{
-				game.end(true);
+//				game.end(true);
+				//TODO: implement a method for the client to know that he has won
 			}
 
 			break;
-		}
-	}
-	
-	/*-----------------------------------------------------------------------------------------------------------------------*/
-	// TODO: implement serious ending for the client, maybe do this in the client as well
-	private void checkFigure() {
-		if (figure.getHP() <= 0) {
-//			game.end(false);
-//			System.out.println("You died!");
 		}
 	}
 
@@ -376,7 +366,6 @@ class NetServerLogic extends NetIO {
 				this.checkCollision(i);
 				this.attacks(i);
 				this.enemyAI();
-				this.checkFigure();
 				
 				// set the objects to send back to the client
 				outgoing.get(i).setRoom(currentRoom.getContent());
