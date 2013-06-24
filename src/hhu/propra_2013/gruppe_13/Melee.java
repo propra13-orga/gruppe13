@@ -43,8 +43,20 @@ public class Melee extends Attack {
 			fadeOut = 14;
 			attack();
 			break;
+		
+		case PLAYER_MELEE_SHORT:
+			strength = 3;
+			
+			width 	= figure.getWidth();
+			height	= figure.getHeight();
+			rad		= 3*Math.max(width, height);
+			
+			radMax 	= 3;
+			fadeOut = 10;
+			attack();
+			break;
 		}
-	}
+}
 	
 	/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	@Override
@@ -156,11 +168,15 @@ public class Melee extends Attack {
 	@Override
 	void attack() {
 		
+		CoreGameObjects damageable;
+		double objPosX;
+		double objPosY;
+		
 		switch (type) {
 		case PLAYER_MELEE_AOE:
-			CoreGameObjects damageable;
-			double objPosX;
-			double objPosY;
+//			CoreGameObjects damageable;
+//			double objPosX;
+//			double objPosY;
 			
 			
 			for (int i=0; i<room.size(); i++) {
@@ -177,6 +193,26 @@ public class Melee extends Attack {
 				}
 			}
 			break;
+			
+		case PLAYER_MELEE_SHORT:
+//			CoreGameObjects damageable;
+//			double objPosX;
+//			double objPosY;
+			
+			
+			for (int i=0; i<room.size(); i++) {
+				damageable = room.get(i);
+				
+				if (damageable instanceof Enemy) {
+					
+					objPosX		= damageable.getPosX();
+					objPosY		= damageable.getPosY();
+					
+					if ((x-objPosX)*(x-objPosX)+(y-objPosY)*(y-objPosY) < rad*rad/4) {
+						damageable.takeDamage(type, strength);
+					}
+				}
+			}
 		}
 	}
 	

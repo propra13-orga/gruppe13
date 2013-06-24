@@ -221,7 +221,8 @@ public class EnemyRanged extends Enemy {
 		regenerate = System.currentTimeMillis();
 		
 		switch (type) {
-		
+		case PLAYER_MELEE_SHORT:
+			hp -= strength*1.5;
 		default:
 			hp -= strength;
 			break;
