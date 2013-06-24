@@ -34,10 +34,10 @@ class CoreGame_IO implements KeyEventDispatcher {
 			move = 0;
 			fire = 0;
 			
-			if (up) move++;								//Zaehle Anzahl gleichzeitig gedrueckter Bewegungstasten
-			if (down) move++;
-			if (left) move++;
-			if (right) move++;
+//			if (up) move++;								//Zaehle Anzahl gleichzeitig gedrueckter Bewegungstasten
+//			if (down) move++;
+//			if (left) move++;
+//			if (right) move++;
 			
 			if (fireup) fire++;							//Zaehle Anzahl gleichzeitig gedrueckter Feuertasten
 			if (firedown) fire++;
@@ -48,123 +48,128 @@ class CoreGame_IO implements KeyEventDispatcher {
 			switch (e.getKeyCode()) {
 			case 87:									//Wenn Taste für Up gedrueckt wird 87='w'		
 				up = true;
-				if (move == 0){							//Wenn vorher keine Bewegungstaste gedrueckt ist
-					logic.setUp(true);
-				}else if (move == 1){					//Wenn vorher eine Bewegungstaste gedrueckt ist
-					if (down){
-						logic.setDown(false);			//Wenn Down vorher gedrueckt war wird es auf false gesetzt damit sich die Figur nicht bewegt 
-					}else if (left){
-						logic.setLeft(false);			//Wenn Left vorher gedrueckt war wird Left auf false und Upleft auf true gesetzt 
-						logic.setUpLeft(true);	
-					}else if (right){
-						logic.setRight(false);			//Wenn Left vorher gedrueckt war wird Left auf false und Upleft auf true gesetzt 
-						logic.setUpRight(true);
-					} 				
-				}else if (move == 2)					//Wenn vorher zwei Bewegungstaste gedrueckt ist
-				{
-					if (down && left)
-					{
-						logic.setDownLeft(false);
-						logic.setLeft(true);
-					}else if (down && right)
-					{
-						logic.setRight(true);						
-					}else if (left && right)
-					{
-						logic.setUp(true);
-					}
-				}else if (move == 3){					//Wenn vorher drei Bewegungstaste gedrueckt ist
-					logic.setDown(false);
-				}
+				break;
+
+//				if (move == 0){							//Wenn vorher keine Bewegungstaste gedrueckt ist
+//					logic.setUp(true);
+//				}else if (move == 1){					//Wenn vorher eine Bewegungstaste gedrueckt ist
+//					if (down){
+//						logic.setDown(false);			//Wenn Down vorher gedrueckt war wird es auf false gesetzt damit sich die Figur nicht bewegt 
+//					}else if (left){
+//						logic.setLeft(false);			//Wenn Left vorher gedrueckt war wird Left auf false und Upleft auf true gesetzt 
+//						logic.setUpLeft(true);	
+//					}else if (right){
+//						logic.setRight(false);			//Wenn Left vorher gedrueckt war wird Left auf false und Upleft auf true gesetzt 
+//						logic.setUpRight(true);
+//					} 				
+//				}else if (move == 2)					//Wenn vorher zwei Bewegungstaste gedrueckt ist
+//				{
+//					if (down && left)
+//					{
+//						logic.setDownLeft(false);
+//						logic.setLeft(true);
+//					}else if (down && right)
+//					{
+//						logic.setRight(true);						
+//					}else if (left && right)
+//					{
+//						logic.setUp(true);
+//					}
+//				}else if (move == 3){					//Wenn vorher drei Bewegungstaste gedrueckt ist
+//					logic.setDown(false);
+//				}
 				
-			break;
+//			break;
 				
 			case 83:									//Wenn Taste für Down gedrueckt wird 83='s'
 				down = true;				
-				if (move == 0){ 						//Wenn vorher keine Bewegungstaste gedrueckt ist
-					logic.setDown(true);
-				}else if (move == 1){					//Wenn vorher eine Bewegungstaste gedrueckt ist
-					if (up){
-						logic.setUp(false);	
-					}else if (left){
-						logic.setLeft(false);
-						logic.setDownLeft(true);	
-					}else if (right){
-						logic.setRight(false);
-						logic.setDownRight(true);
-					} 				
-				}else if (move == 2){					//Wenn vorher zwei Bewegungstaste gedrueckt ist
-					if (up && left){
-						logic.setUpLeft(false);
-						logic.setLeft(true);
-					}else if (up && right){
-						logic.setUpRight(false);
-						logic.setRight(true);						
-					}else if (left && right){
-						logic.setDown(true);
-					}
-				}else if (move == 3){					//Wenn vorher drei Bewegungstaste gedrueckt ist				
-					logic.setUp(false);
-				}
 				break;
+//				if (move == 0){ 						//Wenn vorher keine Bewegungstaste gedrueckt ist
+//					logic.setDown(true);
+//				}else if (move == 1){					//Wenn vorher eine Bewegungstaste gedrueckt ist
+//					if (up){
+//						logic.setUp(false);	
+//					}else if (left){
+//						logic.setLeft(false);
+//						logic.setDownLeft(true);	
+//					}else if (right){
+//						logic.setRight(false);
+//						logic.setDownRight(true);
+//					} 				
+//				}else if (move == 2){					//Wenn vorher zwei Bewegungstaste gedrueckt ist
+//					if (up && left){
+//						logic.setUpLeft(false);
+//						logic.setLeft(true);
+//					}else if (up && right){
+//						logic.setUpRight(false);
+//						logic.setRight(true);						
+//					}else if (left && right){
+//						logic.setDown(true);
+//					}
+//				}else if (move == 3){					//Wenn vorher drei Bewegungstaste gedrueckt ist				
+//					logic.setUp(false);
+//				}
+//				break;
 
 			case 68: 									//Wenn Taste für Right gedrueckt wird 68='d'
 				right = true;
-				if (move == 0){ 						//Wenn vorher keine Bewegungstaste gedrueckt ist
-					logic.setRight(true);
-				}else if (move == 1){					//Wenn vorher eine Bewegungstaste gedrueckt ist				
-					if (left){
-						logic.setLeft(false);	
-					}else if (up){
-						logic.setUp(false);
-						logic.setUpRight(true);	
-					}else if (down){
-						logic.setDown(false);
-						logic.setDownRight(true);
-					} 				
-				}else if (move == 2){					//Wenn vorher zwei Bewegungstaste gedrueckt ist
-					if (up && left){
-						logic.setUpLeft(false);
-						logic.setUp(true);
-					}else if (down && left){
-						logic.setDownLeft(false);
-						logic.setDown(true);						
-					}else if (up && down){
-						logic.setRight(true);
-					}
-				}else if (move == 3){					//Wenn vorher drei Bewegungstaste gedrueckt ist	
-						logic.setLeft(false);
-				}	
 				break;
+//				if (move == 0){ 						//Wenn vorher keine Bewegungstaste gedrueckt ist
+//					logic.setRight(true);
+//				}else if (move == 1){					//Wenn vorher eine Bewegungstaste gedrueckt ist				
+//					if (left){
+//						logic.setLeft(false);	
+//					}else if (up){
+//						logic.setUp(false);
+//						logic.setUpRight(true);	
+//					}else if (down){
+//						logic.setDown(false);
+//						logic.setDownRight(true);
+//					} 				
+//				}else if (move == 2){					//Wenn vorher zwei Bewegungstaste gedrueckt ist
+//					if (up && left){
+//						logic.setUpLeft(false);
+//						logic.setUp(true);
+//					}else if (down && left){
+//						logic.setDownLeft(false);
+//						logic.setDown(true);						
+//					}else if (up && down){
+//						logic.setRight(true);
+//					}
+//				}else if (move == 3){					//Wenn vorher drei Bewegungstaste gedrueckt ist	
+//						logic.setLeft(false);
+//				}	
+//				break;
 
 			case 65: 									//Wenn Taste für Right gedrueckt wird 65='a'
 				left = true;
-				if (move == 0){ 						//Wenn vorher keine Bewegungstaste gedrueckt ist
-					logic.setLeft(true);
-				}else if (move == 1){					//Wenn vorher eine Bewegungstaste gedrueckt ist			
-					if (right){
-						logic.setRight(false);	
-					}else if (up){
-						logic.setUp(false);
-						logic.setUpLeft(true);	
-					}else if (down){
-						logic.setDown(false);
-						logic.setDownLeft(true);
-					} 				
-				}else if (move == 2){					//Wenn vorher zwei Bewegungstaste gedrueckt ist		
-					if (up && right){
-						logic.setUpRight(false);
-						logic.setUp(true);
-					}else if (down && right){
-						logic.setDownRight(false);
-						logic.setDown(true);						
-					}else if (up && down){
-						logic.setLeft(true);
-					}
-				}else if (move == 3){					//Wenn vorher drei Bewegungstaste gedrueckt ist	
-						logic.setRight(false);
-				}	
 				break;
+//				if (move == 0){ 						//Wenn vorher keine Bewegungstaste gedrueckt ist
+//					logic.setLeft(true);
+//				}else if (move == 1){					//Wenn vorher eine Bewegungstaste gedrueckt ist			
+//					if (right){
+//						logic.setRight(false);	
+//					}else if (up){
+//						logic.setUp(false);
+//						logic.setUpLeft(true);	
+//					}else if (down){
+//						logic.setDown(false);
+//						logic.setDownLeft(true);
+//					} 				
+//				}else if (move == 2){					//Wenn vorher zwei Bewegungstaste gedrueckt ist		
+//					if (up && right){
+//						logic.setUpRight(false);
+//						logic.setUp(true);
+//					}else if (down && right){
+//						logic.setDownRight(false);
+//						logic.setDown(true);						
+//					}else if (up && down){
+//						logic.setLeft(true);
+//					}
+//				}else if (move == 3){					//Wenn vorher drei Bewegungstaste gedrueckt ist	
+//						logic.setRight(false);
+//				}	
+//				break;
 				
 			case 38:									//38='Pfeil nach oben'
 				fireup = true;
@@ -318,10 +323,10 @@ class CoreGame_IO implements KeyEventDispatcher {
 			move = 0;
 			fire = 0;
 
-			if (up) move++;								//Zaehle Anzahl gleichzeitig gedrueckter Bewegungstasten
-			if (down) move++;
-			if (left) move++;
-			if (right) move++;
+//			if (up) move++;								//Zaehle Anzahl gleichzeitig gedrueckter Bewegungstasten
+//			if (down) move++;
+//			if (left) move++;
+//			if (right) move++;
 			
 			if (fireup) fire++;							//Zaehle Anzahl gleichzeitig gedrueckter Feuertasten
 			if (firedown) fire++;
@@ -331,151 +336,155 @@ class CoreGame_IO implements KeyEventDispatcher {
 			switch (e.getKeyCode()) {
 			case 87:									//Wenn Taste für Up geloest wird 87='w'
 				up = false;
-				logic.setUp(false);						//setzte alle Bewegungsrichtungen in der Logic auf false (funzt sonnst noch nicht) 
-				logic.setUpRight(false);
-				logic.setUpLeft(false);
-				logic.setDown(false);
-				logic.setDownRight(false);
-				logic.setDownLeft(false);
-				logic.setRight(false);
-				logic.setLeft(false);
-				if (move == 1){							//Wenn vorher eine Taste gedrueckt war 
-					logic.setUp(false);
-				}else if (move == 2){					//Wenn vorher zwei Taste gedrueckt war 
-					if (down){
-						logic.setDown(true);
-					}else if (left){
-						logic.setUpLeft(false);
-						logic.setLeft(true);
-					}else if (right){
-						logic.setUpRight(false);
-						logic.setRight(true);
-					}
-				}else if (move == 3){					//Wenn vorher drei Taste gedrueckt war 
-					if (down && left){
-						logic.setLeft(false);
-						logic.setDownLeft(true);
-					}else if (down && right){
-						logic.setRight(false);
-						logic.setDownRight(true);
-					}else if (left && right){
-						logic.setUp(false);
-					}					
-				}else if (move == 4){					//Wenn vorher vier Taste gedrueckt war 
-					logic.setDown(true);
-				}
 				break;
+//				logic.setUp(false);						//setzte alle Bewegungsrichtungen in der Logic auf false (funzt sonnst noch nicht) 
+//				logic.setUpRight(false);
+//				logic.setUpLeft(false);
+//				logic.setDown(false);
+//				logic.setDownRight(false);
+//				logic.setDownLeft(false);
+//				logic.setRight(false);
+//				logic.setLeft(false);
+//				if (move == 1){							//Wenn vorher eine Taste gedrueckt war 
+//					logic.setUp(false);
+//				}else if (move == 2){					//Wenn vorher zwei Taste gedrueckt war 
+//					if (down){
+//						logic.setDown(true);
+//					}else if (left){
+//						logic.setUpLeft(false);
+//						logic.setLeft(true);
+//					}else if (right){
+//						logic.setUpRight(false);
+//						logic.setRight(true);
+//					}
+//				}else if (move == 3){					//Wenn vorher drei Taste gedrueckt war 
+//					if (down && left){
+//						logic.setLeft(false);
+//						logic.setDownLeft(true);
+//					}else if (down && right){
+//						logic.setRight(false);
+//						logic.setDownRight(true);
+//					}else if (left && right){
+//						logic.setUp(false);
+//					}					
+//				}else if (move == 4){					//Wenn vorher vier Taste gedrueckt war 
+//					logic.setDown(true);
+//				}
+//				break;
 				
 			case 83:									//Wenn Taste für Down geloest wird 83='s'
 			 	down = false;
-				logic.setUp(false);
-				logic.setUpRight(false);
-				logic.setUpLeft(false);
-				logic.setDown(false);
-				logic.setDownRight(false);
-				logic.setDownLeft(false);
-				logic.setRight(false);
-				logic.setLeft(false);
-			 	if (move == 1){							//Wenn vorher eine Taste gedrueckt war 
-			 		logic.setDown(false);
-			 	}else if (move == 2){					//Wenn vorher zwei Taste gedrueckt war 
-			 		if (up){
-			 			logic.setUp(true);
-			 		}else if (left){
-			 			logic.setDownLeft(false);
-			 			logic.setLeft(true);
-			 		}else if (right){
-			 			logic.setDownRight(false);
-			 			logic.setRight(true);
-			 		}
-			 	}else if (move == 3){					//Wenn vorher drei Taste gedrueckt war 
-			 		if (up && left){
-						logic.setLeft(false);
-						logic.setUpLeft(true);
-					}else if (up && right){
-						logic.setRight(false);
-						logic.setUpRight(true);
-					}else if (left && right){
-						logic.setDown(false);
-					}
-			 	}else if (move == 4){					//Wenn vorher vier Taste gedrueckt war 
-					logic.setUp(true);			 		
-			 	}
-			 	break;
+				break;
+//				logic.setUp(false);
+//				logic.setUpRight(false);
+//				logic.setUpLeft(false);
+//				logic.setDown(false);
+//				logic.setDownRight(false);
+//				logic.setDownLeft(false);
+//				logic.setRight(false);
+//				logic.setLeft(false);
+//			 	if (move == 1){							//Wenn vorher eine Taste gedrueckt war 
+//			 		logic.setDown(false);
+//			 	}else if (move == 2){					//Wenn vorher zwei Taste gedrueckt war 
+//			 		if (up){
+//			 			logic.setUp(true);
+//			 		}else if (left){
+//			 			logic.setDownLeft(false);
+//			 			logic.setLeft(true);
+//			 		}else if (right){
+//			 			logic.setDownRight(false);
+//			 			logic.setRight(true);
+//			 		}
+//			 	}else if (move == 3){					//Wenn vorher drei Taste gedrueckt war 
+//			 		if (up && left){
+//						logic.setLeft(false);
+//						logic.setUpLeft(true);
+//					}else if (up && right){
+//						logic.setRight(false);
+//						logic.setUpRight(true);
+//					}else if (left && right){
+//						logic.setDown(false);
+//					}
+//			 	}else if (move == 4){					//Wenn vorher vier Taste gedrueckt war 
+//					logic.setUp(true);			 		
+//			 	}
+//			 	break;
 			 	
 			case 68: 									//Wenn Taste für Right geloest wird 68='d'
 				right = false;
-				logic.setUp(false);
-				logic.setUpRight(false);
-				logic.setUpLeft(false);
-				logic.setDown(false);
-				logic.setDownRight(false);
-				logic.setDownLeft(false);
-				logic.setRight(false);
-				logic.setLeft(false);
-				if (move == 1){							//Wenn vorher eine Taste gedrueckt war 
-					logic.setRight(false);
-				}else if (move == 2){					//Wenn vorher zwei Taste gedrueckt war 	
-					if (left){
-						logic.setLeft(true);
-					}else if (up){
-						logic.setUpRight(false);
-						logic.setUp(true);
-					}else if (down){
-						logic.setDownRight(false);
-						logic.setDown(true);
-					}
-				}else if (move == 3){					//Wenn vorher drei Taste gedrueckt war 
-			 		if (left && up){
-						logic.setUp(false);
-						logic.setUpLeft(true);
-					}else if (left && down){
-						logic.setDown(false);
-						logic.setDownLeft(true);
-					}else if (up && down){
-						logic.setRight(false);
-					}
-				}else if (move == 4){					//Wenn vorher vier Taste gedrueckt war 
-					logic.setLeft(true);
-				}
 				break;
+//				logic.setUp(false);
+//				logic.setUpRight(false);
+//				logic.setUpLeft(false);
+//				logic.setDown(false);
+//				logic.setDownRight(false);
+//				logic.setDownLeft(false);
+//				logic.setRight(false);
+//				logic.setLeft(false);
+//				if (move == 1){							//Wenn vorher eine Taste gedrueckt war 
+//					logic.setRight(false);
+//				}else if (move == 2){					//Wenn vorher zwei Taste gedrueckt war 	
+//					if (left){
+//						logic.setLeft(true);
+//					}else if (up){
+//						logic.setUpRight(false);
+//						logic.setUp(true);
+//					}else if (down){
+//						logic.setDownRight(false);
+//						logic.setDown(true);
+//					}
+//				}else if (move == 3){					//Wenn vorher drei Taste gedrueckt war 
+//			 		if (left && up){
+//						logic.setUp(false);
+//						logic.setUpLeft(true);
+//					}else if (left && down){
+//						logic.setDown(false);
+//						logic.setDownLeft(true);
+//					}else if (up && down){
+//						logic.setRight(false);
+//					}
+//				}else if (move == 4){					//Wenn vorher vier Taste gedrueckt war 
+//					logic.setLeft(true);
+//				}
+//				break;
 				
 			case 65: 									//Wenn Taste für Left geloest wird 65='a'
 				left = false;
-				logic.setUp(false);
-				logic.setUpRight(false);
-				logic.setUpLeft(false);
-				logic.setDown(false);
-				logic.setDownRight(false);
-				logic.setDownLeft(false);
-				logic.setRight(false);
-				logic.setLeft(false);
-				if (move == 1){							//Wenn vorher eine Taste gedrueckt war 
-					logic.setLeft(false);
-				}else if (move == 2){					//Wenn vorher zwei Taste gedrueckt war 	
-					if (right){
-						logic.setRight(true);
-					}else if (up){
-						logic.setUpLeft(false);
-						logic.setUp(true);
-					}else if (down){
-						logic.setDownLeft(false);
-						logic.setDown(true);
-					}
-				}else if (move == 3){					//Wenn vorher drei Taste gedrueckt war 
-			 		if (right && up){
-						logic.setUp(false);
-						logic.setUpRight(true);
-					}else if (right && down){
-						logic.setDown(false);
-						logic.setDownRight(true);
-					}else if (up && down){
-						logic.setRight(false);
-					}
-				}else if (move == 4){					//Wenn vorher vier Taste gedrueckt war 
-					logic.setRight(true);
-				}
 				break;
+//				logic.setUp(false);
+//				logic.setUpRight(false);
+//				logic.setUpLeft(false);
+//				logic.setDown(false);
+//				logic.setDownRight(false);
+//				logic.setDownLeft(false);
+//				logic.setRight(false);
+//				logic.setLeft(false);
+//				if (move == 1){							//Wenn vorher eine Taste gedrueckt war 
+//					logic.setLeft(false);
+//				}else if (move == 2){					//Wenn vorher zwei Taste gedrueckt war 	
+//					if (right){
+//						logic.setRight(true);
+//					}else if (up){
+//						logic.setUpLeft(false);
+//						logic.setUp(true);
+//					}else if (down){
+//						logic.setDownLeft(false);
+//						logic.setDown(true);
+//					}
+//				}else if (move == 3){					//Wenn vorher drei Taste gedrueckt war 
+//			 		if (right && up){
+//						logic.setUp(false);
+//						logic.setUpRight(true);
+//					}else if (right && down){
+//						logic.setDown(false);
+//						logic.setDownRight(true);
+//					}else if (up && down){
+//						logic.setRight(false);
+//					}
+//				}else if (move == 4){					//Wenn vorher vier Taste gedrueckt war 
+//					logic.setRight(true);
+//				}
+//				break;
 				
 			case 38:									//38='Pfeil nach oben'
 				fireup = false;
@@ -628,6 +637,55 @@ class CoreGame_IO implements KeyEventDispatcher {
 			}
 					
 		}
+//		return false;
+		
+		move = 0;
+		
+		if (up) move++;								//Zaehle Anzahl gleichzeitig gedrueckter Bewegungstasten
+		if (down) move++;
+		if (left) move++;
+		if (right) move++;
+		
+		if (move == 0) 	logic.setDirection(CoreLogic.NONE);
+		
+		if (move == 1) {
+			if (up) 		logic.setDirection(CoreLogic.UP);
+			else if (down)	logic.setDirection(CoreLogic.DOWN);
+			else if (right)	logic.setDirection(CoreLogic.RIGHT);
+			else if (left)	logic.setDirection(CoreLogic.LEFT);
+		}
+		
+		else if (move == 2) {
+			if (up) {
+				if (down)		logic.setDirection(CoreLogic.NONE);
+				else if (right)	logic.setDirection(CoreLogic.UPRIGHT);
+				else			logic.setDirection(CoreLogic.UPLEFT);
+			}
+			else if (down) {
+				if (right)		logic.setDirection(CoreLogic.DOWNRIGHT);
+				else			logic.setDirection(CoreLogic.DOWNLEFT);
+			}
+			else
+				logic.setDirection(CoreLogic.NONE);
+		}
+		
+		else if (move == 3) {
+			if (up) {
+				if (down) {
+					if (right) 	logic.setDirection(CoreLogic.RIGHT);
+					else		logic.setDirection(CoreLogic.LEFT);
+				}
+				else
+					logic.setDirection(CoreLogic.UP);
+			}
+			
+			else if (down) 
+				logic.setDirection(CoreLogic.DOWN);
+		}
+		
+		else
+			logic.setDirection(CoreLogic.NONE);
+		
 		return false;
 	}
 	

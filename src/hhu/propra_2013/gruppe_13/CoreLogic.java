@@ -3,6 +3,19 @@ package hhu.propra_2013.gruppe_13;
 import java.util.ArrayList;
 
 class CoreLogic implements Runnable {
+	// set these for the walking direction of the figure
+	static final int NONE			= 0;
+	static final int UP				= 1;
+	static final int DOWN			= 2;
+	static final int LEFT			= 3;
+	static final int RIGHT			= 4;
+	static final int UPLEFT			= 5;
+	static final int UPRIGHT		= 6;
+	static final int DOWNLEFT		= 7;
+	static final int DOWNRIGHT		= 8;
+	
+	// varibale for setting the running direction of the figure
+	private int 		direction	= NONE;
 
 	// set square root of 2 and define a boolean variable for the game loop
 	private static final double SQRT_2 = 1.41421356237309504880168872420969807856967187537694807317667973799; // http://en.wikipedia.org/wiki/Square_root_of_2
@@ -11,7 +24,7 @@ class CoreLogic implements Runnable {
 	private long 		bulletCoolDown;
 
 	// Boolean variables for movement and collision detection, location counter for the room
-	private boolean 	down, up, right, left, upLeft, upRight, downLeft, downRight; // für die Bewegungsrichtungen
+	private boolean 	down, up, right, left; // für die Bewegungsrichtungen
 	private boolean 	north, east, south, west, northwest, northeast, southwest, southeast; // zum schießen in die Himmelsrichtungen
 
 	// variables for collision detection
@@ -47,42 +60,16 @@ class CoreLogic implements Runnable {
 		gameRunning = boolIn;
 	}
 
-	void setDown(boolean in) {
-		down = in;
+	void setDirection (int input) {
+		direction 	= input;
+		figure.setDirection(input);
 	}
-
-	void setUp(boolean in) {
-		up = in;
-	}
-
-	void setRight(boolean in) {
-		right = in;
-	}
-
-	void setLeft(boolean in) {
-		left = in;
-	}
-
-	void setUpRight(boolean in) {
-		upRight = in;
-	}
-
-	void setUpLeft(boolean in) {
-		upLeft = in;
-	}
-
-	void setDownRight(boolean in) {
-		downRight = in;
-	}
-
-	void setDownLeft(boolean in) {
-		downLeft = in;
-	}
-
+	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	void setBomb(boolean in) {
 		aoe = in;
 	}
-	
+		
 	void setShowMap(boolean in){
 		showMap = in;
 		if(map.getDraw() == true) showMap = false;
@@ -336,7 +323,8 @@ class CoreLogic implements Runnable {
 	private void doCollision (ArrayList<CoreGameObjects> collidable, CoreGameObjects collided) {
 		// variables for handling door-collision, names are the same as in the door class
 		int destination;
-
+		int figDir;
+		
 		if (collided instanceof EnemyMelee) {
 			// Should the figure and an enemy collide, the figure will automatically take damage
 			((EnemyMelee) collided).attack(figure);
@@ -357,33 +345,34 @@ class CoreLogic implements Runnable {
 			if (finished) {			// check if there is no enemy found in the room
 
 				// before switching the room we make a copy of our figure for resurrection
-				saveFigure = figure;
-
+				saveFigure = figure.copy();
+				figDir = figure.getDirection();
+				
 				switch (destination) { // only advance trough door if player is moving in the direction of the door diagonal movement should work too
 				
 				case 0:
-					if (figure.getUpLeft() || figure.getUp() || figure.getUpRight()) {
+					if (figDir == UPLEFT || figDir == UP || figDir == UPRIGHT) {
 						this.switchRoom(destination);
 						System.out.println("collided with a door"+destination+finished);
 					}
 					break;
 
 				case 1:
-					if (figure.getRight() || figure.getUpRight() || figure.getDownRight()) {
+					if (figDir == RIGHT || figDir == UPRIGHT || figDir == DOWNRIGHT) {
 						this.switchRoom(destination);
 						System.out.println("collided with a door"+destination+finished);
 					}
 					break;
 
 				case 2:
-					if (figure.getDown() || figure.getDownRight() || figure.getDownLeft()) {
+					if (figDir == DOWN || figDir == DOWNRIGHT || figDir == DOWNLEFT) {
 						this.switchRoom(destination);
 						System.out.println("collided with a door"+destination+finished);
 					}
 					break;
 
 				case 3:
-					if (figure.getLeft() || figure.getDownLeft() || figure.getUpLeft()) {
+					if (figDir == LEFT || figDir == DOWNLEFT || figDir == UPLEFT) {
 						this.switchRoom(destination);
 						System.out.println("collided with a door"+destination+finished);
 					}
@@ -402,34 +391,36 @@ class CoreLogic implements Runnable {
 	 * whether the figure has reached a boundary and will prevent it from moving
 	 * out of the gaming area. */
 	private void moveFigure() {
-		// First set the direction of the figure,as we are gonna fuck around with the input variables just now
-		this.setDirection();
+		up 		= false;
+		down 	= false;
+		right 	= false;
+		left 	= false;
 
 		// convert diagonal movement into two horizontal components, diagonal
 		// movement is slowed,
 		// as it will take place into two directions
-		if (upLeft) {
+		if (direction == UPLEFT) {
 			figVX /= SQRT_2;
 			figVY /= SQRT_2;
 			left = true;
 			up = true;
 		}
 
-		if (upRight) {
+		if (direction == UPRIGHT) {
 			figVX /= SQRT_2;
 			figVY /= SQRT_2;
 			right = true;
 			up = true;
 		}
 
-		if (downLeft) {
+		if (direction == DOWNLEFT) {
 			figVX /= SQRT_2;
 			figVY /= SQRT_2;
 			left = true;
 			down = true;
 		}
 
-		if (downRight) {
+		if (direction == DOWNRIGHT) {
 			figVX /= SQRT_2;
 			figVY /= SQRT_2;
 			right = true;
@@ -439,7 +430,7 @@ class CoreLogic implements Runnable {
 		// horizontal and vertical movement handlers, these also try to find
 		// out, whether there is anything
 		// within a diagonal direction inhibiting movement.
-		if (right) {
+		if (direction == RIGHT || right) {
 			if (freeRight) {
 				if (figX + figVX >= 21.5)
 					figX = 21.5;
@@ -449,7 +440,7 @@ class CoreLogic implements Runnable {
 				figX += distRight;
 		}
 
-		if (left) {
+		if (direction == LEFT || left) {
 			if (freeLeft) {
 				if (figX - figVX <= 0.5)
 					figX = 0.5;
@@ -459,7 +450,7 @@ class CoreLogic implements Runnable {
 				figX -= distLeft;
 		}
 
-		if (up) {
+		if (direction == UP || up) {
 			if (freeUp) {
 				if (figY - figVY <= 0.5)
 					figY = 0.5;
@@ -469,7 +460,7 @@ class CoreLogic implements Runnable {
 				figY -= distUp;
 		}
 
-		if (down) {
+		if (direction == DOWN || down) {
 			if (freeDown) {
 				if (figY + figVY >= 12.5)
 					figY = 12.5;
@@ -481,20 +472,6 @@ class CoreLogic implements Runnable {
 
 		// finally set the position of the figure
 		figure.setPos(figX, figY);
-	}
-
-	/*-----------------------------------------------------------------------------------------------------------------------*/
-	private void setDirection() {
-		/* set the viewing direction of the figure, at the moment this is subject of the walking direction, 
-		 * it is questionable whether we wish to anchor this to the shooting direction. */
-		if (up)					figure.setDirection(Figure.UP);
-		else if (down)			figure.setDirection(Figure.DOWN);
-		else if (left)			figure.setDirection(Figure.LEFT);
-		else if (right)			figure.setDirection(Figure.RIGHT);
-		else if (upLeft)		figure.setDirection(Figure.UPLEFT);
-		else if (upRight)		figure.setDirection(Figure.UPRIGHT);
-		else if (downLeft)		figure.setDirection(Figure.DOWNLEFT);
-		else if (downRight)		figure.setDirection(Figure.DOWNRIGHT);
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/

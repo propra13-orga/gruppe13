@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 class NetClientLogic extends NetIO implements Runnable {
 
-
-
 	// set square root of 2 and define a boolean variable for the game loop
 	private static final double SQRT_2 = 1.41421356237309504880168872420969807856967187537694807317667973799; // http://en.wikipedia.org/wiki/Square_root_of_2
 	private boolean 	running;
@@ -83,12 +81,14 @@ class NetClientLogic extends NetIO implements Runnable {
 		aoe = in;
 	}
 	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	void setShowMap(boolean in){
 		showMap = in;
 		if(map.getDraw() == true) showMap = false;
 		map.setDraw(showMap);
 	}
 
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	void setFireUp(boolean in) {
 		north = in;
 	}
@@ -434,8 +434,7 @@ class NetClientLogic extends NetIO implements Runnable {
 		}
 	}
 	
-
-	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
 	@Override
 	public void run() {
 		long time;
@@ -471,6 +470,5 @@ class NetClientLogic extends NetIO implements Runnable {
 				// don't care if the thread is interrupted
 			}
 		}
-		
 	}
 }
