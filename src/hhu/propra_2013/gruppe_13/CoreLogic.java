@@ -188,6 +188,7 @@ class CoreLogic implements Runnable {
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	private void setRoom(int newLocationX, int newLocationY) {
+		System.out.println("collided with a door");
 		locationX = newLocationX;
 		locationY = newLocationY;
 
@@ -335,7 +336,7 @@ class CoreLogic implements Runnable {
 	private void doCollision (ArrayList<CoreGameObjects> collidable, CoreGameObjects collided) {
 		// variables for handling door-collision, names are the same as in the door class
 		int destination;
-		
+
 		if (collided instanceof EnemyMelee) {
 			// Should the figure and an enemy collide, the figure will automatically take damage
 			((EnemyMelee) collided).attack(figure);
@@ -352,6 +353,7 @@ class CoreLogic implements Runnable {
 		if (collided instanceof MISCDoor) { //Doors MUST be checked last because of the new Method of Room-finishing
 			destination = ((MISCDoor) collided).getDestination();
 
+
 			if (finished) {			// check if there is no enemy found in the room
 
 				// before switching the room we make a copy of our figure for resurrection
@@ -362,24 +364,28 @@ class CoreLogic implements Runnable {
 				case 0:
 					if (figure.getUpLeft() || figure.getUp() || figure.getUpRight()) {
 						this.switchRoom(destination);
+						System.out.println("collided with a door"+destination+finished);
 					}
 					break;
 
 				case 1:
 					if (figure.getRight() || figure.getUpRight() || figure.getDownRight()) {
 						this.switchRoom(destination);
+						System.out.println("collided with a door"+destination+finished);
 					}
 					break;
 
 				case 2:
 					if (figure.getDown() || figure.getDownRight() || figure.getDownLeft()) {
 						this.switchRoom(destination);
+						System.out.println("collided with a door"+destination+finished);
 					}
 					break;
 
 				case 3:
 					if (figure.getLeft() || figure.getDownLeft() || figure.getUpLeft()) {
 						this.switchRoom(destination);
+						System.out.println("collided with a door"+destination+finished);
 					}
 					break;
 				case 4:
@@ -618,7 +624,6 @@ class CoreLogic implements Runnable {
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	private void switchRoom(int destination) {
-
 		// wechselt den Raum, falls die Figur an einer Stelle steht an der im aktuellen Raum eine Tür ist
 		switch (destination) { // prüft in welchem Raum die Figur ist (bisher 0-2 für die 3 Räume)
 

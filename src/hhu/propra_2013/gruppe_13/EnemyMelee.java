@@ -195,6 +195,12 @@ public class EnemyMelee extends Enemy{
 		// Save when the last attack from the player occurred
 		regenerate 	= System.currentTimeMillis();
 		switch (attackType){
+		case PLAYER_SPECIAL_BULLET_ONE:
+			hp -= inStrength*1.5;
+			break;
+		case PLAYER_MELEE_AOE:
+			hp -= inStrength *0.5;
+			break;
 		default:
 			hp -= inStrength;
 			break;

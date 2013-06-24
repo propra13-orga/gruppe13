@@ -11,6 +11,7 @@ abstract class CoreGameObjects {
 	
 	// declare close ranged weapons (melee and casts)
 	static final int PLAYER_MELEE_AOE			= 20;
+	static final int PLAYER_MELEE_SHORT			= 21;
 	
 	// finals for defining melee enemy type
 	static final int ENEMY_TRAP					= 40;
