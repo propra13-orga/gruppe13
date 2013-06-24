@@ -5,19 +5,31 @@ import java.net.*;
 import java.util.ArrayList;
 
 class NetServer extends NetIO {
+	
 	// Sockets needed for the connection
 	ServerSocket socket		= null;
-	Socket connection		= null;
 	ArrayList<NetIO> list	= null;
 	
-	// needed to know how long the server should remain active, and port
+	// boolean needed to know how long the server should remain active, port and number of connections
 	private boolean 	serverActive;
 	private int			port;
+	private int 		connNo;
+	
+	// Waiting room for the server
+	NetServerWait waiting;
 
 	/*------------------------------------------------------------------------------------------------------------------------*/
-	NetServer (int inPort) {
+	NetServer (int inPort, int connNo) {
 		port 			= inPort;
 		serverActive 	= true;
+		this.connNo		= connNo;
+		
+		// try to open a new server socket, needed to initiate communication with any client
+		try {
+			socket = new ServerSocket(port);
+		} catch (IOException e){
+			ProPra.errorOutput(SERVER_SOCKET_ERROR, e);
+		}
 	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
@@ -25,69 +37,44 @@ class NetServer extends NetIO {
 	void setRunning (boolean activity) {
 		serverActive = activity;
 	}
-	
+
 	/*------------------------------------------------------------------------------------------------------------------------*/
-	int init () {
-		// Open a new Socket with the specified port number
-		try {
-			socket = new ServerSocket(port);
-		} catch (IOException e){
-			ProPra.errorOutput(SERVER_SOCKET_ERROR, e);
-			return EXIT_FAILURE;
-		}
+	@Override
+	public void run() {
+		int count = 0;
 		
-		// In case of success
-		return EXIT_SUCCESS;
-	}
-	
-	/*------------------------------------------------------------------------------------------------------------------------*/
-	private void terminate() {
-		// terminate all threads
-		for (int i=0; i<list.size(); i++) {
-			list.get(i).setRunning(false);
-		}
+		// Connections and array list of all connections
+		Socket connection			= null;
+		ArrayList<Socket> incoming 	= new ArrayList<Socket>();
 		
-		// wait a little so all threads have a chance to actually terminate
-		try {
-			Thread.sleep(50);
-		} catch (InterruptedException e) {
-			// doesn't really matter if the thread is interrupted  
+		// initialize new wait room for the server and initialize it's own thread
+		waiting = new NetServerWait(incoming);
+		Thread thread = new Thread(waiting);
+		thread.start();
+		
+		// only run as long as desired, break if the maximum number of connections has been achieved 
+		while (serverActive) {
+			// wait until a new connection has been initialized by a client
+			try {
+				connection = socket.accept();
+				count++;
+			} catch (IOException e) {
+				ProPra.errorOutput(CONNECTION_SOCKET_ERROR, e);
+			}
+			
+			// add the connection to the waiting room
+			incoming.add(connection);
+			
+			// check whether the maximum amount of connections has been achieved, terminate the server if this is the case
+			if (count == connNo)
+				break;
 		}
 		
 		// close socket
 		try {
 			socket.close();
 		} catch (IOException e) {
-			// not really worth handling, since we are going to close the program now anyways
+			// not really sure whether this is worth handling
 		}
-	}
-
-	/*------------------------------------------------------------------------------------------------------------------------*/
-	@Override
-	public void run() {
-		// only run as long as desired
-		while (serverActive) {
-			try {
-				connection = socket.accept();
-			} catch (IOException e) {
-				ProPra.errorOutput(CONNECTION_SOCKET_ERROR, e);
-			}
-			
-			/* create new serverIO for this connection and run in a separate thread, this enables multiple connections 
-			 * as one connection otherwise blocks the server */
-			NetServerOut serverOut = new NetServerOut(connection);
-			NetServerIn  serverIn  = new NetServerIn(connection);
-			
-			list.add(serverOut);
-			list.add(serverIn);
-			
-			Thread threadOut 	= new Thread(serverOut);
-			Thread threadIn		= new Thread(serverIn);
-			threadOut.start();
-			threadIn.start();
-			
-		}
-		
-		this.terminate();
 	}
 }

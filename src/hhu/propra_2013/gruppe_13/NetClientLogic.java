@@ -3,6 +3,19 @@ package hhu.propra_2013.gruppe_13;
 import java.util.ArrayList;
 
 class NetClientLogic extends NetIO implements Runnable {
+	// set these for the walking direction of the figure
+	static final int NONE			= 0;
+	static final int UP				= 1;
+	static final int DOWN			= 2;
+	static final int LEFT			= 3;
+	static final int RIGHT			= 4;
+	static final int UPLEFT			= 5;
+	static final int UPRIGHT		= 6;
+	static final int DOWNLEFT		= 7;
+	static final int DOWNRIGHT		= 8;
+	
+	// varibale for setting the running direction of the figure
+	private int 		direction	= NONE;
 
 	// set square root of 2 and define a boolean variable for the game loop
 	private static final double SQRT_2 = 1.41421356237309504880168872420969807856967187537694807317667973799; // http://en.wikipedia.org/wiki/Square_root_of_2
@@ -11,7 +24,7 @@ class NetClientLogic extends NetIO implements Runnable {
 	private long 		bulletCoolDown;
 
 	// Boolean variables for movement and collision detection, location counter for the room
-	private boolean 	down, up, right, left, upLeft, upRight, downLeft, downRight; // für die Bewegungsrichtungen
+	private boolean 	down, up, right, left; // für die Bewegungsrichtungen
 	private boolean 	north, east, south, west, northwest, northeast, southwest, southeast; // zum schießen in die Himmelsrichtungen
 
 	// variables for collision detection
@@ -45,36 +58,9 @@ class NetClientLogic extends NetIO implements Runnable {
 		this.running = running;
 	}
 	
-	void setDown(boolean in) {
-		down = in;
-	}
-
-	void setUp(boolean in) {
-		up = in;
-	}
-
-	void setRight(boolean in) {
-		right = in;
-	}
-
-	void setLeft(boolean in) {
-		left = in;
-	}
-
-	void setUpRight(boolean in) {
-		upRight = in;
-	}
-
-	void setUpLeft(boolean in) {
-		upLeft = in;
-	}
-
-	void setDownRight(boolean in) {
-		downRight = in;
-	}
-
-	void setDownLeft(boolean in) {
-		downLeft = in;
+	void setDirection (int input) {
+		direction 	= input;
+		figure.setDirection(input);
 	}
 
 	void setBomb(boolean in) {
@@ -258,34 +244,36 @@ class NetClientLogic extends NetIO implements Runnable {
 	 * whether the figure has reached a boundary and will prevent it from moving
 	 * out of the gaming area. */
 	private void moveFigure() {
-		// First set the direction of the figure,as we are gonna fuck around with the input variables just now
-		this.setDirection();
+		up 		= false;
+		down 	= false;
+		right 	= false;
+		left 	= false;
 
 		// convert diagonal movement into two horizontal components, diagonal
 		// movement is slowed,
 		// as it will take place into two directions
-		if (upLeft) {
+		if (direction == UPLEFT) {
 			figVX /= SQRT_2;
 			figVY /= SQRT_2;
 			left = true;
 			up = true;
 		}
 
-		if (upRight) {
+		if (direction == UPRIGHT) {
 			figVX /= SQRT_2;
 			figVY /= SQRT_2;
 			right = true;
 			up = true;
 		}
 
-		if (downLeft) {
+		if (direction == DOWNLEFT) {
 			figVX /= SQRT_2;
 			figVY /= SQRT_2;
 			left = true;
 			down = true;
 		}
 
-		if (downRight) {
+		if (direction == DOWNRIGHT) {
 			figVX /= SQRT_2;
 			figVY /= SQRT_2;
 			right = true;
@@ -295,7 +283,7 @@ class NetClientLogic extends NetIO implements Runnable {
 		// horizontal and vertical movement handlers, these also try to find
 		// out, whether there is anything
 		// within a diagonal direction inhibiting movement.
-		if (right) {
+		if (direction == RIGHT || right) {
 			if (freeRight) {
 				if (figX + figVX >= 21.5)
 					figX = 21.5;
@@ -305,7 +293,7 @@ class NetClientLogic extends NetIO implements Runnable {
 				figX += distRight;
 		}
 
-		if (left) {
+		if (direction == LEFT || left) {
 			if (freeLeft) {
 				if (figX - figVX <= 0.5)
 					figX = 0.5;
@@ -315,7 +303,7 @@ class NetClientLogic extends NetIO implements Runnable {
 				figX -= distLeft;
 		}
 
-		if (up) {
+		if (direction == UP || up) {
 			if (freeUp) {
 				if (figY - figVY <= 0.5)
 					figY = 0.5;
@@ -325,7 +313,7 @@ class NetClientLogic extends NetIO implements Runnable {
 				figY -= distUp;
 		}
 
-		if (down) {
+		if (direction == DOWN || down) {
 			if (freeDown) {
 				if (figY + figVY >= 12.5)
 					figY = 12.5;
@@ -337,20 +325,6 @@ class NetClientLogic extends NetIO implements Runnable {
 
 		// finally set the position of the figure
 		figure.setPos(figX, figY);
-	}
-
-	/*-----------------------------------------------------------------------------------------------------------------------*/
-	private void setDirection() {
-		/* set the viewing direction of the figure, at the moment this is subject of the walking direction, 
-		 * it is questionable whether we wish to anchor this to the shooting direction. */
-		if (up)					figure.setDirection(Figure.UP);
-		else if (down)			figure.setDirection(Figure.DOWN);
-		else if (left)			figure.setDirection(Figure.LEFT);
-		else if (right)			figure.setDirection(Figure.RIGHT);
-		else if (upLeft)		figure.setDirection(Figure.UPLEFT);
-		else if (upRight)		figure.setDirection(Figure.UPRIGHT);
-		else if (downLeft)		figure.setDirection(Figure.DOWNLEFT);
-		else if (downRight)		figure.setDirection(Figure.DOWNRIGHT);
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
