@@ -188,7 +188,7 @@ class CoreLogic implements Runnable {
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	private void setRoom(int newLocationX, int newLocationY) {
-		System.out.println("collided with a door");
+
 		locationX = newLocationX;
 		locationY = newLocationY;
 
@@ -197,7 +197,7 @@ class CoreLogic implements Runnable {
 
 		currentRoom.getContent().add(figure);
 		currentRoom.getContent().add(map);
-
+		
 		game.setRoom(currentRoom);
 	}
 
@@ -624,6 +624,8 @@ class CoreLogic implements Runnable {
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	private void switchRoom(int destination) {
+		
+		map.setVisited(locationX, locationY);
 		// wechselt den Raum, falls die Figur an einer Stelle steht an der im aktuellen Raum eine Tür ist
 		switch (destination) { // prüft in welchem Raum die Figur ist (bisher 0-2 für die 3 Räume)
 

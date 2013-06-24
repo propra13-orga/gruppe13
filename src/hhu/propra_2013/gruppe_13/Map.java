@@ -116,13 +116,13 @@ class Map extends CoreGameObjects {
 							g.setColor(Color.WHITE);
 							g.drawRect(xOffset+ (int)step*(16/9)*(x-minX), yOffset+(int)(step)*(y - minY), (int)(step*16/9), (int)(step));
 						}
-						if(map[x][y]%10 == 3){
+						else if(map[x][y]%10 == 3){
 							g.setColor(Color.DARK_GRAY);
 							g.fillRect(xOffset+ (int)step*(16/9)*(x-minX), yOffset+(int)(step)*(y - minY), (int)(step*16/9), (int)(step));
 							g.setColor(Color.WHITE);
 							g.drawRect(xOffset+ (int)step*(16/9)*(x-minX), yOffset+(int)(step)*(y - minY), (int)(step*16/9), (int)(step));
 						}
-						if(map[x][y]%10 == 4){
+						else if(map[x][y]%10 == 4){
 							g.setColor(Color.LIGHT_GRAY);
 							g.fillRect(xOffset+ (int)step*(16/9)*(x-minX), yOffset+(int)(step)*(y - minY), (int)(step*16/9), (int)(step));
 							g.setColor(Color.WHITE);
