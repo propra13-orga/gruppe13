@@ -36,7 +36,7 @@ public class CoreRoom {
 		stage 				= inStage;
 		mode				= inMode;
 		
-		//ja, ich hasse mich auch schon für solche langen namen
+		//festlegen wo die Nachbarn des Raums liegen, wird zum Türsetzen gebraucht
 		hasTopNeighbour 	= inTopNeighbour;  
 		hasBottomNeighbour 	= inBottomNeighbour;
 		hasLeftNeighbour 	= inLeftNeighbour;
@@ -56,7 +56,7 @@ public class CoreRoom {
 		//Konstanten anpassen sobald es mehr Räume gibt!!! TODO: Automatisieren
 		//festlegen welche Raumliste der Builder durchgeht
 		if (type == "Raum"){
-			randomNumber =(int)(13*Math.random());
+			randomNumber =(int)(19*Math.random());
 		}
 		else if (type == "BossRaum"){
 			randomNumber =(int)(3*Math.random());	
