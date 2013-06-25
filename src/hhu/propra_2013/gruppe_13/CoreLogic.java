@@ -184,7 +184,7 @@ class CoreLogic implements Runnable {
 
 		currentRoom.getContent().add(figure);
 		currentRoom.getContent().add(map);
-		
+		map.setVisited(locationX, locationY);
 		game.setRoom(currentRoom);
 	}
 

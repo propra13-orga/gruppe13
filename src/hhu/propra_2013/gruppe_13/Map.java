@@ -7,6 +7,7 @@ class Map extends CoreGameObjects {
 	int x,y;
 	int map [][] = new int[10][10];
 	int minX, maxX, minY, maxY;
+	int curX, curY;
 	boolean now; //gets set by logic for drawing or not drawing the map
 	
 
@@ -74,6 +75,9 @@ class Map extends CoreGameObjects {
 	
 	void setVisited(int inLocationX, int inLocationY){
 		map[inLocationX][inLocationY] = map[inLocationX][inLocationY]+10;
+		curX = inLocationX;
+		curY = inLocationY;
+		
 	}
 	
 	void setRoom(int[][] inConstruction){
@@ -107,28 +111,41 @@ class Map extends CoreGameObjects {
 			g.fillRect(xOffset -(int)step, yOffset - (int)step, (int)(step*24), (int)(step*15));
 			g.setColor(Color.BLACK);
 //			Color c = new Color(0,0,0);
-			for(y = minY;y <= maxY;y++){
-				for(x = minX;x <= maxX;x++){
+			for(y = minY ;y <= 9;y++){
+				for(x = minX ;x <= 9;x++){
 					if(map[x][y]-10 > 0){
+						if(x == curX && y == curY){
+							g.setColor(Color.RED);
+							g.draw3DRect(xOffset+ (int)(step*(2*x)), yOffset+(int)(step)*(2*y), (int)(2*step), (int)(2*step), now);
+						}
 						if(map[x][y]%10 == 2){
 							g.setColor(Color.BLACK);
-							g.fillRect(xOffset+ (int)step*(16/9)*(x-minX), yOffset+(int)(step)*(y - minY), (int)(step*16/9), (int)(step));
+							g.fillRect(xOffset+ (int)(step*(2*x)), yOffset+(int)(step)*(2*y), (int)(2*step), (int)(2*step));
 							g.setColor(Color.WHITE);
-							g.drawRect(xOffset+ (int)step*(16/9)*(x-minX), yOffset+(int)(step)*(y - minY), (int)(step*16/9), (int)(step));
+							g.drawRect(xOffset+ (int)(step*(2*x)), yOffset+(int)(step)*(2*y), (int)(2*step), (int)(2*step));
 						}
-						else if(map[x][y]%10 == 3){
+						if(map[x][y]%10 == 3){
 							g.setColor(Color.DARK_GRAY);
-							g.fillRect(xOffset+ (int)step*(16/9)*(x-minX), yOffset+(int)(step)*(y - minY), (int)(step*16/9), (int)(step));
+							g.fillRect(xOffset+ (int)step*(2*x), yOffset+(int)(step)*(2*y), (int)(2*step), (int)(2*step));
 							g.setColor(Color.WHITE);
-							g.drawRect(xOffset+ (int)step*(16/9)*(x-minX), yOffset+(int)(step)*(y - minY), (int)(step*16/9), (int)(step));
+							g.drawRect(xOffset+ (int)step*(2*x), yOffset+(int)(step)*(2*y), (int)(2*step), (int)(2*step));
 						}
-						else if(map[x][y]%10 == 4){
+						if(map[x][y]%10 == 4){
 							g.setColor(Color.LIGHT_GRAY);
-							g.fillRect(xOffset+ (int)step*(16/9)*(x-minX), yOffset+(int)(step)*(y - minY), (int)(step*16/9), (int)(step));
+							g.fillRect(xOffset+ (int)step*(2*x), yOffset+(int)(step)*(2*y), (int)(2*step), (int)(2*step));
 							g.setColor(Color.WHITE);
-							g.drawRect(xOffset+ (int)step*(16/9)*(x-minX), yOffset+(int)(step)*(y - minY), (int)(step*16/9), (int)(step));
+							g.drawRect(xOffset+ (int)step*(2*x), yOffset+(int)(step)*(2*y), (int)(2*step), (int)(2*step));
 						}
-						System.out.println("i'm a rect");
+						if(map[x][y]%10 == 1){
+							g.setColor(Color.yellow);
+							g.fillRect(xOffset+ (int)step*(2*x), yOffset+(int)(step)*(2*y), (int)(2*step), (int)(2*step));
+							g.setColor(Color.WHITE);
+							g.drawRect(xOffset+ (int)step*(2*x), yOffset+(int)(step)*(2*y), (int)(2*step), (int)(2*step));
+						}
+						if(x == curX && y == curY){
+							g.setColor(Color.RED);
+							g.draw3DRect(xOffset+ (int)(step*(2*x)), yOffset+(int)(step)*(2*y), (int)(2*step), (int)(2*step), now);
+						}
 					}
 				}
 			}
