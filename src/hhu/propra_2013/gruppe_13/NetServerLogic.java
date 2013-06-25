@@ -3,6 +3,16 @@ package hhu.propra_2013.gruppe_13;
 import java.util.ArrayList;
 
 class NetServerLogic extends NetIO {
+	// set these for the running direction of the figure
+	static final int NONE			= 0;
+	static final int UP				= 1;
+	static final int DOWN			= 2;
+	static final int LEFT			= 3;
+	static final int RIGHT			= 4;
+	static final int UPLEFT			= 5;
+	static final int UPRIGHT		= 6;
+	static final int DOWNLEFT		= 7;
+	static final int DOWNRIGHT		= 8;
 
 	// variable for the game loop
 	private boolean 	running;
@@ -194,6 +204,7 @@ class NetServerLogic extends NetIO {
 	private void doCollision (ArrayList<CoreGameObjects> collidable, CoreGameObjects collided, int client) {
 		// variables for handling door-collision, names are the same as in the door class
 		int destination;
+		int figDir;
 		
 		if (collided instanceof EnemyMelee) {
 			// Should the figure and an enemy collide, the figure will automatically take damage
@@ -211,29 +222,31 @@ class NetServerLogic extends NetIO {
 		if (collided instanceof MISCDoor) { //Doors MUST be checked last because of the new Method of Room-finishing
 			destination = ((MISCDoor) collided).getDestination();
 
+			figDir = figure.getDirection();
+			
 			if (finished) {			// check if there is no enemy found in the room
 				switch (destination) { // only advance trough door if player is moving in the direction of the door diagonal movement should work too
 				
 				case 0:
-					if (figure.getUpLeft() || figure.getUp() || figure.getUpRight()) {
+					if (figDir == UPLEFT || figDir == UP || figDir == UPRIGHT) {
 						this.switchRoom(destination, client);
 					}
 					break;
 
 				case 1:
-					if (figure.getRight() || figure.getUpRight() || figure.getDownRight()) {
+					if (figDir == RIGHT || figDir == UPRIGHT || figDir == DOWNRIGHT) {
 						this.switchRoom(destination, client);
 					}
 					break;
 
 				case 2:
-					if (figure.getDown() || figure.getDownRight() || figure.getDownLeft()) {
+					if (figDir == DOWN || figDir == DOWNRIGHT || figDir == DOWNLEFT) {
 						this.switchRoom(destination, client);
 					}
 					break;
 
 				case 3:
-					if (figure.getLeft() || figure.getDownLeft() || figure.getUpLeft()) {
+					if (figDir == LEFT || figDir == DOWNLEFT || figDir == UPLEFT) {
 						this.switchRoom(destination, client);
 					}
 					break;

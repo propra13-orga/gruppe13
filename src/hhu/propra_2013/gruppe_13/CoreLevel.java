@@ -440,7 +440,7 @@ public class CoreLevel {
 							break;
 							
 						case 4: 
-							level[x][y].setType("Boss");
+							level[x][y].setType("BossRaum");
 							break;
 						}
 						level[x][y].buildRoom();

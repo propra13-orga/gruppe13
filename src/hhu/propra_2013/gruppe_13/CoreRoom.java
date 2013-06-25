@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public class CoreRoom {
 
-	//Geerbtes <- gelogen!!
 //	private Figure 		figure;
 	
 	//Sachen die jeder Raum weiß
@@ -37,12 +36,12 @@ public class CoreRoom {
 		stage 				= inStage;
 		mode				= inMode;
 		
-		//ja, ich hasse mich auch schon für solche langen namen
+		//festlegen wo die Nachbarn des Raums liegen, wird zum Türsetzen gebraucht
 		hasTopNeighbour 	= inTopNeighbour;  
 		hasBottomNeighbour 	= inBottomNeighbour;
 		hasLeftNeighbour 	= inLeftNeighbour;
 		hasRightNeighbour 	= inRightNeighbour;
-		System.out.println("links "+hasLeftNeighbour+" rechts "+hasRightNeighbour+" oben "+hasTopNeighbour+" unten "+hasBottomNeighbour);
+	//	System.out.println("links "+hasLeftNeighbour+" rechts "+hasRightNeighbour+" oben "+hasTopNeighbour+" unten "+hasBottomNeighbour);
 	}
 	
 	void setType(String inType) {
@@ -57,7 +56,7 @@ public class CoreRoom {
 		//Konstanten anpassen sobald es mehr Räume gibt!!! TODO: Automatisieren
 		//festlegen welche Raumliste der Builder durchgeht
 		if (type == "Raum"){
-			randomNumber =(int)(13*Math.random());
+			randomNumber =(int)(19*Math.random());
 		}
 		else if (type == "BossRaum"){
 			randomNumber =(int)(3*Math.random());	
@@ -72,7 +71,7 @@ public class CoreRoom {
 			randomNumber = 0;
 		}
 		
-
+	
 		
 		// First read all Walls into the ArrayList, that way Walls will  be drawn in  the background
 		try {
@@ -115,6 +114,7 @@ public class CoreRoom {
 		
 		// Put all other stuff into the ArrayList
 		try {
+			System.out.println("Walls added");
 			roomStream = new FileInputStream("Level/"+type+randomNumber+".txt");
 			roomReader = new InputStreamReader (roomStream);
 			

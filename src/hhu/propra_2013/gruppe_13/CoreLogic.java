@@ -658,11 +658,11 @@ class CoreLogic implements Runnable {
 
 		// game loop
 		while (gameRunning) {
-			time = System.currentTimeMillis();
+			time  = System.currentTimeMillis();
 
 			// get current figure positions and velocities
-			figX = figure.getPosX();
-			figY = figure.getPosY();
+			figX  = figure.getPosX();
+			figY  = figure.getPosY();
 			figVX = figure.getVX();
 			figVY = figure.getVY();
 

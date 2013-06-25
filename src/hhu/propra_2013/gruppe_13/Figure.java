@@ -17,7 +17,6 @@ class Figure extends CoreGameObjects {
 	static final int DOWNRIGHT		= 8;
 	
 	// Movement direction of the figure, this is needed by the logic in a server implementation
-	private boolean up, down, left, right, upLeft, upRight, downLeft, downRight;
 	private int 	player;
 	
 	/* hp: Hitpoints, money is, well, money and chocolate is a very fun stuff to many people eat way too much of. 
@@ -153,39 +152,6 @@ class Figure extends CoreGameObjects {
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
-	boolean getUp() {
-		return up;
-	}
-	
-	boolean getDown() {
-		return down;
-	}
-	
-	boolean getRight() {
-		return right;
-	}
-	
-	boolean getLeft() {
-		return left;
-	}
-	
-	boolean getUpRight() {
-		return upRight;
-	}
-	
-	boolean getUpLeft() {
-		return upLeft;
-	}
-	
-	boolean getDownRight() {
-		return downRight;
-	}
-	
-	boolean getDownLeft() {
-		return downLeft;
-	}
-
-	/*-----------------------------------------------------------------------------------------------------------------------*/
 	void setBulletCoolDownTime (int cooldown) {
 		bulletCoolDownTime = cooldown;
 	}
@@ -253,39 +219,6 @@ class Figure extends CoreGameObjects {
 		this.cooldown = cooldown;
 	}
 	
-	/*-----------------------------------------------------------------------------------------------------------------------*/
-	void setUp (boolean in) {
-		up = in;
-	}
-	
-	void setDown (boolean in) {
-		down = in;
-	}
-	
-	void setRight (boolean in) {
-		right = in;
-	}
-	
-	void setLeft (boolean in) {
-		left = in;
-	}
-	
-	void setUpRight (boolean in) {
-		upRight = in;
-	}
-	
-	void setUpLeft (boolean in) {
-		upLeft = in;
-	}
-	
-	void setDownRight (boolean in) {
-		downRight = in;
-	}
-	
-	void setDownLeft (boolean in) {
-		downLeft = in;
-	}
-	
 	void setSpecialAttack (boolean specialAttack) {
 		this.specialAttack = specialAttack;
 	}
@@ -346,15 +279,8 @@ class Figure extends CoreGameObjects {
 		Figure figure = new Figure(this.x, this.y, this.height, this.width, this.player);
 		
 		// set the viewing direction of the new figure
-		figure.setUp(this.up);
-		figure.setDown(this.down);
-		figure.setLeft(this.left);
-		figure.setRight(this.right);
-		figure.setUpLeft(this.upLeft);
-		figure.setUpRight(this.upRight);
-		figure.setDownLeft(this.downLeft);
-		figure.setDownRight(this.downRight);
-
+		figure.setDirection(this.direction);
+		
 		// set hp, money and chocolate variables
 		figure.setHP(this.hp);
 		figure.setGeld(this.money);
