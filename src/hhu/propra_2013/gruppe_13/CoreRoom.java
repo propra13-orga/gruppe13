@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 public class CoreRoom {
 
-	//Geerbtes <- gelogen!!
 //	private Figure 		figure;
 	
 	//Sachen die jeder Raum weiß
