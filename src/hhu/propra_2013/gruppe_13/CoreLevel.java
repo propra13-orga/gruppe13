@@ -80,7 +80,7 @@ public class CoreLevel {
 		boolean tempTop, tempBottom, tempLeft, tempRight;//für die Bestimmung der Nachbarn eines Raums
 		CoreRoom tempRoom;// = new CoreRoom(figure, stage, boss); //zwischenspeicher für einen Raum, zum hinzufügen benötigt
 
-		int maxRooms = 6+2*stage;
+		int maxRooms = 90;//6+2*stage;
 		int x,y; //aktuelle Koordinaten im Raum-Array
 
 		for (x = 0;x < 10; x++){
@@ -440,7 +440,7 @@ public class CoreLevel {
 							break;
 							
 						case 4: 
-							level[x][y].setType("Boss");
+							level[x][y].setType("BossRaum");
 							break;
 						}
 						level[x][y].buildRoom();

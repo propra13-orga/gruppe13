@@ -42,7 +42,7 @@ public class CoreRoom {
 		hasBottomNeighbour 	= inBottomNeighbour;
 		hasLeftNeighbour 	= inLeftNeighbour;
 		hasRightNeighbour 	= inRightNeighbour;
-		System.out.println("links "+hasLeftNeighbour+" rechts "+hasRightNeighbour+" oben "+hasTopNeighbour+" unten "+hasBottomNeighbour);
+	//	System.out.println("links "+hasLeftNeighbour+" rechts "+hasRightNeighbour+" oben "+hasTopNeighbour+" unten "+hasBottomNeighbour);
 	}
 	
 	void setType(String inType) {
@@ -72,7 +72,7 @@ public class CoreRoom {
 			randomNumber = 0;
 		}
 		
-
+	
 		
 		// First read all Walls into the ArrayList, that way Walls will  be drawn in  the background
 		try {
@@ -115,6 +115,7 @@ public class CoreRoom {
 		
 		// Put all other stuff into the ArrayList
 		try {
+			System.out.println("Walls added");
 			roomStream = new FileInputStream("Level/"+type+randomNumber+".txt");
 			roomReader = new InputStreamReader (roomStream);
 			
