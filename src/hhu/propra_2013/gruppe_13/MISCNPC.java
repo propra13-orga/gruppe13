@@ -13,21 +13,30 @@ public class MISCNPC extends CoreGameObjects{
 	private double 	v_x, v_y;
 	private double 	height, width;
 	private int		strength;
-	private int 	type;
+	//private int 	type;
 	private String 	text; 
 	private int 	stage; 		//NPC should know which area he is in, so he can refer to the level Theme or something
 	private String 	boss;	//NPC should know what the area boss is, so he can say funny stuff about him 
 	private String 	stageone,stagetwo,stagethree;
 	private long 	npcTalkTime;
+	CoreRoom		currentRoom; //For spawning Enemies upon Collision
 	
+	private String	type;//Unterscheidung ob "Story" oder Quest NPC
+	private String	questAssault;
+	
+ 	
 	//Constructor for NPC - TODO Think what the NPC should be able to do, and implement the useful thoughts
-	MISCNPC(double initX, double initY, double initHeight, double initWidth, String inBoss, int inStage){
+	MISCNPC(double initX, double initY, double initHeight, double initWidth, String inBoss, int inStage, String inType, CoreRoom inRoom){
 		
 		x = initX;
 		y = initY;
 		
 		v_x = 0;
 		v_y = 0;
+		
+		type = inType;
+		
+		currentRoom = inRoom;
 		
 		height = initHeight;
 		width = initWidth;
@@ -42,7 +51,9 @@ public class MISCNPC extends CoreGameObjects{
 		stageone = "Wow you started the game, congratulations /sarcasm."+"The Boss on this level is a red circle.";
 		stagetwo = "Ok, so you managed to defeat the red circle, maybe you are able to defeat the next red circle.";
 		stagethree = "I am kinda impressed now... maybe you are able to see the victory screen if you live after you fought the last red circle.";
+		questAssault = "So you are really stupid enough to fall for our simple Trap. Kill it with Melee!";
 	}
+	
 	
 	//Methods from GameObjects - we probably won't need all of them
 
@@ -152,23 +163,43 @@ public class MISCNPC extends CoreGameObjects{
 
 // from here it's actual new NPC Stuff (and Stuff)
 	void talk(){
-		switch(stage){
-		case 1:
-			text = stageone;
-			break;
-		case 2:
-			text = stagetwo;
-			break;
-		case 3:
-			text = stagethree;
-			break;
+		if (type == "Start"){ 
+			switch(stage){
+			case 1:
+				text = stageone;
+				break;
+			case 2:
+				text = stagetwo;
+				break;
+			case 3:
+				text = stagethree;
+				break;
+			}
+			talk = true;
+			npcTalkTime = System.currentTimeMillis();
 		}
-		talk = true;
-		npcTalkTime = System.currentTimeMillis();
+		else if (type == "Quest"){
+			int quest = (int)(Math.random()*1);
+			switch (quest){
+			case 0: //der NPC ist ein verkleideter Feind
+				text = questAssault;
+				talk = true;
+				npcTalkTime = System.currentTimeMillis();
+			}
+		}
 	}
 	
 	private void talkTimer(){ //timer for how long the npc talks
-		if(System.currentTimeMillis() >= npcTalkTime + 10000) talk = false;
+		if (type == "Start"){
+			if(System.currentTimeMillis() >= npcTalkTime + 10000) talk = false;
+		}
+		else if (type == "Quest"){ //Falls es ein Quest NPC ist
+			if(System.currentTimeMillis()>= npcTalkTime + 5000){
+				talk = false; 
+				currentRoom.getContent().add(new EnemyMelee(x, y, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, currentRoom.getMode()));
+				currentRoom.getContent().remove(this);//NPC nach dem reden entfernen
+			}
+		}
 	}
 	
 	

@@ -73,10 +73,10 @@ public class CoreLevel {
 	
 	//Zähler der Raumdateien
 	int countRaum (){
-		File directory = new File ("Level/Raum"); //enthält den angegebenen Ordner
+		File directory = new File ("Level/Raum"); //gehe zum Ordner der die zu zählenden Dateien enthält
 		int count = 0;
 		for (File counter : directory.listFiles()){ //gehe die Dateien im Ordner directory durch
-			if (counter.isFile()){ //für jede Datei den counter erhöhen
+			if (counter.isFile()){ //für jede Datei den counter erhöhen, Ordner sollten ignoriert werden (es sollte dort ohnehin keine geben)
 				count++;
 			}		
 		}
@@ -84,7 +84,7 @@ public class CoreLevel {
 	}
 	
 	//Zähler der Bossraumdateien
-	int countBoss (){
+	int countBoss (){ //analog zu countRaum
 		File directory = new File ("Level/BossRaum");
 		int count = 0;
 		for (File counter : directory.listFiles()){
@@ -113,13 +113,16 @@ public class CoreLevel {
 				level[i][j] = null;
 			}
 		}
+		
+		//Von der Logik erfahren in welcher Ebene der Spieler ist, und wer der Boss dieser Ebene sein soll
 		stage = inStage;
 		boss = inBoss;		
 		
-		boolean tempTop, tempBottom, tempLeft, tempRight;//für die Bestimmung der Nachbarn eines Raums
-		CoreRoom tempRoom;// = new CoreRoom(figure, stage, boss); //zwischenspeicher für einen Raum, zum hinzufügen benötigt
+		boolean tempTop, tempBottom, tempLeft, tempRight;//für die Bestimmung der Nachbarn eines Raums, genutzt um passend Türen zu spawnen
+		CoreRoom tempRoom;//zwischenspeicher für einen Raum, zum hinzufügen benötigt
 
-		int maxRooms = 6+2*stage;
+		int maxRooms = 6+2*stage; //Angabe wieviele "normale" Räume das zu generierende Level haben soll
+		
 		int x,y; //aktuelle Koordinaten im Raum-Array
 
 		for (x = 0;x < 10; x++){
@@ -135,22 +138,22 @@ public class CoreLevel {
 		boolean bossSet = false; //for setting the BossRoom
 		
 		
-		construction[randomStartX][randomStartY] = 1;
+		construction[randomStartX][randomStartY] = 1; //setzen des Startraums an einer zufälligen Position, der Rest des Levels wird von dort aus generiert
 
 		//was im folgenden passieren soll:
 		//gehe das construction array durch
 		//prüfe ob ein Nachbar des aktuellen Feldes von einem Raum besetzt ist (deswegen werden die Ränder und Ecken speziell betrachtet, daher der aufgeblähte Code)
 		//falls ^ja würfeln ob dort ein neuer Raum spawnt
-		//falls ja actRooms++, repeat
+		//falls ja actRooms++;probCounter = 0, repeat
 		//falls nein probCounter++, bei einem bestimmten probCounter Wert wird garantiert ein Raum gespawnt
 		
 		while (actRooms <= maxRooms){ //Laufe bis alle Räume gesetzt sind
 			for (y=0; y<10; y++){	//gehe Array durch
-				for (x=0; x<10; x++){ //Beginne Fälle bei den Ecken, dnn müssen die nicht mehr bei den Rändern betrachtet werden (falls ich else if richtig verstanden habe)
+				for (x=0; x<10; x++){ 
 					if (x == 0 && y == 0  && actRooms <= maxRooms && construction[x][y] == 0){    //obere linke ecke
 						if (construction[x+1][y] != 0 || construction[x][y+1] != 0){ //falls es einen Nachbarn gibt
 							if(Math.random()<0.3 || probCounter ==5) { //würfle ob es einen Raum geben soll, oder setze ihn falls die letzten 5 Fälle kein Raum gesetzt wurde
-								construction[x][y] = 2; //Raum setzen
+								construction[x][y] = 2; //Raum setzen, 2 entspricht dem normalen Raum
 								actRooms++; //es gibt nun einen Raum mehr
 								probCounter = 0; //der Raum-Garantie-Counter wird resetet
 							}
@@ -243,8 +246,7 @@ public class CoreLevel {
 		}// ab hier normale Räume + startraum
 		System.out.println("Räume sind da");
 		
-		//unperformant as fuck, but should work TODO: change that (the unperformant part, not the working part)
-		//set Shop:
+		//setze einen Shop, Fallunterscheidung analog zu oben
 		while (shopSet == false){
 			for (x = 0; x < 10;x++){
 				for (y = 0; y < 10; y++){
@@ -348,12 +350,12 @@ public class CoreLevel {
 		System.out.println("Shop ist da");
 		while (bossSet == false){ //setze Bossraum an eine stelle wo er nur einen Nachbarn hat
 			System.out.println("trying to be a boss");
-			for (x = 0; x < 10; x++){ //unter umständen sind die benennung der fälle der fallunterscheidung murks, TODO Check that
+			for (x = 0; x < 10; x++){ 
 				for (y = 0; y < 10; y++){
 					if (x == 0 && y == 0  && bossSet == false && construction[x][y] == 0){    //obere linke ecke
 						if (construction[x+1][y] != 0 ^ construction[x][y+1] != 0){ //falls es GENAU einen Nachbarn gibt
 							if(Math.random()<0.1 || probCounter == 10) { //würfle ob es einen Raum geben soll, oder setze ihn falls die letzten 5 Fälle kein Raum gesetzt wurde
-								construction[x][y] = 4; //Raum setzen
+								construction[x][y] = 4; //Bossraum setzen
 								bossSet = true; //es gibt nun einen Raum mehr
 								probCounter = 0; //der Raum-Garantie-Counter wird resetet
 							}
@@ -446,7 +448,7 @@ public class CoreLevel {
 				}
 			}
 		}
-		System.out.println("passt nun");
+		System.out.println("Construction done!");
 		//Ab hier enthält construction die 'Blaupause' des levels
 		//jetzt wird construction in ein Raum Array umgesetzt
 		for (x = 0; x < 10; x++){

@@ -58,7 +58,7 @@ public class CoreRoom {
 	//liest den Inhalt des Raums aus einer Datei ein
 	public void buildRoom(){
 		
-		//Konstanten anpassen sobald es mehr Räume gibt!!! TODO: Automatisieren
+		//Die Anzahl der möglichen Räume ist nun über CoreLevel.count(Boss)Raum bekannt und muss nichtmehr bei neuen Räumen im Code geändert werden
 		//festlegen welche Raumliste der Builder durchgeht
 		if (type == "Raum"){
 			randomNumber =(int)(anzahlRaum*Math.random());
@@ -104,7 +104,7 @@ public class CoreRoom {
 			}
 		}
 		catch (IOException e) {
-			System.out.println("File not found, system exiting.");
+			System.out.println("Level/"+type+"/"+type+randomNumber+".txt not found, system exiting.");
 			System.exit(1);
 		} finally {
 			try {
@@ -182,7 +182,13 @@ public class CoreRoom {
 					break;
 					
 				case 'N':
-					content.add(new MISCNPC (column-1+0.5, line-1,1,1, "this is a stub",stage));
+					if (type == "Start"){
+						content.add(new MISCNPC (column-1+0.5, line-1,1,1, "this is a stub",stage, "Start", this));
+					}
+					else {
+						content.add(new MISCNPC (column-1+0.5, line-1+0.5,1,1, "this is a stub", stage, "Quest", this));
+					}
+					
 					break;
 				case 'F':
 					content.add(new EnemyMelee(column-1+0.5, line-1+0.5, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, mode));
@@ -202,7 +208,7 @@ public class CoreRoom {
 			}
 			
 		} catch (IOException e) {
-			System.out.println("File \"Level/"+type+randomNumber+".txt\" not found, system exiting.");
+			System.out.println("File Level/"+type+"/"+type+randomNumber+".txt not found, system exiting.");
 			System.exit(1);
 		} finally {
 			try {
@@ -249,6 +255,10 @@ public class CoreRoom {
 	
 	boolean getRightNeighbour(){
 		return hasLeftNeighbour;
+	}
+	
+	int getMode(){
+		return mode;
 	}
 	//***********************************************************************************************************
 	//Setter

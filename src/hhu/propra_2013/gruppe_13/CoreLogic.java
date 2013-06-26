@@ -353,28 +353,28 @@ class CoreLogic implements Runnable {
 				case 0:
 					if (figDir == UPLEFT || figDir == UP || figDir == UPRIGHT) {
 						this.switchRoom(destination);
-						System.out.println("collided with a door"+destination+finished);
+						//System.out.println("collided with a door"+destination+finished);
 					}
 					break;
 
 				case 1:
 					if (figDir == RIGHT || figDir == UPRIGHT || figDir == DOWNRIGHT) {
 						this.switchRoom(destination);
-						System.out.println("collided with a door"+destination+finished);
+						//System.out.println("collided with a door"+destination+finished);
 					}
 					break;
 
 				case 2:
 					if (figDir == DOWN || figDir == DOWNRIGHT || figDir == DOWNLEFT) {
 						this.switchRoom(destination);
-						System.out.println("collided with a door"+destination+finished);
+						//System.out.println("collided with a door"+destination+finished);
 					}
 					break;
 
 				case 3:
 					if (figDir == LEFT || figDir == DOWNLEFT || figDir == UPLEFT) {
 						this.switchRoom(destination);
-						System.out.println("collided with a door"+destination+finished);
+						//System.out.println("collided with a door"+destination+finished);
 					}
 					break;
 				case 4:
