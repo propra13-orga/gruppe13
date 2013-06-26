@@ -1,5 +1,10 @@
 package hhu.propra_2013.gruppe_13;
 
+import java.io.*;
+
+import javax.swing.JFileChooser;
+//import javax.swing.filechooser.*; //zum Zählen der Dateien in einem Ordner, genutzt für die Random Grenzen im Roombuilder
+
 public class CoreLevel {
 	
 //	Figure 	figure;
@@ -14,6 +19,8 @@ public class CoreLevel {
 	
 	private int  	construction[][] = new int[10][10];	//Erst Bestimmung der Positionen der Räume damit bei der Erzeugung die Positionen der Nachbarn bekannt sind
 														//int um so den Raum Typ zu codieren, sodass das int array mit einem SChritt in ein Raum-Array umgesetzt werden kann
+	
+	private int 	anzahlRaum, anzahlBoss; //Anzahl der Raumdateien, für den Zufallsgenerator in CoreRoom	
 	
 	
 	//Array muss der Klasse bekannt sein um eine get Methode zu implementieren, wird beim Builder resettet 
@@ -64,10 +71,42 @@ public class CoreLevel {
 	}
 	//**********************************************************************************************
 	
+	//Zähler der Raumdateien
+	int countRaum (){
+		File directory = new File ("Level/Raum"); //enthält den angegebenen Ordner
+		int count = 0;
+		for (File counter : directory.listFiles()){ //gehe die Dateien im Ordner directory durch
+			if (counter.isFile()){ //für jede Datei den counter erhöhen
+				count++;
+			}		
+		}
+		return count;
+	}
+	
+	//Zähler der Bossraumdateien
+	int countBoss (){
+		File directory = new File ("Level/BossRaum");
+		int count = 0;
+		for (File counter : directory.listFiles()){
+			if (counter.isFile()){
+				count++;
+			}
+		}
+		return count;
+		
+	}
+		
+	
 	//LevelBuilder
 	void buildLevel(int inStage, String inBoss){//Stage beginnt bei 1 zu zählen
 		//Hier initialisiert damit es nur ein Level in der Logik gibt das jedes mal neu gebaut wird
 		System.out.println("X "+randomStartX+" Y "+randomStartY);
+		
+		//hier werden die Leveldateien gezählt um dem Zufallsgenerator in CoreRoom automatisch Grenzen zu liefern
+		anzahlRaum = this.countRaum();
+		anzahlBoss = this.countBoss();
+		
+		
 		//Hier wird das Raum Array resettet, da ich nicht bei jedem Aufruf ein neues (wie bei construction) spawnen kann
 		for (int i = 0; i<10; i++){
 			for (int j = 0; j < 10; j++){
@@ -421,7 +460,7 @@ public class CoreLevel {
 						if (construction[x-1][y] != 0){tempLeft = true;} //prüfe ob es nachbarn gibt
 						if (construction[x+1][y] != 0){tempRight = true;} //falls ja:
 						if (construction[x][y+1] != 0){tempBottom = true;}//spawne raum mit passenden Nachbarn
-						tempRoom = new CoreRoom(stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode);
+						tempRoom = new CoreRoom(stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode, anzahlRaum, anzahlBoss);
 						level[x][y] = tempRoom;
 						//see what kind of Room is supposed to be there
 						 //and set it accordingly
@@ -450,7 +489,7 @@ public class CoreLevel {
 						if (construction[x-1][y] != 0){tempLeft = true;}
 						if (construction[x+1][y] != 0){tempRight = true;}
 						if (construction[x][y-1] != 0){tempTop = true;}
-						tempRoom = new CoreRoom(stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode);
+						tempRoom = new CoreRoom(stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode, anzahlRaum, anzahlBoss);
 						level[x][y] = tempRoom;
 						switch (construction[x][y]){ 
 						
@@ -476,7 +515,7 @@ public class CoreLevel {
 					else if (x == 0 && y == 0){ //obere linke ecke
 						if (construction[x+1][y] != 0){tempRight = true;}
 						if (construction[x][y+1] != 0){tempBottom = true;}
-						tempRoom = new CoreRoom(stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode);
+						tempRoom = new CoreRoom(stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode, anzahlRaum, anzahlBoss);
 						level[x][y] = tempRoom;
 						switch (construction[x][y]){ 
 						
@@ -502,7 +541,7 @@ public class CoreLevel {
 					else if (x == 9 && y == 0){ //obere rechte ecke
 						if (construction[x-1][y] != 0){tempLeft = true;}
 						if (construction[x][y+1] != 0){tempBottom = true;}
-						tempRoom = new CoreRoom(stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode);
+						tempRoom = new CoreRoom(stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode, anzahlRaum, anzahlBoss);
 						level[x][y] = tempRoom;
 						switch (construction[x][y]){ 
 						
@@ -529,7 +568,7 @@ public class CoreLevel {
 						if (construction[x+1][y] != 0){tempRight = true;}
 						if (construction[x][y-1] != 0){tempTop = true;}
 						if (construction[x][y+1] != 0){tempBottom = true;}
-						tempRoom = new CoreRoom(stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode);
+						tempRoom = new CoreRoom(stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode, anzahlRaum, anzahlBoss);
 						level[x][y] = tempRoom;
 						switch (construction[x][y]){ 
 						
@@ -556,7 +595,7 @@ public class CoreLevel {
 						if (construction[x-1][y] != 0){tempLeft = true;}
 						if (construction[x][y-1] != 0){tempTop = true;}
 						if (construction[x][y+1] != 0){tempBottom = true;}
-						tempRoom = new CoreRoom(stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode);
+						tempRoom = new CoreRoom(stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode, anzahlRaum, anzahlBoss);
 						level[x][y] = tempRoom;
 						switch (construction[x][y]){ 
 						
@@ -582,7 +621,7 @@ public class CoreLevel {
 					else if (x == 0 && y == 9){// untere linke ecke
 						if (construction[x+1][y] != 0){tempRight = true;}
 						if (construction[x][y-1] != 0){tempTop = true;}
-						tempRoom = new CoreRoom(stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode);
+						tempRoom = new CoreRoom(stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode, anzahlRaum, anzahlBoss);
 						level[x][y] = tempRoom;
 						switch (construction[x][y]){ 
 						
@@ -608,7 +647,7 @@ public class CoreLevel {
 					else if (x == 9 && y == 9){ //untere rechte ecke
 						if (construction[x-1][y] != 0){tempLeft = true;}
 						if (construction[x][y-1] != 0){tempTop = true;}
-						tempRoom = new CoreRoom(stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode);
+						tempRoom = new CoreRoom(stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode, anzahlRaum, anzahlBoss);
 						level[x][y] = tempRoom;
 						switch (construction[x][y]){ 
 						
@@ -636,7 +675,7 @@ public class CoreLevel {
 						if (construction[x+1][y] != 0){tempRight = true;}
 						if (construction[x][y-1] != 0){tempTop = true;}
 						if (construction[x][y+1] != 0){tempBottom = true;}
-						tempRoom = new CoreRoom(stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode);
+						tempRoom = new CoreRoom(stage, boss,tempTop, tempBottom, tempLeft, tempRight, mode, anzahlRaum, anzahlBoss);
 						level[x][y] = tempRoom;
 						switch (construction[x][y]){ 
 						

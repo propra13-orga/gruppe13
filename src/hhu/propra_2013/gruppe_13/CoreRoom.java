@@ -24,13 +24,14 @@ public class CoreRoom {
 	private String 		type;
 	private int 		stage; //Nummer des Levels, für den NPC
 	private int			mode;
+	private int 		anzahlRaum, anzahlBoss;
 	
 	// Stream and Reader for reading data from file
 	private InputStream roomStream 	= null;
 	private Reader roomReader		= null;
 	
 	// Constructor
-	CoreRoom(int inStage, String inBoss, boolean inTopNeighbour, boolean inBottomNeighbour, boolean inLeftNeighbour, boolean inRightNeighbour, int inMode){
+	CoreRoom(int inStage, String inBoss, boolean inTopNeighbour, boolean inBottomNeighbour, boolean inLeftNeighbour, boolean inRightNeighbour, int inMode, int inanzahlRaum, int inanzahlBoss){
 //		figure 				= inFigure;
 		content 			= new ArrayList<CoreGameObjects>();
 		stage 				= inStage;
@@ -41,6 +42,10 @@ public class CoreRoom {
 		hasBottomNeighbour 	= inBottomNeighbour;
 		hasLeftNeighbour 	= inLeftNeighbour;
 		hasRightNeighbour 	= inRightNeighbour;
+		
+		//Angeben der Anzahl der verschiedenen Räume für den Zufallsgenerator
+		anzahlRaum = inanzahlRaum;
+		anzahlBoss = inanzahlBoss;
 	//	System.out.println("links "+hasLeftNeighbour+" rechts "+hasRightNeighbour+" oben "+hasTopNeighbour+" unten "+hasBottomNeighbour);
 	}
 	
@@ -56,10 +61,10 @@ public class CoreRoom {
 		//Konstanten anpassen sobald es mehr Räume gibt!!! TODO: Automatisieren
 		//festlegen welche Raumliste der Builder durchgeht
 		if (type == "Raum"){
-			randomNumber =(int)(19*Math.random());
+			randomNumber =(int)(anzahlRaum*Math.random());
 		}
 		else if (type == "BossRaum"){
-			randomNumber =(int)(3*Math.random());	
+			randomNumber =(int)(anzahlBoss*Math.random());	
 			isBossRoom = true;
 			System.out.println("yay, like a baus");
 		}
@@ -75,7 +80,7 @@ public class CoreRoom {
 		
 		// First read all Walls into the ArrayList, that way Walls will  be drawn in  the background
 		try {
-			roomStream = new FileInputStream("Level/"+type+randomNumber+".txt");
+			roomStream = new FileInputStream("Level/"+type+"/"+type+randomNumber+".txt");
 			roomReader = new InputStreamReader (roomStream);
 			
 			element = 0;
@@ -115,7 +120,7 @@ public class CoreRoom {
 		// Put all other stuff into the ArrayList
 		try {
 			System.out.println("Walls added");
-			roomStream = new FileInputStream("Level/"+type+randomNumber+".txt");
+			roomStream = new FileInputStream("Level/"+type+"/"+type+randomNumber+".txt");
 			roomReader = new InputStreamReader (roomStream);
 			
 			element = 0;
