@@ -1,8 +1,13 @@
 package hhu.propra_2013.gruppe_13;
 
 import java.awt.Graphics2D;
+import java.io.Serializable;
 
-abstract class CoreGameObjects {
+abstract class CoreGameObjects implements Serializable {
+
+	// serial version ID, the interface Serializable asks for it
+	private static final long serialVersionUID = 2537021854756774619L;
+	
 	// declare final variables in order to determine what bullet shall be fired 
 	static final int PLAYER_BULLET_STD 			= 0;
 	static final int PLAYER_SPECIAL_BULLET_ONE	= 1;
