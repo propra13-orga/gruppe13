@@ -22,7 +22,8 @@ public class MISCNPC extends CoreGameObjects{
 	CoreRoom		currentRoom; //For spawning Enemies upon Collision
 	
 	private String	type;//Unterscheidung ob "Story" oder Quest NPC
-	private String	questAssault;
+	private String	questAssault, questItem, questAmbush;
+	private int 	quest;
 	
  	
 	//Constructor for NPC - TODO Think what the NPC should be able to do, and implement the useful thoughts
@@ -51,7 +52,9 @@ public class MISCNPC extends CoreGameObjects{
 		stageone = "Wow you started the game, congratulations /sarcasm."+"The Boss on this level is a red circle.";
 		stagetwo = "Ok, so you managed to defeat the red circle, maybe you are able to defeat the next red circle.";
 		stagethree = "I am kinda impressed now... maybe you are able to see the victory screen if you live after you fought the last red circle.";
-		questAssault = "So you are really stupid enough to fall for our simple Trap. Kill it with Melee!";
+		questAmbush = "So you are really stupid enough to fall for our simple Trap. Kill it with Melee!";
+		questItem = "It's dangerous to go alone! Take this!";
+		questAssault = "It's a trap! they are coming for you!";
 	}
 	
 	
@@ -163,41 +166,91 @@ public class MISCNPC extends CoreGameObjects{
 
 // from here it's actual new NPC Stuff (and Stuff)
 	void talk(){
-		if (type == "Start"){ 
-			switch(stage){
-			case 1:
-				text = stageone;
-				break;
-			case 2:
-				text = stagetwo;
-				break;
-			case 3:
-				text = stagethree;
-				break;
-			}
-			talk = true;
-			npcTalkTime = System.currentTimeMillis();
-		}
-		else if (type == "Quest"){
-			int quest = (int)(Math.random()*1);
-			switch (quest){
-			case 0: //der NPC ist ein verkleideter Feind
-				text = questAssault;
+		if (talk == false){
+			if (type == "Start"){ 
+				switch(stage){
+				case 1:
+					text = stageone;
+					break;
+				case 2:
+					text = stagetwo;
+					break;
+				case 3:
+					text = stagethree;
+					break;
+				}
 				talk = true;
 				npcTalkTime = System.currentTimeMillis();
+			}
+			else if (type == "Quest"){
+				
+				quest = (int)(Math.random()*3);
+				switch (quest){
+				case 0: //der NPC ist ein verkleideter Feind
+					
+					text = questAmbush;
+					talk = true;
+					npcTalkTime = System.currentTimeMillis();
+				break;
+					
+				case 1://der NPC ist der Köder für eine Falle
+					
+					text = questAssault;
+					talk = true;
+					npcTalkTime = System.currentTimeMillis();
+					
+				break;
+				
+				case 2: //der NPC spendet dem Spieler ein Item
+					
+					text = questItem;
+					talk = true;
+					npcTalkTime = System.currentTimeMillis();
+					
+				break;
+				}
 			}
 		}
 	}
 	
 	private void talkTimer(){ //timer for how long the npc talks
+
 		if (type == "Start"){
 			if(System.currentTimeMillis() >= npcTalkTime + 10000) talk = false;
 		}
 		else if (type == "Quest"){ //Falls es ein Quest NPC ist
 			if(System.currentTimeMillis()>= npcTalkTime + 5000){
-				talk = false; 
-				currentRoom.getContent().add(new EnemyMelee(x, y, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, currentRoom.getMode()));
-				currentRoom.getContent().remove(this);//NPC nach dem reden entfernen
+				
+				switch (quest){
+				
+				case(0):
+
+					talk = false; 
+					currentRoom.getContent().add(new EnemyMelee(x, y, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, currentRoom.getMode()));
+					currentRoom.getContent().remove(this);//NPC nach dem reden entfernen
+				
+				break;
+				
+				case(1):
+					
+					talk = false;
+					currentRoom.getContent().add(new EnemyMelee (0.51, 6.49, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, currentRoom.getMode()));//spawnt vor jeder der 4 möglichen Türpositionen einen Gegner
+					currentRoom.getContent().add(new EnemyMelee (21.49, 6.49, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, currentRoom.getMode()));
+					currentRoom.getContent().add(new EnemyMelee (10.49, 0.51, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, currentRoom.getMode()));
+					currentRoom.getContent().add(new EnemyMelee (10.49, 12.49, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, currentRoom.getMode()));
+					currentRoom.getContent().remove(this);
+					
+					
+				break;
+				
+				case(2):
+					
+					talk = false;
+					currentRoom.getContent().add(new ItemImproveWeapon(x, y, 1, 1, 1));
+					currentRoom.getContent().remove(this);
+					
+				break;
+				}
 			}
 		}
 	}
