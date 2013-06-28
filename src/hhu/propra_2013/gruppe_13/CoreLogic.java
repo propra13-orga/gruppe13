@@ -609,37 +609,44 @@ class CoreLogic implements Runnable {
 		case (0):// Door leads up
 			locationY--;
 			figY = 12.49;
+			
 			this.setRoom(locationX, locationY);
 			break;
 
 		case (1): // Door leads to the right
 			locationX++;
 			figX = 0.51; // linker Spielfeldrand
+			
 			this.setRoom(locationX, locationY); // neuen Raum and Grafik und Logik geben
 			break;
 
 		case (2): // Door leads down
 			locationY++;
 			figY = 0.51;
+			
 			this.setRoom(locationX, locationY);
 			break;
 
 		case (3): // Door leads left
 			locationX--;
 			figX = 21.49;// rechter Spielfeldrand
+			
 			this.setRoom(locationX, locationY);
 			break;
 
 		case (4):
 			stage++;
 			if (stage < 4){
-			boss = "test";// TODO maybe change the boss sometimes
-			level.buildLevel(stage, boss); //generate new level
-			locationX = level.getStartX(); //go to the start room
-			locationY = level.getStartY();
-			figX = 11.5; //put figure in the middle of the start room
-			figY = 6.5;
-			this.setRoom(locationX, locationY);
+				boss = "test";// TODO maybe change the boss sometimes
+				level.buildLevel(stage, boss); //generate new level
+				
+				locationX = level.getStartX(); //go to the start room
+				locationY = level.getStartY();
+				
+				figX = 11.5; //put figure in the middle of the start room
+				figY = 6.5;
+				
+				this.setRoom(locationX, locationY);
 			}
 			else{
 				game.end(true);

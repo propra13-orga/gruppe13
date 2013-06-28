@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 public class Melee extends Attack {
 
+	private static final long serialVersionUID = -5015189883215185491L;
+
 	private int 	player;
 	
 	private int 	hp, type, strength;

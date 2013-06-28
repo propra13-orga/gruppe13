@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 class Figure extends CoreGameObjects {
+	private static final long serialVersionUID = 1988582549597278190L;
+	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// set these for the viewing direction of the figure
 	static final int NONE			= 0;
@@ -46,6 +48,7 @@ class Figure extends CoreGameObjects {
 	
 	// this variables is needed to set the direction in which the figure is looking
 	private int 	direction = CoreLogic.NONE;
+	private int 	activity;
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// class constructor
@@ -151,6 +154,10 @@ class Figure extends CoreGameObjects {
 		return direction;
 	}
 	
+	int getActivity() {
+		return activity;
+	}
+	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	void setBulletCoolDownTime (int cooldown) {
 		bulletCoolDownTime = cooldown;
@@ -221,6 +228,10 @@ class Figure extends CoreGameObjects {
 	
 	void setSpecialAttack (boolean specialAttack) {
 		this.specialAttack = specialAttack;
+	}
+	
+	void setActivity(int activity) {
+		this.activity = activity;
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/

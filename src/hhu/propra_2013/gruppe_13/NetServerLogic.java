@@ -3,16 +3,17 @@ package hhu.propra_2013.gruppe_13;
 import java.util.ArrayList;
 
 class NetServerLogic extends NetIO {
+
 	// set these for the running direction of the figure
-	static final int NONE			= 0;
-	static final int UP				= 1;
-	static final int DOWN			= 2;
-	static final int LEFT			= 3;
-	static final int RIGHT			= 4;
-	static final int UPLEFT			= 5;
-	static final int UPRIGHT		= 6;
-	static final int DOWNLEFT		= 7;
-	static final int DOWNRIGHT		= 8;
+	static final int 	NONE		= 0;
+	static final int 	UP			= 1;
+	static final int 	DOWN		= 2;
+	static final int 	LEFT		= 3;
+	static final int 	RIGHT		= 4;
+	static final int 	UPLEFT		= 5;
+	static final int 	UPRIGHT		= 6;
+	static final int 	DOWNLEFT	= 7;
+	static final int 	DOWNRIGHT	= 8;
 
 	// variable for the game loop
 	private boolean 	running;
@@ -23,7 +24,7 @@ class NetServerLogic extends NetIO {
 
 	// information about the level
 	private int 		stage;
-	private String 		boss;
+//	private String 		boss;
 
 	// information about the room
 	private boolean 	finished; //to open doors once there are no enemies in the room, can be done by the collision	
@@ -37,6 +38,9 @@ class NetServerLogic extends NetIO {
 	private CoreLevel 				level;
 	private ArrayList<NetServerIn>	incoming;
 	private ArrayList<NetServerOut> outgoing;
+	
+	// list for checking if all players have finished the level
+	private ArrayList<Integer>		levelComplete;
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	void setRunning(boolean boolIn) {
@@ -67,13 +71,13 @@ class NetServerLogic extends NetIO {
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Initiate the current objects variables
 	NetServerLogic(CoreLevel level, ArrayList<NetServerIn> incoming, ArrayList<NetServerOut> outgoing) {
-		running = true;
-
-		stage 	= 1;
-		boss 	= "test";
-
+		running 	= true;
+		stage 		= 1;
+		
+		levelComplete = new ArrayList<Integer>();
+		
 		// create Level
-		this.level = level;
+		this.level 	= level;
 		
 		// find out where in the level we are, switching rooms will be relative to this value
 		locationX	= level.getStartX();
@@ -87,6 +91,7 @@ class NetServerLogic extends NetIO {
 		// set the current room for all incoming connections
 		for (int i=0; i<incoming.size(); i++) {
 			incoming.get(i).setLocation(locationX, locationY);
+			levelComplete.add(PLAYING);
 		}
 	}
 
@@ -158,22 +163,20 @@ class NetServerLogic extends NetIO {
 		
 		// iterate over all objects within the room, excepting the figure, of course
 		for (int i = 0; i < collidable.size(); i++) {
-			collided = collidable.get(i);
-			objX	 = collided.getPosX();
-			objY	 = collided.getPosY();
-			objR	 = collided.getRad();
+			collided 	= collidable.get(i);
+			objX	 	= collided.getPosX();
+			objY	 	= collided.getPosY();
+			objR	 	= collided.getRad();
 
-			objWidth = collided.getWidth();
-			objHeight = collided.getHeight();
+			objWidth 	= collided.getWidth();
+			objHeight 	= collided.getHeight();
 
-			collOne = 1;
-			collTwo = 1;
-			collThree = 1;
-			collFour = 1;
+			collOne 	= 1;
+			collTwo 	= 1;
+			collThree 	= 1;
+			collFour 	= 1;
 
-			// First check whether the objects are close enough to encounter one
-			// another within the next couple of moves, use squares, saves a
-			// couple of sqrt calls
+			// First check whether the objects are close enough to encounter one another within the next couple of moves, use squares, saves a couple of sqrt calls
 			if ((((objX - figX) * (objX - figX) + (objY - figY) * (objY - figY)) < ((figR + objR) * (figR + objR))) 
 					&& !(collided instanceof Attack)) {
 				tmpX = figX - objX;
@@ -302,54 +305,84 @@ class NetServerLogic extends NetIO {
 		case (0):// Door leads up
 			locationY--;
 			figY = 12.49;
+			
 			this.setRoom(locationX, locationY, client);
 			break;
 
 		case (1): // Door leads to the right
 			locationX++;
 			figX = 0.51; // linker Spielfeldrand
+			
 			this.setRoom(locationX, locationY, client); // neuen Raum and Grafik und Logik geben
 			break;
 
 		case (2): // Door leads down
 			locationY++;
 			figY = 0.51;
+			
 			this.setRoom(locationX, locationY, client);
 			break;
 
 		case (3): // Door leads left
 			locationX--;
 			figX = 21.49;// rechter Spielfeldrand
+			
 			this.setRoom(locationX, locationY, client);
 			break;
 
 		case (4):
-			stage++;
-			if (stage < 4){
-			boss = "test";// TODO maybe change the boss sometimes
-			level.buildLevel(stage, boss); //generate new level
-			locationX = level.getStartX(); //go to the start room
-			locationY = level.getStartY();
-			figX = 11.5; //put figure in the middle of the start room
-			figY = 6.5;
-			this.setRoom(locationX, locationY, client);
-			}
-			else{
-//				game.end(true);
-				//TODO: implement a method for the client to know that he has won
-			}
-
+			levelComplete.set(client, FINISHED);
+			figure.setActivity(FINISHED);
 			break;
 		}
 	}
+	
+	/*-----------------------------------------------------------------------------------------------------------------------*/
+	private void checkFigure(int client) {
+		if (figure.getHP() <= 0) {
+			levelComplete.set(client, DEAD);
+			figure.setActivity(DEAD);
+		}
+	}
 
+	/*-----------------------------------------------------------------------------------------------------------------------*/
+	private void switchLevel() {
+		stage++;
+		
+		if (stage < 4) {
+			// TODO maybe change the boss sometimes
+			String boss = "test";
+			
+			// find out where in the starting room to put each figure
+			int amount 	= incoming.size();
+			amount++;
+			
+			double inX = 22./(amount);
+			double inY = 6.5;
+			
+			// build a new level
+			level.buildLevel(stage, boss); //generate new level
+			locationX = level.getStartX(); //go to the start room
+			locationY = level.getStartY();
+
+			// tell all clients, that we have a new room, set the figures accordingly
+			for (int i=0; i<incoming.size(); i++) {
+				this.setRoom(locationX, locationY, i);
+				incoming.get(i).getFigure().setPos((inX*(i+1)+0.5), inY);
+			}
+		} else {
+			// TODO: terminate the game
+		}
+	}
+	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	@Override
 	// Override run method from interface, this will have the game loop
 	public void run() {
 //		long time;
 //		long temp;
-
+		boolean newLevel;
+		
 		// set the maps of all clients and add to internal array list
 		for (int i=0; i<incoming.size(); i++) {
 			incoming.get(i).setMap(new Map());
@@ -358,6 +391,7 @@ class NetServerLogic extends NetIO {
 		
 		// game loop
 		while (running) {
+			newLevel = true;
 //			time = System.currentTimeMillis();
 
 			// iterate over all connections
@@ -379,11 +413,22 @@ class NetServerLogic extends NetIO {
 				this.checkCollision(i);
 				this.attacks(i);
 				this.enemyAI();
+				this.checkFigure(i);
 				
 				// set the objects to send back to the client
 				outgoing.get(i).setRoom(currentRoom.getContent());
 			}
 
+			for (int i=0; i<levelComplete.size(); i++) {
+				if (levelComplete.get(i) == PLAYING) {
+					newLevel = false;
+					break;
+				}
+			}
+			
+			if (newLevel) {
+				switchLevel();
+			}
 //			// set the thread asleep, we don't need it too often
 //			try {
 //				if ((temp = System.currentTimeMillis() - time) < 8)

@@ -14,7 +14,7 @@ class NetClientLogic extends NetIO implements Runnable {
 	static final int DOWNLEFT		= 7;
 	static final int DOWNRIGHT		= 8;
 	
-	// varibale for setting the running direction of the figure
+	// variable for setting the running direction of the figure
 	private int 		direction	= NONE;
 
 	// set square root of 2 and define a boolean variable for the game loop

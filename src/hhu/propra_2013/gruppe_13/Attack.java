@@ -5,6 +5,8 @@ import java.util.ArrayList;
 
 abstract class Attack extends CoreGameObjects {
 
+	private static final long serialVersionUID = 4988534651781619974L;
+
 	// Getter and Setter methods for Objects used by Logic and GameDrawer classes
 	abstract int 	getHP();	
 	abstract double getPosX();

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 class Bullet extends Attack {
 	
+	private static final long serialVersionUID = -7288665515128921942L;
+
 	private int 	player;
 	
 	// position and velocity data

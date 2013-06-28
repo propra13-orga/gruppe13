@@ -17,14 +17,11 @@ class CoreGame_IO implements KeyEventDispatcher {
 	private boolean firedown = false;
 	private boolean fireleft = false;
 	private boolean fireright = false;
-
-	private Figure 	figure;
 	
 	// Logic used by the class, set within the constructor
 	CoreLogic logic;
-	CoreGame_IO(CoreLogic inLogic, Figure inFigure) {
+	CoreGame_IO (CoreLogic inLogic) {
 		logic 	= inLogic;
-		figure 	= inFigure;
 	}
 
 	@Override //reacts to any key event no matter where the focus is. Thus it doesn't matter in what order objects are drawn to the screen
