@@ -63,7 +63,7 @@ class MenuIPField extends JPanel {
 			fields[x] = new JTextFieldIP();
 			fields[x].setBorder(null);
 			fields[x].setHorizontalAlignment(JTextField.CENTER);
-			fields[x].setPreferredSize(new Dimension(25,20));
+			fields[x].setPreferredSize(new Dimension(35,20));
 		}
 		for(int x = 0; x != fields.length - 1; x++)
 		{
@@ -473,9 +473,6 @@ Company: POS Systemhaus</p>
 	 *****************************************************************************************************************************/
 	private class NoWriteDocument extends PlainDocument
 	{
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = -980146827590316938L;
 
 		@Override
