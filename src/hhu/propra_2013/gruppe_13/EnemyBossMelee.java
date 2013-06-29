@@ -199,7 +199,7 @@ public class EnemyBossMelee extends Enemy{
 		// check whether the fucking thing is dead yet, initiate dying sequence if that is the case
 		if (hp <= 0) {
 			dying = true;
-			room.getContent().add(new MISCDoor(17, 6.5, 1, 1, 0.5, 4));
+			room.getContent().add(new MiscDoor(17, 6.5, 1, 1, 0.5, 4));
 		}
 		System.out.println("enemy hp: "+hp);
 
@@ -384,7 +384,7 @@ public class EnemyBossMelee extends Enemy{
 			switch (type) {
 			case ENEMY_FIGURE_RUN:
 				// Check whether an object can be collided with, get data if necessary
-				if (collidable instanceof Figure || collidable instanceof MISCWall) {
+				if (collidable instanceof Figure || collidable instanceof MiscWall) {
 					double[] check = collision(collidable, distUp, distDown, distRight, distLeft);
 					
 					distUp 		= Math.min(distUp, check[0]);

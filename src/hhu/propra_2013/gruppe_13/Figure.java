@@ -74,7 +74,7 @@ class Figure extends CoreGameObjects {
 		cooldown = System.currentTimeMillis();
 		armor	 = 5;
 		
-		bulletType = Bullet.PLAYER_BULLET_STD;
+		bulletType = AttackBullet.PLAYER_BULLET_STD;
 		bulletCoolDownTime = 500;
 		
 		this.player = player;

@@ -218,12 +218,12 @@ class NetServerLogic extends NetIO {
 			((Item) collided).modFigure(collidable, (Figure) figure);
 		}
 		
-		if (collided instanceof MISCNPC){
-			((MISCNPC) collided).talk();
+		if (collided instanceof MiscNPC){
+			((MiscNPC) collided).talk();
 		}
 		
-		if (collided instanceof MISCDoor) { //Doors MUST be checked last because of the new Method of Room-finishing
-			destination = ((MISCDoor) collided).getDestination();
+		if (collided instanceof MiscDoor) { //Doors MUST be checked last because of the new Method of Room-finishing
+			destination = ((MiscDoor) collided).getDestination();
 
 			figDir = figure.getDirection();
 			
@@ -268,7 +268,7 @@ class NetServerLogic extends NetIO {
 		// Iterate over all Bullets and propagate them
 		ArrayList<CoreGameObjects> collidable = currentRoom.getContent();
 		Attack attack;
-		MISCWall wall;
+		MiscWall wall;
 		boolean deleted;
 
 		for (int i=0; i < collidable.size(); i++) {
@@ -288,8 +288,8 @@ class NetServerLogic extends NetIO {
 			}
 	
 			// handle all walls, remove them if they are "dead"
-			if (!deleted && collidable.get(i) instanceof MISCWall) {
-				wall = (MISCWall) collidable.get(i);
+			if (!deleted && collidable.get(i) instanceof MiscWall) {
+				wall = (MiscWall) collidable.get(i);
 				if (wall.getHP() == 0)
 					currentRoom.getContent().remove(wall);
 			}

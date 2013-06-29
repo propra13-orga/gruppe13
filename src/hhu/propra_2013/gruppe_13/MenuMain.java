@@ -11,7 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class CoreMenu{
+public class MenuMain{
 	
 	// Initializer method for the menu
 	static JPanel showMenu(JFrame gameWindow) {
@@ -24,8 +24,8 @@ public class CoreMenu{
 		//Create Buttons to start the game or end the program
 		// TODO: implement cool new shit for the game
 		JButton endProgram 	= new JButton("I'm out of here!");
-		JButton startGame	= new JButton("May the coding begin...");
-		JButton options		= new JButton("Optionen");
+		JButton startGame	= new JButton("Single Player");
+		JButton options		= new JButton("Options");
 		JButton multi		= new JButton("Multiplayer");
 		JButton edit		= new JButton("Editor");
 		
@@ -97,8 +97,6 @@ public class CoreMenu{
 		cButtons.gridx = 1;
 		cButtons.gridy = 3;
 		menu.add(options, cButtons);
-		
-		
 		
 		return menu;
 	}

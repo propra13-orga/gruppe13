@@ -16,7 +16,7 @@ public class ProPra {
 	}
 	
 	static void initStartup() {
-		gameWindow.setContentPane(CoreStartup.showStartup(gameWindow));
+		gameWindow.setContentPane(MenuStartup.showStartup(gameWindow));
 	}
 	
 	static void setMode(int inMode){
@@ -25,28 +25,28 @@ public class ProPra {
 	
 	// method for a lost game
 	static void blueScreen(){
-		gameWindow.setContentPane(MISCMaria.showBlueScreen(gameWindow));
+		gameWindow.setContentPane(ScreenMaria.showBlueScreen(gameWindow));
 	}
 	
 	// method for a won game
 	static void win(){
-		gameWindow.setContentPane(MISCWegi.showWinScreen(gameWindow));
+		gameWindow.setContentPane(ScreenWegi.showWinScreen(gameWindow));
 	}
 	
 	// method for initiating/reinitiating the menu
 	static void initMenu() {
-		gameWindow.setContentPane(CoreMenu.showMenu(gameWindow));
+		gameWindow.setContentPane(MenuMain.showMenu(gameWindow));
 		gameWindow.setVisible(true);
 	}
 	
 	//method for showing the options
 	static void initOptions() {
-		gameWindow.setContentPane(CoreOptions.showOptions(gameWindow));
+		gameWindow.setContentPane(MenuOptions.showOptions(gameWindow));
 		gameWindow.setVisible(true);
 	}
 	
 	public static void initMulti() {
-		gameWindow.setContentPane(CoreMulti.showMulti(gameWindow));
+		gameWindow.setContentPane(MenuMultiplayer.showMulti(gameWindow));
 		gameWindow.setVisible(true);
 	}
 	

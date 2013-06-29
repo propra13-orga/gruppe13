@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-public class Melee extends Attack {
+public class AttackMelee extends Attack {
 
 	private static final long serialVersionUID = -5015189883215185491L;
 
@@ -24,7 +24,7 @@ public class Melee extends Attack {
 	private boolean destroyed;
 	
 	/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-	Melee (double inX, double inY, double inVX, double inVY, int inType, Figure inFigure, ArrayList<CoreGameObjects> InRoom, int player) {
+	AttackMelee (double inX, double inY, double inVX, double inVY, int inType, Figure inFigure, ArrayList<CoreGameObjects> InRoom, int player) {
 		x	= inX;
 		y	= inY;
 		
@@ -184,7 +184,7 @@ public class Melee extends Attack {
 			for (int i=0; i<room.size(); i++) {
 				damageable = room.get(i);
 				
-				if (damageable instanceof MISCWall || damageable instanceof Enemy) {
+				if (damageable instanceof MiscWall || damageable instanceof Enemy) {
 					
 					objPosX		= damageable.getPosX();
 					objPosY		= damageable.getPosY();
@@ -221,7 +221,7 @@ public class Melee extends Attack {
 	@Override
 	Attack copy() {
 		// return a new bullet object with the same attributes as the old one
-		Melee melee = new Melee(this.x, this.y, this.vx, this.vy, this.type, this.figure, this.room, this.player);
+		AttackMelee melee = new AttackMelee(this.x, this.y, this.vx, this.vy, this.type, this.figure, this.room, this.player);
 		melee.setCounterOne(this.counter_one);
 		melee.setDestroyed(this.destroyed);
 		return melee;

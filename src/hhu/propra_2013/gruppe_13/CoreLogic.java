@@ -334,12 +334,12 @@ class CoreLogic implements Runnable {
 			((Item) collided).modFigure(collidable, (Figure) figure);
 		}
 		
-		if (collided instanceof MISCNPC){
-			((MISCNPC) collided).talk();
+		if (collided instanceof MiscNPC){
+			((MiscNPC) collided).talk();
 		}
 		
-		if (collided instanceof MISCDoor) { //Doors MUST be checked last because of the new Method of Room-finishing
-			destination = ((MISCDoor) collided).getDestination();
+		if (collided instanceof MiscDoor) { //Doors MUST be checked last because of the new Method of Room-finishing
+			destination = ((MiscDoor) collided).getDestination();
 
 
 			if (finished) {			// check if there is no enemy found in the room
@@ -480,7 +480,7 @@ class CoreLogic implements Runnable {
 		// Iterate over all Bullets and propagate them
 		ArrayList<CoreGameObjects> collidable = currentRoom.getContent();
 		Attack attack;
-		MISCWall wall;
+		MiscWall wall;
 		boolean deleted;
 
 		for (int i = 0; i < collidable.size(); i++) {
@@ -498,8 +498,8 @@ class CoreLogic implements Runnable {
 				}
 			}
 	
-			if (!deleted && collidable.get(i) instanceof MISCWall) {
-				wall = (MISCWall) collidable.get(i);
+			if (!deleted && collidable.get(i) instanceof MiscWall) {
+				wall = (MiscWall) collidable.get(i);
 				if (wall.getHP() == 0)
 					currentRoom.getContent().remove(wall);
 			}
@@ -508,7 +508,7 @@ class CoreLogic implements Runnable {
 		// If the player has enough resources, create a new area of effect attack
 		if (aoe && figure.getChocolate() > 0) {
 			figure.setChocolate(figure.getChocolate()-1);
-			CoreGameObjects melee = new Melee(figX, figY, 0, 0, Attack.PLAYER_MELEE_AOE, figure, collidable, figure.getPlayer());
+			CoreGameObjects melee = new AttackMelee(figX, figY, 0, 0, Attack.PLAYER_MELEE_AOE, figure, collidable, figure.getPlayer());
 			currentRoom.getContent().add(melee);
 		}
 		
@@ -572,7 +572,7 @@ class CoreLogic implements Runnable {
 					signVY = 1;
 				}
 
-				CoreGameObjects initBullet = new Bullet(figure.getBulletType(), figX, figY, figVX, figVY, signVX, signVY, figure.getPlayer());
+				CoreGameObjects initBullet = new AttackBullet(figure.getBulletType(), figX, figY, figVX, figVY, signVX, signVY, figure.getPlayer());
 
 				currentRoom.getContent().add(initBullet);
 				bulletEnable = false;
