@@ -41,6 +41,15 @@ public class MenuStartup {
 			difficulty.add(difficultyEasy);
 			difficulty.add(difficultyMed);
 			difficulty.add(difficultyHard);
+			
+			difficultyEasy.setBackground(startup.getBackground());
+			difficultyEasy.setForeground(Color.white);
+			
+			difficultyMed.setBackground(startup.getBackground());
+			difficultyMed.setForeground(Color.white);
+			
+			difficultyHard.setBackground(startup.getBackground());
+			difficultyHard.setForeground(Color.white);
 			//Create Buttons to start the game or end the program
 			// TODO: implement cool new shit for the game
 			JButton startGame	= new JButton("May the coding begin...");

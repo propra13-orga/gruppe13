@@ -72,29 +72,40 @@ public class MenuMain{
 			}
 		});
 		
+		JPanel dummy = new JPanel();
+		dummy.setBackground(menu.getBackground());
+		dummy.setVisible(true);
+		
 		// implement the layout manager
 		menu.setLayout(new GridBagLayout());
 		
 		GridBagConstraints cButtons = new GridBagConstraints();
-		cButtons.gridheight = 4;
-		cButtons.gridwidth	= 3;
+		cButtons.weightx = 1;
+		cButtons.weighty = 1;
 		
 		cButtons.gridx = 1;
 		cButtons.gridy = 0;
+		cButtons.insets = new Insets(0, 0, 100, 0);
+		menu.add(dummy, cButtons);
+		
+		dummy = new JPanel();
+		dummy.setBackground(menu.getBackground());
+		dummy.setVisible(true);
+		
+		cButtons.gridy = 5;
+		cButtons.insets = new Insets(100, 0, 0, 0);
+		menu.add(dummy, cButtons);
+		
+		cButtons.gridy = 1;
+		cButtons.insets = new Insets(0, 0, 0, 0);
 		menu.add(startGame, cButtons);
 		
-		cButtons.insets = new Insets(100, 0, 0, 0);
-		cButtons.gridx = 1;
-		cButtons.gridy = 1;
+		cButtons.gridy = 4;
 		menu.add(endProgram, cButtons);
 		
-		cButtons.insets = new Insets(200 , 0 , 0 ,0 );
-		cButtons.gridx = 1;
 		cButtons.gridy = 2;
 		menu.add(multi, cButtons);
 		
-		cButtons.insets = new Insets(300 , 0 , 0 ,0 );
-		cButtons.gridx = 1;
 		cButtons.gridy = 3;
 		menu.add(options, cButtons);
 		
