@@ -4,18 +4,30 @@ import java.util.ArrayList;
 
 class CoreLogic implements Runnable {
 	// set these for the walking direction of the figure
-	static final int NONE			= 0;
-	static final int UP				= 1;
-	static final int DOWN			= 2;
-	static final int LEFT			= 3;
-	static final int RIGHT			= 4;
-	static final int UPLEFT			= 5;
-	static final int UPRIGHT		= 6;
-	static final int DOWNLEFT		= 7;
-	static final int DOWNRIGHT		= 8;
+	static final int NONE				= 0;
+	static final int UP					= 1;
+	static final int DOWN				= 2;
+	static final int LEFT				= 3;
+	static final int RIGHT				= 4;
+	static final int UPLEFT				= 5;
+	static final int UPRIGHT			= 6;
+	static final int DOWNLEFT			= 7;
+	static final int DOWNRIGHT			= 8;
+	
+	static final int FIRENONE			= 10;
+	static final int FIREUP				= 11;
+	static final int FIREDOWN			= 12;
+	static final int FIRELEFT			= 13;
+	static final int FIRERIGHT			= 14;
+	static final int FIREUPLEFT			= 15;
+	static final int FIREUPRIGHT		= 16;
+	static final int FIREDOWNLEFT		= 17;
+	static final int FIREDOWNRIGHT		= 18;
 	
 	// varibale for setting the running direction of the figure
 	private int 		direction	= NONE;
+
+	private int  		fireDirection		= FIRENONE;
 
 	// set square root of 2 and define a boolean variable for the game loop
 	private static final double SQRT_2 = 1.41421356237309504880168872420969807856967187537694807317667973799; // http://en.wikipedia.org/wiki/Square_root_of_2
@@ -63,6 +75,10 @@ class CoreLogic implements Runnable {
 	void setDirection (int input) {
 		direction 	= input;
 		figure.setDirection(input);
+	}
+	
+	void setFireDirection (int input) {
+		fireDirection 	= input;
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
@@ -517,7 +533,7 @@ class CoreLogic implements Runnable {
 
 		// Create new Bullets if the player wishes to do so, and the cooldown
 		// for shooting has expired
-		if (north || east || south || west || northeast || northwest || southeast || southwest) {
+		if (fireDirection != FIRENONE) {
 			
 			if (!bulletEnable) {
 				if (System.currentTimeMillis() - bulletCoolDown > figure.getBulletCoolDownTime())
@@ -532,42 +548,43 @@ class CoreLogic implements Runnable {
 				int signVX = 0;
 				int signVY = 0;
 
-				if (north) {
+				
+				if ( fireDirection == FIREUP ) {
 					signVX = 0;
 					signVY = -1;
 				}
 
-				else if (east) {
+				else if (fireDirection == FIRERIGHT) {
 					signVX = 1;
 					signVY = 0;
 				}
 
-				else if (south) {
+				else if (fireDirection == FIREDOWN) {
 					signVX = 0;
 					signVY = 1;
 				}
 
-				else if (west) {
+				else if (fireDirection == FIRELEFT) {
 					signVX = -1;
 					signVY = 0;
 				}
 
-				else if (northeast) {
+				else if (fireDirection == FIREUPRIGHT) {
 					signVX = 1;
 					signVY = -1;
 				}
 
-				else if (northwest) {
+				else if (fireDirection == FIREUPLEFT) {
 					signVX = -1;
 					signVY = -1;
 				}
 
-				else if (southeast) {
+				else if (fireDirection == FIREDOWNRIGHT) {
 					signVX = 1;
 					signVY = 1;
 				}
 
-				else if (southwest) {
+				else if (fireDirection == FIREDOWNLEFT) {
 					signVX = -1;
 					signVY = 1;
 				}
