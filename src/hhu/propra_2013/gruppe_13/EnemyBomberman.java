@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class EnemyBomberman extends Enemy{
 	
+	private static final long serialVersionUID = -1655084742454809046L;
 	// type, maximum hp and hp and a stationary variable for initial waiting as the player enters the room
 	private int 	type, maxHp, hp;
 	private int 	stationary;

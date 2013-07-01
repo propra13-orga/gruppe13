@@ -15,7 +15,9 @@ import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -70,20 +72,23 @@ class MenuMultiplayer {
 	private static JPanel portIndicator;
 	
 	/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-	static JPanel showMulti(JFrame gameWindow) {
+	static JPanel showMulti(final JFrame gameWindow) {
 		GridBagConstraints cButtons = new GridBagConstraints();
 		
 		// Create a new Background with a specified color (Black at the moment)
 		final JPanel multi = new JPanel(new GridBagLayout());
 		
 		multi.setSize(gameWindow.getContentPane().getSize());
-		multi.setBackground(new Color(0, 0, 0));
+		multi.setBackground(Color.black);
 		multi.setLayout(new GridBagLayout());
 		
 		// build three buttons for choosing whether to be a host, client or go back to the menu
 		JButton backToMenu 	 = new JButton("Menu");
 		final JButton host	 = new JButton("Host");
 		final JButton client = new JButton("Client");
+		
+		// construct an array list for all IP addresses
+		final ArrayList<String> publicIPs = new ArrayList<>();
 		
 		// different "Begin" buttons for client and server
 		clientBegin = new JButton("Begin");
@@ -357,6 +362,8 @@ class MenuMultiplayer {
 					        	// add the IP address to the text area
 					        	ipAddresses.append(System.getProperty("line.separator"));
 					        	ipAddresses.append(current_addr.getHostAddress());
+					        	
+					        	publicIPs.add(current_addr.getHostAddress());
 					        }
 					    }
 					}
@@ -431,8 +438,8 @@ class MenuMultiplayer {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				
+				clientRunning = false;
+				MenuMultiWaiting.showWaitingClient(gameWindow);
 			}
 		});
 		
@@ -441,8 +448,8 @@ class MenuMultiplayer {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
+				serverRunning = false;
+				MenuMultiWaiting.showWaitingServer(gameWindow);
 			}
 		});
 		

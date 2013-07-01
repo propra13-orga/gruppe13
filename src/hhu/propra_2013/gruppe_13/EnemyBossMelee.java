@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class EnemyBossMelee extends Enemy{
 
+	private static final long serialVersionUID = 6903110194121890104L;
 	// Basic variables for the enemy
 	private double 	rad;
 	private int 	type, hp, stationary;

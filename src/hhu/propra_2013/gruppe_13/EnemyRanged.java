@@ -4,10 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-import com.sun.org.apache.bcel.internal.generic.ALOAD;
-
 public class EnemyRanged extends Enemy {
 	
+	private static final long serialVersionUID = 8507448208592852410L;
 	// type, maximum hp and hp and a stationary variable for initial waiting as the player enters the room
 	private int 	type, maxHp, hp;
 	private int 	stationary;

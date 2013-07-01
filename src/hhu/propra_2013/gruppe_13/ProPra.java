@@ -45,7 +45,7 @@ public class ProPra {
 		gameWindow.setVisible(true);
 	}
 	
-	public static void initMulti() {
+	static void initMulti() {
 		gameWindow.setContentPane(MenuMultiplayer.showMulti(gameWindow));
 		gameWindow.setVisible(true);
 	}

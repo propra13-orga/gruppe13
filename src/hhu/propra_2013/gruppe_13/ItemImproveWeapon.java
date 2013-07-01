@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 class ItemImproveWeapon extends Item{
 
-
+	private static final long serialVersionUID = 6654864292663090527L;
+	
 	private double 	x, y;
 	private double	r;
 	private double 	height, width;

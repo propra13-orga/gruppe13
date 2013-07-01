@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class EnemyMelee extends Enemy{
 	
+	private static final long serialVersionUID = 8094611375732596210L;
 	// type, maximum hp and hp and a stationary variable for initial waiting as the player enters the room
 	private int 	type, maxHp, hp;
 	private int 	stationary;

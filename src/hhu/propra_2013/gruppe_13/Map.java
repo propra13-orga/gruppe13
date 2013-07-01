@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 class Map extends CoreGameObjects {
+	private static final long serialVersionUID = 6273540180683733888L;
+	
 	int x,y;
 	int map [][] = new int[10][10];
 	int minX, maxX, minY, maxY;
