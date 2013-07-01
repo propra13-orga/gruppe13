@@ -5,6 +5,13 @@ import java.io.*;
 //import javax.swing.JFileChooser;
 //import javax.swing.filechooser.*; //zum Zählen der Dateien in einem Ordner, genutzt für die Random Grenzen im Roombuilder
 
+/**
+ *Enthält alle Informationen über das Level sowie die Methoden um ein Level zu erzeugen
+ *@author Lukas
+ *@see CoreLogic
+ *@see CoreRoom
+ */
+
 public class CoreLevel {
 	
 //	Figure 	figure;
@@ -26,6 +33,11 @@ public class CoreLevel {
 	//Array muss der Klasse bekannt sein um eine get Methode zu implementieren, wird beim Builder resettet 
 	private CoreRoom level[][] = new CoreRoom[10][10]; //Sollte genug Platz für ausreichend seltsame Konstruktionen bieten, der erste Wert sei der X Wert
 	//Konstruktor
+	/**
+	 * Konstruktor
+	 * @param inMode Codiert den Schwierigkeitsgrad, sodass CoreLevel diese Information an CoreRoom weitergeben kann
+	 */
+	
 	CoreLevel(int inMode){
 //		figure 	= inFigure;
 		mode	= inMode;
@@ -34,36 +46,76 @@ public class CoreLevel {
 	
 	//Getter
 	//*************************************************************************************
+	/**
+	 * Liefert das Array aus dem das Levelerzeugt wird, genutzt für die Karte
+	 * @return gibt das 2D int Array zurück aus dem das Level erzeugt wird
+	 */
 	int[][] getConstruction() {
 		return construction;
 	}
 	
-	String getBoss(){
+	/**
+	 *	Liefert den Namen des Levelbosses, zurzeit ungenutzt
+	 * @return gibt den Namen des Bosses dieses Level zurück
+	 */
+		String getBoss(){
 		return boss;
 	}
+		
+	/**
+	 * Liefert die Nummer des aktuellen Levels, genutzt für die Raumanzahl
+	 * @return gibt die Levelnummer zurück
+	 */
 	
 	int getStage(){
 		return stage;
 	}
 	
+	/**
+	 * Liefert die X Koordinate des Startraums im Level
+	 * @return gibt die X Koordinate des Startraums im Level zurück
+	 */
+	
 	int getStartX(){
 		return randomStartX;
 	}
 	
+	/**
+	 * Liefert die Y Koordinate des Startraums im Level
+	 * @return gibt die Y Koordinate des Startraums im Level zurück
+	 */
+	
 	int getStartY(){
 		return randomStartY;
 	}
+	
+	/**
+	 * Gibt einen Raum zurück der durch die Parameter spezifiziert wird,
+	 * um zum Beispiel zugriff auf die Contentliste zu erhalten
+	 * @param inX X Koordinate des angeforderten Raums
+	 * @param inY Y Koordinate des angeforderten Raums
+	 * @return gibt den durch inX und inY spezifizierten Raum zurück
+	 */
 	
 	CoreRoom getRoom(int inX, int inY){ //gibt einen Raum mit koordinaten X,Y zurück
 		return level[inX][inY]; //falls das ganze Array erwünscht ist muss man auf der 'anderen seite' 2 for schleifen schachteln und durchlaufen lassen
 	}
 	//***************************************************************************************
 	//Setter
+	/**
+	 * Setzt die Levelnummer fest
+	 * @param inStage Neue Levelnummer
+	 */
 	
 	void setStage(int inStage){
 		stage = inStage;
 		return;
 	}
+	
+	/**
+	 *  Setzt den Namen des Levelbosses fest
+	 * @param inBoss Name des Bosses
+	 */
 	
 	void setBoss(String inBoss){
 		boss = inBoss;
@@ -71,8 +123,8 @@ public class CoreLevel {
 	}
 	//**********************************************************************************************
 	
-	//Zähler der Raumdateien
-	int countRaum (){
+	//Zähler der Raumdateien, um die Grenzen des Zufallsgenerators für die Räume festzulegen	
+	private int countRaum (){
 		File directory = new File ("Level/Raum"); //gehe zum Ordner der die zu zählenden Dateien enthält
 		int count = 0;
 		for (File counter : directory.listFiles()){ //gehe die Dateien im Ordner directory durch
@@ -84,7 +136,7 @@ public class CoreLevel {
 	}
 	
 	//Zähler der Bossraumdateien
-	int countBoss (){ //analog zu countRaum
+	private int countBoss (){ //analog zu countRaum
 		File directory = new File ("Level/BossRaum");
 		int count = 0;
 		for (File counter : directory.listFiles()){
@@ -95,8 +147,11 @@ public class CoreLevel {
 		return count;
 		
 	}
-		
-	
+	/**
+	Erzeugt ein neues Level wenn die Logik es anfordert.
+	@param inStage	 Die Nummer des Levels, wird genutzt um die Anzahl der Räume festzulegen
+	@param inBoss 	 Der Name des Bosses des Levels, soll in einer späteren Version genutzt werden um dem NPC Bossspezifische Kommentare zu ermöglichen
+	*/
 	//LevelBuilder
 	void buildLevel(int inStage, String inBoss){//Stage beginnt bei 1 zu zählen
 		//Hier initialisiert damit es nur ein Level in der Logik gibt das jedes mal neu gebaut wird

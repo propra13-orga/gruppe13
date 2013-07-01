@@ -8,6 +8,14 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 
+/**
+ * Liest Räume aus Dateien aus und enthält Raumspezifische Informationen, sowie Methoden um diese auszulesen und zu verändern
+ * @author 	lukas
+ * @see		CoreLevel
+ * @see		CoreLogic
+ */
+
+
 public class CoreRoom {
 
 //	private Figure 		figure;
@@ -30,6 +38,21 @@ public class CoreRoom {
 	private InputStream roomStream 	= null;
 	private Reader roomReader		= null;
 	
+	/**
+	 * Ein Raum enthält alle Objekte eines Raums, also alle Objekte die gleichzeitig auf dem Bildschirm sein können
+	 * @param inStage			Levelnummer
+	 * @param inBoss			Name des Levelbosses, derzeit ungenutzt
+	 * @param inTopNeighbour	true: der Raum hat einen oberen Nachbarn false: er hat keinen
+	 * @param inBottomNeighbour	true: der Raum hat einen unteren Nachbarn false: er hat keinen
+	 * @param inLeftNeighbour	true: der Raum hat einen linken Nachbarn false: er hat keinen
+	 * @param inRightNeighbour	true: der Raum hat einen rechten Nachbarn false: er hat keinen
+	 * @param inMode			Schwierigkeitsgrad
+	 * @param inanzahlRaum		Anzahl der Raumdateien als Obergrenze für die Zufallsauswahl der Datei aus der ein Raum generiert
+	 * @param inanzahlBoss		Anzahl der Bossraumdateien als Obergrenzen für die Zufallsauswahl der Datei aus der ein Bossraum generiert wird
+	 */
+	
+	
+	
 	// Constructor
 	CoreRoom(int inStage, String inBoss, boolean inTopNeighbour, boolean inBottomNeighbour, boolean inLeftNeighbour, boolean inRightNeighbour, int inMode, int inanzahlRaum, int inanzahlBoss){
 //		figure 				= inFigure;
@@ -49,10 +72,22 @@ public class CoreRoom {
 	//	System.out.println("links "+hasLeftNeighbour+" rechts "+hasRightNeighbour+" oben "+hasTopNeighbour+" unten "+hasBottomNeighbour);
 	}
 	
+	/**
+	 * Setzt den Typ des Raums (Start, Normal, Boss, Shop) fest, wird beim generieren der Räume in CoreLevel gesetzt
+	 * @param inType Typ des Raums
+	 * @see	CoreLevel
+	 */
+	
 	void setType(String inType) {
 		type = inType;
 		return;
 	}
+	
+	/**
+	 * Generiert den Raum, Informationen wie Raumtyp, Stage, Boss werden vorher per Konstruktor/Setter festgelegt,
+	 * daher keine Parameter
+	 * @exception wirft IO Exceptions falls Raumdateien nicht vorhanden sind
+	 */
 	
 	
 	//liest den Inhalt des Raums aus einer Datei ein
@@ -225,37 +260,67 @@ public class CoreRoom {
 	
 	//Getter
 	//***********************************************************************************************************
+	
+	/**
+	 * Gibt an ob ein Raum 'fertig' ist und die Türen geöffnet werden können
+	 * @return true: der Raum ist abgearbeitet und die Türen können geöffnet werden false: der Raum enthält noch Gegner, de Türen sind geschlossen
+	 */
+	
 	boolean getFinished(){
 		return isFinished;
 	}
+	
+	/**
+	 * Gibt an ob es sich um einen Bossraum handelt
+	 * @return true: es ist ein Bossraum false: kein Bossraum
+	 */
 	
 	boolean getBossRoom(){
 		return isBossRoom;
 	}
 	
+	/**
+	 * Gibt an ob es sich um einen Shop handelt
+	 * @return true: es ist ein Shop false: kein Sjop
+	 */
+	
 	boolean getShop(){
 		return isShop;
 	}
-
+	
+	/**
+	 * Gibt die ArrayList der Objekte im Raum an
+	 * @return Gibt die ArrayList von GameObjects zurück die in diesem Raum enthalten sind
+	 * @see CoreLogic
+	 */
+	
+	
 	ArrayList<CoreGameObjects> getContent() {
 		return content;
 	}
 	
-	boolean getTopNeighbour(){
-		return hasTopNeighbour;
-	}
 	
-	boolean getBottomNeighbour(){
-		return hasTopNeighbour;
-	}
+//entfernt da momentan ungenutzt
+//	boolean getTopNeighbour(){
+//		return hasTopNeighbour;
+//	}
+//	
+//	boolean getBottomNeighbour(){
+//		return hasTopNeighbour;
+//	}
+//	
+//	boolean getLeftNeighbour(){
+//		return hasLeftNeighbour;
+//	}
+//	
+//	boolean getRightNeighbour(){
+//		return hasLeftNeighbour;
+//	}
 	
-	boolean getLeftNeighbour(){
-		return hasLeftNeighbour;
-	}
-	
-	boolean getRightNeighbour(){
-		return hasLeftNeighbour;
-	}
+	/**
+	 * Liefert den Schwierigkeitsgrad, wird vom NPC genutzt um passende Gegner zu spawnen
+	 * @return Gibt den Schwierigkeitsgrad zurück
+	 */
 	
 	int getMode(){
 		return mode;
@@ -264,28 +329,33 @@ public class CoreRoom {
 	//Setter
 	//***********************************************************************************************************
 	
+	/**
+	 * setzt fest ob der Raum abgeschlossen ist
+	 * @param inFinished festlegen ob der Raum fertig ist oder nicht
+	 */
+	
 	void setFinished(boolean inFinished){
 		isFinished = inFinished;
 		return;
 	}
-	
-	void setTopNeighbour(boolean inTopNeighbour){
-		hasTopNeighbour = inTopNeighbour;
-		return;
-	}
-	
-	void setBottomNeighbour(boolean inBottomNeighbour){
-		hasBottomNeighbour = inBottomNeighbour;
-		return;
-	}
-	
-	void setLeftNeighbour(boolean inLeftNeighbour){
-		hasLeftNeighbour = inLeftNeighbour;
-		return;
-	}
-	
-	void setRightNeighbour(boolean inRightNeighbour){
-		hasRightNeighbour = inRightNeighbour;
-		return;
-	}
+//entfernt da Momentan ungenutzt
+//	void setTopNeighbour(boolean inTopNeighbour){
+//		hasTopNeighbour = inTopNeighbour;
+//		return;
+//	}
+//	
+//	void setBottomNeighbour(boolean inBottomNeighbour){
+//		hasBottomNeighbour = inBottomNeighbour;
+//		return;
+//	}
+//	
+//	void setLeftNeighbour(boolean inLeftNeighbour){
+//		hasLeftNeighbour = inLeftNeighbour;
+//		return;
+//	}
+//	
+//	void setRightNeighbour(boolean inRightNeighbour){
+//		hasRightNeighbour = inRightNeighbour;
+//		return;
+//	}
 }
