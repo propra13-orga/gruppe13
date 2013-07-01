@@ -7,7 +7,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.ImageObserver;
 
-class MISCWall extends CoreGameObjects implements ImageObserver {
+class MiscWall extends CoreGameObjects implements ImageObserver {
 	/*-----------------------------------------------------------------------------------------------*/
 	// Hitpoints, position and collision radius
 	private int 	hp;
@@ -18,7 +18,7 @@ class MISCWall extends CoreGameObjects implements ImageObserver {
 		
 	
 	
-	MISCWall(double initX, double initY, double initWidth, double initHeight, int inHP) {
+	MiscWall(double initX, double initY, double initWidth, double initHeight, int inHP) {
 		x = initX;
 		y = initY;
 		v_x = 0;

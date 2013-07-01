@@ -194,7 +194,7 @@ public class EnemyRanged extends Enemy {
 			}
 			
 			if (System.currentTimeMillis()-fireCoolDown > 3000 && !dead && hp == maxHp && stationary > 60) {
-				fireToFigure(inFigure, Bullet.ENEMY_BULLET_STD, currentRoom);
+				fireToFigure(inFigure, AttackBullet.ENEMY_BULLET_STD, currentRoom);
 				fireCoolDown = System.currentTimeMillis();
 			}
 			
@@ -212,7 +212,7 @@ public class EnemyRanged extends Enemy {
 		double vxBullet = (figX-x)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
 		double vyBullet = (figY-y)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
 		
-		CoreGameObjects initBullet = new Bullet(bulletType, x, y, vx, vy, vxBullet, vyBullet, figure.getPlayer());
+		CoreGameObjects initBullet = new AttackBullet(bulletType, x, y, vx, vy, vxBullet, vyBullet, figure.getPlayer());
 		currentRoom.add(initBullet);
 	}
 	

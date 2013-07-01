@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
-public class MISCNPC extends CoreGameObjects{
+public class MiscNPC extends CoreGameObjects{
 	//Variables  taken from enemy - some are maybe Hyper-Fluid (sic)
 	private boolean talk;
 	private int 	hp;
@@ -26,8 +26,10 @@ public class MISCNPC extends CoreGameObjects{
 	private int 	quest;
 	
  	
-	
-	MISCNPC(double initX, double initY, double initHeight, double initWidth, String inBoss, int inStage, String inType, CoreRoom inRoom){
+
+	//Constructor for NPC - TODO Think what the NPC should be able to do, and implement the useful thoughts
+	MiscNPC(double initX, double initY, double initHeight, double initWidth, String inBoss, int inStage, String inType, CoreRoom inRoom){
+
 		
 		x = initX;
 		y = initY;

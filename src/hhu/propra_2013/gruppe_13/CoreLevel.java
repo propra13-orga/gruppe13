@@ -2,7 +2,7 @@ package hhu.propra_2013.gruppe_13;
 
 import java.io.*;
 
-import javax.swing.JFileChooser;
+//import javax.swing.JFileChooser;
 //import javax.swing.filechooser.*; //zum Zählen der Dateien in einem Ordner, genutzt für die Random Grenzen im Roombuilder
 
 public class CoreLevel {

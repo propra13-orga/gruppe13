@@ -11,7 +11,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-class MISCMaria {
+class ScreenMaria {
 	
 	private static	Image blau;
 	private static 	JFrame gameWindow;

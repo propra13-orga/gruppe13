@@ -90,7 +90,7 @@ class ItemImproveWeapon extends Item{
 	
 	@Override
 	void modFigure(ArrayList<CoreGameObjects> room, Figure figure) {
-		figure.setBulletType(Bullet.PLAYER_SPECIAL_BULLET_ONE);
+		figure.setBulletType(AttackBullet.PLAYER_SPECIAL_BULLET_ONE);
 		figure.setBulletCoolDownTime(figure.getBulletCoolDownTime()/2);
 		room.remove(this);
 	}

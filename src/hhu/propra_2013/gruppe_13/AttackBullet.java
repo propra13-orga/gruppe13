@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-class Bullet extends Attack {
+class AttackBullet extends Attack {
 	
+	private static final long serialVersionUID = -7288665515128921942L;
+
 	private int 	player;
 	
 	// position and velocity data
@@ -40,7 +42,7 @@ class Bullet extends Attack {
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Bullet constructor
-	Bullet(int inType, double initX, double initY, double objVX, double objVY, double signVX, double signVY, int player) {
+	AttackBullet(int inType, double initX, double initY, double objVX, double objVY, double signVX, double signVY, int player) {
 		// Save initial position and type data
 		posX		= initX;
 		posY		= initY;
@@ -200,7 +202,7 @@ class Bullet extends Attack {
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
 		switch (type) {
 		
-		case Bullet.ENEMY_BULLET_STD:
+		case AttackBullet.ENEMY_BULLET_STD:
 			// determine whether the bullet is still traveling and active, or whether it has hit something
 			if (!hit) {
 				g.setColor(new Color(0, 255, 255));
@@ -381,13 +383,13 @@ class Bullet extends Attack {
 			
 			switch (type) {
 			case ENEMY_BULLET_STD:
-				if (collidable instanceof Enemy || collidable instanceof MISCWall || collidable instanceof Figure) {
+				if (collidable instanceof Enemy || collidable instanceof MiscWall || collidable instanceof Figure) {
 					checkCollision(collidable);
 				}
 				break;
 				
 			default:
-				if (collidable instanceof Enemy || collidable instanceof MISCWall) {
+				if (collidable instanceof Enemy || collidable instanceof MiscWall) {
 					checkCollision(collidable);
 				}
 				break;
@@ -415,7 +417,7 @@ class Bullet extends Attack {
 	@Override
 	Attack copy() {
 		// return a new bullet object with the same attributes as the old one
-		Bullet bullet = new Bullet(this.type, this.posX, this.posY, 0.0, 0.0, Math.signum(v_x), Math.signum(v_y), this.player);
+		AttackBullet bullet = new AttackBullet(this.type, this.posX, this.posY, 0.0, 0.0, Math.signum(v_x), Math.signum(v_y), this.player);
 		
 		// set all variables to as they are in the original
 		bullet.setSpeed(this.v_x, this.v_y);

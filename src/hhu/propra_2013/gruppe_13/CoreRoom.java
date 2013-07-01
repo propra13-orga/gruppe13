@@ -91,7 +91,7 @@ public class CoreRoom {
 			while ((element = roomReader.read()) != -1){ //Goes trough the whole raumX.txt, and spawns Objects at their Positions
 				switch (element) { 	//ASCII: W=87 D=68 E=69
 				case 'W':			//In order of probability
-					content.add(new MISCWall(column-1+0.5, line-1+0.5, 1, 1, 1)); 	//-1 because the top left corner seems to have
+					content.add(new MiscWall(column-1+0.5, line-1+0.5, 1, 1, 1)); 	//-1 because the top left corner seems to have
 					break;															//the coordinates 1:1
 				}
 				
@@ -138,10 +138,10 @@ public class CoreRoom {
 
 				case 'D': //looks where the door is, then sets destination accordingly
 					//I have no clue why this works
-					if (line == 0 && hasTopNeighbour)		{dest = 0; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the upper edge of the field, door should lead up
-					if (line == 14 && hasBottomNeighbour)	{dest = 2; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the bottom edge of the field, door should lead down
-					if (column==23 && hasRightNeighbour)	{dest = 1; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the right edge of the field, door should lead right
-					if (column==0 && hasLeftNeighbour)		{dest = 3; content.add(new MISCDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the left edge of the field, door should lead left
+					if (line == 0 && hasTopNeighbour)		{dest = 0; content.add(new MiscDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the upper edge of the field, door should lead up
+					if (line == 14 && hasBottomNeighbour)	{dest = 2; content.add(new MiscDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the bottom edge of the field, door should lead down
+					if (column==23 && hasRightNeighbour)	{dest = 1; content.add(new MiscDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the right edge of the field, door should lead right
+					if (column==0 && hasLeftNeighbour)		{dest = 3; content.add(new MiscDoor(column-1+0.5, line-1+0.5, 1, 1, 0.5, dest));} //Door is on the left edge of the field, door should lead left
 					 //creating door with correct destination
 					break;	
 						
@@ -183,10 +183,10 @@ public class CoreRoom {
 					
 				case 'N':
 					if (type == "Start"){
-						content.add(new MISCNPC (column-1+0.5, line-1,1,1, "this is a stub",stage, "Start", this));
+						content.add(new MiscNPC (column-1+0.5, line-1,1,1, "this is a stub",stage, "Start", this));
 					}
 					else {
-						content.add(new MISCNPC (column-1+0.5, line-1+0.5,1,1, "this is a stub", stage, "Quest", this));
+						content.add(new MiscNPC (column-1+0.5, line-1+0.5,1,1, "this is a stub", stage, "Quest", this));
 					}
 					
 					break;

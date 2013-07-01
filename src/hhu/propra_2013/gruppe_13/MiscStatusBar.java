@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
-public class MISCStatusBar {
+public class MiscStatusBar {
 	private Font font;
 
 	private Figure 	figure;
@@ -15,7 +15,7 @@ public class MISCStatusBar {
 	//coordinates for initializing the draw
 	private double	hpx, hpy, mhpx, mhpy, ax, ay, chocolateX, chocolateY;
 	
-	public MISCStatusBar(Figure inFigure, int inMode) {
+	public MiscStatusBar(Figure inFigure, int inMode) {
 		figure 	= inFigure;
 		mode = inMode;
 	}

@@ -13,9 +13,11 @@ import org.omg.CORBA.TIMEOUT;
 
 class NetClient extends NetIO {
 
+	// variable to set whether execution should be continued, socket for communication with the server
 	private boolean running;
 	private Socket 	socket;
 	
+	// variables for the connection
 	private int 	port;
 	private String	ip;
 	
@@ -31,10 +33,6 @@ class NetClient extends NetIO {
 	private ArrayList<Color> 	colors;
 	private ArrayList<Boolean>	stati;
 	
-	// Variables used for thread timeout
-	private long time;
-	private long timeUsed;
-	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	NetClient(int port, String ip) {
 		this.port 	= port;
@@ -42,8 +40,6 @@ class NetClient extends NetIO {
 		
 		colors		= null;
 		stati		= null;
-		
-		time		= System.currentTimeMillis();
 	}
 	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -86,14 +82,14 @@ class NetClient extends NetIO {
 		}
 	}
 	
+	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	@SuppressWarnings("unchecked")
 	@Override
 	public void run() {
-		Object inObject;
+		Object 		 inObject;
 		ArrayList<?> list;
 		
 		while (running) {
-			time = System.currentTimeMillis();
 			inObject = null;
 			
 			try {
@@ -115,14 +111,6 @@ class NetClient extends NetIO {
 			} catch (ClassNotFoundException | IOException e) {
 				System.err.println("Object could not be read. ");
 				System.err.println(e.getMessage());
-			}
-			
-			try {
-				if ((timeUsed = System.currentTimeMillis()-time) < 20) {
-					Thread.sleep(20-timeUsed);
-				}
-			} catch (InterruptedException e) {
-				// Ignore, since it is not really of matter if the thread is interrupted
 			}
 		}
 	}

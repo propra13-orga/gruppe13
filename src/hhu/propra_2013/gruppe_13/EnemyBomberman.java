@@ -392,7 +392,7 @@ public class EnemyBomberman extends Enemy{
 			switch (type) {
 			case ENEMY_FIGURE_RUN:
 				// Check whether an object can be collided with, get data if necessary
-				if (collidable instanceof Figure || collidable instanceof MISCWall) {
+				if (collidable instanceof Figure || collidable instanceof MiscWall) {
 					double[] check = collision(collidable, distUp, distDown, distRight, distLeft);
 					
 					distUp 		= Math.min(distUp, check[0]);

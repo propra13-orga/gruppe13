@@ -1,6 +1,11 @@
 package hhu.propra_2013.gruppe_13;
 
 abstract class NetIO implements Runnable {
+	// Status for all figures
+	static final int DEAD		= 0;
+	static final int FINISHED	= 1;
+	static final int PLAYING	= 2;
+	
 	// Exit codes, needed by the program to know whether to continue execution
 	static final int EXIT_SUCCESS					= 0;
 	static final int EXIT_FAILURE					= 1;

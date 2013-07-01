@@ -23,11 +23,11 @@ class CoreGameDrawer implements Runnable {
 	private final 	Image background;
 	private boolean gameRunning;
 	private final	Image surface;
-	private MISCStatusBar statusBar;
+	private MiscStatusBar statusBar;
 
 	
 	// Constructor for class
-	CoreGameDrawer(CoreLevel inLevel, JFrame inFrame, MISCStatusBar inStatusBar) {
+	CoreGameDrawer(CoreLevel inLevel, JFrame inFrame, MiscStatusBar inStatusBar) {
 		level 		= inLevel;
 		gameWindow 	= inFrame;
 		locationX 	= 0;
