@@ -3,9 +3,12 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Color;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -38,6 +41,35 @@ class NetClient extends NetIO {
 		
 		colors		= null;
 		stati		= null;
+		 
+		// tell the server that this is a serious connection, not just a ping
+		BufferedWriter out = null;
+		Socket greatSocket = null;
+		try {
+			System.out.println("verify client");
+			greatSocket = new Socket(ip, port);
+
+			out = new BufferedWriter(new OutputStreamWriter(greatSocket.getOutputStream()));
+			out.write("the real deal");
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				out.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			try {
+				greatSocket.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -97,8 +129,10 @@ class NetClient extends NetIO {
 			socket = new Socket(ip, port);
 			outgoing = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 			outgoing.flush();
+			System.out.println("opened an outgoing OOS in client init()");
 
 			incoming = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+			System.out.println("opened an incoming OIS in client init()");
 		} catch (IOException e) {
 			ProPra.errorOutput(CLIENT_SOCKET_ERROR, e);
 		}

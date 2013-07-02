@@ -29,10 +29,18 @@ class NetServerClientCheck extends NetIO {
 		try {
 			outgoing = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
 			outgoing.flush();
+			
+			System.out.println("opened an OOS in server constructor");
+			System.out.println("input stream: "+socket.getInputStream());
 			incoming = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+			System.out.println("opened an OIS in server constructor");
+
 		} catch (IOException e) {
 			ProPra.errorOutput(CONNECTION_READER_SERVER_ERROR, e);
+			e.printStackTrace();
 		}
+		
+		System.out.println(incoming);
 		
 		// tell the client what number he has, that way the waiting room can be built 
 		try {

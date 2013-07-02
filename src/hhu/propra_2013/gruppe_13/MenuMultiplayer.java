@@ -381,11 +381,14 @@ class MenuMultiplayer {
 					players.setVisible(true);
 					playerTitle.setVisible(true);
 					
+					// enable the radio buttons
 					difficultyEasy.setVisible(true);
 					difficultyMed.setVisible(true);
 					difficultyHard.setVisible(true);
 					
+					// set default difficulty
 					difficultyMed.setSelected(true);
+					mode = 2;
 				}
 			}
 		});
@@ -624,7 +627,6 @@ class MenuMultiplayer {
 			
 			// run as long as the user is in server selection mode
 			while (serverRunning) {
-				System.out.println("Mode "+mode);
 				
 				// get the number of desired players
 				if (players.getText().length() != 0)

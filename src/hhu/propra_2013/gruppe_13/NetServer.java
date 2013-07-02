@@ -57,14 +57,33 @@ class NetServer extends NetIO {
 			if (count < connNo) {
 				try {
 					connection = socket.accept();
-					count++;
 				} catch (IOException e) {
 					ProPra.errorOutput(CONNECTION_SOCKET_ERROR, e);
 				}
 				
-				// add the connection to the waiting room
-				waiting.add(connection);
+				// check whether this is a serious connection
+				BufferedReader in = null;
+				
+				try {
+					in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+					String test = in.readLine();
+					
+					if (test.contentEquals("the real deal")) {
+						// add the connection to the waiting room
+						System.out.println("blub im server");
+						waiting.add(connection);
+						count++;
+					}
+					System.out.println("test im server");
+				} catch (IOException e) {
+				} finally {
+//					try {
+////						in.close();
+//					} catch (IOException e) {
+//					}
+				}
 			}
+			
 			// check whether the maximum amount of connections has been achieved, terminate the server if this is the case
 			if (count == connNo) {
 				waiting.setInitGame(true);
