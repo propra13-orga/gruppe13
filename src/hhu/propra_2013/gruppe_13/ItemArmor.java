@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 class ItemArmor extends Item{
 
+	private static final long serialVersionUID = 5322508616499125419L;
+	
 	private double 	x, y;
 	private double	r;
 	private double 	height, width;

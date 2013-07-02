@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 public abstract class Enemy extends CoreGameObjects{
 	
+	private static final long serialVersionUID = 3348830875179236356L;
 	// Getter and Setter methods for Objects used by Logic and GameDrawer classes
 	abstract int	getType();
 	abstract int 	getHP();	

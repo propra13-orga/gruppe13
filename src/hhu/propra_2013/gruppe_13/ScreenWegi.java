@@ -11,7 +11,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-class MISCWegi {
+class ScreenWegi {
 	
 	private static	Image win;
 	private static 	JFrame gameWindow;

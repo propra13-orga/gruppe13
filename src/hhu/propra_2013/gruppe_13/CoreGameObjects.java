@@ -1,8 +1,9 @@
 package hhu.propra_2013.gruppe_13;
 
 import java.awt.Graphics2D;
+import java.io.Serializable;
 
-abstract class CoreGameObjects {
+
 	/**
 	 * base of all objects used in the game
 	 * @param PLAYER_BULLET_STD first ranged attack
@@ -10,6 +11,13 @@ abstract class CoreGameObjects {
 	 * @param PLAYER_SPECIAL_BULLET_TWO upgrade of above
 	 * @param ENEMY_BULLET_STD std enemy range attack
 	 */
+
+abstract class CoreGameObjects implements Serializable {
+
+	// serial version ID, the interface Serializable asks for it
+	private static final long serialVersionUID = 2537021854756774619L;
+	
+
 	// declare final variables in order to determine what bullet shall be fired 
 	static final int PLAYER_BULLET_STD 			= 0;
 	static final int PLAYER_SPECIAL_BULLET_ONE	= 1;
@@ -52,3 +60,4 @@ abstract class CoreGameObjects {
 	abstract void takeDamage(int type, int strength);
 //	abstract CoreGameObjects copy();
 }
+

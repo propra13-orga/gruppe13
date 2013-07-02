@@ -45,10 +45,9 @@ class NetServer extends NetIO {
 		
 		// Connections and array list of all connections
 		Socket connection			= null;
-		ArrayList<Socket> incoming 	= new ArrayList<Socket>();
 		
 		// initialize new wait room for the server and initialize it's own thread
-		waiting = new NetServerWait(incoming);
+		waiting = new NetServerWait();
 		Thread thread = new Thread(waiting);
 		thread.start();
 		
@@ -63,11 +62,13 @@ class NetServer extends NetIO {
 			}
 			
 			// add the connection to the waiting room
-			incoming.add(connection);
+			waiting.add(connection);
 			
 			// check whether the maximum amount of connections has been achieved, terminate the server if this is the case
-			if (count == connNo)
+			if (count == connNo) {
+				waiting.setInitGame(true);
 				break;
+			}
 		}
 		
 		// close socket

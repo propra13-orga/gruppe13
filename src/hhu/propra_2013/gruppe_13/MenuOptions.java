@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
-public class CoreOptions{
+public class MenuOptions{
 	
 	// Initializer method for the menu
 	static JPanel showOptions(JFrame gameWindow) {

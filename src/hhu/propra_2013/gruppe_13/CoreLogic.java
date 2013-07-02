@@ -4,18 +4,30 @@ import java.util.ArrayList;
 
 class CoreLogic implements Runnable {
 	// set these for the walking direction of the figure
-	static final int NONE			= 0;
-	static final int UP				= 1;
-	static final int DOWN			= 2;
-	static final int LEFT			= 3;
-	static final int RIGHT			= 4;
-	static final int UPLEFT			= 5;
-	static final int UPRIGHT		= 6;
-	static final int DOWNLEFT		= 7;
-	static final int DOWNRIGHT		= 8;
+	static final int NONE				= 0;
+	static final int UP					= 1;
+	static final int DOWN				= 2;
+	static final int LEFT				= 3;
+	static final int RIGHT				= 4;
+	static final int UPLEFT				= 5;
+	static final int UPRIGHT			= 6;
+	static final int DOWNLEFT			= 7;
+	static final int DOWNRIGHT			= 8;
+	
+	static final int FIRENONE			= 10;
+	static final int FIREUP				= 11;
+	static final int FIREDOWN			= 12;
+	static final int FIRELEFT			= 13;
+	static final int FIRERIGHT			= 14;
+	static final int FIREUPLEFT			= 15;
+	static final int FIREUPRIGHT		= 16;
+	static final int FIREDOWNLEFT		= 17;
+	static final int FIREDOWNRIGHT		= 18;
 	
 	// varibale for setting the running direction of the figure
 	private int 		direction	= NONE;
+
+	private int  		fireDirection		= FIRENONE;
 
 	// set square root of 2 and define a boolean variable for the game loop
 	private static final double SQRT_2 = 1.41421356237309504880168872420969807856967187537694807317667973799; // http://en.wikipedia.org/wiki/Square_root_of_2
@@ -63,6 +75,10 @@ class CoreLogic implements Runnable {
 	void setDirection (int input) {
 		direction 	= input;
 		figure.setDirection(input);
+	}
+	
+	void setFireDirection (int input) {
+		fireDirection 	= input;
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
@@ -334,12 +350,12 @@ class CoreLogic implements Runnable {
 			((Item) collided).modFigure(collidable, (Figure) figure);
 		}
 		
-		if (collided instanceof MISCNPC){
-			((MISCNPC) collided).talk();
+		if (collided instanceof MiscNPC){
+			((MiscNPC) collided).talk();
 		}
 		
-		if (collided instanceof MISCDoor) { //Doors MUST be checked last because of the new Method of Room-finishing
-			destination = ((MISCDoor) collided).getDestination();
+		if (collided instanceof MiscDoor) { //Doors MUST be checked last because of the new Method of Room-finishing
+			destination = ((MiscDoor) collided).getDestination();
 
 
 			if (finished) {			// check if there is no enemy found in the room
@@ -353,28 +369,28 @@ class CoreLogic implements Runnable {
 				case 0:
 					if (figDir == UPLEFT || figDir == UP || figDir == UPRIGHT) {
 						this.switchRoom(destination);
-						System.out.println("collided with a door"+destination+finished);
+						//System.out.println("collided with a door"+destination+finished);
 					}
 					break;
 
 				case 1:
 					if (figDir == RIGHT || figDir == UPRIGHT || figDir == DOWNRIGHT) {
 						this.switchRoom(destination);
-						System.out.println("collided with a door"+destination+finished);
+						//System.out.println("collided with a door"+destination+finished);
 					}
 					break;
 
 				case 2:
 					if (figDir == DOWN || figDir == DOWNRIGHT || figDir == DOWNLEFT) {
 						this.switchRoom(destination);
-						System.out.println("collided with a door"+destination+finished);
+						//System.out.println("collided with a door"+destination+finished);
 					}
 					break;
 
 				case 3:
 					if (figDir == LEFT || figDir == DOWNLEFT || figDir == UPLEFT) {
 						this.switchRoom(destination);
-						System.out.println("collided with a door"+destination+finished);
+						//System.out.println("collided with a door"+destination+finished);
 					}
 					break;
 				case 4:
@@ -480,7 +496,7 @@ class CoreLogic implements Runnable {
 		// Iterate over all Bullets and propagate them
 		ArrayList<CoreGameObjects> collidable = currentRoom.getContent();
 		Attack attack;
-		MISCWall wall;
+		MiscWall wall;
 		boolean deleted;
 
 		for (int i = 0; i < collidable.size(); i++) {
@@ -498,8 +514,8 @@ class CoreLogic implements Runnable {
 				}
 			}
 	
-			if (!deleted && collidable.get(i) instanceof MISCWall) {
-				wall = (MISCWall) collidable.get(i);
+			if (!deleted && collidable.get(i) instanceof MiscWall) {
+				wall = (MiscWall) collidable.get(i);
 				if (wall.getHP() == 0)
 					currentRoom.getContent().remove(wall);
 			}
@@ -508,7 +524,7 @@ class CoreLogic implements Runnable {
 		// If the player has enough resources, create a new area of effect attack
 		if (aoe && figure.getChocolate() > 0) {
 			figure.setChocolate(figure.getChocolate()-1);
-			CoreGameObjects melee = new Melee(figX, figY, 0, 0, Attack.PLAYER_MELEE_AOE, figure, collidable, figure.getPlayer());
+			CoreGameObjects melee = new AttackMelee(figX, figY, 0, 0, Attack.PLAYER_MELEE_AOE, figure, collidable, figure.getPlayer());
 			currentRoom.getContent().add(melee);
 		}
 		
@@ -517,7 +533,7 @@ class CoreLogic implements Runnable {
 
 		// Create new Bullets if the player wishes to do so, and the cooldown
 		// for shooting has expired
-		if (north || east || south || west || northeast || northwest || southeast || southwest) {
+		if (fireDirection != FIRENONE) {
 			
 			if (!bulletEnable) {
 				if (System.currentTimeMillis() - bulletCoolDown > figure.getBulletCoolDownTime())
@@ -532,47 +548,48 @@ class CoreLogic implements Runnable {
 				int signVX = 0;
 				int signVY = 0;
 
-				if (north) {
+				
+				if ( fireDirection == FIREUP ) {
 					signVX = 0;
 					signVY = -1;
 				}
 
-				else if (east) {
+				else if (fireDirection == FIRERIGHT) {
 					signVX = 1;
 					signVY = 0;
 				}
 
-				else if (south) {
+				else if (fireDirection == FIREDOWN) {
 					signVX = 0;
 					signVY = 1;
 				}
 
-				else if (west) {
+				else if (fireDirection == FIRELEFT) {
 					signVX = -1;
 					signVY = 0;
 				}
 
-				else if (northeast) {
+				else if (fireDirection == FIREUPRIGHT) {
 					signVX = 1;
 					signVY = -1;
 				}
 
-				else if (northwest) {
+				else if (fireDirection == FIREUPLEFT) {
 					signVX = -1;
 					signVY = -1;
 				}
 
-				else if (southeast) {
+				else if (fireDirection == FIREDOWNRIGHT) {
 					signVX = 1;
 					signVY = 1;
 				}
 
-				else if (southwest) {
+				else if (fireDirection == FIREDOWNLEFT) {
 					signVX = -1;
 					signVY = 1;
 				}
 
-				CoreGameObjects initBullet = new Bullet(figure.getBulletType(), figX, figY, figVX, figVY, signVX, signVY, figure.getPlayer());
+				CoreGameObjects initBullet = new AttackBullet(figure.getBulletType(), figX, figY, figVX, figVY, signVX, signVY, figure.getPlayer());
 
 				currentRoom.getContent().add(initBullet);
 				bulletEnable = false;
@@ -609,37 +626,44 @@ class CoreLogic implements Runnable {
 		case (0):// Door leads up
 			locationY--;
 			figY = 12.49;
+			
 			this.setRoom(locationX, locationY);
 			break;
 
 		case (1): // Door leads to the right
 			locationX++;
 			figX = 0.51; // linker Spielfeldrand
+			
 			this.setRoom(locationX, locationY); // neuen Raum and Grafik und Logik geben
 			break;
 
 		case (2): // Door leads down
 			locationY++;
 			figY = 0.51;
+			
 			this.setRoom(locationX, locationY);
 			break;
 
 		case (3): // Door leads left
 			locationX--;
 			figX = 21.49;// rechter Spielfeldrand
+			
 			this.setRoom(locationX, locationY);
 			break;
 
 		case (4):
 			stage++;
 			if (stage < 4){
-			boss = "test";// TODO maybe change the boss sometimes
-			level.buildLevel(stage, boss); //generate new level
-			locationX = level.getStartX(); //go to the start room
-			locationY = level.getStartY();
-			figX = 11.5; //put figure in the middle of the start room
-			figY = 6.5;
-			this.setRoom(locationX, locationY);
+				boss = "test";// TODO maybe change the boss sometimes
+				level.buildLevel(stage, boss); //generate new level
+				
+				locationX = level.getStartX(); //go to the start room
+				locationY = level.getStartY();
+				
+				figX = 11.5; //put figure in the middle of the start room
+				figY = 6.5;
+				
+				this.setRoom(locationX, locationY);
 			}
 			else{
 				game.end(true);

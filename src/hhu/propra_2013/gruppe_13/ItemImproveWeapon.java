@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 class ItemImproveWeapon extends Item{
 
-
+	private static final long serialVersionUID = 6654864292663090527L;
+	
 	private double 	x, y;
 	private double	r;
 	private double 	height, width;
@@ -90,7 +91,7 @@ class ItemImproveWeapon extends Item{
 	
 	@Override
 	void modFigure(ArrayList<CoreGameObjects> room, Figure figure) {
-		figure.setBulletType(Bullet.PLAYER_SPECIAL_BULLET_ONE);
+		figure.setBulletType(AttackBullet.PLAYER_SPECIAL_BULLET_ONE);
 		figure.setBulletCoolDownTime(figure.getBulletCoolDownTime()/2);
 		room.remove(this);
 	}

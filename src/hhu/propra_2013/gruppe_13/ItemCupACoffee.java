@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 class ItemCupACoffee extends Item {
 
+	private static final long serialVersionUID = -1796374624884481980L;
+	
 	private double 	x, y;
 	private double	r;
 	private double 	height, width;

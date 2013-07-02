@@ -3,7 +3,8 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-public abstract class Item extends CoreGameObjects{
+public abstract class Item extends CoreGameObjects {
+	private static final long serialVersionUID = 774650665643767499L;
 	
 	//method for modifying the properties of other objects around, calls other methods
 	abstract void modFigure(ArrayList<CoreGameObjects> collidable, Figure figure);

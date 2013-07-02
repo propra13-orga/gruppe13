@@ -4,8 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-public class ItemMoney extends Item {
+class ItemMoney extends Item {
 
+	private static final long serialVersionUID = 9066229970218644231L;
+	
 	private double 	height, width;
 	private double 	x, y;
 	private double	r;

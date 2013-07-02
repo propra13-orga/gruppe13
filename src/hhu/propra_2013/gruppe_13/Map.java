@@ -22,6 +22,9 @@ class Map extends CoreGameObjects {
 	 * @param x X-Coordinate in the Room array 
 	 * @param y Y-Coordinate in the Room array
 	 */
+
+	private static final long serialVersionUID = 6273540180683733888L;
+	
 	int x,y;
 	int map [][] = new int[10][10];
 	int minX, maxX, minY, maxY;
