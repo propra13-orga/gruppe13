@@ -16,7 +16,7 @@ class NetServer extends NetIO {
 	private int 		connNo;
 	
 	// Waiting room for the server
-	NetServerWait waiting;
+	private NetServerWait waiting;
 
 	/*------------------------------------------------------------------------------------------------------------------------*/
 	NetServer (int inPort, int connNo) {
@@ -54,16 +54,17 @@ class NetServer extends NetIO {
 		// only run as long as desired, break if the maximum number of connections has been achieved 
 		while (serverActive) {
 			// wait until a new connection has been initialized by a client
-			try {
-				connection = socket.accept();
-				count++;
-			} catch (IOException e) {
-				ProPra.errorOutput(CONNECTION_SOCKET_ERROR, e);
+			if (count < connNo) {
+				try {
+					connection = socket.accept();
+					count++;
+				} catch (IOException e) {
+					ProPra.errorOutput(CONNECTION_SOCKET_ERROR, e);
+				}
+				
+				// add the connection to the waiting room
+				waiting.add(connection);
 			}
-			
-			// add the connection to the waiting room
-			waiting.add(connection);
-			
 			// check whether the maximum amount of connections has been achieved, terminate the server if this is the case
 			if (count == connNo) {
 				waiting.setInitGame(true);

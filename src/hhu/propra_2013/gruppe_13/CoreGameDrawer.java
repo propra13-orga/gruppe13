@@ -90,7 +90,10 @@ class CoreGameDrawer implements Runnable {
 				// TODO: entfernen, nachdem es Benes "Seal of Approval" erhält
 				xMax = (int)Math.round(22*step);
 				yMax = (int)Math.round(13*step);
-				g2d.drawImage(surface, x0, y0, xMax, yMax, this);
+				g2d.setColor(new Color((int)(256*Math.random()), (int)(256*Math.random()), (int)(256*Math.random())));
+				g2d.fillRect(x0, y0, xMax, yMax);
+
+//				g2d.drawImage(surface, x0, y0, xMax, yMax, this);
 				g2d.setColor(Color.black);
 				
 				// Iterate over all objects and call draw method

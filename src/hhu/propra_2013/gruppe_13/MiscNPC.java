@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 
 public class MiscNPC extends CoreGameObjects{
+	private static final long serialVersionUID = 4326600912745815443L;
+	
 	//Variables  taken from enemy - some are maybe Hyper-Fluid (sic)
 	private boolean talk;
 	private int 	hp;

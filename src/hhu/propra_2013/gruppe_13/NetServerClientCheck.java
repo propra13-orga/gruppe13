@@ -27,11 +27,19 @@ class NetServerClientCheck extends NetIO {
 
 		// open two new streams for communication with the client
 		try {
-			incoming = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 			outgoing = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+			outgoing.flush();
+			incoming = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 		} catch (IOException e) {
 			ProPra.errorOutput(CONNECTION_READER_SERVER_ERROR, e);
-		}		
+		}
+		
+		// tell the client what number he has, that way the waiting room can be built 
+		try {
+			outgoing.writeObject(clientNo);
+		} catch (IOException e) {
+			System.err.println("Could not output client ID to client");
+		}
 	}
 	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -63,12 +71,17 @@ class NetServerClientCheck extends NetIO {
 			try {
 				inObject = incoming.readObject();
 				
+				if (inObject == null)
+					continue;
+				
 				// check whether the client wishes to begin the game
 				if (inObject instanceof String) {
-					if ((String)inObject == "begin") {
-						server.setReady(true, clientNo);
-						this.setRunning(false);
-					}
+					server.setUser((String)inObject, clientNo);
+				}
+				
+				if (inObject instanceof Boolean) {
+					server.setReady(true, clientNo);
+					this.setRunning(false);
 				}
 				
 				// set the clients game figure color

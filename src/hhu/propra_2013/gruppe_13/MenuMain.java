@@ -19,7 +19,6 @@ public class MenuMain{
 		JPanel menu = new JPanel();
 		menu.setSize(gameWindow.getContentPane().getSize());
 		menu.setBackground(new Color(0, 0, 0));
-
 		
 		//Create Buttons to start the game or end the program
 		// TODO: implement cool new shit for the game
@@ -28,7 +27,6 @@ public class MenuMain{
 		JButton options		= new JButton("Options");
 		JButton multi		= new JButton("Multiplayer");
 		JButton edit		= new JButton("Editor");
-		
 		
 		// implement action listeners to start and end the game
 		startGame.addActionListener(new ActionListener() {

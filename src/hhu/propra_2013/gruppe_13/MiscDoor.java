@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 class MiscDoor extends CoreGameObjects {
+	private static final long serialVersionUID = -395898423542065519L;
+	
 	private double 		x,y,r;
 	private double 		height, width;
 	private int 		destination;

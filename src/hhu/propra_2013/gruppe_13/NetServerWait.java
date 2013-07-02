@@ -13,6 +13,7 @@ class NetServerWait extends NetIO {
 	// array list for the status of all client and all colors
 	private ArrayList<Boolean>	clientCheck;
 	private ArrayList<Color> 	colors;
+	private ArrayList<String>	usernames;
 	
 	// array list with all clients, needed for output
 	private ArrayList<NetServerClientCheck> 	clients;
@@ -27,6 +28,7 @@ class NetServerWait extends NetIO {
 		
 		this.colors 		= new ArrayList<Color>();
 		this.clientCheck 	= new ArrayList<Boolean>();
+		this.usernames		= new ArrayList<String>();
 		this.clients		= new ArrayList<NetServerClientCheck>();
 	}
 
@@ -48,10 +50,16 @@ class NetServerWait extends NetIO {
 		clientCheck.set(client, ready);
 	}
 	
+	void setUser (String user, int client) {
+		usernames.add(client, user);
+	}
+	
+	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	void add(Socket socket) {
 		// add a false variable to the array list for reference if all connections are ready to start the game
 		clientCheck.add(false);
 		colors.add(Color.BLACK);
+		usernames.add("user "+counter);
 
 		// build a new client and start it as a thread
 		NetServerClientCheck client = new NetServerClientCheck(counter, socket, this);
@@ -65,8 +73,9 @@ class NetServerWait extends NetIO {
 
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	@Override
-	public void run() {		
+	public void run() {
 		boolean startGame;
+		
 		while (waiting) {
 			startGame = true;
 
@@ -74,6 +83,7 @@ class NetServerWait extends NetIO {
 			for (int i=0; i<clients.size(); i++) {
 				clients.get(i).sendObjects(colors);
 				clients.get(i).sendObjects(clientCheck);
+				clients.get(i).sendObjects(usernames);
 				
 				// check whether all clients have agreed to begin
 				if (clientCheck.get(i) == false)
@@ -83,6 +93,12 @@ class NetServerWait extends NetIO {
 			
 			if (startGame && initGame) {
 				//TODO: start the game
+			}
+
+			// let the thread sleep to give computation time to other processes
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
 			}
 		}
 	}
