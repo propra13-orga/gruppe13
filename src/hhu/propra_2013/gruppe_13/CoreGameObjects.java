@@ -3,6 +3,13 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Graphics2D;
 
 abstract class CoreGameObjects {
+	/**
+	 * base of all objects used in the game
+	 * @param PLAYER_BULLET_STD first ranged attack
+	 * @param PLAYER_SPECIAL_BULLET_ONE upgrade of above
+	 * @param PLAYER_SPECIAL_BULLET_TWO upgrade of above
+	 * @param ENEMY_BULLET_STD std enemy range attack
+	 */
 	// declare final variables in order to determine what bullet shall be fired 
 	static final int PLAYER_BULLET_STD 			= 0;
 	static final int PLAYER_SPECIAL_BULLET_ONE	= 1;

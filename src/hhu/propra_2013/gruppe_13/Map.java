@@ -3,7 +3,25 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+/**
+ * 
+ * @Author : gp13
+ *
+ * This class creates and shows our map.
+ * 
+ */
+
 class Map extends CoreGameObjects {
+	
+	/**
+	 * Variables:
+	 * map array is the array that carries the information about the rooms and their status (we add 10 for every visit, so we know where we were)
+	 * min and max values are looked up for knowing the drawing range of the map
+	 * cur values are set for knowing the currently visited room
+	 * now is set by logic / player to know when it is time to show the map
+	 * @param x X-Coordinate in the Room array 
+	 * @param y Y-Coordinate in the Room array
+	 */
 	int x,y;
 	int map [][] = new int[10][10];
 	int minX, maxX, minY, maxY;
@@ -72,14 +90,20 @@ class Map extends CoreGameObjects {
 	@Override
 	void setHP(int inHP) {
 	}
-	
+	/**
+	 * setVisited is the input method to handle the input from the logic
+	 * @param inLocation is the location of the room in the level array
+	 */
 	void setVisited(int inLocationX, int inLocationY){
 		map[inLocationX][inLocationY] = map[inLocationX][inLocationY]+10;
 		curX = inLocationX;
 		curY = inLocationY;
 		
 	}
-	
+	/**
+	 * the level builder makes the basic map, here we start to work our map out
+	 * @param inConstruction is the construction array from the level builder
+	 */
 	void setRoom(int[][] inConstruction){
 		map = inConstruction;
 		this.castMap();
@@ -88,7 +112,9 @@ class Map extends CoreGameObjects {
 	void setDraw(boolean in){
 		now = in;
 	}
-	
+	/**
+	 * the method for finding the minmax settings
+	 */
 	void castMap(){
 		for(y = 0;y <= 9;y++){
 			for(x = 0;x <= 9;x++){
@@ -104,6 +130,7 @@ class Map extends CoreGameObjects {
 	}
 
 	/*------------------------------------------------------------------------------------------------------------------------*/
+	
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
 		if(now){	
@@ -155,7 +182,9 @@ class Map extends CoreGameObjects {
 	@Override
 	void takeDamage(int type, int strength) {
 	} 
-	
+	/**
+	 * here the consructor, it only initializes the array
+	 */
 	Map(){
 		for (x = 0;x < 10; x++){
 			for (y = 0; y < 10; y++){
