@@ -60,7 +60,6 @@ class MenuMultiplayer {
 	// set by host: radio buttons for mode and the number of players
 	private static JFormattedTextField players;
 	private static int 			playerNo;
-	private static JRadioButton modes;
 
 	// Text field for telling the user that the specified TCP/IP connection is available
 	private static JTextField clientDestReachable;
@@ -99,6 +98,7 @@ class MenuMultiplayer {
 		clientIPField.setBorder(null);
 		clientIPField.setVisible(false);
 		
+		// build a field for port input... might need a pilot for that
 		portField		= new JFormattedTextField();
 		portField.setDocument(new PlainDocument() {
 			
@@ -127,7 +127,6 @@ class MenuMultiplayer {
 		final JRadioButton difficultyEasy 	= new JRadioButton("I'm a pussy!");
 		final JRadioButton difficultyMed	= new JRadioButton("I want to win!");
 		final JRadioButton difficultyHard	= new JRadioButton("Prepare to die!");
-		difficultyMed.setSelected(true);
 		
 		ButtonGroup difficulty = new ButtonGroup();
 		difficulty.add(difficultyEasy);
@@ -292,6 +291,8 @@ class MenuMultiplayer {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				clientRunning = false;
+				serverRunning = false;
 				ProPra.initMenu();
 			}
 		});
@@ -383,6 +384,8 @@ class MenuMultiplayer {
 					difficultyEasy.setVisible(true);
 					difficultyMed.setVisible(true);
 					difficultyHard.setVisible(true);
+					
+					difficultyMed.setSelected(true);
 				}
 			}
 		});
@@ -438,7 +441,14 @@ class MenuMultiplayer {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				clientRunning = false;
-				MenuMultiWaiting.showWaitingClient(gameWindow);
+				
+				NetClient client = new NetClient(port, ip);
+				client.init();
+				
+				Thread thread = new Thread(client);
+				thread.start();
+				
+				MenuMultiWaiting.showWaitingClient(gameWindow, client, ip, port);
 			}
 		});
 		
@@ -448,7 +458,19 @@ class MenuMultiplayer {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				serverRunning = false;
-				MenuMultiWaiting.showWaitingServer(gameWindow);
+				
+				NetServer server = new NetServer(port, playerNo);
+				Thread thread = new Thread(server);
+				thread.start();
+				
+				
+				NetClient client = new NetClient(port, "127.0.0.1");
+				client.init();
+				
+				thread = new Thread(client);
+				thread.start();
+				
+				MenuMultiWaiting.showWaitingServer(gameWindow, playerNo, mode, port, client, server, publicIPs);
 			}
 		});
 		
@@ -602,12 +624,13 @@ class MenuMultiplayer {
 			
 			// run as long as the user is in server selection mode
 			while (serverRunning) {
+				System.out.println("Mode "+mode);
 				
 				// get the number of desired players
 				if (players.getText().length() != 0)
-					mode = Integer.parseInt(players.getText().trim());
+					playerNo = Integer.parseInt(players.getText().trim());
 				else
-					mode = 0;
+					playerNo = 0;
 				
 				// get the entered port and check whether it is in the viable range of 1024 to 65535
 				if (portField.getText().length() != 0)
@@ -627,7 +650,7 @@ class MenuMultiplayer {
 					portServerCheck.setText(" ");
 				
 				// should the port be OK and more than zero players selected, enable the button to begin a game
-				if (portCheck && mode != 0)
+				if (portCheck && playerNo != 0)
 					serverBegin.setEnabled(true);
 				else
 					serverBegin.setEnabled(false);

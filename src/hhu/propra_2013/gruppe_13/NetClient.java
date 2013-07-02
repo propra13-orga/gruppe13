@@ -19,10 +19,6 @@ class NetClient extends NetIO {
 	private int 	port;
 	private String	ip;
 	
-	// Variables to send to the server
-	private boolean begin;
-	private Color 	color;
-	
 	// Streams for communication with the server
 	private ObjectInputStream 	incoming;
 	private ObjectOutputStream	outgoing;
@@ -30,6 +26,10 @@ class NetClient extends NetIO {
 	// Array lists for all clients colors and status
 	private ArrayList<Color> 	colors;
 	private ArrayList<Boolean>	stati;
+	private ArrayList<String> 	users;
+	
+	// Integer to know what client we are in order
+	private int clientNo;
 	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	NetClient(int port, String ip) {
@@ -47,9 +47,7 @@ class NetClient extends NetIO {
 	}
 	
 	void setColor (Color color) {
-		// save the variable and tell the server
-		this.color = color;
-		
+		// output variable to server
 		try {
 			outgoing.writeObject(color);
 		} catch (IOException e) {
@@ -58,9 +56,7 @@ class NetClient extends NetIO {
 	}
 	
 	void setBegin (boolean begin) {
-		// save the variable and tell the server
-		this.begin = begin;
-		
+		// output variable to server
 		try {
 			outgoing.writeObject(begin);
 		} catch (IOException e) {
@@ -68,13 +64,41 @@ class NetClient extends NetIO {
 		}
 	}
 	
+	void setUsername (String username) {
+		// output username to server
+		try {
+			outgoing.writeObject(username);
+		} catch (IOException e) {
+			ProPra.errorOutput(CONNECTION_CLIENT_WRITE, e);
+		}
+	}
+	
+	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+	ArrayList<Color> getColors() {
+		return colors;
+	}
+	
+	ArrayList<Boolean> getStati() {
+		return stati;
+	}
+	
+	ArrayList<String> getUsers() {
+		return users;
+	}
+	
+	int getClientNumber() {
+		return clientNo;
+	}
+	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	//TODO: synchronize menu and array lists from this class
 	void init () {
 		try {
 			socket = new Socket(ip, port);
-			incoming = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 			outgoing = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+			outgoing.flush();
+
+			incoming = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 		} catch (IOException e) {
 			ProPra.errorOutput(CLIENT_SOCKET_ERROR, e);
 		}
@@ -88,24 +112,39 @@ class NetClient extends NetIO {
 		ArrayList<?> list;
 		
 		while (running) {
+			// reset the object, we don't wish to work with the same object again
 			inObject = null;
 			
 			try {
 				inObject = incoming.readObject();
 				
+				// check whether the object is an array list or a level, the latter would mean that the game has begun
 				if (inObject instanceof ArrayList) {
 					list = (ArrayList<?>)inObject;
 					
+					// sets the colors of all users
 					if		(list.size() > 0 && list.get(0) instanceof Color)
 						colors 	= (ArrayList<Color>)list;
 					
-					else if (list.size() > 0 && list.get(0) instanceof Boolean) 
+					// sets the status of all users
+					else if (list.size() > 0 && list.get(0) instanceof Boolean)
 						stati	= (ArrayList<Boolean>)list;
+					
+					// sets the names of all users
+					else if (list.size() > 0 && list.get(0) instanceof String)
+						users	= (ArrayList<String>)list;
 				}
 				
+				// if we have a level we need to start the game
 				else if (inObject instanceof CoreLevel) {
 					// TODO: start the game
 				}
+				
+				// variable to set which user we are
+				else if (inObject instanceof Integer)
+					clientNo = (Integer)inObject;
+				
+				
 			} catch (ClassNotFoundException | IOException e) {
 				System.err.println("Object could not be read. ");
 				System.err.println(e.getMessage());
