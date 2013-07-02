@@ -13,6 +13,7 @@ class NetServerWait extends NetIO {
 	// array list for the status of all client and all colors
 	private ArrayList<Boolean>	clientCheck;
 	private ArrayList<Color> 	colors;
+	private ArrayList<String>	usernames;
 	
 	// array list with all clients, needed for output
 	private ArrayList<NetServerClientCheck> 	clients;
@@ -27,6 +28,7 @@ class NetServerWait extends NetIO {
 		
 		this.colors 		= new ArrayList<Color>();
 		this.clientCheck 	= new ArrayList<Boolean>();
+		this.usernames		= new ArrayList<String>();
 		this.clients		= new ArrayList<NetServerClientCheck>();
 	}
 
@@ -48,6 +50,11 @@ class NetServerWait extends NetIO {
 		clientCheck.set(client, ready);
 	}
 	
+	void setUser (String user, int client) {
+		usernames.add(client, user);
+	}
+	
+	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	void add(Socket socket) {
 		// add a false variable to the array list for reference if all connections are ready to start the game
 		clientCheck.add(false);

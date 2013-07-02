@@ -17,7 +17,6 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Iterator;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;

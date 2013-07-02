@@ -9,8 +9,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
-import org.omg.CORBA.TIMEOUT;
-
 class NetClient extends NetIO {
 
 	// variable to set whether execution should be continued, socket for communication with the server

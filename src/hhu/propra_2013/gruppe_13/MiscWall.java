@@ -8,6 +8,8 @@ import java.awt.Toolkit;
 import java.awt.image.ImageObserver;
 
 class MiscWall extends CoreGameObjects implements ImageObserver {
+	private static final long serialVersionUID = -7802847088083780799L;
+	
 	/*-----------------------------------------------------------------------------------------------*/
 	// Hitpoints, position and collision radius
 	private int 	hp;
@@ -92,8 +94,8 @@ class MiscWall extends CoreGameObjects implements ImageObserver {
 	/*-----------------------------------------------------------------------------------------------*/
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
 		g.setColor(Color.green);
-		//g.drawImage(wall, xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height), this);
-		g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+		g.drawImage(wall, xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height), null);
+//		g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 	}
 	
 	void attack() {
