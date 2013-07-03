@@ -12,10 +12,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
@@ -118,10 +120,14 @@ class MenuMultiWaiting {
 		iFrame = new MenuMultiWaiting().new InfoFrame();
 		//NetChatPanel chat = new NetChatPanel(gameFrame);
 		
+		
 		// build a thread to check all inputs and outputs to and from the server
 		CheckAll check = new MenuMultiWaiting().new CheckAll();
 		Thread thread = new Thread(check);
 		thread.start();
+		
+		uPanel.initPanel();
+
 		
 		/*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 		// enable the Buttons to do something
@@ -177,6 +183,7 @@ class MenuMultiWaiting {
 		
 		// add the two buttons
 		layout.gridy = 2;
+		layout.insets = new Insets(45, 30, 45, 30);
 		waitingArea.add(begin, layout);
 		
 		layout.gridx = 3;
@@ -190,9 +197,8 @@ class MenuMultiWaiting {
 		 * layout.gridy = 3;
 		 * waitingArea.add(chat, layout);*/
 		
-		uPanel.initPanel();
 
-		System.out.println("UPanel: "+uPanel.getSize());
+//		System.out.println("UPanel: "+uPanel.getSize());
 		// set the actual content pane and show the panel
 		gameWindow.setContentPane(waitingArea);
 		gameWindow.setVisible(true);
@@ -222,7 +228,7 @@ class MenuMultiWaiting {
 		
 		UserPanel() {
 			this.setLayout(new GridBagLayout());
-			this.setBackground(Color.white);
+			this.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
 			this.setVisible(true);
 			this.setPreferredSize(new Dimension((int)(frameDimension.getWidth()/2.-60), (int)(frameDimension.getHeight()*3/4.-60)));
 			
@@ -267,14 +273,13 @@ class MenuMultiWaiting {
 			System.out.println(clientStati.size());
 			rest.setPreferredSize(new Dimension((int)(this.getPreferredSize().getWidth()), (int)(this.getPreferredSize().getHeight()-users.getPreferredSize().getHeight())));
 			
-			users.setBorder(null);
-			rest.setBorder(null);
+			users.setBorder(BorderFactory.createEmptyBorder());
+			rest.setBorder(BorderFactory.createEmptyBorder());
 			
 			// build the layout manager accordingly, layout will be determined by the weight given to each object 
 			frameLayout.fill = GridBagConstraints.BOTH;
 			frameLayout.weightx = 1;
 			frameLayout.weighty = clientStati.size()*20./(this.getPreferredSize().getHeight());
-			System.out.println("weigt y: "+frameLayout.weighty);
 			
 			frameLayout.gridx = 0;
 			frameLayout.gridy = 0;
@@ -288,19 +293,23 @@ class MenuMultiWaiting {
 			rest.setLocation(this.getX(), this.getY()+users.getHeight());
 			
 			// set background colors and visibilities
-			users.setBackground(Color.RED);
+			users.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
 			rest.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
 
 			users.setVisible(true);
 			rest.setVisible(true);
 			
 			
+			users.setLayout(new GridBagLayout());
+			
 			// reinitialize the layout manager to work with all subcomponents
 			layout.fill 	= GridBagConstraints.BOTH;
-			layout.anchor 	= GridBagConstraints.FIRST_LINE_START;
+			layout.anchor 	= GridBagConstraints.NORTH;
 			
 			// iterate over all clients, build their own little private space
 			for (int i=0; i<clientStati.size(); i++) {
+//				layout.fill 	= GridBagConstraints.VERTICAL;
+
 				// start at the beginning of the next line, with regular weights
 				layout.weighty = 1;
 				layout.weightx = 1;
@@ -310,8 +319,8 @@ class MenuMultiWaiting {
 				
 				// build a new field for the usernames and accepts only 15 Characters
 				namefield.add(i, new JTextField());
-				namefield.get(i).setBorder(null);
-				namefield.get(i).setPreferredSize(new Dimension((int)(this.getPreferredSize().getWidth()/2.-80), 20));
+				namefield.get(i).setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+				namefield.get(i).setPreferredSize(new Dimension((int)(this.getPreferredSize().getWidth()/2.-10), 20));
 				namefield.get(i).setDocument(new PlainDocument() {
 					
 					private static final long serialVersionUID = 8592038311609206190L;
@@ -328,6 +337,8 @@ class MenuMultiWaiting {
 				});
 				
 				// add the users name, set Background according to order and add to the panel
+				namefield.get(i).setText(usernames.get(i));
+				
 				if (i%2 == 0) {
 					namefield.get(i).setBackground(Color.DARK_GRAY);
 					namefield.get(i).setForeground(Color.WHITE);
@@ -336,21 +347,25 @@ class MenuMultiWaiting {
 					namefield.get(i).setBackground(Color.LIGHT_GRAY);
 					namefield.get(i).setForeground(Color.BLACK);
 				}
-				namefield.get(i).setText(usernames.get(i));
-
+				
+				
 				// set visibility and add the field to the panel
 				namefield.get(i).setVisible(true);
 				users.add(namefield.get(i), layout);
+				System.out.println("Horizontal: "+namefield.get(i).getAlignmentX());
 				
 				// set whether the user has chosen to begin yet
 				layout.gridx = 1;
-				if (clientStati.get(i))
+				if (!host && clientStati.get(i))
 					statusfield.add(i, new JTextField("Begin"));
-				else
+				else if (!host)
 					statusfield.add(i, new JTextField("Waiting"));
+				else
+					statusfield.add(i, new JTextField("Host"));
 				
-				statusfield.get(i).setBorder(null);
-				statusfield.get(i).setPreferredSize(new Dimension((int)(this.getPreferredSize().getWidth()/2.-10), 20));
+				statusfield.get(i).setHorizontalAlignment(JTextField.CENTER);
+				statusfield.get(i).setBorder(BorderFactory.createEmptyBorder());
+				statusfield.get(i).setPreferredSize(new Dimension((int)(this.getPreferredSize().getWidth()/4.-10), 20));
 				statusfield.get(i).setVisible(true);
 				users.add(statusfield.get(i), layout);
 				
@@ -391,7 +406,7 @@ class MenuMultiWaiting {
 			FigureColor (Color color) {
 				this.setBackground(color);
 				this.setVisible(true);
-				this.setBorder(null);
+				this.setBorder(BorderFactory.createEmptyBorder());
 				
 				this.enabled = true;
 				this.colors = new ArrayList<Color>();
@@ -521,15 +536,18 @@ class MenuMultiWaiting {
 						usernames.set(clientNo, ownUsername);
 					}
 					
-					if (ownColor != clientColors.get(clientNo))
+					if (ownColor != clientColors.get(clientNo)) {
 						client.setColor(ownColor);
+						clientColors.set(clientNo, ownColor);
+					}
 					
-					if (ownStatus != clientStati.get(clientNo))
+					if (ownStatus != clientStati.get(clientNo)) {
 						client.setBegin(ownStatus);
+						clientStati.set(clientNo, ownStatus);
+					}
 				}
 				
 //				uPanel.resetPanel();
-				uPanel.repaint();				
 
 				// get the needed lists from the provided client class
 				clientColors 	= client.getColors();

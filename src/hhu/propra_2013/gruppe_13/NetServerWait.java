@@ -52,7 +52,7 @@ class NetServerWait extends NetIO {
 	}
 	
 	void setUser (String user, int client) {
-		usernames.add(client, user);
+		usernames.set(client, user);
 	}
 	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
