@@ -4,32 +4,53 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
+/**
+ * Enthält alle Informationen für Quest und Story NPCs, deren Text und dessen Anzeigedauer
+ * Alle Questevents finden ebenfalls hier statt
+ * @author Gruppe13
+ *
+ */
+
 public class MiscNPC extends CoreGameObjects{
 	private static final long serialVersionUID = 4326600912745815443L;
 	
-	//Variables  taken from enemy - some are maybe Hyper-Fluid (sic)
-	private boolean talk;
+
+	private boolean talk; //gibt an ob der NPC grade redet/reden darf
+	
+	
 	private int 	hp;
 	private double 	x, y;
 	private double	r;
 	private double 	v_x, v_y;
 	private double 	height, width;
 	private int		strength;
-	//private int 	type;
-	private String 	text; 
-	private int 	stage; 		//NPC should know which area he is in, so he can refer to the level Theme or something
+	
+	private String 	text; 	//Was der NPC zu sagen hat
+	private int 	stage;	//NPC should know which area he is in, so he can refer to the level Theme or something
 	private String 	boss;	//NPC should know what the area boss is, so he can say funny stuff about him 
-	private String 	stageone,stagetwo,stagethree;
-	private long 	npcTalkTime;
+	private String 	stageone,stagetwo,stagethree; //statische Texte des Story NPCs für die verschiedenen Level
+	private long 	npcTalkTime;	//Wie lange der NPC redet
 	CoreRoom		currentRoom; //For spawning Enemies upon Collision
 	
 	private String	type;//Unterscheidung ob "Story" oder Quest NPC
-	private String	questAssault, questItem, questAmbush;
-	private int 	quest;
+	private String	questAssault, questItem, questAmbush; //statische Texte für die verschiedenen Quest-Typen 
+	private int 	quest; //Codiert den Questtyp für switch-case Anwendungen
 	
  	
 
-	//Constructor for NPC - TODO Think what the NPC should be able to do, and implement the useful thoughts
+	/**
+	 * Konstruktor für den NPC, aufgerufen von CoreRoom bei der Raumgenerierung
+	 * Nach Aufruf wurde der NPC an der richtigen Stelle im Raum eingefügt und tut nichts bis der Spieler mit ihm kollidiert
+	 * @param initX X-Position des NPC im Raum
+	 * @param initY Y-Position des NPC im Raum
+	 * @param initHeight Höhe des NPC
+	 * @param initWidth Breite des NPC
+	 * @param inBoss Name des Levelbosses, zurzeit ungenutzt, soll Bossspezifische Dialoge ermöglichen
+	 * @param inStage Levelnummer, legt den Questdialog des NPC fest
+	 * @param inType Legt fest ob es sich um einen Quest oder Story NPC handelt
+	 * @param inRoom Der gesamte Raum in dem der NPC sich befindet, genutzt um den NPC Gegner/Items spawnen zu lassen
+	 * @see	CoreRoom
+	 */
 	MiscNPC(double initX, double initY, double initHeight, double initWidth, String inBoss, int inStage, String inType, CoreRoom inRoom){
 
 		
@@ -46,8 +67,8 @@ public class MiscNPC extends CoreGameObjects{
 		height = initHeight;
 		width = initWidth;
 		r = Math.max(width, height)+v_x*v_x+v_y*v_y;
-		hp = 1; 		//should not be harmed at all, but GameObjects wants it kinda badly
-		strength = 1;	//should harm anyone else either, but you never know when a NPC will snap...
+		hp = 1; 		//should not be harmed at all
+		strength = 1;	//should harm anyone else either
 		//Stuff to tell the NPC what he can talk about
 		boss = inBoss;
 		stage = inStage;
@@ -58,7 +79,7 @@ public class MiscNPC extends CoreGameObjects{
 		stagethree = "I am kinda impressed now... maybe you are able to see the victory screen if you live after you fought the last red circle.";
 		questAmbush = "So you are really stupid enough to fall for our simple Trap. Kill it with Melee!";
 		questItem = "It's dangerous to go alone! Take this!";
-		questAssault = "It's a trap! they are coming for you!";
+		questAssault = "It's a trap! They are coming for you!";
 	}
 	
 	
@@ -169,10 +190,16 @@ public class MiscNPC extends CoreGameObjects{
 
 
 // from here it's actual new NPC Stuff (and Stuff)
+	
+	/**
+	 * Wird bei Kollsion mit einem NPC aufgerufen
+	 * Es wird ermittelt um was für einen NPC es sich handelt (Story, Quest), der Story oder Questdialog wird bestimmt
+	 * Der eigentliche Quest findet in private talkTimer statt, der über die Grafik aufgerufen wird
+	 */
 	void talk(){
-		if (talk == false){
-			if (type == "Start"){ 
-				switch(stage){
+		if (talk == false){ //Um zu verhindern das bei längerem Kontakt mit dem NPC Talk() mit jedem durchlaufder Gameloop neu gestartet wird
+			if (type == "Start"){ //Falls es ein Story NPC ist
+				switch(stage){ //Je nach Stage anderer Text
 				case 1:
 					text = stageone;
 					break;
@@ -183,8 +210,8 @@ public class MiscNPC extends CoreGameObjects{
 					text = stagethree;
 					break;
 				}
-				talk = true;
-				npcTalkTime = System.currentTimeMillis();
+				talk = true; //Der NPC redet
+				npcTalkTime = System.currentTimeMillis(); //Für die Anzeigedauer des Textes, wird in talkTimer verwendet, welcher über die draw Methode aufgerufen wird
 			}
 			else if (type == "Quest"){
 				
@@ -217,13 +244,13 @@ public class MiscNPC extends CoreGameObjects{
 		}
 	}
 	
-	private void talkTimer(){ //timer for how long the npc talks
+	private void talkTimer(){ //timer for how long the npc talks. All the Quest stuff is happening here
 
 		if (type == "Start"){
-			if(System.currentTimeMillis() >= npcTalkTime + 10000) talk = false;
+			if(System.currentTimeMillis() >= npcTalkTime + 5000) talk = false;
 		}
 		else if (type == "Quest"){ //Falls es ein Quest NPC ist
-			if(System.currentTimeMillis()>= npcTalkTime + 5000){
+			if(System.currentTimeMillis()>= npcTalkTime + 2500){
 				
 				switch (quest){
 				

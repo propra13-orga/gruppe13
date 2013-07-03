@@ -148,9 +148,10 @@ public class CoreLevel {
 		
 	}
 	/**
-	Erzeugt ein neues Level wenn die Logik es anfordert.
-	@param inStage	 Die Nummer des Levels, wird genutzt um die Anzahl der Räume festzulegen
-	@param inBoss 	 Der Name des Bosses des Levels, soll in einer späteren Version genutzt werden um dem NPC Bossspezifische Kommentare zu ermöglichen
+	*Erzeugt ein neues Level wenn die Logik es anfordert.
+	*Das erzeugte Level wird nicht an andere Klassen weitergegeben, sondern diese holen sich die benötigten Informationen (zum Beispeil den aktuellen Raum)
+	*@param inStage	 Die Nummer des Levels, wird genutzt um die Anzahl der Räume festzulegen
+	*@param inBoss 	 Der Name des Bosses des Levels, soll in einer späteren Version genutzt werden um dem NPC Bossspezifische Kommentare zu ermöglichen
 	*/
 	//LevelBuilder
 	void buildLevel(int inStage, String inBoss){//Stage beginnt bei 1 zu zählen
