@@ -93,7 +93,9 @@ class CoreLogic implements Runnable {
 	}
 
 	void setEsc(boolean in){
-		esc = in;
+		if (!esc) {
+			esc = in;
+		}else esc = false;
 	}
 	
 	void setUse (boolean in) {
@@ -156,6 +158,7 @@ class CoreLogic implements Runnable {
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Initiate the current objects variables
 	CoreLogic(Figure inFigure, CoreO_Game inGame, int mode) {
+		esc = false;
 		gameRunning = true;
 
 		figure = inFigure;
@@ -691,7 +694,7 @@ class CoreLogic implements Runnable {
 			figVY = figure.getVY();
 
 			// do the actual logic in this game
-			if(!showMap){
+			if(!showMap && !esc){
 				this.checkCollision();
 				this.moveFigure();
 				this.attacks();

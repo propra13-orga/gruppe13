@@ -26,6 +26,7 @@ public class MenuMain{
 		JButton startGame	= new JButton("Single Player");
 		JButton options		= new JButton("Options");
 		JButton multi		= new JButton("Multiplayer");
+		JButton profil		= new JButton("Profil");
 		JButton edit		= new JButton("Editor");
 		
 		// implement action listeners to start and end the game
@@ -70,6 +71,14 @@ public class MenuMain{
 			}
 		});
 		
+		profil.addActionListener(new ActionListener() {
+			
+			@Override	// initiate the profil
+			public void actionPerformed(ActionEvent arg0) {
+				ProPra.initMulti();
+			}
+		});
+		
 		JPanel dummy = new JPanel();
 		dummy.setBackground(menu.getBackground());
 		dummy.setVisible(true);
@@ -98,7 +107,7 @@ public class MenuMain{
 		cButtons.insets = new Insets(0, 0, 0, 0);
 		menu.add(startGame, cButtons);
 		
-		cButtons.gridy = 4;
+		cButtons.gridy = 5;
 		menu.add(endProgram, cButtons);
 		
 		cButtons.gridy = 2;
@@ -106,6 +115,10 @@ public class MenuMain{
 		
 		cButtons.gridy = 3;
 		menu.add(options, cButtons);
+		
+		cButtons.gridy = 4;
+		menu.add(profil, cButtons);
+		
 		
 		return menu;
 	}
