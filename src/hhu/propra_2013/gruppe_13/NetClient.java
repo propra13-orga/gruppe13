@@ -44,8 +44,6 @@ class NetClient extends NetIO {
 			outgoing.writeObject(new String("the real deal"));
 			outgoing.flush();
 			
-			System.out.println("client sent the real deal");
-			
 			// build a new OIS to the server
 			incoming = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
 		} catch (IOException e) {
@@ -62,7 +60,9 @@ class NetClient extends NetIO {
 	void setColor (Color color) {
 		// output variable to server
 		try {
+			outgoing.reset();
 			outgoing.writeObject(color);
+			outgoing.flush();
 		} catch (IOException e) {
 			ProPra.errorOutput(CONNECTION_CLIENT_WRITE, e);
 		}
@@ -71,7 +71,9 @@ class NetClient extends NetIO {
 	void setBegin (boolean begin) {
 		// output variable to server
 		try {
+			outgoing.reset();
 			outgoing.writeObject(begin);
+			outgoing.flush();
 		} catch (IOException e) {
 			ProPra.errorOutput(CONNECTION_CLIENT_WRITE, e);
 		}
@@ -80,7 +82,9 @@ class NetClient extends NetIO {
 	void setUsername (String username) {
 		// output username to server
 		try {
+			outgoing.reset();
 			outgoing.writeObject(username);
+			outgoing.flush();
 		} catch (IOException e) {
 			ProPra.errorOutput(CONNECTION_CLIENT_WRITE, e);
 		}
@@ -124,8 +128,9 @@ class NetClient extends NetIO {
 					list = (ArrayList<?>)inObject;
 
 					// sets the colors of all users
-					if		(list.size() > 0 && list.get(0) instanceof Color)
+					if		(list.size() > 0 && list.get(0) instanceof Color) {
 						colors 	= (ArrayList<Color>)list;
+					}
 					
 					// sets the status of all users
 					else if (list.size() > 0 && list.get(0) instanceof Boolean)

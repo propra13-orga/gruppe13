@@ -1,7 +1,6 @@
 package hhu.propra_2013.gruppe_13;
 
 import java.awt.Color;
-import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -17,7 +16,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.border.EmptyBorder;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
@@ -161,11 +159,6 @@ class MenuMultiWaiting {
 		layout.gridheight 	= 3;
 		layout.gridwidth	= 2;
 		
-//		layout.weightx = 1;
-//		layout.weighty = 1;
-//
-//		layout.anchor = GridBagConstraints.PAGE_START;
-		
 		layout.gridx = 0;
 		layout.gridy = 0;
 		layout.anchor = GridBagConstraints.CENTER;
@@ -198,7 +191,6 @@ class MenuMultiWaiting {
 		 * waitingArea.add(chat, layout);*/
 		
 
-//		System.out.println("UPanel: "+uPanel.getSize());
 		// set the actual content pane and show the panel
 		gameWindow.setContentPane(waitingArea);
 		gameWindow.setVisible(true);
@@ -222,6 +214,10 @@ class MenuMultiWaiting {
 		private ArrayList<JTextField> 	namefield;
 		private ArrayList<JTextField> 	statusfield;
 		private ArrayList<FigureColor> 	color;
+		
+		// build two subpanels
+		private JPanel users;
+		private JPanel rest;
 		
 		// number of the client 
 		private int clientNo;
@@ -254,8 +250,8 @@ class MenuMultiWaiting {
 		
 		void initPanel() {
 			// build two new panels which contain the users and a default empty space
-			JPanel users = new JPanel();
-			JPanel rest = new JPanel();
+			users = new JPanel();
+			rest = new JPanel();
 			
 			// wait until the client statuses have been initialized
 			while (clientStati == null) {
@@ -270,7 +266,6 @@ class MenuMultiWaiting {
 			
 			// set the size of both panel, we will add all components to the one and have the other as a filler
 			users.setPreferredSize(new Dimension((int)(this.getPreferredSize().getWidth()), clientStati.size()*20));
-			System.out.println(clientStati.size());
 			rest.setPreferredSize(new Dimension((int)(this.getPreferredSize().getWidth()), (int)(this.getPreferredSize().getHeight()-users.getPreferredSize().getHeight())));
 			
 			users.setBorder(BorderFactory.createEmptyBorder());
@@ -289,8 +284,6 @@ class MenuMultiWaiting {
 			frameLayout.gridy = 1;
 			frameLayout.weighty = 1 - frameLayout.weighty;
 			this.add(rest, frameLayout);
-			users.setLocation(this.getX(), this.getY());
-			rest.setLocation(this.getX(), this.getY()+users.getHeight());
 			
 			// set background colors and visibilities
 			users.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
@@ -308,8 +301,6 @@ class MenuMultiWaiting {
 			
 			// iterate over all clients, build their own little private space
 			for (int i=0; i<clientStati.size(); i++) {
-//				layout.fill 	= GridBagConstraints.VERTICAL;
-
 				// start at the beginning of the next line, with regular weights
 				layout.weighty = 1;
 				layout.weightx = 1;
@@ -352,12 +343,11 @@ class MenuMultiWaiting {
 				// set visibility and add the field to the panel
 				namefield.get(i).setVisible(true);
 				users.add(namefield.get(i), layout);
-				System.out.println("Horizontal: "+namefield.get(i).getAlignmentX());
 				
 				// set whether the user has chosen to begin yet
 				layout.gridx = 1;
 				if (!host && clientStati.get(i))
-					statusfield.add(i, new JTextField("Begin"));
+					statusfield.add(i, new JTextField("Ready"));
 				else if (!host)
 					statusfield.add(i, new JTextField("Waiting"));
 				else
@@ -394,6 +384,124 @@ class MenuMultiWaiting {
 			}
 		}
 		
+		void resetPanel() {
+			// leave if the arrays haven't been initialized yet
+			if (clientStati == null) 
+				return;
+			
+			// iterate over all panels already active
+			for (int i=0; i<namefield.size(); i++) {
+				// skip if we are looking at our own fields
+				if (i == clientNo)
+					continue;
+				
+				// set the names and colors of all fields
+				namefield.get(i).setText(usernames.get(i));
+				color.get(i).setBackground(clientColors.get(i));
+				
+				// set the status of all clients except the host
+				if (clientStati.get(i) && i != 0)
+					statusfield.get(i).setText("Ready");
+				else if (i != 0)
+					statusfield.get(i).setText("Waiting");
+				else
+					statusfield.get(i).setText("Host");
+			}
+			
+			// TODO: alter height of the user panel, we need more space for the next rows 
+//			// reinitialize the layout manager to work with all subcomponents
+//			layout.fill 	= GridBagConstraints.BOTH;
+//			layout.anchor 	= GridBagConstraints.NORTH;
+//			
+//			if (host)
+//				System.out.println(namefield.size()+ " "+usernames.size());
+//
+//			// create new panels for all new connections
+//			for (int i=namefield.size(); i<usernames.size(); i++) {
+//				if (i==0)
+//					return;
+//				// start at the beginning of the next line, with regular weights
+//				layout.weighty = 1;
+//				layout.weightx = 1;
+//				
+//				layout.gridx = 0;
+//				layout.gridy = i;
+//				
+//				// build a new field for the usernames and accepts only 15 Characters
+//				namefield.add(i, new JTextField());
+//				namefield.get(i).setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+//				namefield.get(i).setPreferredSize(new Dimension((int)(this.getPreferredSize().getWidth()/2.-10), 20));
+//				namefield.get(i).setDocument(new PlainDocument() {
+//					
+//					private static final long serialVersionUID = 8592038311609206190L;
+//
+//					@Override
+//					public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+//						int length = super.getLength();
+//						
+//						if (length >= 15)
+//							str = "";
+//						
+//						super.insertString(offs, str, a);
+//					}
+//				});
+//				
+//				// add the users name, set Background according to order and add to the panel
+//				namefield.get(i).setText(usernames.get(i));
+//				
+//				if (i%2 == 0) {
+//					namefield.get(i).setBackground(Color.DARK_GRAY);
+//					namefield.get(i).setForeground(Color.WHITE);
+//				}
+//				else {
+//					namefield.get(i).setBackground(Color.LIGHT_GRAY);
+//					namefield.get(i).setForeground(Color.BLACK);
+//				}
+//				
+//				
+//				// set visibility and add the field to the panel
+//				namefield.get(i).setVisible(true);
+//				users.add(namefield.get(i), layout);
+//				
+//				// set whether the user has chosen to begin yet
+//				layout.gridx = 1;
+//				if (!host && clientStati.get(i))
+//					statusfield.add(i, new JTextField("Ready"));
+//				else if (!host)
+//					statusfield.add(i, new JTextField("Waiting"));
+//				else
+//					statusfield.add(i, new JTextField("Host"));
+//				
+//				statusfield.get(i).setHorizontalAlignment(JTextField.CENTER);
+//				statusfield.get(i).setBorder(BorderFactory.createEmptyBorder());
+//				statusfield.get(i).setPreferredSize(new Dimension((int)(this.getPreferredSize().getWidth()/4.-10), 20));
+//				statusfield.get(i).setVisible(true);
+//				users.add(statusfield.get(i), layout);
+//				
+//				// add the color chooser so that a new color can be set
+//				layout.gridx = 2;
+//				layout.weightx = 0;
+//				color.add(i, new FigureColor(clientColors.get(i)));
+//				color.get(i).init();
+//				users.add(color.get(i), layout);
+//
+//				// set all fields that do not belong to the user as non-editable
+//				if (i != clientNo) {
+//					namefield.get(i).setEditable(false);
+//					namefield.get(i).setFocusable(false);
+//					namefield.get(i).setHighlighter(null);
+//					
+//					color.get(i).setClickEnabled(false);
+//					color.get(i).setFocusable(false);
+//					color.get(i).setEnabled(false);
+//				}
+//				
+//				// all status fields should only be editable via the "Begin" button
+//				statusfield.get(i).setEditable(false);
+//				statusfield.get(i).setFocusable(false);
+//				statusfield.get(i).setHighlighter(null);
+//			}
+		}
 		
 		/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 		private class FigureColor extends JPanel {
@@ -501,11 +609,6 @@ class MenuMultiWaiting {
 			running = true;
 			boolean beginGame;
 			
-			// temporary variables for storing changes in variables
-			boolean tempStatus;
-			Color	tempColor;
-			String	tempUsername;
-			
 			while (running) {
 				
 				// check whether this is a host computer
@@ -528,7 +631,7 @@ class MenuMultiWaiting {
 				if (uPanel.getNameField().size() > clientNo) {
 					ownUsername = uPanel.getNameField().get(clientNo).getText();
 					ownColor	= uPanel.getColor().get(clientNo).getBackground();
-					ownStatus	= !(uPanel.getStatusField().get(clientNo).getText().contentEquals("Waiting"));
+					ownStatus	= (uPanel.getStatusField().get(clientNo).getText().contentEquals("Begin"));
 					
 					// if the variables have changed, reset the servers values
 					if (!ownUsername.contentEquals(usernames.get(clientNo))) { 
@@ -547,12 +650,20 @@ class MenuMultiWaiting {
 					}
 				}
 				
-//				uPanel.resetPanel();
-
 				// get the needed lists from the provided client class
 				clientColors 	= client.getColors();
 				clientStati		= client.getStati();
 				usernames		= client.getUsers();
+				
+//				if (host) {
+//					System.out.println(usernames);
+//					System.out.println(clientStati);
+//					System.out.println(clientColors);
+//				}
+				
+				// reset all values within the panel
+				uPanel.resetPanel();
+				uPanel.repaint();
 				
 				// set the thread asleep to give computing time to other threads
 				try {

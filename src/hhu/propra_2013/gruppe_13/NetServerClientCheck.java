@@ -11,7 +11,7 @@ class NetServerClientCheck extends NetIO {
 	// variable to determine how long we are going to stay in the waiting room
 	private boolean 			running;
 	private int 				clientNo;
-	
+//	private int counter = 0;
 	// Communication with the server and the client
 	private NetServerWait		server;
 	private ObjectInputStream	incoming;
@@ -30,7 +30,6 @@ class NetServerClientCheck extends NetIO {
 		// tell the client what number he has, that way the waiting room can be built 
 		try {
 			outgoing.writeObject(clientNo);
-			System.out.println("Wrote client number: "+clientNo);
 		} catch (IOException e) {
 			System.err.println("Could not output client ID to client");
 		}
@@ -44,6 +43,7 @@ class NetServerClientCheck extends NetIO {
 	
 	void sendObjects(Object toSend) {
 		try {
+			outgoing.reset();
 			outgoing.writeObject(toSend);
 			outgoing.flush();
 		} catch (IOException e) {
@@ -65,17 +65,14 @@ class NetServerClientCheck extends NetIO {
 			try {
 				inObject = incoming.readObject();
 				
-				if (inObject == null)
-					continue;
-				
 				// check whether the client wishes to begin the game
 				if (inObject instanceof String) {
 					server.setUser((String)inObject, clientNo);
 				}
 				
 				if (inObject instanceof Boolean) {
-					server.setReady(true, clientNo);
-					this.setRunning(false);
+					server.setReady((Boolean)inObject, clientNo);
+					this.setRunning(!(Boolean)inObject);
 				}
 				
 				// set the clients game figure color

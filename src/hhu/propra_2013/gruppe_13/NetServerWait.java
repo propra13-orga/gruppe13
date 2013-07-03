@@ -44,15 +44,24 @@ class NetServerWait extends NetIO {
 	}
 	
 	void setColor (Color color, int client) {
-		colors.set(client, color);
+		if (colors.size() <= client)
+			colors.add(client, color);
+		else
+			colors.set(client, color);
 	}
 	
 	void setReady (boolean ready, int client) {
-		clientCheck.set(client, ready);
+		if (clientCheck.size() <= client)
+			clientCheck.add(client, ready);
+		else
+			clientCheck.set(client, ready);
 	}
 	
 	void setUser (String user, int client) {
-		usernames.set(client, user);
+		if (usernames.size() <= client)
+			usernames.add(client, user);
+		else
+			usernames.set(client, user);
 	}
 	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -62,7 +71,6 @@ class NetServerWait extends NetIO {
 		colors.add(Color.BLACK);
 		usernames.add("user "+counter);
 
-		System.out.println("building new NetServerClientCheck");
 		// build a new client and start it as a thread
 		NetServerClientCheck client = new NetServerClientCheck(counter, socket, output, input, this);
 		Thread thread = new Thread(client);
@@ -76,10 +84,8 @@ class NetServerWait extends NetIO {
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	@Override
 	public void run() {
-//		boolean startGame;
 		
 		while (waiting) {
-
 			// iterate over all clients, send them the colors, statuses (and usernames) of all players 
 			for (int i=0; i<clients.size(); i++) {
 				clients.get(i).sendObjects(colors);
