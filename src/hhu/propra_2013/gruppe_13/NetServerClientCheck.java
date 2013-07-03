@@ -30,6 +30,7 @@ class NetServerClientCheck extends NetIO {
 		// tell the client what number he has, that way the waiting room can be built 
 		try {
 			outgoing.writeObject(clientNo);
+			System.out.println("Wrote client number: "+clientNo);
 		} catch (IOException e) {
 			System.err.println("Could not output client ID to client");
 		}

@@ -78,22 +78,20 @@ class NetServer extends NetIO {
 					// open an input stream
 					input	= new ObjectInputStream(new BufferedInputStream(connection.getInputStream()));
 					
-					// read an array of bytes from the input stream
-					int readable 	= input.available();
-					byte[] buffer 	= new byte[readable];
+					// read an object from the stream and convert to String
 					String test 	= "";
 					
-					// read into buffer and convert to String 
-					input.read(buffer, 0, readable);
-					test = new String(buffer);
+					Object inObject = input.readObject();
+					if (inObject instanceof String)
+						test = (String)inObject;
 					
 					// check whether the client wishes to initiate a new setting
 					if (test.contentEquals("the real deal")) {
 						waiting.add(connection, output, input);
 					}
 					
-				} catch (IOException e) {
-					e.printStackTrace();
+				} catch (IOException | ClassNotFoundException e) {
+//					e.printStackTrace();
 				}
 			}
 			

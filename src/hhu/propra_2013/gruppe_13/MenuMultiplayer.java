@@ -446,7 +446,6 @@ class MenuMultiplayer {
 				clientRunning = false;
 				
 				NetClient client = new NetClient(port, ip);
-//				client.init();
 				
 				Thread thread = new Thread(client);
 				thread.start();

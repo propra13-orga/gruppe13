@@ -62,6 +62,7 @@ class NetServerWait extends NetIO {
 		colors.add(Color.BLACK);
 		usernames.add("user "+counter);
 
+		System.out.println("building new NetServerClientCheck");
 		// build a new client and start it as a thread
 		NetServerClientCheck client = new NetServerClientCheck(counter, socket, output, input, this);
 		Thread thread = new Thread(client);

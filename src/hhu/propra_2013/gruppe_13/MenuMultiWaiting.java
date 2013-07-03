@@ -1,6 +1,7 @@
 package hhu.propra_2013.gruppe_13;
 
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -15,6 +16,10 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
+
 
 class MenuMultiWaiting {
 
@@ -31,6 +36,11 @@ class MenuMultiWaiting {
 	private static ArrayList<Boolean> 	clientStati;
 	private static ArrayList<Color>		clientColors;
 	private static ArrayList<String>	usernames;
+	
+	// Variables containing the own preferences
+	private static Boolean 	ownStatus;
+	private static Color 	ownColor;
+	private static String 	ownUsername;
 	
 	// initiate two panels, one containing all users and another as a status bar
 	private static UserPanel uPanel;
@@ -108,6 +118,11 @@ class MenuMultiWaiting {
 		iFrame = new MenuMultiWaiting().new InfoFrame();
 		//NetChatPanel chat = new NetChatPanel(gameFrame);
 		
+		// build a thread to check all inputs and outputs to and from the server
+		CheckAll check = new MenuMultiWaiting().new CheckAll();
+		Thread thread = new Thread(check);
+		thread.start();
+		
 		/*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 		// enable the Buttons to do something
 		begin.addActionListener(new ActionListener() {
@@ -149,6 +164,7 @@ class MenuMultiWaiting {
 		layout.gridy = 0;
 		layout.anchor = GridBagConstraints.CENTER;
 		layout.insets = new Insets(30, 30, 30, 30);
+		
 		waitingArea.add(uPanel, layout);
 		
 		// add the information panel
@@ -174,11 +190,9 @@ class MenuMultiWaiting {
 		 * layout.gridy = 3;
 		 * waitingArea.add(chat, layout);*/
 		
-		// build a thread to check all inputs and outputs to and from the server
-		CheckAll check = new MenuMultiWaiting().new CheckAll();
-		Thread thread = new Thread(check);
-		thread.start();
-		
+		uPanel.initPanel();
+
+		System.out.println("UPanel: "+uPanel.getSize());
 		// set the actual content pane and show the panel
 		gameWindow.setContentPane(waitingArea);
 		gameWindow.setVisible(true);
@@ -193,8 +207,18 @@ class MenuMultiWaiting {
 	// inner class for the panel containing all usernames, colors and stati
 	private class UserPanel extends JPanel{
 
+		// serial version ID and layout manager
 		private static final long 	serialVersionUID = -4025842983277361277L;
 		private GridBagConstraints	layout;
+		private GridBagConstraints 	frameLayout;
+		
+		// build all fields needed for the panel
+		private ArrayList<JTextField> 	namefield;
+		private ArrayList<JTextField> 	statusfield;
+		private ArrayList<FigureColor> 	color;
+		
+		// number of the client 
+		private int clientNo;
 		
 		UserPanel() {
 			this.setLayout(new GridBagLayout());
@@ -203,91 +227,158 @@ class MenuMultiWaiting {
 			this.setPreferredSize(new Dimension((int)(frameDimension.getWidth()/2.-60), (int)(frameDimension.getHeight()*3/4.-60)));
 			
 			layout = new GridBagConstraints();
+			frameLayout = new GridBagConstraints();
+			
+			namefield 	= new ArrayList<JTextField>();
+			statusfield = new ArrayList<JTextField>();
+			color		= new ArrayList<FigureColor>();
 		}
 		
-		void resetPanel() {
-			// get the number of the current client
-			int clientNo = 	client.getClientNumber();
+		ArrayList<JTextField> getNameField() {
+			return namefield;
+		}
+		
+		ArrayList<JTextField> getStatusField() {
+			return statusfield;
+		}
+		
+		ArrayList<FigureColor> getColor() {
+			return color;
+		}
+		
+		void initPanel() {
+			// build two new panels which contain the users and a default empty space
+			JPanel users = new JPanel();
+			JPanel rest = new JPanel();
 			
-			// build all fields needed for the panel
-			JTextField 	namefield;
-			JTextField 	statusfield;
-			
-			FigureColor color;
+			// wait until the client statuses have been initialized
+			while (clientStati == null) {
+				try {
+					Thread.sleep(20);
+				} catch (InterruptedException e) {
+				}
+			}
 
-			// set default values needed for the layout
-			layout.fill = GridBagConstraints.HORIZONTAL;
-			layout.anchor = GridBagConstraints.PAGE_START;
-			layout.weighty = 0;
+			// get the number of the current client
+			clientNo = client.getClientNumber();
 			
-			if (clientStati == null) 
-				return;
+			// set the size of both panel, we will add all components to the one and have the other as a filler
+			users.setPreferredSize(new Dimension((int)(this.getPreferredSize().getWidth()), clientStati.size()*20));
+			System.out.println(clientStati.size());
+			rest.setPreferredSize(new Dimension((int)(this.getPreferredSize().getWidth()), (int)(this.getPreferredSize().getHeight()-users.getPreferredSize().getHeight())));
 			
-			System.out.println(clientColors);
-			System.out.println(clientStati);
-			System.out.println(usernames);
+			users.setBorder(null);
+			rest.setBorder(null);
 			
-			// iterate over all clients and build the menu accordingly
+			// build the layout manager accordingly, layout will be determined by the weight given to each object 
+			frameLayout.fill = GridBagConstraints.BOTH;
+			frameLayout.weightx = 1;
+			frameLayout.weighty = clientStati.size()*20./(this.getPreferredSize().getHeight());
+			System.out.println("weigt y: "+frameLayout.weighty);
+			
+			frameLayout.gridx = 0;
+			frameLayout.gridy = 0;
+			this.add(users, frameLayout);
+			
+			// add the rest panel to the menu, this is actually just a filler
+			frameLayout.gridy = 1;
+			frameLayout.weighty = 1 - frameLayout.weighty;
+			this.add(rest, frameLayout);
+			users.setLocation(this.getX(), this.getY());
+			rest.setLocation(this.getX(), this.getY()+users.getHeight());
+			
+			// set background colors and visibilities
+			users.setBackground(Color.RED);
+			rest.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
+
+			users.setVisible(true);
+			rest.setVisible(true);
+			
+			
+			// reinitialize the layout manager to work with all subcomponents
+			layout.fill 	= GridBagConstraints.BOTH;
+			layout.anchor 	= GridBagConstraints.FIRST_LINE_START;
+			
+			// iterate over all clients, build their own little private space
 			for (int i=0; i<clientStati.size(); i++) {
+				// start at the beginning of the next line, with regular weights
+				layout.weighty = 1;
 				layout.weightx = 1;
+				
+				layout.gridx = 0;
 				layout.gridy = i;
 				
-				// first of all add the name field
-				layout.gridx = 0;
-				namefield = new JTextField(usernames.get(i));
-				namefield.setBorder(null);
-				namefield.setPreferredSize(new Dimension((int)(namefield.getPreferredSize()).getWidth(), 20));
+				// build a new field for the usernames and accepts only 15 Characters
+				namefield.add(i, new JTextField());
+				namefield.get(i).setBorder(null);
+				namefield.get(i).setPreferredSize(new Dimension((int)(this.getPreferredSize().getWidth()/2.-80), 20));
+				namefield.get(i).setDocument(new PlainDocument() {
+					
+					private static final long serialVersionUID = 8592038311609206190L;
+
+					@Override
+					public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+						int length = super.getLength();
+						
+						if (length >= 15)
+							str = "";
+						
+						super.insertString(offs, str, a);
+					}
+				});
 				
-				// set Background according to order and add to the panel
+				// add the users name, set Background according to order and add to the panel
 				if (i%2 == 0) {
-					namefield.setBackground(Color.DARK_GRAY);
-					namefield.setForeground(Color.WHITE);
+					namefield.get(i).setBackground(Color.DARK_GRAY);
+					namefield.get(i).setForeground(Color.WHITE);
 				}
 				else {
-					namefield.setBackground(Color.LIGHT_GRAY);
-					namefield.setForeground(Color.BLACK);
+					namefield.get(i).setBackground(Color.LIGHT_GRAY);
+					namefield.get(i).setForeground(Color.BLACK);
 				}
-				
-				namefield.setVisible(true);
-				this.add(namefield, layout);
+				namefield.get(i).setText(usernames.get(i));
+
+				// set visibility and add the field to the panel
+				namefield.get(i).setVisible(true);
+				users.add(namefield.get(i), layout);
 				
 				// set whether the user has chosen to begin yet
 				layout.gridx = 1;
 				if (clientStati.get(i))
-					statusfield = new JTextField("Begin");
+					statusfield.add(i, new JTextField("Begin"));
 				else
-					statusfield = new JTextField("");
+					statusfield.add(i, new JTextField("Waiting"));
 				
-				statusfield.setBorder(null);
-				statusfield.setPreferredSize(new Dimension((int)(statusfield.getPreferredSize()).getWidth(), 20));
-				statusfield.setVisible(true);
-				this.add(statusfield, layout);
+				statusfield.get(i).setBorder(null);
+				statusfield.get(i).setPreferredSize(new Dimension((int)(this.getPreferredSize().getWidth()/2.-10), 20));
+				statusfield.get(i).setVisible(true);
+				users.add(statusfield.get(i), layout);
 				
 				// add the color chooser so that a new color can be set
 				layout.gridx = 2;
 				layout.weightx = 0;
-				color = new FigureColor(clientColors.get(i));
-				color.init();
-				this.add(color, layout);
+				color.add(i, new FigureColor(clientColors.get(i)));
+				color.get(i).init();
+				users.add(color.get(i), layout);
 
 				// set all fields that do not belong to the user as non-editable
 				if (i != clientNo) {
-					namefield.setEditable(false);
-					namefield.setFocusable(false);
-					namefield.setHighlighter(null);
+					namefield.get(i).setEditable(false);
+					namefield.get(i).setFocusable(false);
+					namefield.get(i).setHighlighter(null);
 					
-					color.setClickEnabled(false);
-					color.setFocusable(false);
-					color.setEnabled(false);
+					color.get(i).setClickEnabled(false);
+					color.get(i).setFocusable(false);
+					color.get(i).setEnabled(false);
 				}
 				
 				// all status fields should only be editable via the "Begin" button
-				statusfield.setEditable(false);
-				statusfield.setFocusable(false);
-				statusfield.setHighlighter(null);
-				
+				statusfield.get(i).setEditable(false);
+				statusfield.get(i).setFocusable(false);
+				statusfield.get(i).setHighlighter(null);
 			}
 		}
+		
 		
 		/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 		private class FigureColor extends JPanel {
@@ -395,6 +486,11 @@ class MenuMultiWaiting {
 			running = true;
 			boolean beginGame;
 			
+			// temporary variables for storing changes in variables
+			boolean tempStatus;
+			Color	tempColor;
+			String	tempUsername;
+			
 			while (running) {
 				
 				// check whether this is a host computer
@@ -410,9 +506,31 @@ class MenuMultiWaiting {
 					begin.setEnabled(beginGame);
 				}
 				
-				uPanel.resetPanel();
-				uPanel.repaint();
+				// find out what number client we are
+				int clientNo = client.getClientNumber();
 				
+				// check whether the users variables have changed
+				if (uPanel.getNameField().size() > clientNo) {
+					ownUsername = uPanel.getNameField().get(clientNo).getText();
+					ownColor	= uPanel.getColor().get(clientNo).getBackground();
+					ownStatus	= !(uPanel.getStatusField().get(clientNo).getText().contentEquals("Waiting"));
+					
+					// if the variables have changed, reset the servers values
+					if (!ownUsername.contentEquals(usernames.get(clientNo))) { 
+						client.setUsername(ownUsername);
+						usernames.set(clientNo, ownUsername);
+					}
+					
+					if (ownColor != clientColors.get(clientNo))
+						client.setColor(ownColor);
+					
+					if (ownStatus != clientStati.get(clientNo))
+						client.setBegin(ownStatus);
+				}
+				
+//				uPanel.resetPanel();
+				uPanel.repaint();				
+
 				// get the needed lists from the provided client class
 				clientColors 	= client.getColors();
 				clientStati		= client.getStati();

@@ -41,8 +41,10 @@ class NetClient extends NetIO {
 			outgoing.flush();
 			
 			// write a message to the server telling it to take a new client
-			outgoing.writeBytes(new String("the real deal"));
+			outgoing.writeObject(new String("the real deal"));
 			outgoing.flush();
+			
+			System.out.println("client sent the real deal");
 			
 			// build a new OIS to the server
 			incoming = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
