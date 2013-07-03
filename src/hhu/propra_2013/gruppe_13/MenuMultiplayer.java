@@ -446,7 +446,7 @@ class MenuMultiplayer {
 				clientRunning = false;
 				
 				NetClient client = new NetClient(port, ip);
-				client.init();
+//				client.init();
 				
 				Thread thread = new Thread(client);
 				thread.start();
@@ -468,7 +468,7 @@ class MenuMultiplayer {
 				
 				
 				NetClient client = new NetClient(port, "127.0.0.1");
-				client.init();
+//				client.init();
 				
 				thread = new Thread(client);
 				thread.start();

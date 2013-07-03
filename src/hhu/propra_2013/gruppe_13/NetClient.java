@@ -3,12 +3,9 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Color;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -17,10 +14,6 @@ class NetClient extends NetIO {
 	// variable to set whether execution should be continued, socket for communication with the server
 	private boolean running;
 	private Socket 	socket;
-	
-	// variables for the connection
-	private int 	port;
-	private String	ip;
 	
 	// Streams for communication with the server
 	private ObjectInputStream 	incoming;
@@ -36,39 +29,25 @@ class NetClient extends NetIO {
 	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	NetClient(int port, String ip) {
-		this.port 	= port;
-		this.ip		= ip;
-		
+
 		colors		= null;
 		stati		= null;
-		 
-		// tell the server that this is a serious connection, not just a ping
-		BufferedWriter out = null;
-		Socket greatSocket = null;
+		
 		try {
-			System.out.println("verify client");
-			greatSocket = new Socket(ip, port);
-
-			out = new BufferedWriter(new OutputStreamWriter(greatSocket.getOutputStream()));
-			out.write("the real deal");
-			out.flush();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				out.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			socket = new Socket(ip, port);
 			
-			try {
-				greatSocket.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			// open a new output stream
+			outgoing = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+			outgoing.flush();
+			
+			// write a message to the server telling it to take a new client
+			outgoing.writeBytes(new String("the real deal"));
+			outgoing.flush();
+			
+			// build a new OIS to the server
+			incoming = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+		} catch (IOException e) {
+			ProPra.errorOutput(CLIENT_SOCKET_ERROR, e);
 		}
 	}
 	
@@ -123,27 +102,13 @@ class NetClient extends NetIO {
 	}
 	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-	//TODO: synchronize menu and array lists from this class
-	void init () {
-		try {
-			socket = new Socket(ip, port);
-			outgoing = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-			outgoing.flush();
-			System.out.println("opened an outgoing OOS in client init()");
-
-			incoming = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-			System.out.println("opened an incoming OIS in client init()");
-		} catch (IOException e) {
-			ProPra.errorOutput(CLIENT_SOCKET_ERROR, e);
-		}
-	}
-	
-	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	@SuppressWarnings("unchecked")
 	@Override
 	public void run() {
 		Object 		 inObject;
 		ArrayList<?> list;
+		
+		running = true;
 		
 		while (running) {
 			// reset the object, we don't wish to work with the same object again
@@ -155,7 +120,7 @@ class NetClient extends NetIO {
 				// check whether the object is an array list or a level, the latter would mean that the game has begun
 				if (inObject instanceof ArrayList) {
 					list = (ArrayList<?>)inObject;
-					
+
 					// sets the colors of all users
 					if		(list.size() > 0 && list.get(0) instanceof Color)
 						colors 	= (ArrayList<Color>)list;

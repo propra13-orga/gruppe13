@@ -1,8 +1,6 @@
 package hhu.propra_2013.gruppe_13;
 
 import java.awt.Color;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -20,27 +18,14 @@ class NetServerClientCheck extends NetIO {
 	private ObjectOutputStream	outgoing;
 	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-	NetServerClientCheck (int clientNo, Socket socket, NetServerWait server) {
+	NetServerClientCheck (int clientNo, Socket socket, ObjectOutputStream output, ObjectInputStream input, NetServerWait server) {
 		this.clientNo 	= clientNo;
 		this.running 	= true;
 		this.server 	= server;
 
 		// open two new streams for communication with the client
-		try {
-			outgoing = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-			outgoing.flush();
-			
-			System.out.println("opened an OOS in server constructor");
-			System.out.println("input stream: "+socket.getInputStream());
-			incoming = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-			System.out.println("opened an OIS in server constructor");
-
-		} catch (IOException e) {
-			ProPra.errorOutput(CONNECTION_READER_SERVER_ERROR, e);
-			e.printStackTrace();
-		}
-		
-		System.out.println(incoming);
+		this.outgoing = output;
+		this.incoming = input;
 		
 		// tell the client what number he has, that way the waiting room can be built 
 		try {

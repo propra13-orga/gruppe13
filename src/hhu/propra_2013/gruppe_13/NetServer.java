@@ -36,6 +36,8 @@ class NetServer extends NetIO {
 	@Override
 	void setRunning (boolean activity) {
 		serverActive = activity;
+		waiting.setRunning(activity);
+		// TODO: terminate the thread blocking in accept
 	}
 
 	/*------------------------------------------------------------------------------------------------------------------------*/
@@ -53,42 +55,53 @@ class NetServer extends NetIO {
 		
 		// only run as long as desired, break if the maximum number of connections has been achieved 
 		while (serverActive) {
-			// wait until a new connection has been initialized by a client
+			// wait until a new connection has been initialized by a client, only accept if the maximum amount of connections hasn't been achieved yet
 			if (count < connNo) {
+				
+				// try to build a new socket from the welcome socket
 				try {
+					//TODO: resolve block when instantiating a new server
 					connection = socket.accept();
 				} catch (IOException e) {
 					ProPra.errorOutput(CONNECTION_SOCKET_ERROR, e);
 				}
 				
-				// check whether this is a serious connection
-				BufferedReader in = null;
+				// build two new I/O-Streams and an object to read
+				ObjectOutputStream 	output = null;
+				ObjectInputStream	input = null;
 				
 				try {
-					in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-					String test = in.readLine();
+					// open the output stream, flush the header
+					output 	= new ObjectOutputStream(new BufferedOutputStream(connection.getOutputStream()));
+					output.flush();
 					
+					// open an input stream
+					input	= new ObjectInputStream(new BufferedInputStream(connection.getInputStream()));
+					
+					// read an array of bytes from the input stream
+					int readable 	= input.available();
+					byte[] buffer 	= new byte[readable];
+					String test 	= "";
+					
+					// read into buffer and convert to String 
+					input.read(buffer, 0, readable);
+					test = new String(buffer);
+					
+					// check whether the client wishes to initiate a new setting
 					if (test.contentEquals("the real deal")) {
-						// add the connection to the waiting room
-						System.out.println("blub im server");
-						waiting.add(connection);
-						count++;
+						waiting.add(connection, output, input);
 					}
-					System.out.println("test im server");
+					
 				} catch (IOException e) {
-				} finally {
-//					try {
-////						in.close();
-//					} catch (IOException e) {
-//					}
+					e.printStackTrace();
 				}
 			}
 			
 			// check whether the maximum amount of connections has been achieved, terminate the server if this is the case
-			if (count == connNo) {
-				waiting.setInitGame(true);
-				break;
-			}
+//			if (count == connNo) {
+//				waiting.setInitGame(true);
+////				break;
+//			}
 		}
 		
 		// close socket

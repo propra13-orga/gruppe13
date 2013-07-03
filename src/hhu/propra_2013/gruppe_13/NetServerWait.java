@@ -1,6 +1,8 @@
 package hhu.propra_2013.gruppe_13;
 
 import java.awt.Color;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -8,7 +10,6 @@ class NetServerWait extends NetIO {
 	
 	// boolean for activity 
 	private boolean 			waiting;
-	private boolean 			initGame;
 	
 	// array list for the status of all client and all colors
 	private ArrayList<Boolean>	clientCheck;
@@ -36,10 +37,10 @@ class NetServerWait extends NetIO {
 	@Override
 	void setRunning(boolean running) {
 		waiting = running;
-	}
-	
-	void setInitGame (boolean initGame) {
-		this.initGame = initGame;
+		
+		for (int i=0; i<clients.size(); i++) {
+			clients.get(i).setRunning(running);
+		}
 	}
 	
 	void setColor (Color color, int client) {
@@ -55,17 +56,17 @@ class NetServerWait extends NetIO {
 	}
 	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-	void add(Socket socket) {
+	void add(Socket socket,  ObjectOutputStream output, ObjectInputStream input) {
 		// add a false variable to the array list for reference if all connections are ready to start the game
 		clientCheck.add(false);
 		colors.add(Color.BLACK);
 		usernames.add("user "+counter);
 
 		// build a new client and start it as a thread
-		NetServerClientCheck client = new NetServerClientCheck(counter, socket, this);
+		NetServerClientCheck client = new NetServerClientCheck(counter, socket, output, input, this);
 		Thread thread = new Thread(client);
 		thread.start();
-		
+
 		// add the object to an array list and increase the client counter
 		clients.add(client);
 		counter++;
@@ -74,25 +75,15 @@ class NetServerWait extends NetIO {
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	@Override
 	public void run() {
-		boolean startGame;
+//		boolean startGame;
 		
 		while (waiting) {
-			startGame = true;
 
 			// iterate over all clients, send them the colors, statuses (and usernames) of all players 
 			for (int i=0; i<clients.size(); i++) {
 				clients.get(i).sendObjects(colors);
 				clients.get(i).sendObjects(clientCheck);
 				clients.get(i).sendObjects(usernames);
-				
-				// check whether all clients have agreed to begin
-				if (clientCheck.get(i) == false)
-					startGame = false;
-				
-			}
-			
-			if (startGame && initGame) {
-				//TODO: start the game
 			}
 
 			// let the thread sleep to give computation time to other processes
