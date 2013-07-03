@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 /**
  * Liest Räume aus Dateien aus und enthält Raumspezifische Informationen, sowie Methoden um diese auszulesen und zu verändern
- * @author 	lukas
+ * @author 	Gruppe13
  * @see		CoreLevel
  * @see		CoreLogic
  */

@@ -7,7 +7,7 @@ import java.io.*;
 
 /**
  *Enthält alle Informationen über das Level sowie die Methoden um ein Level zu erzeugen
- *@author Lukas
+ *@author Gruppe13
  *@see CoreLogic
  *@see CoreRoom
  */
