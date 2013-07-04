@@ -91,7 +91,7 @@ public class CoreLevel {
 	
 	/**
 	 * Gibt einen Raum zurück der durch die Parameter spezifiziert wird,
-	 * um zum Beispiel zugriff auf die Contentliste zu erhalten
+	 * um zum Beispiel Zugriff auf die Contentliste zu erhalten
 	 * @param inX X Koordinate des angeforderten Raums
 	 * @param inY Y Koordinate des angeforderten Raums
 	 * @return gibt den durch inX und inY spezifizierten Raum zurück
@@ -150,6 +150,11 @@ public class CoreLevel {
 	/**
 	*Erzeugt ein neues Level wenn die Logik es anfordert.
 	*Das erzeugte Level wird nicht an andere Klassen weitergegeben, sondern diese holen sich die benötigten Informationen (zum Beispeil den aktuellen Raum)
+	*Die Vorgehensweise bei der Levelgenerierung ist wie folgt:
+	*Erst wird ein 10x10 Integer Array angelegt das, von einem gefüllten Startfeld ausgehend, zufällig benachbarte Felder mit Räumen füllt
+	*Die Zahl im Array codiert um was für einen Raum es sich handelt:
+	*1 = Startraum 2 = 'normaler' Raum 3 = Shop 4 = Bossraum
+	*Sobald alle Räume verteilt sind wird das Integer Array in ein Raumarray umgewandelt das dann vom Spiel verwendet wird
 	*@param inStage	 Die Nummer des Levels, wird genutzt um die Anzahl der Räume festzulegen
 	*@param inBoss 	 Der Name des Bosses des Levels, soll in einer späteren Version genutzt werden um dem NPC Bossspezifische Kommentare zu ermöglichen
 	*/
