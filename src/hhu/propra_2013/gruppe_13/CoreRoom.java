@@ -84,8 +84,10 @@ public class CoreRoom {
 	}
 	
 	/**
-	 * Generiert den Raum, Informationen wie Raumtyp, Stage, Boss werden vorher per Konstruktor/Setter festgelegt,
-	 * daher keine Parameter
+	 * Generiert den Raum, Informationen wie Raumtyp, Stage, Boss werden vorher per Konstruktor/Setter festgelegt, daher keine Parameter
+	 * Vorgehensweise:
+	 * Je nach Raumtyp wird auf Basis der Anzahl der zur Verfügung stehenden txt-Dateien eine Zufallszahl gewählt
+	 * Diese Datei wird dann ausgelesen und entsprechend ein Raum generiert
 	 * @exception wirft IO Exceptions falls Raumdateien nicht vorhanden sind
 	 */
 	
@@ -125,7 +127,7 @@ public class CoreRoom {
 			
 			while ((element = roomReader.read()) != -1){ //Goes trough the whole raumX.txt, and spawns Objects at their Positions
 				switch (element) { 	//ASCII: W=87 D=68 E=69
-				case 'W':			//In order of probability
+				case 'W':			
 					content.add(new MiscWall(column-1+0.5, line-1+0.5, 1, 1, 1)); 	//-1 because the top left corner seems to have
 					break;															//the coordinates 1:1
 				}
