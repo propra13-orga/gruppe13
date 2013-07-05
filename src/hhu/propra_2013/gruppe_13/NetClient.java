@@ -84,7 +84,6 @@ class NetClient extends NetIO {
 		// output username to server
 		try {
 			outgoing.reset();
-			System.out.println(username);
 			outgoing.writeObject(username);
 			outgoing.flush();
 		} catch (IOException e) {
@@ -157,10 +156,8 @@ class NetClient extends NetIO {
 				else if (inObject instanceof Integer) {
 					if (clientNo < 0)
 						clientNo = (Integer)inObject;
-					else {
+					else
 						connNo = (Integer)inObject;
-						System.out.println("Conn in client: "+connNo);
-					}
 				}
 				
 			} catch (ClassNotFoundException | IOException e) {

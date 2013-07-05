@@ -57,8 +57,9 @@ class MenuMultiWaiting {
 	// button to begin the game, we might need to control whether it is supposed to be active
 	private static JButton begin;
 	
-	// the amount of maximum connections, that way we can initialize enough space for all components
+	// the amount of maximum connections, that way we can initialize enough space for all components, current clientNo
 	private static int 	connections;
+	private static int 	clientNo;
 	
 	// method for showing a waiting room in case the user is the host
 	static void showWaitingServer (JFrame gameWindow, int playerNo, int mode, int inPort, NetClient inClient, NetServer inServer, ArrayList<String> listOfIPs) {
@@ -129,14 +130,32 @@ class MenuMultiWaiting {
 		uPanel.initPanel();
 
 		
-		/*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+		/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 		// enable the Buttons to do something
 		begin.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				
+				// if we are the game host, initiate the game
+				if (host) {
+					initGame();
+				}
+				
+				// if this is a client we just wish to tell the server we are ready
+				else {
+					begin.setEnabled(false);
+					uPanel.getStatusField().get(clientNo).setText("Ready");
+					
+					uPanel.getNameField().get(clientNo).setEditable(false);
+					uPanel.getNameField().get(clientNo).setHighlighter(null);
+					uPanel.getNameField().get(clientNo).setFocusable(false);
+					
+					
+					uPanel.getColor().get(clientNo).setClickEnabled(false);
+					uPanel.getColor().get(clientNo).setEnabled(false);
+					uPanel.getColor().get(clientNo).setFocusable(false);
+				}
 			}
 		});
 		
@@ -153,7 +172,7 @@ class MenuMultiWaiting {
 			}
 		});
 		
-		/*----------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+		/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 		// this Panel will underly dynamic gridbag constraints
 		GridBagConstraints layout = new GridBagConstraints();
 		
@@ -224,6 +243,7 @@ class MenuMultiWaiting {
 		// number of the client 
 		private int clientNo;
 		
+		/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 		UserPanel() {
 			this.setLayout(new GridBagLayout());
 			this.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
@@ -255,12 +275,13 @@ class MenuMultiWaiting {
 			
 			if (namefield == null || statusfield == null || color == null)
 				ready = false;
-			else if (namefield.size() == 0 || statusfield.size() == 0 || color.size() == 0)
+			else if (namefield.size() <= clientNo || statusfield.size() <= clientNo || color.size() <= clientNo)
 				ready = false;
 			
 			return ready;
 		}
 		
+		/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 		void initPanel() {
 			// build two new panels which contain the users and a default empty space
 			users = new JPanel();
@@ -299,8 +320,8 @@ class MenuMultiWaiting {
 			this.add(rest, frameLayout);
 			
 			// set background colors and visibilities
-			users.setBackground(Color.red);//new Color(1.0f, 1.0f, 1.0f, 0.0f));
-			rest.setBackground(Color.white);//new Color(1.0f, 1.0f, 1.0f, 0.0f));
+			users.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
+			rest.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
 
 			users.setVisible(true);
 			rest.setVisible(true);
@@ -340,22 +361,33 @@ class MenuMultiWaiting {
 					}
 				});
 				
-				// add the users name, set Background according to order and add to the panel
-				if (i<clientStati.size())
-					namefield.get(i).setText(usernames.get(i));
-				else
-					namefield.get(i).setText("");
+
+				// build a new status field 
+				statusfield.add(i, new JTextField(""));
 				
-				
+				// set Background according to order and add to the panel
 				if (i%2 == 0) {
 					namefield.get(i).setBackground(Color.DARK_GRAY);
 					namefield.get(i).setForeground(Color.WHITE);
+					
+					statusfield.get(i).setBackground(new Color(202,225,255));
+					statusfield.get(i).setForeground(Color.BLACK);
 				}
 				else {
 					namefield.get(i).setBackground(Color.LIGHT_GRAY);
 					namefield.get(i).setForeground(Color.BLACK);
+					
+					statusfield.get(i).setBackground(new Color(	110,123,139));
+					statusfield.get(i).setForeground(Color.WHITE);
 				}
-				
+
+				if (i<clientStati.size())
+					namefield.get(i).setText(usernames.get(i));
+				else {
+					namefield.get(i).setText("");
+					namefield.get(i).setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
+					namefield.get(i).setForeground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
+				}
 				
 				// set visibility and add the field to the panel
 				namefield.get(i).setVisible(true);
@@ -365,14 +397,16 @@ class MenuMultiWaiting {
 				layout.gridx = 1;
 				if (i<clientStati.size()) {
 					if (!host && clientStati.get(i))
-						statusfield.add(i, new JTextField("Ready"));
+						statusfield.get(i).setText("Ready");
 					else if (!host)
-						statusfield.add(i, new JTextField("Waiting"));
+						statusfield.get(i).setText("Waiting");
 					else
-						statusfield.add(i, new JTextField("Host"));
+						statusfield.get(i).setText("Host");
 				} 
-				else
-					statusfield.add(i, new JTextField(""));
+				else {
+					statusfield.get(i).setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
+					statusfield.get(i).setForeground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
+				}
 				
 				statusfield.get(i).setHorizontalAlignment(JTextField.CENTER);
 				statusfield.get(i).setBorder(BorderFactory.createEmptyBorder());
@@ -388,7 +422,7 @@ class MenuMultiWaiting {
 				if (i<clientStati.size())
 					color.add(i, new FigureColor(clientColors.get(i)));
 				else
-					color.add(i, new FigureColor(Color.BLACK));
+					color.add(i, new FigureColor(new Color(1.0f, 1.0f, 1.0f, 0.0f)));
 					
 				color.get(i).init();
 				users.add(color.get(i), layout);
@@ -411,6 +445,7 @@ class MenuMultiWaiting {
 			}
 		}
 		
+		/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 		void resetPanel() {
 			// leave if the arrays haven't been initialized yet
 			if (clientStati == null || !(this.getReady())) 
@@ -421,8 +456,6 @@ class MenuMultiWaiting {
 				// skip if we are looking at our own fields
 				if (i == clientNo)
 					continue;
-				
-//				System.out.println(i);
 				
 				// set the names and colors of all fields
 				namefield.get(i).setText(usernames.get(i));
@@ -435,6 +468,26 @@ class MenuMultiWaiting {
 					statusfield.get(i).setText("Waiting");
 				else
 					statusfield.get(i).setText("Host");
+				
+				// check whether the fields are visible, toggle accordingly
+				if (namefield.get(i).getBackground().getAlpha() == 0) {
+					
+					// set Background according to order
+					if (i%2 == 0) {
+						namefield.get(i).setBackground(Color.DARK_GRAY);
+						namefield.get(i).setForeground(Color.WHITE);
+						
+						statusfield.get(i).setBackground(new Color(202,225,255));
+						statusfield.get(i).setForeground(Color.BLACK);
+					}
+					else {
+						namefield.get(i).setBackground(Color.LIGHT_GRAY);
+						namefield.get(i).setForeground(Color.BLACK);
+						
+						statusfield.get(i).setBackground(new Color(	110,123,139));
+						statusfield.get(i).setForeground(Color.WHITE);
+					}	
+				}
 			}
 		}
 		
@@ -457,6 +510,7 @@ class MenuMultiWaiting {
 				this.setPreferredSize(new Dimension(20, 20));
 			}
 			
+			/*------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 			// enable the panel to be clicked
 			void setClickEnabled(boolean enabled) {
 				this.enabled = enabled;
@@ -545,7 +599,7 @@ class MenuMultiWaiting {
 			boolean beginGame;
 			
 			// find out the current client number and how many connections there are
-			int clientNo = 0;
+			clientNo = 0;
 			
 			while (connections == 0) {
 				connections = client.getConnNo();
@@ -572,7 +626,7 @@ class MenuMultiWaiting {
 					
 					ownUsername = uPanel.getNameField().get(clientNo).getText();
 					ownColor	= uPanel.getColor().get(clientNo).getBackground();
-					ownStatus	= (uPanel.getStatusField().get(clientNo).getText().contentEquals("Begin"));
+					ownStatus	= (uPanel.getStatusField().get(clientNo).getText().contentEquals("Ready"));
 					
 					// if the variables have changed, reset the servers values
 					if (!ownUsername.contentEquals(usernames.get(clientNo))) { 
