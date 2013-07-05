@@ -15,6 +15,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -584,6 +585,55 @@ class MenuMultiWaiting {
 			this.setBackground(Color.GRAY);
 			this.setVisible(true);
 			this.setPreferredSize(new Dimension((int)(frameDimension.getWidth()/2.-60), (int)(frameDimension.getHeight()/2.-60)));
+		}
+		
+		void initPanel() {
+			// build a new layout manager
+			this.setLayout(new GridBagLayout());
+			GridBagConstraints layout = new GridBagConstraints();
+			
+			// build a text box for IPs and port numbers, two for the user name and one for user color
+			JTextArea ips 			= new JTextArea();
+			JTextField username		= new JTextField();
+			JTextField userInput 	= new JTextField();
+			JTextField userColor	= new JTextField();
+			
+			// fill IP-field according to user status 
+			if (host) {
+				ips.setText("Your IPs and port:");
+				
+				for (int i=0; i<publicIPs.size(); i++) {
+					ips.append(System.getProperty("line.separator"));
+					ips.append(publicIPs.get(i)+":"+port);
+				}
+			}
+			else {
+				ips.setText("Connected to:");
+				ips.append(System.getProperty("line.separator"));
+				ips.append(ip+":"+port);
+			}
+			
+			// set the text "Username" for the username text field and enable the user to change its name
+			username.setText("Username:");
+			userInput.setText(usernames.get(clientNo));
+			
+			// set the text for the color chooser 
+			userColor.setText("User color:");
+			
+			// set editability of all fields
+			ips.setEditable(false);
+			ips.setHighlighter(null);
+			ips.setFocusable(false);
+			
+			username.setEditable(false);
+			username.setFocusable(false);
+			username.setHighlighter(null);
+			
+			userColor.setEditable(false);
+			userColor.setFocusable(false);
+			userColor.setHighlighter(null);
+			
+			
 		}
 	}
 	
