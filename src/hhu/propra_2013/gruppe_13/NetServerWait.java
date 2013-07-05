@@ -65,14 +65,14 @@ class NetServerWait extends NetIO {
 	}
 	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-	void add(Socket socket,  ObjectOutputStream output, ObjectInputStream input) {
+	void add(Socket socket,  ObjectOutputStream output, ObjectInputStream input, int connNo) {
 		// add a false variable to the array list for reference if all connections are ready to start the game
 		clientCheck.add(false);
 		colors.add(Color.BLACK);
 		usernames.add("user "+counter);
 
 		// build a new client and start it as a thread
-		NetServerClientCheck client = new NetServerClientCheck(counter, socket, output, input, this);
+		NetServerClientCheck client = new NetServerClientCheck(counter, socket, output, input, this, connNo);
 		Thread thread = new Thread(client);
 		thread.start();
 

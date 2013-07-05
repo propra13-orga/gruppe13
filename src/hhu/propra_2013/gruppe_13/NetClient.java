@@ -26,6 +26,7 @@ class NetClient extends NetIO {
 	
 	// Integer to know what client we are in order
 	private int clientNo;
+	private int connNo;
 	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	NetClient(int port, String ip) {
@@ -83,6 +84,7 @@ class NetClient extends NetIO {
 		// output username to server
 		try {
 			outgoing.reset();
+			System.out.println(username);
 			outgoing.writeObject(username);
 			outgoing.flush();
 		} catch (IOException e) {
@@ -107,6 +109,10 @@ class NetClient extends NetIO {
 		return clientNo;
 	}
 	
+	int getConnNo() {
+		return connNo;
+	}
+	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	@SuppressWarnings("unchecked")
 	@Override
@@ -114,7 +120,8 @@ class NetClient extends NetIO {
 		Object 		 inObject;
 		ArrayList<?> list;
 		
-		running = true;
+		running 	= true;
+		clientNo 	= -1;
 		
 		while (running) {
 			// reset the object, we don't wish to work with the same object again
@@ -147,9 +154,14 @@ class NetClient extends NetIO {
 				}
 				
 				// variable to set which user we are
-				else if (inObject instanceof Integer)
-					clientNo = (Integer)inObject;
-				
+				else if (inObject instanceof Integer) {
+					if (clientNo < 0)
+						clientNo = (Integer)inObject;
+					else {
+						connNo = (Integer)inObject;
+						System.out.println("Conn in client: "+connNo);
+					}
+				}
 				
 			} catch (ClassNotFoundException | IOException e) {
 				System.err.println("Object could not be read. ");

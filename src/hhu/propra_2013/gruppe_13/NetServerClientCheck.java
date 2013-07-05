@@ -11,14 +11,14 @@ class NetServerClientCheck extends NetIO {
 	// variable to determine how long we are going to stay in the waiting room
 	private boolean 			running;
 	private int 				clientNo;
-//	private int counter = 0;
+
 	// Communication with the server and the client
 	private NetServerWait		server;
 	private ObjectInputStream	incoming;
 	private ObjectOutputStream	outgoing;
 	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-	NetServerClientCheck (int clientNo, Socket socket, ObjectOutputStream output, ObjectInputStream input, NetServerWait server) {
+	NetServerClientCheck (int clientNo, Socket socket, ObjectOutputStream output, ObjectInputStream input, NetServerWait server, int connNo) {
 		this.clientNo 	= clientNo;
 		this.running 	= true;
 		this.server 	= server;
@@ -30,6 +30,8 @@ class NetServerClientCheck extends NetIO {
 		// tell the client what number he has, that way the waiting room can be built 
 		try {
 			outgoing.writeObject(clientNo);
+			outgoing.writeObject(connNo);
+			outgoing.flush();
 		} catch (IOException e) {
 			System.err.println("Could not output client ID to client");
 		}

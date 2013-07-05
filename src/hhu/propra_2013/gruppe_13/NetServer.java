@@ -87,19 +87,12 @@ class NetServer extends NetIO {
 					
 					// check whether the client wishes to initiate a new setting
 					if (test.contentEquals("the real deal")) {
-						waiting.add(connection, output, input);
+						waiting.add(connection, output, input, connNo);
 					}
 					
 				} catch (IOException | ClassNotFoundException e) {
-//					e.printStackTrace();
 				}
 			}
-			
-			// check whether the maximum amount of connections has been achieved, terminate the server if this is the case
-//			if (count == connNo) {
-//				waiting.setInitGame(true);
-////				break;
-//			}
 		}
 		
 		// close socket

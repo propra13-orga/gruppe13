@@ -222,7 +222,7 @@ class MenuMultiplayer {
 				// check whether input is a digit and the maximum length of the string hasn't been reached yet, or if the input is greater than 65535
 				int length = super.getLength();
 				
-				if (!Character.isDigit(str.charAt(0)) || length >= 2 || (length == 0 && str.charAt(0) == '0'))
+				if (!Character.isDigit(str.charAt(0)) || Integer.parseInt(super.getText(0, length)+str) > 8 || (length == 0 && str.charAt(0) == '0'))
 					str = "";
 
 				// call super method, which does the actual insertion
