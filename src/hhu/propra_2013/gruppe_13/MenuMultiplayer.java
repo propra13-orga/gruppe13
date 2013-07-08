@@ -86,7 +86,7 @@ class MenuMultiplayer {
 		final JButton client = new JButton("Client");
 		
 		// construct an array list for all IP addresses
-		final ArrayList<String> publicIPs = new ArrayList<>();
+		final ArrayList<String> publicIPs = new ArrayList<String>();
 		
 		// different "Begin" buttons for client and server
 		clientBegin = new JButton("Begin");
@@ -124,8 +124,8 @@ class MenuMultiplayer {
 		portField.setBorder(null);
 		
 		// Build three radio buttons to set game difficulty, group them and set medium to standard 
-		final JRadioButton difficultyEasy 	= new JRadioButton("I'm a pussy!");
-		final JRadioButton difficultyMed	= new JRadioButton("I want to win!");
+		final JRadioButton difficultyEasy 	= new JRadioButton("We are pussies!");
+		final JRadioButton difficultyMed	= new JRadioButton("We want to win!");
 		final JRadioButton difficultyHard	= new JRadioButton("Prepare to die!");
 		
 		ButtonGroup difficulty = new ButtonGroup();

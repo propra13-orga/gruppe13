@@ -15,6 +15,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.AttributeSet;
@@ -62,8 +63,11 @@ class MenuMultiWaiting {
 	private static int 	connections;
 	private static int 	clientNo;
 	
+	// variables for game settings
+	private static int mode;
+	
 	// method for showing a waiting room in case the user is the host
-	static void showWaitingServer (JFrame gameWindow, int playerNo, int mode, int inPort, NetClient inClient, NetServer inServer, ArrayList<String> listOfIPs) {
+	static void showWaitingServer (JFrame gameWindow, int playerNo, int inMode, int inPort, NetClient inClient, NetServer inServer, ArrayList<String> listOfIPs) {
 		// mark this as server
 		host = true;
 
@@ -74,6 +78,8 @@ class MenuMultiWaiting {
 		// copy object references to the running client and server
 		client = inClient;
 		server = inServer;
+		
+		mode = inMode;
 		
 		showWaiting(gameWindow);
 	}
@@ -129,6 +135,7 @@ class MenuMultiWaiting {
 		thread.start();
 		
 		uPanel.initPanel();
+		iFrame.initPanel();
 
 		
 		/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -148,14 +155,13 @@ class MenuMultiWaiting {
 					begin.setEnabled(false);
 					uPanel.getStatusField().get(clientNo).setText("Ready");
 					
-					uPanel.getNameField().get(clientNo).setEditable(false);
-					uPanel.getNameField().get(clientNo).setHighlighter(null);
-					uPanel.getNameField().get(clientNo).setFocusable(false);
+					iFrame.getFigureColor().setClickEnabled(false);
+					iFrame.getFigureColor().setEnabled(false);
+					iFrame.getFigureColor().setFocusable(false);
 					
-					
-					uPanel.getColor().get(clientNo).setClickEnabled(false);
-					uPanel.getColor().get(clientNo).setEnabled(false);
-					uPanel.getColor().get(clientNo).setFocusable(false);
+					iFrame.getUserInput().setEditable(false);
+					iFrame.getUserInput().setHighlighter(null);
+					iFrame.getUserInput().setFocusable(false);
 				}
 			}
 		});
@@ -235,7 +241,7 @@ class MenuMultiWaiting {
 		// build all fields needed for the panel
 		private ArrayList<JTextField> 	namefield;
 		private ArrayList<JTextField> 	statusfield;
-		private ArrayList<FigureColor> 	color;
+		private ArrayList<JPanel> 	color;
 		
 		// build two subpanels
 		private JPanel users;
@@ -256,19 +262,11 @@ class MenuMultiWaiting {
 			
 			namefield 	= new ArrayList<JTextField>();
 			statusfield = new ArrayList<JTextField>();
-			color		= new ArrayList<FigureColor>();
-		}
-		
-		ArrayList<JTextField> getNameField() {
-			return namefield;
+			color		= new ArrayList<JPanel>();
 		}
 		
 		ArrayList<JTextField> getStatusField() {
 			return statusfield;
-		}
-		
-		ArrayList<FigureColor> getColor() {
-			return color;
 		}
 		
 		boolean getReady() {
@@ -347,20 +345,6 @@ class MenuMultiWaiting {
 				namefield.add(i, new JTextField());
 				namefield.get(i).setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
 				namefield.get(i).setPreferredSize(new Dimension((int)(this.getPreferredSize().getWidth()/2.-10), 20));
-				namefield.get(i).setDocument(new PlainDocument() {
-					
-					private static final long serialVersionUID = 8592038311609206190L;
-
-					@Override
-					public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
-						int length = super.getLength();
-						
-						if (length >= 15)
-							str = "";
-						
-						super.insertString(offs, str, a);
-					}
-				});
 				
 
 				// build a new status field 
@@ -420,25 +404,27 @@ class MenuMultiWaiting {
 				layout.gridx = 2;
 				layout.weightx = 0;
 				
+				
+				color.add(i, new JPanel());
+				color.get(i).setPreferredSize(new Dimension(20, 20));
+				
 				if (i<clientStati.size())
-					color.add(i, new FigureColor(clientColors.get(i)));
+					color.get(i).setBackground(clientColors.get(i));
 				else
-					color.add(i, new FigureColor(new Color(1.0f, 1.0f, 1.0f, 0.0f)));
+					color.get(i).setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
 					
-				color.get(i).init();
+//				color.get(i).init();
 				users.add(color.get(i), layout);
 
-				// set all fields that do not belong to the user as non-editable
-				if (i != clientNo) {
-					namefield.get(i).setEditable(false);
-					namefield.get(i).setFocusable(false);
-					namefield.get(i).setHighlighter(null);
-					
-					color.get(i).setClickEnabled(false);
-					color.get(i).setFocusable(false);
-					color.get(i).setEnabled(false);
-				}
+				// set all fields as non-editable, they should only be editable by the info field
+				namefield.get(i).setEditable(false);
+				namefield.get(i).setFocusable(false);
+				namefield.get(i).setHighlighter(null);
 				
+//				color.get(i).setClickEnabled(false);
+				color.get(i).setFocusable(false);
+				color.get(i).setEnabled(false);
+					
 				// all status fields should only be editable via the "Begin" button
 				statusfield.get(i).setEditable(false);
 				statusfield.get(i).setFocusable(false);
@@ -454,9 +440,9 @@ class MenuMultiWaiting {
 			
 			// iterate over all panels already active
 			for (int i=0; i<clientStati.size(); i++) {
-				// skip if we are looking at our own fields
-				if (i == clientNo)
-					continue;
+//				// skip if we are looking at our own fields
+//				if (i == clientNo)
+//					continue;
 				
 				// set the names and colors of all fields
 				namefield.get(i).setText(usernames.get(i));
@@ -491,6 +477,217 @@ class MenuMultiWaiting {
 				}
 			}
 		}
+	}
+	
+	/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+	// inner class for setting an info frame containing IP addresses, ports and some such
+	private class InfoFrame extends JPanel{
+
+		private static final long serialVersionUID = -8936535415694190344L;
+		
+		private JTextArea	ips;
+		private JTextField 	username;
+		private JTextField 	userInput;
+		private JTextField 	userColor;
+		private FigureColor	colorField;
+		private JPanel		filler;
+		
+		private JTextArea	gameInfo;
+		
+		InfoFrame() {
+			this.setBackground(Color.GRAY);
+			this.setVisible(true);
+			this.setPreferredSize(new Dimension((int)(frameDimension.getWidth()/2.-60), (int)(frameDimension.getHeight()/2.-60)));
+		}
+		
+		JTextField getUserInput() {
+			return userInput;
+		}
+		
+		FigureColor getFigureColor() {
+			return colorField;
+		}
+		
+		boolean getReady() {
+			boolean ready = true;
+			
+			if (userInput == null || colorField == null) {
+				ready = false;
+			}
+			
+			return ready;
+		}
+		
+		void initPanel() {
+			// build a new layout manager
+			this.setLayout(new GridBagLayout());
+			GridBagConstraints layout = new GridBagConstraints();
+			
+			// build a text box for IPs and port numbers, two for the user name, one for user color and a JPanel as room filler
+			ips 		= new JTextArea();
+			username	= new JTextField();
+			userInput 	= new JTextField();
+			userColor	= new JTextField();
+			colorField 	= new FigureColor(clientColors.get(clientNo));
+			filler		= new JPanel();
+			gameInfo	= new JTextArea();
+			
+			// initiate the color field and JPanel
+			colorField.init();
+			filler.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
+			
+			// fill IP-field according to user status 
+			if (host) {
+				ips.setText("Your IPs and port:");
+				
+				for (int i=0; i<publicIPs.size(); i++) {
+					ips.append(System.getProperty("line.separator"));
+					ips.append(publicIPs.get(i)+": "+port);
+				}
+				
+				gameInfo.setText("Coders: max. "+connections);
+				gameInfo.append(System.getProperty("line.separator"));
+				gameInfo.append("Your choosen difficulty: ");
+				gameInfo.append(System.getProperty("line.separator"));
+				
+				String modeMessage = "";
+				
+				switch (mode) {
+				case 1: 
+					modeMessage = "We are pussies!";
+					break;
+				case 2:
+					modeMessage = "We want to win!";
+					break;
+				case 3:
+					modeMessage = "Prepare to die!";
+					break;
+				}
+				
+				gameInfo.append(modeMessage);
+			}
+			else {
+				ips.setText("Connected to:");
+				ips.append(System.getProperty("line.separator"));
+				ips.append(ip+": "+port);
+			}
+			
+			// set the text for the color chooser 
+			userColor.setText("User color:");
+			
+			// set editability of all fields
+			ips.setEditable(false);
+			ips.setHighlighter(null);
+			ips.setFocusable(false);
+			
+			username.setEditable(false);
+			username.setFocusable(false);
+			username.setHighlighter(null);
+			
+			userColor.setEditable(false);
+			userColor.setFocusable(false);
+			userColor.setHighlighter(null);
+			
+			filler.setEnabled(false);
+			filler.setFocusable(false);
+			
+			gameInfo.setEditable(false);
+			gameInfo.setFocusable(false);
+			gameInfo.setHighlighter(null);
+			
+			// limit usernames to 15 characters 
+			userInput.setDocument(new PlainDocument() {
+				
+				private static final long serialVersionUID = 8592038311609206190L;
+
+				@Override
+				public void insertString(int offs, String str, AttributeSet a) throws BadLocationException {
+					int length = super.getLength();
+					
+					if (length >= 15)
+						str = "";
+					
+					super.insertString(offs, str, a);
+				}
+			});
+			
+			// set the text "Username" for the username text field and enable the user to change its name
+			username.setText("Username:");
+			userInput.setText(usernames.get(clientNo));
+			
+			// set everything visible
+			ips.setVisible(true);
+			username.setVisible(true);
+			userInput.setVisible(true);
+			userColor.setVisible(true);
+			colorField.setVisible(true);
+			filler.setVisible(true);
+			
+			if (host) 
+				gameInfo.setVisible(true);
+			else
+				gameInfo.setVisible(false);
+			
+			// set the size of all pieces
+			ips.setPreferredSize(new Dimension((int)(this.getPreferredSize().getWidth()), ips.getLineCount()*20));
+			username.setPreferredSize(new Dimension((int)(this.getPreferredSize().getWidth()*2/3.), 20));
+			userInput.setPreferredSize(new Dimension((int)(username.getPreferredSize().getWidth()), 20));
+			userColor.setPreferredSize(new Dimension((int)(this.getPreferredSize().getWidth()-20), 20));
+			gameInfo.setPreferredSize(new Dimension((int)(this.getPreferredSize().getWidth()), (int)(gameInfo.getLineCount()*20)));
+			filler.setPreferredSize(new Dimension((int)(this.getPreferredSize().getWidth()), (int)(ips.getLineCount()*20+gameInfo.getLineCount()*20+40)));
+			
+			// set borders for padding
+			ips.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+			username.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+			userInput.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+			userColor.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+			gameInfo.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+			
+			// alter a couple of other properties
+			userInput.setHorizontalAlignment(JTextField.TRAILING);
+			
+			// build layout of all pieces
+			layout.fill 	= GridBagConstraints.BOTH;
+			
+			layout.weightx = 1/2.;
+			layout.weighty = 0;
+			layout.gridheight = 1;
+			
+			layout.gridx = 0;
+			layout.gridy = 0;
+			layout.gridwidth = 2;
+			this.add(ips, layout);
+			
+			layout.gridy = 1;
+			layout.gridwidth = 1;
+			this.add(username, layout);
+			
+			layout.gridx = 1;
+			layout.weightx = 1-layout.weightx;
+			this.add(userInput, layout);
+			
+			layout.gridy = 2;
+			layout.gridx = 0;
+			layout.gridwidth = 1;
+			layout.weightx = 1-layout.weightx;
+			this.add(userColor, layout);
+			
+			layout.gridx = 1;
+			layout.weightx = 0;
+			this.add(colorField, layout);
+			
+			layout.gridheight = 1;
+			layout.gridwidth = 2;
+			layout.weightx = 1;
+			
+			layout.gridx = 0;
+			layout.gridy = 3;
+			this.add(gameInfo, layout);
+			
+			layout.gridy = 4;
+			layout.weighty = 1;
+			this.add(filler, layout);
+  		}
 		
 		/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 		private class FigureColor extends JPanel {
@@ -576,68 +773,6 @@ class MenuMultiWaiting {
 	}
 	
 	/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-	// inner class for setting an info frame containing IP addresses, ports and some such
-	private class InfoFrame extends JPanel{
-
-		private static final long serialVersionUID = -8936535415694190344L;
-
-		InfoFrame() {
-			this.setBackground(Color.GRAY);
-			this.setVisible(true);
-			this.setPreferredSize(new Dimension((int)(frameDimension.getWidth()/2.-60), (int)(frameDimension.getHeight()/2.-60)));
-		}
-		
-		void initPanel() {
-			// build a new layout manager
-			this.setLayout(new GridBagLayout());
-			GridBagConstraints layout = new GridBagConstraints();
-			
-			// build a text box for IPs and port numbers, two for the user name and one for user color
-			JTextArea ips 			= new JTextArea();
-			JTextField username		= new JTextField();
-			JTextField userInput 	= new JTextField();
-			JTextField userColor	= new JTextField();
-			
-			// fill IP-field according to user status 
-			if (host) {
-				ips.setText("Your IPs and port:");
-				
-				for (int i=0; i<publicIPs.size(); i++) {
-					ips.append(System.getProperty("line.separator"));
-					ips.append(publicIPs.get(i)+":"+port);
-				}
-			}
-			else {
-				ips.setText("Connected to:");
-				ips.append(System.getProperty("line.separator"));
-				ips.append(ip+":"+port);
-			}
-			
-			// set the text "Username" for the username text field and enable the user to change its name
-			username.setText("Username:");
-			userInput.setText(usernames.get(clientNo));
-			
-			// set the text for the color chooser 
-			userColor.setText("User color:");
-			
-			// set editability of all fields
-			ips.setEditable(false);
-			ips.setHighlighter(null);
-			ips.setFocusable(false);
-			
-			username.setEditable(false);
-			username.setFocusable(false);
-			username.setHighlighter(null);
-			
-			userColor.setEditable(false);
-			userColor.setFocusable(false);
-			userColor.setHighlighter(null);
-			
-			
-		}
-	}
-	
-	/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	// inner class to build a new thread which will constantly check all variables input by the server
 	private class CheckAll implements Runnable {
 
@@ -672,10 +807,10 @@ class MenuMultiWaiting {
 				}
 				
 				// check whether the users variables have changed
-				if (uPanel.getReady()) {
+				if (uPanel.getReady() && iFrame.getReady()) {
 					
-					ownUsername = uPanel.getNameField().get(clientNo).getText();
-					ownColor	= uPanel.getColor().get(clientNo).getBackground();
+					ownUsername = iFrame.getUserInput().getText();
+					ownColor	= iFrame.getFigureColor().getBackground();
 					ownStatus	= (uPanel.getStatusField().get(clientNo).getText().contentEquals("Ready"));
 					
 					// if the variables have changed, reset the servers values
