@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 public class MenuMain{
 	
 	// Initializer method for the menu
-	static JPanel showMenu(JFrame gameWindow) {
+	static JPanel showMenu(final JFrame gameWindow) {
 		// Create a new Background with a specified color (Black at the moment)
 		JPanel menu = new JPanel();
 		menu.setSize(gameWindow.getContentPane().getSize());
@@ -67,7 +67,7 @@ public class MenuMain{
 			
 			@Override	// initiate the options
 			public void actionPerformed(ActionEvent arg0) {
-				//TODO:have a room builder
+				CoreMapEditor.showMapCreator(gameWindow);
 			}
 		});
 		
@@ -93,22 +93,19 @@ public class MenuMain{
 		cButtons.gridx = 1;
 		cButtons.gridy = 0;
 		cButtons.insets = new Insets(0, 0, 100, 0);
-		menu.add(dummy, cButtons);
+//		menu.add(dummy, cButtons);
 		
 		dummy = new JPanel();
 		dummy.setBackground(menu.getBackground());
 		dummy.setVisible(true);
 		
-		cButtons.gridy = 5;
-		cButtons.insets = new Insets(100, 0, 0, 0);
-		menu.add(dummy, cButtons);
+//		cButtons.gridy = 5;
+//		cButtons.insets = new Insets(100, 0, 0, 0);
+//		menu.add(dummy, cButtons);
 		
 		cButtons.gridy = 1;
 		cButtons.insets = new Insets(0, 0, 0, 0);
 		menu.add(startGame, cButtons);
-		
-		cButtons.gridy = 5;
-		menu.add(endProgram, cButtons);
 		
 		cButtons.gridy = 2;
 		menu.add(multi, cButtons);
@@ -118,6 +115,12 @@ public class MenuMain{
 		
 		cButtons.gridy = 4;
 		menu.add(profil, cButtons);
+		
+		cButtons.gridy = 5;
+		menu.add(edit, cButtons);
+		
+		cButtons.gridy = 6;
+		menu.add(endProgram, cButtons);
 		
 		
 		return menu;

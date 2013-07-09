@@ -1,7 +1,10 @@
 package hhu.propra_2013.gruppe_13;
 
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -26,15 +29,20 @@ public class CoreMapEditor {
 	 */	
 	static char obj;
 	private int posX, posY;
-	private static char room[][] = new char[23][14];
+	private char room[][] = new char[23][14];
 	private static JFrame game;
+	private static JPanel mapCreator;
+	private static MapPane mapPane;
 	
 	
-	JPanel showMapCreator(JFrame gameWindow){
+	static void showMapCreator(JFrame gameWindow){
+		
+		System.out.println("reached the map creator");
 		
 		/*--------------------------------------------creating variables--------------------------------------------------------*/
 		game = gameWindow;
-		JPanel mapCreator = new JPanel();
+		mapCreator = new JPanel();
+		mapPane = new CoreMapEditor().new MapPane();
 		
 		/*--------------------------------------------create the needed Buttons-------------------------------------------------*/
 		
@@ -160,58 +168,76 @@ public class CoreMapEditor {
 	
 			@Override	// reset the whole array
 			public void actionPerformed(ActionEvent e) {
-				room = null;
+				char room[][] = new char[23][14];
 			}
 		});
 		
 		/*-----------------------------------------build the buttons in the display--------------------------------------------*/
 		
 		mapCreator.setLayout(new GridBagLayout());
-		GridBagConstraints cButtons = new GridBagConstraints();
+		GridBagConstraints layout = new GridBagConstraints();
+		layout.gridheight 	= 3;
+		layout.gridwidth	= 3;
+		layout.gridx		= 0;
+		layout.gridy 		= 0;
+		mapCreator.add(mapPane);
 		
-		/*-----------------------------------------make mouse stuff-------------------------------------------------------------*/
+		layout.gridheight 	= 1;
+		layout.gridwidth	= 1;
+		layout.gridx		= 3;
+		layout.gridy 		= 0;
+		mapCreator.add(wall);
 		
-		mapCreator.addMouseListener(new MouseListener(){
-
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				posX = arg0.getX();
-				posY = arg0.getY();
-				editArray(posX,posY);
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
+		layout.insets = new Insets(0,0,0,0);
+		mapCreator.add(item1);
 		
+		layout.insets = new Insets(0,0,0,0);
+		mapCreator.add(item1);
+		
+		layout.insets = new Insets(0,0,0,0);
+		mapCreator.add(item2);
+		
+		layout.insets = new Insets(0,0,0,0);
+		mapCreator.add(item3);
+		
+		layout.insets = new Insets(0,0,0,0);
+		mapCreator.add(enemy1);
+		
+		layout.insets = new Insets(0,0,0,0);
+		mapCreator.add(enemy2);
+		
+		layout.insets = new Insets(0,0,0,0);
+		mapCreator.add(enemy3);
+		
+		layout.insets = new Insets(0,0,0,0);
+		mapCreator.add(delete);
+		
+		layout.gridx		= 3;
+		layout.gridy 		= 2;
+		mapCreator.add(reset);
+		
+		layout.insets = new Insets(0,0,0,0);
+		layout.gridx		= 3;
+		layout.gridy 		= 2;
+		mapCreator.add(save);
+		
+		layout.insets = new Insets(0,0,0,0);
+		layout.gridx		= 3;
+		layout.gridy 		= 2;
+		mapCreator.add(test);
+		
+		layout.insets = new Insets(0,0,0,0);
+		layout.gridx		= 3;
+		layout.gridy 		= 3;
+		mapCreator.add(backToMenu);
+		
+		
+
 		/*---------------------------------------------make layout-------------------------------------------------------------*/
 		
 		
-		
-		
-		return mapCreator;
+		mapCreator.setSize(game.getContentPane().getSize());
+		game.setContentPane(mapCreator);
 	}
 	
 	public void editArray(int x, int y){
@@ -235,11 +261,91 @@ public class CoreMapEditor {
 	private static void run(){
 		//TODO:call propra init game
 	}
-	
+	//panel to show the map
 	private class MapPane extends JPanel{
 		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -5409709899594619477L;
+		//blabla make array of elements of type mapelements
+		private MapElement mapElement[][] = new MapElement[23][14];
 		
+		public MapPane(){
+			
+			System.out.println("reached the map pane");
+			
+			this.setPreferredSize(new Dimension(560, 350));
+			this.setEnabled(true);
+			this.setVisible(true);
+			this.setBackground(Color.darkGray);
+			
+			for(int i = 0; i < 23 ; i++){
+				for(int j = 0; j < 14; j++){
+					mapElement[i][j] = new MapElement(i ,j);
+				}
+			}
+		}
 		
+			//single map elements
+			private class MapElement extends JPanel{
+				
+				
+				
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1539840262942070244L;
+				private int i, j;
+				private char room[][] = new char[23][14];
+				
+				
+				public void editArray(){
+					room[i][j] = getObj();
+				}
+				
+				public MapElement(int i, int j) {
+					
+					System.out.println("reached the map element");
+					
+					this.setPreferredSize(new Dimension(22, 22));
+					this.setEnabled(true);
+					this.setVisible(true);
+					this.setBackground(Color.blue);
+					
+					this.addMouseListener(new MouseListener(){
+					
+								@Override
+								public void mouseClicked(MouseEvent arg0) {
+									editArray();
+								}
+					
+								@Override
+								public void mouseEntered(MouseEvent arg0) {
+									// TODO Auto-generated method stub
+									
+								}
+					
+								@Override
+								public void mouseExited(MouseEvent arg0) {
+									// TODO Auto-generated method stub
+									
+								}
+					
+								@Override
+								public void mousePressed(MouseEvent arg0) {
+									// TODO Auto-generated method stub
+									
+								}
+					
+								@Override
+								public void mouseReleased(MouseEvent arg0) {
+									// TODO Auto-generated method stub
+									
+								}
+								
+							});
+			}
+		}
 	}
-	
 }

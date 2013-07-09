@@ -50,6 +50,10 @@ public class ProPra {
 		gameWindow.setVisible(true);
 	}
 	
+//	void initMapEditor(){
+//		gameWindow.setContentPane(CoreMapEditor.showMapCreator(gameWindow));
+//	}
+	
 	static void errorOutput (int error, Exception e) {
 		
 	}
