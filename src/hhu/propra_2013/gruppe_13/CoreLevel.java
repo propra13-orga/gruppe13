@@ -194,7 +194,7 @@ public class CoreLevel {
 		
 		
 		int actRooms = 0; //Zahl der bereits existierenden Räume
-		int probCounter =0; //garantiert das alle X Möglichkeiten ein Raum entsteht damit die Schleife nicht ewig läuft
+		int probCounter = 0; //garantiert das alle X Möglichkeiten ein Raum entsteht damit die Schleife nicht ewig läuft
 		boolean shopSet = false; //for setting the shop
 		boolean bossSet = false; //for setting the BossRoom
 		

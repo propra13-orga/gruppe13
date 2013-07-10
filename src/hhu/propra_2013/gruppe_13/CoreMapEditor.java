@@ -11,11 +11,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+
 import javax.swing.ButtonGroup;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
+
+import java.io.*;
 
 public class CoreMapEditor {
 	/**
@@ -30,14 +33,17 @@ public class CoreMapEditor {
 	 */	
 	static char obj;
 	private int posX, posY;
-	private char room[][] = new char[23][14];
+	public char room[][] = new char[23][14];
 	private static JFrame game;
 	private static JPanel mapCreator;
 	private static MapPane mapPane;
 //	private static RadioPane radioPane;
 	
 	
+	
+	
 	static void showMapCreator(JFrame gameWindow){
+		
 		
 		System.out.println("reached the map creator");
 		
@@ -50,7 +56,10 @@ public class CoreMapEditor {
 		mapPane.setVisible(true);
 		mapPane.setPreferredSize(new Dimension(560, 350));
 		
-//		radioPane = new RadioPane();
+//		radioPane = new RadioPane();		
+		
+
+		
 		
 		/*--------------------------------------------create the needed Buttons-------------------------------------------------*/
 		
@@ -266,6 +275,7 @@ public class CoreMapEditor {
 //		room[i][j] = getObj();
 //	}
 	
+	
 	private char getObj(){
 		return obj;
 	}
@@ -276,6 +286,12 @@ public class CoreMapEditor {
 	
 	private static void save(){
 		//TODO:actually save it
+//		CoreRoom test = new CoreRoom(1, "blaa", false, false, false, false, 1, 1, 1);
+		SaveClass saveIt;
+		saveIt = new CoreMapEditor().new SaveClass();
+		saveIt.countRaum();
+		saveIt.makeRoom();
+		
 	}
 	
 	private static void run(){
@@ -290,13 +306,13 @@ public class CoreMapEditor {
 		 */
 		private static final long serialVersionUID = -5409709899594619477L;
 		//blabla make array of elements of type mapelements
-		private MapElement mapElement[][] = new MapElement[23][14];
+		public MapElement mapElement[][] = new MapElement[24][14];
 		
 		public MapPane(){
 			
 			System.out.println("reached the map pane");
 			
-//			this.setPreferredSize(new Dimension(560, 350));
+			this.setPreferredSize(new Dimension(560, 350));
 			this.setEnabled(true);
 			this.setVisible(true);
 			this.setBackground(Color.darkGray);
@@ -305,7 +321,7 @@ public class CoreMapEditor {
 			GridBagConstraints layout = new GridBagConstraints();
 			
 			
-			for(int i = 0; i < 23 ; i++){
+			for(int i = 0; i < 24 ; i++){
 				for(int j = 0; j < 14; j++){
 					mapElement[i][j] = new MapElement(i ,j);
 					layout.gridx = i;
@@ -316,25 +332,43 @@ public class CoreMapEditor {
 			}
 		}
 		
+		char getMapElement(int i, int j){
+			return mapElement[i][j].getState();
+		}
+		
 			//single map elements
 			private class MapElement extends JPanel{
 				
+				
+				private char actualState = ' ';
 				
 				
 				/**
 				 * 
 				 */
 				private static final long serialVersionUID = 1539840262942070244L;
-				private int i, j;
-				private char room[][] = new char[23][14];
+//				private int i, j;
+//				private char room[][] = new char[23][14];
 				
 				
-				public void editArray(){
-					room[i][j] = getObj();
-					
+				public char getState(){
+					return actualState;
+				}
+				
+				public void editArray(int x, int y){
+					room[x][y] = getObj();
 					char curr;
 					curr = getObj();
+					actualState = curr;
+					System.out.println("just wrote "+ curr + " to" + x +" " + y);
+					System.out.println("just read "+ room[x][y] + " from" + x +" " + y);
 					
+//					for(int i = 0; i < 14 ; i++){
+//						for(int j = 0; j < 24; j++){
+//							System.out.println(room[i][j]+""+i+""+j);
+//						}
+//					}
+
 					Color bg;
 					switch (curr) {
 					case 'W':
@@ -380,6 +414,9 @@ public class CoreMapEditor {
 				
 				public MapElement(int i, int j) {
 					
+					final int x = i;
+					final int y = j;
+					
 					System.out.println("reached the map element");
 					
 					this.setPreferredSize(new Dimension(22, 22));
@@ -391,7 +428,7 @@ public class CoreMapEditor {
 					
 								@Override
 								public void mouseClicked(MouseEvent arg0) {
-									editArray();
+									editArray( x , y );
 								}
 					
 								@Override
@@ -408,7 +445,7 @@ public class CoreMapEditor {
 					
 								@Override
 								public void mousePressed(MouseEvent arg0) {
-									editArray();
+									
 									
 								}
 					
@@ -423,6 +460,120 @@ public class CoreMapEditor {
 					}
 			
 	}
+	
+	
+	
+	private class SaveClass {
+	
+		int anzahlRaum;
+		
+		
+		SaveClass() {
+			
+			
+			
+			anzahlRaum = this.countRaum();
+			//this.makeRoom();
+		}
+		
+		
+		private void makeRoom() {
+			
+			//PrintWriter roomWriter;
+			
+			char temp;
+			
+//			for (int i = 0;i<24;i++){
+//				for (int j = 0; j<14;j++){
+//					room[i][j] = 'T';
+//				}
+//			}
+			
+			try {
+				PrintWriter roomWriter = new PrintWriter (new FileWriter("Level/Raum/Raum"+anzahlRaum+".txt"), true);
+				for (int i = 0; i < 14;i++){
+					for (int j = 0; j < 24;j++){
+						if (j == 0) { //oberste Zeile nur X, zur besseren Lesbarkeit
+							if (i == 7) roomWriter.print('D');
+							else roomWriter.print('X');
+						}
+	
+						else if (j ==23){
+							if(i == 7) roomWriter.print('D');
+							else roomWriter.print('X');
+						}
+						
+						else if (i == 0 && j != 0 && j != 23){
+							if(j == 11) roomWriter.print('D');
+							else roomWriter.print('X');
+						}
+						
+						else if (i == 13 && j != 0 && j != 23){
+							if(j == 11) roomWriter.print('D');
+							else roomWriter.print('X');
+						} // Ab jetzt ist der Rand aus X'en behandelt
+						
+						
+						else if (j != 0 && j != 23 && i != 0 && i != 13){
+							
+							temp = mapPane.getMapElement(j, i);
+							
+							roomWriter.print(temp);
+							
+							
+
+//							if (room[i][j] == 'W' || room[i][j] == 'E' || room[i][j] == 'I' || room[i][j] == 'F'){//Damit die Datei in einem Editor geöffnet werden kann darf kein char darin null sein
+//							
+//								temp = room[i][j];
+//								System.out.println("Da war was!");
+//							
+//								roomWriter.print(temp);
+//								roomWriter.flush();
+//							}
+//							else{
+//								
+//								temp = ' ';
+//								System.out.println(temp);
+//								
+//								roomWriter.print(temp);
+//								roomWriter.flush();
+//								
+//							}
+						}
+					}//Ende innere for-Schleife
+					
+					roomWriter.println("");//Zeilenumbruch
+					roomWriter.flush();
+				}
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+		}
+
+
+		//Zähler der Raumdateien, um den Dateinamen festzulegen	
+		private int countRaum (){
+			File directory = new File ("Level/Raum"); //gehe zum Ordner der die zu zählenden Dateien enthält
+			int count = 0;
+			for (File counter : directory.listFiles()){ //gehe die Dateien im Ordner directory durch
+				if (counter.isFile()){ //für jede Datei den counter erhöhen, Ordner sollten ignoriert werden (es sollte dort ohnehin keine geben)
+					count++;
+				}		
+			}
+			return count;
+		}
+		
+	}
+	
+	
+	
+	
 //	private class RadioPane extends JPanel{
 //		
 //	}
