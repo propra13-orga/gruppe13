@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,6 +34,7 @@ public class CoreMapEditor {
 	private static JFrame game;
 	private static JPanel mapCreator;
 	private static MapPane mapPane;
+//	private static RadioPane radioPane;
 	
 	
 	static void showMapCreator(JFrame gameWindow){
@@ -42,7 +44,13 @@ public class CoreMapEditor {
 		/*--------------------------------------------creating variables--------------------------------------------------------*/
 		game = gameWindow;
 		mapCreator = new JPanel();
+		
 		mapPane = new CoreMapEditor().new MapPane();
+		mapPane.setEnabled(true);
+		mapPane.setVisible(true);
+		mapPane.setPreferredSize(new Dimension(560, 350));
+		
+//		radioPane = new RadioPane();
 		
 		/*--------------------------------------------create the needed Buttons-------------------------------------------------*/
 		
@@ -176,75 +184,87 @@ public class CoreMapEditor {
 		
 		mapCreator.setLayout(new GridBagLayout());
 		GridBagConstraints layout = new GridBagConstraints();
-		layout.gridheight 	= 3;
+		layout.weightx		= 1;
+		layout.weighty		= 1;
+		layout.gridheight 	= 9;
 		layout.gridwidth	= 3;
 		layout.gridx		= 0;
 		layout.gridy 		= 0;
-		mapCreator.add(mapPane);
+		mapCreator.add(mapPane, layout);
 		
+		layout.weightx		= 0.4;
+		layout.weighty		= 0.4;
 		layout.gridheight 	= 1;
 		layout.gridwidth	= 1;
-		layout.gridx		= 3;
+		layout.gridx		= 4;
 		layout.gridy 		= 0;
-		mapCreator.add(wall);
+		mapCreator.add(wall, layout);
 		
-		layout.insets = new Insets(0,0,0,0);
-		mapCreator.add(item1);
+//		layout.insets = new Insets(0,0,0,0);
+		layout.gridy		= 1;
+		mapCreator.add(item1, layout);
 		
-		layout.insets = new Insets(0,0,0,0);
-		mapCreator.add(item1);
+		layout.gridy		= 2;
+//		layout.insets = new Insets(0,0,0,0);
+		mapCreator.add(item1, layout);
 		
-		layout.insets = new Insets(0,0,0,0);
-		mapCreator.add(item2);
+		layout.gridy		= 3;
+//		layout.insets = new Insets(0,0,0,0);
+		mapCreator.add(item2, layout);
 		
-		layout.insets = new Insets(0,0,0,0);
-		mapCreator.add(item3);
+		layout.gridy		= 4;
+//		layout.insets = new Insets(0,0,0,0);
+		mapCreator.add(item3, layout);
 		
-		layout.insets = new Insets(0,0,0,0);
-		mapCreator.add(enemy1);
+		layout.gridy		= 5;
+//		layout.insets = new Insets(0,0,0,0);
+		mapCreator.add(enemy1, layout);
 		
-		layout.insets = new Insets(0,0,0,0);
-		mapCreator.add(enemy2);
+		layout.gridy		= 6;
+//		layout.insets = new Insets(0,0,0,0);
+		mapCreator.add(enemy2, layout);
 		
-		layout.insets = new Insets(0,0,0,0);
-		mapCreator.add(enemy3);
+		layout.gridy		= 7;
+//		layout.insets = new Insets(0,0,0,0);
+		mapCreator.add(enemy3, layout);
 		
-		layout.insets = new Insets(0,0,0,0);
-		mapCreator.add(delete);
+		layout.gridy		= 8;
+//		layout.insets = new Insets(0,0,0,0);
+		mapCreator.add(delete, layout);
 		
-		layout.gridx		= 3;
-		layout.gridy 		= 2;
-		mapCreator.add(reset);
+		layout.gridx		= 0;
+		layout.gridy 		= 9;
+		mapCreator.add(reset, layout);
 		
-		layout.insets = new Insets(0,0,0,0);
-		layout.gridx		= 3;
-		layout.gridy 		= 2;
-		mapCreator.add(save);
+//		layout.insets = new Insets(0,0,0,0);
+		layout.gridx		= 1;
+		layout.gridy 		= 9;
+		mapCreator.add(save, layout);
 		
-		layout.insets = new Insets(0,0,0,0);
-		layout.gridx		= 3;
-		layout.gridy 		= 2;
-		mapCreator.add(test);
+//		layout.insets = new Insets(0,0,0,0);
+		layout.gridx		= 2;
+		layout.gridy 		= 9;
+		mapCreator.add(test, layout);
 		
-		layout.insets = new Insets(0,0,0,0);
-		layout.gridx		= 3;
-		layout.gridy 		= 3;
-		mapCreator.add(backToMenu);
+//		layout.insets = new Insets(0,0,0,0);
+		layout.gridx		= 4;
+		layout.gridy 		= 9;
+		mapCreator.add(backToMenu, layout);
 		
 		
 
-		/*---------------------------------------------make layout-------------------------------------------------------------*/
+//		/*---------------------------------------------make layout-------------------------------------------------------------*/
 		
 		
 		mapCreator.setSize(game.getContentPane().getSize());
 		game.setContentPane(mapCreator);
 	}
 	
-	public void editArray(int x, int y){
-		int i = game.getWidth()/x;
-		int j = game.getHeight()/y;
-		room[i][j] = getObj();
-	}
+//	public void editArray(int x, int y){
+//		int i = game.getWidth()/x;
+//		int j = game.getHeight()/y;
+//		room[i][j] = getObj();
+//	}
 	
 	private char getObj(){
 		return obj;
@@ -261,6 +281,7 @@ public class CoreMapEditor {
 	private static void run(){
 		//TODO:call propra init game
 	}
+	
 	//panel to show the map
 	private class MapPane extends JPanel{
 		
@@ -275,14 +296,22 @@ public class CoreMapEditor {
 			
 			System.out.println("reached the map pane");
 			
-			this.setPreferredSize(new Dimension(560, 350));
+//			this.setPreferredSize(new Dimension(560, 350));
 			this.setEnabled(true);
 			this.setVisible(true);
 			this.setBackground(Color.darkGray);
 			
+			this.setLayout(new GridBagLayout());
+			GridBagConstraints layout = new GridBagConstraints();
+			
+			
 			for(int i = 0; i < 23 ; i++){
 				for(int j = 0; j < 14; j++){
 					mapElement[i][j] = new MapElement(i ,j);
+					layout.gridx = i;
+					layout.gridy = j;
+					this.add(mapElement[i][j], layout);
+					this.repaint();
 				}
 			}
 		}
@@ -302,6 +331,51 @@ public class CoreMapEditor {
 				
 				public void editArray(){
 					room[i][j] = getObj();
+					
+					char curr;
+					curr = getObj();
+					
+					Color bg;
+					switch (curr) {
+					case 'W':
+						bg = Color.GREEN;
+						break;
+					case 'E':
+						bg = Color.RED;
+						break;
+						
+					case 'F':
+						bg = Color.LIGHT_GRAY;
+						break;
+						
+					case 'B':
+						bg = Color.RED;
+						break;
+	
+					case 'I':
+						bg = Color.ORANGE;
+						break;
+						
+//					case :
+//						
+//						break;
+//						
+//					case :
+//						
+//						break;
+//						
+//					case :
+//						
+//						break;
+//						
+//					case :
+//						
+//						break;
+					default:
+						bg = Color.WHITE;
+					}
+					this.setBackground(bg);
+					this.repaint();
 				}
 				
 				public MapElement(int i, int j) {
@@ -311,7 +385,7 @@ public class CoreMapEditor {
 					this.setPreferredSize(new Dimension(22, 22));
 					this.setEnabled(true);
 					this.setVisible(true);
-					this.setBackground(Color.blue);
+					this.setBackground(Color.WHITE);
 					
 					this.addMouseListener(new MouseListener(){
 					
@@ -334,7 +408,7 @@ public class CoreMapEditor {
 					
 								@Override
 								public void mousePressed(MouseEvent arg0) {
-									// TODO Auto-generated method stub
+									editArray();
 									
 								}
 					
@@ -345,7 +419,11 @@ public class CoreMapEditor {
 								}
 								
 							});
-			}
-		}
+						}	
+					}
+			
 	}
+//	private class RadioPane extends JPanel{
+//		
+//	}
 }
