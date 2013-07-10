@@ -1,0 +1,126 @@
+%\documentclass[a4paper,10pt]{article}
+%\documentclass[a4paper,10pt]{scrartcl}
+
+
+\documentclass[pdftex,12pt,a4paper]{report}
+\usepackage[pdftex]{graphicx}
+\usepackage[utf8]{inputenc}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+
+\title{ww}
+\author{w}
+\date{32}
+
+\pdfinfo{
+  /Title    (Handbuch zu HHU^3)
+  /Author   (Alina, Aiko, Bene, Lukas, Sebastian)
+  /Creator  (Sebastian)
+  /Producer (Sebastian)
+  /Subject  ()
+  /Keywords ()
+}
+
+\begin{document}
+%\maketitle
+
+\begin{titlepage}
+
+\begin{center}
+
+
+% Upper part of the page
+    
+
+\textsc{\LARGE Benutzerhandbuch}\\[1.5cm]
+
+\textsc{\Large Programier Praktikum Gruppe 13}\\[0.5cm]
+
+
+% Title
+\HRule \\[0.4cm]
+{ \huge \bfseries HHU$^3$ }\\[0.4cm]
+
+\HRule \\[1.5cm]
+
+\includegraphics[width=1\textwidth]{./logo.jpg}\\[1cm]
+
+% Author and supervisor
+\begin{minipage}{0.3\textwidth}
+\begin{flushleft} \large
+\emph{Author:}\\
+John \textsc{Sebastian}
+\end{flushleft}
+\end{minipage}
+\hfill
+\begin{minipage}{0.6\textwidth}
+\begin{flushright} \large
+\emph{Gruppenmitglieder:} \\
+ Alina, Aiko, Bene, Lukas, Sebastian\textsc{}
+\end{flushright}
+\end{minipage}
+
+\vfill
+{\large Version: 3.14}\\
+% Bottom of the page
+{\large \today}
+
+\end{center}
+
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+\chapter{Systemvoraussetzungen}
+
+  \section{Mindest Vorraussetzungen}
+    \begin{itemize} 
+      \item Java 1.7 
+      \item Windows oder Unix
+      \item Tasttatur
+      \item Für Mehrspielermodus: Internet
+    \end{itemize}
+    
+  \section{Empfolene Vorraussetzungen}
+    \begin{itemize} 
+      \item Java 1.7 
+      \item Windows oder Unix
+      \item Tasttatur
+      \item Für Mehrspielermodus: Internet
+      \item Dedizirte Grafikkarte
+    \end{itemize}
+    
+\chapter{Installation und Deinstallation}
+
+  \section{Installation}
+  \section{Deinstallation}
+
+  
+\chapter{Vorgeschichte}
+
+\chapter{Steuerrung}
+
+  \section{Tastenbelegung}
+    \subsection{Bewegungstasten}
+    \subsection{Feuertasten}
+    \subsection{Sonderangrifstasten}
+    \subsection{Weitere Tasten}
+
+\chapter{Spielziel}
+
+\chapter{Caraktere und Items}
+
+  \section{Spieler}
+  \section{Gegner}
+  \section{Items}
+
+
+\chapter{Spielmodi}
+
+  \section{Singelplayer}
+  \section{Multiplayer}
+
+\chapter{Die Entwickler}
+
+\end{document}
