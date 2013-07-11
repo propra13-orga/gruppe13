@@ -2,6 +2,20 @@ package hhu.propra_2013.gruppe_13;
 
 import java.util.ArrayList;
 
+
+//NOCH NICHT VOLLSTÄNDIG DOKUMENTIERT!!!!
+/**
+ * Enthält die Spiellogik mit
+ * -Gameloop
+ * -Kollision
+ * -verwaltet Gameobjects (Figur, Gegner, Items...)
+ * TODO more Documentation
+ * @author Gruppe13
+ *
+ */
+
+
+
 class CoreLogic implements Runnable {
 	// set these for the walking direction of the figure
 	static final int NONE				= 0;
@@ -120,6 +134,18 @@ class CoreLogic implements Runnable {
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
+	
+	/**
+	 * Konstruktor
+	 * Variablen werden initialisiert, ein Level wird erzeugt sowie die Position des Startraums im Level wird gelesen
+	 * Die Bewegung im Level (also das wechseln von Räumen) wird dann relativ zu diesem Startwert durchgeführt
+	 * Die Position des Startraums ist in jedem Level gleich und wird nur bei Neustart des Spiels neu gewürfelt
+	 * @param inFigure Erhält die Figur um Modifikationen (Schaden, Items) an ihr durchzuführen
+	 * @param inGame Um Zugriff auf alles im Spiel zu erhalten
+	 * @param mode Der Schwierigkeitsgrad, wird an den Levelbuilder weitergegeben
+	 */
+	
+	
 	// Initiate the current objects variables
 	CoreLogic(Figure inFigure, CoreO_Game inGame, int mode) {
 		esc = false;
@@ -157,6 +183,17 @@ class CoreLogic implements Runnable {
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
+	
+	/**
+	 * Wechselt den Raum zu dem in den Parametern angegebenen.
+	 * Wird beim durchqueren von Türen aufgerufen, die neuen Koordinaten können aus der Destination Variable der Tür sowie den alten Koordinaten berechnet werden
+	 * Außerdem wird der neu "entdeckte" Raum der Karte hinzugefügt
+	 * 
+	 * @param newLocationX X-Koordinate des Zielraums im Level
+	 * @param newLocationY Y-Koordinate des Zielraums im Level
+	 */
+	
+	
 	private void setRoom(int newLocationX, int newLocationY) {
 
 		locationX = newLocationX;
@@ -173,6 +210,9 @@ class CoreLogic implements Runnable {
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Do the Artificial Intelligence for all Enemies
+	
+	//TODO Dokumentieren
+	
 	private void enemyAI() {
 		Enemy enemy;
 		ArrayList<CoreGameObjects> collidable = currentRoom.getContent();
@@ -192,6 +232,9 @@ class CoreLogic implements Runnable {
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
+	
+	//TODO Dokumentieren
+	
 	private void checkCollision() {
 		// reset collision values
 		freeRight = true;
