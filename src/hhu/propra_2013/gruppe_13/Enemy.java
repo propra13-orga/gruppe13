@@ -3,9 +3,9 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
-public abstract class Enemy extends CoreGameObjects{
+abstract class Enemy extends CoreGameObjects{
 	
-	private static final long serialVersionUID = 3348830875179236356L;
+	private static final long serialVersionUID = 1L;
 	// Getter and Setter methods for Objects used by Logic and GameDrawer classes
 	abstract int	getType();
 	abstract int 	getHP();	

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -16,10 +17,9 @@ import java.util.ArrayList;
  */
 
 
-public class CoreRoom {
+class CoreRoom {
 
-//	private Figure 		figure;
-	
+	private static final long serialVersionUID = 1L;
 	//Sachen die jeder Raum weiß
 	private ArrayList<CoreGameObjects> content; //die alte innere Array list, enthält alle Objekte im Raum
 	private boolean 	isBossRoom, isShop;
@@ -69,7 +69,6 @@ public class CoreRoom {
 		//Angeben der Anzahl der verschiedenen Räume für den Zufallsgenerator
 		anzahlRaum = inanzahlRaum;
 		anzahlBoss = inanzahlBoss;
-	//	System.out.println("links "+hasLeftNeighbour+" rechts "+hasRightNeighbour+" oben "+hasTopNeighbour+" unten "+hasBottomNeighbour);
 	}
 	
 	/**
@@ -93,7 +92,7 @@ public class CoreRoom {
 	
 	
 	//liest den Inhalt des Raums aus einer Datei ein
-	public void buildRoom(){
+	void buildRoom(){
 		
 		//Die Anzahl der möglichen Räume ist nun über CoreLevel.count(Boss)Raum bekannt und muss nichtmehr bei neuen Räumen im Code geändert werden
 		//festlegen welche Raumliste der Builder durchgeht
@@ -103,7 +102,6 @@ public class CoreRoom {
 		else if (type == "BossRaum"){
 			randomNumber =(int)(anzahlBoss*Math.random());	
 			isBossRoom = true;
-			System.out.println("yay, like a baus");
 		}
 		else if (type == "Shop"){
 			randomNumber = 0;
@@ -141,7 +139,6 @@ public class CoreRoom {
 			}
 		}
 		catch (IOException e) {
-			System.out.println("Level/"+type+"/"+type+randomNumber+".txt not found, system exiting.");
 			System.exit(1);
 		} finally {
 			try {
@@ -156,7 +153,6 @@ public class CoreRoom {
 		
 		// Put all other stuff into the ArrayList
 		try {
-			System.out.println("Walls added");
 			roomStream = new FileInputStream("Level/"+type+"/"+type+randomNumber+".txt");
 			roomReader = new InputStreamReader (roomStream);
 			
@@ -245,7 +241,6 @@ public class CoreRoom {
 			}
 			
 		} catch (IOException e) {
-			System.out.println("File Level/"+type+"/"+type+randomNumber+".txt not found, system exiting.");
 			System.exit(1);
 		} finally {
 			try {

@@ -392,7 +392,7 @@ class NetClientLogic extends NetIO implements Runnable {
 			// get the current room from the server
 			incoming.getList(currentRoom, figure);
 			drawer.setRoom(currentRoom);
-
+			
 			// check whether we actually have a list from the server yet, else we try to get one again
 			if (currentRoom == null) 
 				continue;

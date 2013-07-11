@@ -12,7 +12,7 @@ import java.io.*;
  *@see CoreRoom
  */
 
-public class CoreLevel {
+class CoreLevel {
 	
 //	Figure 	figure;
 	private int 	mode;
@@ -161,7 +161,6 @@ public class CoreLevel {
 	//LevelBuilder
 	void buildLevel(int inStage, String inBoss){//Stage beginnt bei 1 zu zählen
 		//Hier initialisiert damit es nur ein Level in der Logik gibt das jedes mal neu gebaut wird
-		System.out.println("X "+randomStartX+" Y "+randomStartY);
 		
 		//hier werden die Leveldateien gezählt um dem Zufallsgenerator in CoreRoom automatisch Grenzen zu liefern
 		anzahlRaum = this.countRaum();
@@ -305,7 +304,6 @@ public class CoreLevel {
 				}
 			}	
 		}// ab hier normale Räume + startraum
-		System.out.println("Räume sind da");
 		
 		//setze einen Shop, Fallunterscheidung analog zu oben
 		while (shopSet == false){
@@ -408,9 +406,7 @@ public class CoreLevel {
 		} 
 		
 		//Ab hier normale räume + startraum + shop
-		System.out.println("Shop ist da");
 		while (bossSet == false){ //setze Bossraum an eine stelle wo er nur einen Nachbarn hat
-			System.out.println("trying to be a boss");
 			for (x = 0; x < 10; x++){ 
 				for (y = 0; y < 10; y++){
 					if (x == 0 && y == 0  && bossSet == false && construction[x][y] == 0){    //obere linke ecke
@@ -509,7 +505,7 @@ public class CoreLevel {
 				}
 			}
 		}
-		System.out.println("Construction done!");
+
 		//Ab hier enthält construction die 'Blaupause' des levels
 		//jetzt wird construction in ein Raum Array umgesetzt
 		for (x = 0; x < 10; x++){
@@ -546,7 +542,6 @@ public class CoreLevel {
 							break;
 						}
 						level[x][y].buildRoom();
-						//System.out.println("links "+tempLeft+" rechts "+tempRight+" oben "+tempTop+" unten "+tempBottom);
 					}
 					else if (x != 0 && x != 9 && y == 9){//untere Kante
 						if (construction[x-1][y] != 0){tempLeft = true;}
@@ -573,7 +568,6 @@ public class CoreLevel {
 							break;
 						}
 						level[x][y].buildRoom();
-						//System.out.println("links "+tempLeft+" rechts "+tempRight+" oben "+tempTop+" unten "+tempBottom);
 					}
 					else if (x == 0 && y == 0){ //obere linke ecke
 						if (construction[x+1][y] != 0){tempRight = true;}
@@ -599,7 +593,6 @@ public class CoreLevel {
 							break;
 						}
 						level[x][y].buildRoom();
-						//System.out.println("links "+tempLeft+" rechts "+tempRight+" oben "+tempTop+" unten "+tempBottom);
 					}
 					else if (x == 9 && y == 0){ //obere rechte ecke
 						if (construction[x-1][y] != 0){tempLeft = true;}
@@ -625,7 +618,6 @@ public class CoreLevel {
 							break;
 						}
 						level[x][y].buildRoom();
-						//System.out.println("links "+tempLeft+" rechts "+tempRight+" oben "+tempTop+" unten "+tempBottom);
 					}
 					else if (x == 0 && y != 0 && y != 9){ //linker Rand
 						if (construction[x+1][y] != 0){tempRight = true;}
@@ -652,7 +644,6 @@ public class CoreLevel {
 							break;
 						}
 						level[x][y].buildRoom();
-						//System.out.println("links "+tempLeft+" rechts "+tempRight+" oben "+tempTop+" unten "+tempBottom);
 					}
 					else if (x == 9 && y != 0 && y != 9){ //rechter Rand
 						if (construction[x-1][y] != 0){tempLeft = true;}
@@ -679,7 +670,6 @@ public class CoreLevel {
 							break;
 						}
 						level[x][y].buildRoom();
-						//System.out.println("links "+tempLeft+" rechts "+tempRight+" oben "+tempTop+" unten "+tempBottom);
 					}
 					else if (x == 0 && y == 9){// untere linke ecke
 						if (construction[x+1][y] != 0){tempRight = true;}
@@ -705,7 +695,6 @@ public class CoreLevel {
 							break;
 						}
 						level[x][y].buildRoom();
-						//System.out.println("links "+tempLeft+" rechts "+tempRight+" oben "+tempTop+" unten "+tempBottom);
 					}
 					else if (x == 9 && y == 9){ //untere rechte ecke
 						if (construction[x-1][y] != 0){tempLeft = true;}
@@ -731,7 +720,6 @@ public class CoreLevel {
 							break;
 						}
 						level[x][y].buildRoom();
-						//System.out.println("links "+tempLeft+" rechts "+tempRight+" oben "+tempTop+" unten "+tempBottom);
 					}
 					else if (x != 0 && x != 9 && y !=0 && y != 9){ //irgendwo mittig
 						if (construction[x-1][y] != 0){tempLeft = true;}
@@ -759,26 +747,9 @@ public class CoreLevel {
 							break;
 						}
 						level[x][y].buildRoom();
-						//System.out.println("links "+tempLeft+" rechts "+tempRight+" oben "+tempTop+" unten "+tempBottom);
 					}
 				}
 			}
 		}
-		
-		
-//		Map map = new Map();
-//		map.setRoom(construction);
-		
-		System.out.println("Level Fertig!");
-		for(y = 0;y <= 9;y++){
-			for(x = 0;x <= 9;x++){
-				System.out.print(construction [x][y] +"  ");
-				//map.setRoom(construction[x][y],x,y);
-			}
-			System.out.println();
-		}
-		//Ab jetzt ist das level Array fertig
-		
-		
 	}
 }

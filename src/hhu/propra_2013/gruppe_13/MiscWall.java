@@ -8,8 +8,8 @@ import java.awt.Toolkit;
 import java.awt.image.ImageObserver;
 
 class MiscWall extends CoreGameObjects implements ImageObserver {
-	private static final long serialVersionUID = -7802847088083780799L;
 	
+	private static final long serialVersionUID = 1L;
 	/*-----------------------------------------------------------------------------------------------*/
 	// Hitpoints, position and collision radius
 	private int 	hp;

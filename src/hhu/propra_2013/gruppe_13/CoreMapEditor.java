@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -32,7 +30,6 @@ public class CoreMapEditor {
 	 * @param	item(type)
 	 */	
 	static char obj;
-	private int posX, posY;
 	public char room[][] = new char[23][14];
 	private static JFrame game;
 	private static JPanel mapCreator;

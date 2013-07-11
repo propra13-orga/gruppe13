@@ -1,11 +1,12 @@
 package hhu.propra_2013.gruppe_13;
 
 import java.awt.Graphics2D;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-abstract class Attack extends CoreGameObjects {
+abstract class Attack extends CoreGameObjects implements Serializable {
 
-	private static final long serialVersionUID = 4988534651781619974L;
+	private static final long serialVersionUID = 1L;
 
 	// Getter and Setter methods for Objects used by Logic and GameDrawer classes
 	abstract int 	getHP();	

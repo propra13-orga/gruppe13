@@ -77,15 +77,11 @@ class NetServerLogic extends NetIO {
 		
 		// create Level
 		this.level 	= level;
-		System.out.println("Level: "+level);
 		
 		// find out where in the level we are, switching rooms will be relative to this value
 		locationX	= level.getStartX();
 		locationY 	= level.getStartY();
 		currentRoom = level.getRoom(locationX, locationY);
-		
-		System.out.println("Locations: "+locationX+" "+locationY);
-		System.out.println(level.getRoom(locationX, locationY));
 		
 		// Get ArrayLists for all connections
 		this.incoming 	= incoming;
@@ -409,7 +405,6 @@ class NetServerLogic extends NetIO {
 				// get map and the current room
 				map 		= incoming.get(i).getMap();
 				currentRoom = level.getRoom(incoming.get(i).getLocation(0), incoming.get(i).getLocation(1));
-				System.out.println(currentRoom);
 				
 				// update the room according to all changes made by the client
 				incoming.get(i).updateRoom(currentRoom.getContent(), figure.getPlayer());

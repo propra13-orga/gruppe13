@@ -13,14 +13,8 @@ class NetClientIn extends NetIO {
 	/*------------------------------------------------------------------------------------------------------------------------*/
 	NetClientIn (ObjectInputStream inputStream) {
 		running 	= true;
-		allObjects 	= null;
+		allObjects 	= new ArrayList<CoreGameObjects>();
 		receiveObjects = inputStream;
-		
-//		try {
-//			receiveObjects = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-//		} catch (IOException e) {
-//			ProPra.errorOutput(CONNECTION_CLIENT_OIS, e);
-//		}
 	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
@@ -69,7 +63,9 @@ class NetClientIn extends NetIO {
 		while (running) {
 			// read objects from the stream
 			try {
+				System.out.println("reading in client");
 				incoming = receiveObjects.readObject();
+				System.out.println(incoming);
 				
 				// if they are of the desired type, add them to the current arraylist
 				if (incoming instanceof CoreGameObjects){

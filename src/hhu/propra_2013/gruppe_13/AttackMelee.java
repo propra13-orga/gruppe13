@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class AttackMelee extends Attack {
 
-	private static final long serialVersionUID = -5015189883215185491L;
+	private static final long serialVersionUID = 1L;
 
 	private int 	player;
 	

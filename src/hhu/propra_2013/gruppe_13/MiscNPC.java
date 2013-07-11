@@ -3,6 +3,7 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.io.Serializable;
 
 /**
  * Enthält alle Informationen für Quest und Story NPCs, deren Text und dessen Anzeigedauer
@@ -11,12 +12,11 @@ import java.awt.Graphics2D;
  *
  */
 
-public class MiscNPC extends CoreGameObjects{
-	private static final long serialVersionUID = 4326600912745815443L;
-	
+class MiscNPC extends CoreGameObjects {
+
+	private static final long serialVersionUID = 1L;
 
 	private boolean talk; //gibt an ob der NPC grade redet/reden darf
-	
 	
 	private int 	hp;
 	private double 	x, y;
@@ -30,7 +30,8 @@ public class MiscNPC extends CoreGameObjects{
 	private String 	boss;	//NPC should know what the area boss is, so he can say funny stuff about him 
 	private String 	stageone,stagetwo,stagethree; //statische Texte des Story NPCs für die verschiedenen Level
 	private long 	npcTalkTime;	//Wie lange der NPC redet
-	CoreRoom		currentRoom; //For spawning Enemies upon Collision
+	
+	transient private CoreRoom	currentRoom; //For spawning Enemies upon Collision
 	
 	private String	type;//Unterscheidung ob "Story" oder Quest NPC
 	private String	questAssault, questItem, questAmbush; //statische Texte für die verschiedenen Quest-Typen 

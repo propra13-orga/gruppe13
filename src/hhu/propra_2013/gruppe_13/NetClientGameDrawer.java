@@ -48,8 +48,9 @@ class NetClientGameDrawer implements Runnable {
 			
 			// Actual paint method, is great for painting stuff... and cookies
 			protected void paintComponent(Graphics g) {
-				if (room == null)
+				if (room == null) {
 					return;
+				}
 				
 				Graphics2D g2d = (Graphics2D) g;
 				super.paintComponent(g2d);
@@ -88,6 +89,8 @@ class NetClientGameDrawer implements Runnable {
 				g2d.drawImage(surface, x0, y0, xMax, yMax, this);
 				g2d.setColor(Color.black);
 				
+				System.out.println("Room in Drawer: "+room);
+				
 				for(int i=0; i<room.size(); i++) {
 					room.get(i).draw(g2d, x0, y0, step);
 				}
@@ -125,6 +128,7 @@ class NetClientGameDrawer implements Runnable {
 		while (gameRunning) {
 			// get current system time, this will determine fps
 			time = System.currentTimeMillis();
+			
 			// Repaint the game and wait
 			game.repaint();
 						

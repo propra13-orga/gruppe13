@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 class ItemChocolateBar extends Item{
 
-	private static final long serialVersionUID = -9060067342388571318L;
+	private static final long serialVersionUID = 1L;
 	
 	private double 	x, y;
 	private double	r;

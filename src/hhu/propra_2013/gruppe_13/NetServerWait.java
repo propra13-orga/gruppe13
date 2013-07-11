@@ -94,7 +94,6 @@ class NetServerWait extends NetIO {
 
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	void begin(String toSend, int mode) {
-		
 		// we need to build two new array lists, as the logic needs all connections as such
 		ArrayList<NetServerIn> inServers 	= new ArrayList<NetServerIn>();
 		ArrayList<NetServerOut> outServers	= new ArrayList<NetServerOut>();
@@ -110,8 +109,9 @@ class NetServerWait extends NetIO {
 		
 		// Build a new level for the clients
 		CoreLevel level = new CoreLevel(mode);
+		level.buildLevel(1, "test");
 		
-		// iterate over all streams and build new server inputs and outputs
+		// iterate over all streams and build new server inputs and outputs, add locks
 		for (int i=0; i<incomingStreams.size(); i++) {
 			inServers.add(new NetServerIn(incomingStreams.get(i)));
 			outServers.add(new NetServerOut(outgoingStreams.get(i)));

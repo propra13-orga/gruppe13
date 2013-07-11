@@ -16,8 +16,7 @@ import java.io.Serializable;
 abstract class CoreGameObjects implements Serializable {
 
 	// serial version ID, the interface Serializable asks for it
-	private static final long serialVersionUID = 2537021854756774619L;
-	
+	private static final long serialVersionUID = 1L;
 
 	// declare final variables in order to determine what bullet shall be fired 
 	static final int PLAYER_BULLET_STD 			= 0;

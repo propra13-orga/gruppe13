@@ -43,7 +43,7 @@ Company: Taschek Jörg </p>
  * zum Testen ist in der Klasse
  *******************************************************************************************************************************/
 class MenuIPField extends JPanel {
-	private static final long serialVersionUID = -1299856832036697200L;
+	private static final long serialVersionUID = 1L;
 	
 	private boolean MOVE_ON_FULL = true;
 	private JTextFieldIP fields[] = new JTextFieldIP[4];

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 class ItemMoney extends Item {
 
-	private static final long serialVersionUID = 9066229970218644231L;
+	private static final long serialVersionUID = 1L;
 	
 	private double 	height, width;
 	private double 	x, y;

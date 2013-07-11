@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 class ItemResurrect extends Item{
 
-	private static final long serialVersionUID = -5798199784641517967L;
+	private static final long serialVersionUID = 1L;
 	
 	private double 	x, y;
 	private double	r;

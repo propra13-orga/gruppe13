@@ -3,6 +3,8 @@ package hhu.propra_2013.gruppe_13;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 class NetServerIn extends NetIO {
 
@@ -15,6 +17,7 @@ class NetServerIn extends NetIO {
 	private Map 				map;
 	
 	private ArrayList<Attack> 	attacks;
+	private Lock				lock;
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
 	NetServerIn (ObjectInputStream incoming) {
@@ -26,6 +29,8 @@ class NetServerIn extends NetIO {
 		attacks		= null;
 		
 		receiveObjects = incoming;
+		
+		this.lock = new ReentrantLock();
 	}
 
 	/*------------------------------------------------------------------------------------------------------------------------*/
@@ -74,11 +79,17 @@ class NetServerIn extends NetIO {
 		
 		// add a copy of the figure and all attacks into the current room used by the logic
 		content.add(figure.copy());
+			
+		// first check whether the array is even there
+		if (attacks == null)
+		return;
 		
+		lock.lock();
 		for (int i=0; i<attacks.size(); i++) {
 			if (!content.contains(attacks.get(i)))
 				content.add(attacks.get(i).copy());
 		}
+		lock.unlock();
 	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
@@ -97,19 +108,28 @@ class NetServerIn extends NetIO {
 				incoming = receiveObjects.readObject();
 				
 				// check what class the object is and act accordingly
-				if 		(incoming instanceof Figure)
+				if 		(incoming instanceof Figure) {
+					lock.lock();
 					figure	= (Figure)incoming;
+					lock.unlock();
+
+				}
 				
 				else if (incoming instanceof Attack){
+					lock.lock();
 					if  (!attacks.contains(((Attack)incoming))) {
 						attacks.add(((Attack)incoming));
 						((Attack)incoming).setTime();
 					}
+					lock.unlock();
+
 				}
+				System.out.println("from client: "+incoming);
 					
 			} catch (ClassNotFoundException | IOException e) {
 				System.err.println("Object could not be read. ");
 				e.printStackTrace();
+			} finally {
 			}
 		}
 	}

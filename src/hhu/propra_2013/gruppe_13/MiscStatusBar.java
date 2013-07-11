@@ -3,8 +3,12 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.io.Serializable;
 
-public class MiscStatusBar {
+public class MiscStatusBar implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	private Font font;
 
 	private Figure 	figure;

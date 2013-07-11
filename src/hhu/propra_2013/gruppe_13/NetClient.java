@@ -118,20 +118,6 @@ class NetClient extends NetIO {
 	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	private void initGame() {
-//		// Initiate object variables
-//				gameWindow 		= inFrame;
-//				figure 			= new Figure(10.5, 6.5, 1, 1, 0, Color.BLUE);
-//				
-//				// Initialize Logic and Graphics
-//				logic 		= new CoreLogic(figure, this, mode);
-//				level		= logic.getLevel();
-//				statusBar	= new MiscStatusBar(figure, mode);
-//				graphics 	= new CoreGameDrawer(level, gameWindow, statusBar);
-//			
-//				// set contentPane to JPanel returned by GameDrawer, set GameIO as keyboard manager
-//				gameWindow.setContentPane(graphics.init(logic));
-//				KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-//		        manager.addKeyEventDispatcher(new CoreGame_IO(logic));
 		
 		// build two handlers, one for incoming and one for outgoing objects
 		NetClientIn clientIn 	= new NetClientIn(incoming);
