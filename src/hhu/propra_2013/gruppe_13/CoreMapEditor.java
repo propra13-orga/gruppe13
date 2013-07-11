@@ -66,12 +66,12 @@ public class CoreMapEditor {
 		ButtonGroup brush = new ButtonGroup();
 		
 		JRadioButton wall = new JRadioButton("Wall");
-		JRadioButton enemy1 = new JRadioButton("Enemy1");
-		JRadioButton enemy2 = new JRadioButton("Enemy2");
-		JRadioButton enemy3 = new JRadioButton("Enemy3");
-		JRadioButton item1 = new JRadioButton("Item1");
-		JRadioButton item2 = new JRadioButton("Item2");
-		JRadioButton item3 = new JRadioButton("Item3");
+		JRadioButton enemy1 = new JRadioButton("Nahkampf-Gegner");
+		JRadioButton enemy2 = new JRadioButton("Feuer");
+		JRadioButton enemy3 = new JRadioButton("Boss");
+		JRadioButton item1 = new JRadioButton("Zufälliges Pickup");
+		JRadioButton item2 = new JRadioButton("Geld");
+		JRadioButton item3 = new JRadioButton("Wiederauferstehungs-Item");
 		JRadioButton delete = new JRadioButton("Del");
 		
 		brush.add(wall);
@@ -134,7 +134,7 @@ public class CoreMapEditor {
 			
 			@Override	// terminate the program
 			public void actionPerformed(ActionEvent e) {
-				CoreMapEditor.setObj('?');
+				CoreMapEditor.setObj('G');
 			}
 		});
 		
@@ -142,7 +142,7 @@ public class CoreMapEditor {
 			
 			@Override	// terminate the program
 			public void actionPerformed(ActionEvent e) {
-				CoreMapEditor.setObj('?');
+				CoreMapEditor.setObj('R');
 			}
 		});
 		
@@ -375,6 +375,12 @@ public class CoreMapEditor {
 						bg = Color.CYAN;
 
 						switch (curr) {
+						case 'R':
+							bg = Color.cyan;
+							break;
+						case 'G':
+							bg = Color.yellow;
+							break;
 						case 'W':
 							bg = Color.GREEN;
 							break;
@@ -387,7 +393,7 @@ public class CoreMapEditor {
 							break;
 							
 						case 'B':
-							bg = Color.RED;
+							bg = Color.magenta;
 							break;
 		
 						case 'I':
