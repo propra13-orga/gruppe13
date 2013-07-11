@@ -45,7 +45,7 @@ public class CoreMapEditor {
 	static void showMapCreator(JFrame gameWindow){
 		
 		
-		System.out.println("reached the map creator");
+		//System.out.println("reached the map creator");
 		
 		/*--------------------------------------------creating variables--------------------------------------------------------*/
 		game = gameWindow;
@@ -308,7 +308,7 @@ public class CoreMapEditor {
 		
 		public MapPane(){
 			
-			System.out.println("reached the map pane");
+			//System.out.println("reached the map pane");
 			
 			this.setPreferredSize(new Dimension(560, 350));
 			this.setEnabled(true);
@@ -362,8 +362,8 @@ public class CoreMapEditor {
 						char curr;
 						curr = getObj();
 						actualState = curr;
-						System.out.println("just wrote "+ curr + " to" + x +" " + y);
-						System.out.println("just read "+ room[x][y] + " from" + x +" " + y);
+						//System.out.println("just wrote "+ curr + " to" + x +" " + y);
+						//System.out.println("just read "+ room[x][y] + " from" + x +" " + y);
 						
 	//					for(int i = 0; i < 14 ; i++){
 	//						for(int j = 0; j < 24; j++){
@@ -423,7 +423,7 @@ public class CoreMapEditor {
 					final int x = i;
 					final int y = j;
 					
-					System.out.println("reached the map element");
+					//System.out.println("reached the map element");
 					
 					this.setPreferredSize(new Dimension(22, 22));
 					this.setEnabled(true);
@@ -520,7 +520,7 @@ public class CoreMapEditor {
 //			}
 			
 			try {
-				PrintWriter roomWriter = new PrintWriter (new FileWriter("Level/Raum/Raum"+anzahlRaum+".txt"), true);
+				PrintWriter roomWriter = new PrintWriter (new FileWriter("Level/Raum/Raum"+anzahlRaum+".txt"), true);//das true lässt ihn an eine Datei anhängen statt sie zu überschreiben, sonst gäbe es knapp 200 dateien die alle von ihrem nachfolger überschrieben werden bis nurnoch ein println bleibt
 				for (int i = 0; i < 14;i++){
 					for (int j = 0; j < 24;j++){
 						if (j == 0) { 
