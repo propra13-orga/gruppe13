@@ -42,7 +42,7 @@ public class CoreMapEditor {
 	static void showMapCreator(JFrame gameWindow){
 		
 		
-		System.out.println("reached the map creator");
+		//System.out.println("reached the map creator");
 		
 		/*--------------------------------------------creating variables--------------------------------------------------------*/
 		game = gameWindow;
@@ -63,12 +63,12 @@ public class CoreMapEditor {
 		ButtonGroup brush = new ButtonGroup();
 		
 		JRadioButton wall = new JRadioButton("Wall");
-		JRadioButton enemy1 = new JRadioButton("Enemy1");
-		JRadioButton enemy2 = new JRadioButton("Enemy2");
-		JRadioButton enemy3 = new JRadioButton("Enemy3");
-		JRadioButton item1 = new JRadioButton("Item1");
-		JRadioButton item2 = new JRadioButton("Item2");
-		JRadioButton item3 = new JRadioButton("Item3");
+		JRadioButton enemy1 = new JRadioButton("Nahkampf-Gegner");
+		JRadioButton enemy2 = new JRadioButton("Feuer");
+		JRadioButton enemy3 = new JRadioButton("Boss");
+		JRadioButton item1 = new JRadioButton("Zufälliges Pickup");
+		JRadioButton item2 = new JRadioButton("Geld");
+		JRadioButton item3 = new JRadioButton("Wiederauferstehungs-Item");
 		JRadioButton delete = new JRadioButton("Del");
 		
 		brush.add(wall);
@@ -131,7 +131,7 @@ public class CoreMapEditor {
 			
 			@Override	// terminate the program
 			public void actionPerformed(ActionEvent e) {
-				CoreMapEditor.setObj('?');
+				CoreMapEditor.setObj('G');
 			}
 		});
 		
@@ -139,7 +139,7 @@ public class CoreMapEditor {
 			
 			@Override	// terminate the program
 			public void actionPerformed(ActionEvent e) {
-				CoreMapEditor.setObj('?');
+				CoreMapEditor.setObj('R');
 			}
 		});
 		
@@ -173,7 +173,6 @@ public class CoreMapEditor {
 	
 			@Override	// save array to file
 			public void actionPerformed(ActionEvent e) {
-				//TODO:für Lukas
 				CoreMapEditor.save();
 			}
 		});
@@ -282,8 +281,7 @@ public class CoreMapEditor {
 	}
 	
 	private static void save(){
-		//TODO:actually save it
-//		CoreRoom test = new CoreRoom(1, "blaa", false, false, false, false, 1, 1, 1);
+		
 		SaveClass saveIt;
 		saveIt = new CoreMapEditor().new SaveClass();
 		saveIt.countRaum();
@@ -307,7 +305,7 @@ public class CoreMapEditor {
 		
 		public MapPane(){
 			
-			System.out.println("reached the map pane");
+			//System.out.println("reached the map pane");
 			
 			this.setPreferredSize(new Dimension(560, 350));
 			this.setEnabled(true);
@@ -353,73 +351,114 @@ public class CoreMapEditor {
 				}
 				
 				public void editArray(int x, int y){
-					room[x][y] = getObj();
-					char curr;
-					curr = getObj();
-					actualState = curr;
-					System.out.println("just wrote "+ curr + " to" + x +" " + y);
-					System.out.println("just read "+ room[x][y] + " from" + x +" " + y);
 					
-//					for(int i = 0; i < 14 ; i++){
-//						for(int j = 0; j < 24; j++){
-//							System.out.println(room[i][j]+""+i+""+j);
-//						}
-//					}
+					if (x != 0 && x != 23 && y != 0 && y != 13){
+						
 
-					Color bg;
-					switch (curr) {
-					case 'W':
-						bg = Color.GREEN;
-						break;
-					case 'E':
-						bg = Color.RED;
-						break;
+						room[x][y] = getObj();
+						char curr;
+						curr = getObj();
+						actualState = curr;
+						//System.out.println("just wrote "+ curr + " to" + x +" " + y);
+						//System.out.println("just read "+ room[x][y] + " from" + x +" " + y);
 						
-					case 'F':
-						bg = Color.LIGHT_GRAY;
-						break;
-						
-					case 'B':
-						bg = Color.RED;
-						break;
+	//					for(int i = 0; i < 14 ; i++){
+	//						for(int j = 0; j < 24; j++){
+	//							System.out.println(room[i][j]+""+i+""+j);
+	//						}
+	//					}
 	
-					case 'I':
-						bg = Color.ORANGE;
-						break;
+						Color bg;
+						bg = Color.CYAN;
+
+						switch (curr) {
+						case 'R':
+							bg = Color.cyan;
+							break;
+						case 'G':
+							bg = Color.yellow;
+							break;
+						case 'W':
+							bg = Color.GREEN;
+							break;
+						case 'E':
+							bg = Color.RED;
+							break;
+							
+						case 'F':
+							bg = Color.LIGHT_GRAY;
+							break;
+							
+						case 'B':
+							bg = Color.magenta;
+							break;
+		
+						case 'I':
+							bg = Color.ORANGE;
+							break;
+							
+	//					case :
+	//						
+	//						break;
+	//						
+	//					case :
+	//						
+	//						break;
+	//						
+	//					case :
+	//						
+	//						break;
+	//						
+	//					case :
+	//						
+	//						break; 
+						default: //türen bei 7 (links rechts) und 11 (oben unten)
+							bg = Color.white;
+						}
+						this.setBackground(bg);
+						this.repaint();
 						
-//					case :
-//						
-//						break;
-//						
-//					case :
-//						
-//						break;
-//						
-//					case :
-//						
-//						break;
-//						
-//					case :
-//						
-//						break;
-					default:
-						bg = Color.WHITE;
-					}
-					this.setBackground(bg);
-					this.repaint();
-				}
+					}//Ende if block
+				}//Ende edit Array
 				
 				public MapElement(int i, int j) {
 					
 					final int x = i;
 					final int y = j;
 					
-					System.out.println("reached the map element");
+					//System.out.println("reached the map element");
 					
 					this.setPreferredSize(new Dimension(22, 22));
 					this.setEnabled(true);
 					this.setVisible(true);
-					this.setBackground(Color.WHITE);
+					if ( x == 0 && y != 7){
+						this.setBackground(Color.BLACK);
+					}
+					else if ( x == 0 && y == 7){
+						this.setBackground(Color.GRAY);
+					}
+					else if ( x == 23 && y != 7){
+						this.setBackground(Color.BLACK);
+					}
+					else if ( x == 23 && y == 7){
+						this.setBackground(Color.GRAY);
+					}
+					else if ( x != 11 && y == 0){
+						this.setBackground(Color.BLACK);
+					}
+					else if ( x == 11 && y == 0){
+						this.setBackground(Color.GRAY);
+					}
+					else if ( x != 11 && y == 13){
+						this.setBackground(Color.BLACK);
+					}
+					else if ( x == 11 && y == 13){
+						this.setBackground(Color.GRAY);
+					}
+					else if ( x != 0 && x != 23 && y != 0 && y != 13){
+						this.setBackground(Color.WHITE);
+					}
+					
 					
 					this.addMouseListener(new MouseListener(){
 					
@@ -467,10 +506,7 @@ public class CoreMapEditor {
 		
 		SaveClass() {
 			
-			
-			
 			anzahlRaum = this.countRaum();
-			//this.makeRoom();
 		}
 		
 		
@@ -487,10 +523,10 @@ public class CoreMapEditor {
 //			}
 			
 			try {
-				PrintWriter roomWriter = new PrintWriter (new FileWriter("Level/Raum/Raum"+anzahlRaum+".txt"), true);
+				PrintWriter roomWriter = new PrintWriter (new FileWriter("Level/Raum/Raum"+anzahlRaum+".txt"), true);//das true lässt ihn an eine Datei anhängen statt sie zu überschreiben, sonst gäbe es knapp 200 dateien die alle von ihrem nachfolger überschrieben werden bis nurnoch ein println bleibt
 				for (int i = 0; i < 14;i++){
 					for (int j = 0; j < 24;j++){
-						if (j == 0) { //oberste Zeile nur X, zur besseren Lesbarkeit
+						if (j == 0) { 
 							if (i == 7) roomWriter.print('D');
 							else roomWriter.print('X');
 						}
