@@ -6,4 +6,4 @@ tmp/**/*
 .settings/
 .loadpath
 *.launch
-.html
+*.html
