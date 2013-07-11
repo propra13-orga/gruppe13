@@ -176,7 +176,6 @@ public class CoreMapEditor {
 	
 			@Override	// save array to file
 			public void actionPerformed(ActionEvent e) {
-				//TODO:für Lukas
 				CoreMapEditor.save();
 			}
 		});
@@ -285,8 +284,7 @@ public class CoreMapEditor {
 	}
 	
 	private static void save(){
-		//TODO:actually save it
-//		CoreRoom test = new CoreRoom(1, "blaa", false, false, false, false, 1, 1, 1);
+		
 		SaveClass saveIt;
 		saveIt = new CoreMapEditor().new SaveClass();
 		saveIt.countRaum();
@@ -356,61 +354,69 @@ public class CoreMapEditor {
 				}
 				
 				public void editArray(int x, int y){
-					room[x][y] = getObj();
-					char curr;
-					curr = getObj();
-					actualState = curr;
-					System.out.println("just wrote "+ curr + " to" + x +" " + y);
-					System.out.println("just read "+ room[x][y] + " from" + x +" " + y);
 					
-//					for(int i = 0; i < 14 ; i++){
-//						for(int j = 0; j < 24; j++){
-//							System.out.println(room[i][j]+""+i+""+j);
-//						}
-//					}
+					if (x != 0 && x != 23 && y != 0 && y != 13){
+						
 
-					Color bg;
-					switch (curr) {
-					case 'W':
-						bg = Color.GREEN;
-						break;
-					case 'E':
-						bg = Color.RED;
-						break;
+						room[x][y] = getObj();
+						char curr;
+						curr = getObj();
+						actualState = curr;
+						System.out.println("just wrote "+ curr + " to" + x +" " + y);
+						System.out.println("just read "+ room[x][y] + " from" + x +" " + y);
 						
-					case 'F':
-						bg = Color.LIGHT_GRAY;
-						break;
-						
-					case 'B':
-						bg = Color.RED;
-						break;
+	//					for(int i = 0; i < 14 ; i++){
+	//						for(int j = 0; j < 24; j++){
+	//							System.out.println(room[i][j]+""+i+""+j);
+	//						}
+	//					}
 	
-					case 'I':
-						bg = Color.ORANGE;
-						break;
+						Color bg;
+						bg = Color.CYAN;
+
+						switch (curr) {
+						case 'W':
+							bg = Color.GREEN;
+							break;
+						case 'E':
+							bg = Color.RED;
+							break;
+							
+						case 'F':
+							bg = Color.LIGHT_GRAY;
+							break;
+							
+						case 'B':
+							bg = Color.RED;
+							break;
+		
+						case 'I':
+							bg = Color.ORANGE;
+							break;
+							
+	//					case :
+	//						
+	//						break;
+	//						
+	//					case :
+	//						
+	//						break;
+	//						
+	//					case :
+	//						
+	//						break;
+	//						
+	//					case :
+	//						
+	//						break; 
+						default: //türen bei 7 (links rechts) und 11 (oben unten)
+							bg = Color.white;
+						}
+						this.setBackground(bg);
+						this.repaint();
 						
-//					case :
-//						
-//						break;
-//						
-//					case :
-//						
-//						break;
-//						
-//					case :
-//						
-//						break;
-//						
-//					case :
-//						
-//						break;
-					default:
-						bg = Color.WHITE;
-					}
-					this.setBackground(bg);
-					this.repaint();
-				}
+					}//Ende if block
+				}//Ende edit Array
 				
 				public MapElement(int i, int j) {
 					
@@ -422,7 +428,34 @@ public class CoreMapEditor {
 					this.setPreferredSize(new Dimension(22, 22));
 					this.setEnabled(true);
 					this.setVisible(true);
-					this.setBackground(Color.WHITE);
+					if ( x == 0 && y != 7){
+						this.setBackground(Color.BLACK);
+					}
+					else if ( x == 0 && y == 7){
+						this.setBackground(Color.GRAY);
+					}
+					else if ( x == 23 && y != 7){
+						this.setBackground(Color.BLACK);
+					}
+					else if ( x == 23 && y == 7){
+						this.setBackground(Color.GRAY);
+					}
+					else if ( x != 11 && y == 0){
+						this.setBackground(Color.BLACK);
+					}
+					else if ( x == 11 && y == 0){
+						this.setBackground(Color.GRAY);
+					}
+					else if ( x != 11 && y == 13){
+						this.setBackground(Color.BLACK);
+					}
+					else if ( x == 11 && y == 13){
+						this.setBackground(Color.GRAY);
+					}
+					else if ( x != 0 && x != 23 && y != 0 && y != 13){
+						this.setBackground(Color.WHITE);
+					}
+					
 					
 					this.addMouseListener(new MouseListener(){
 					
@@ -470,10 +503,7 @@ public class CoreMapEditor {
 		
 		SaveClass() {
 			
-			
-			
 			anzahlRaum = this.countRaum();
-			//this.makeRoom();
 		}
 		
 		
@@ -493,7 +523,7 @@ public class CoreMapEditor {
 				PrintWriter roomWriter = new PrintWriter (new FileWriter("Level/Raum/Raum"+anzahlRaum+".txt"), true);
 				for (int i = 0; i < 14;i++){
 					for (int j = 0; j < 24;j++){
-						if (j == 0) { //oberste Zeile nur X, zur besseren Lesbarkeit
+						if (j == 0) { 
 							if (i == 7) roomWriter.print('D');
 							else roomWriter.print('X');
 						}
