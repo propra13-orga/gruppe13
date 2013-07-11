@@ -10,39 +10,35 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-class CoreGameDrawer implements Runnable {
+class NetClientGameDrawer implements Runnable {
 	
 	// List of all Objects within the game, JPanel and the number of locations
-	private CoreLevel level;
-	private CoreRoom room;
 	private JPanel 	game;
 	private final 	JFrame gameWindow;
-	private int 	locationX;
-	private int 	locationY;
-	private final 	Image background;
+	
 	private boolean gameRunning;
 	private final	Image surface;
-	private MiscStatusBar statusBar;
+	private final 	Image background;
 
+	private MiscStatusBar statusBar;
+	private ArrayList<CoreGameObjects> room;
 	
 	// Constructor for class
-	CoreGameDrawer(CoreLevel inLevel, JFrame inFrame, MiscStatusBar inStatusBar) {
-		level 		= inLevel;
+	NetClientGameDrawer(JFrame inFrame, MiscStatusBar inStatusBar) {
 		gameWindow 	= inFrame;
-		locationX 	= 0;
-		locationY	= 0;
+		
 		background 	= Toolkit.getDefaultToolkit().getImage("Layout.jpg");
 		surface		= Toolkit.getDefaultToolkit().getImage("Surface.png");
+		
 		statusBar	= inStatusBar;
 		gameRunning = true;
+		
+		room = null;
 	}
 	
 	// Initiate current objects variables, returns constructed JPanel
-	JPanel init(CoreLogic inLogic) {
+	JPanel init() {
 		// Build a new panel, override paint method
-		locationX = inLogic.getCurrentX();
-		locationY = inLogic.getCurrentY();
-		room = level.getRoom(locationX, locationY);
 		game = new JPanel() {
 			// Serial-ID in order to appease Eclipse
 			private static final long 	serialVersionUID = 1L;
@@ -52,6 +48,9 @@ class CoreGameDrawer implements Runnable {
 			
 			// Actual paint method, is great for painting stuff... and cookies
 			protected void paintComponent(Graphics g) {
+				if (room == null)
+					return;
+				
 				Graphics2D g2d = (Graphics2D) g;
 				super.paintComponent(g2d);
 				this.setBackground(Color.BLACK);
@@ -73,7 +72,6 @@ class CoreGameDrawer implements Runnable {
 				} else {								// Fenster ist breiter als hoch
 					y0 = 0;
 					step = height/18.;					// entspricht 4/3*1/24*height
-
 					// male den Hintergrund
 					g2d.drawImage(background, x0, y0, (int)(height*4/3.), height, this);
 				}
@@ -81,43 +79,35 @@ class CoreGameDrawer implements Runnable {
 				// Setze nun den Startpunkt auf die linke obere  Ecke im Spielfeld
 				x0 += step;
 				y0 += step;
-
 				//draw the status bar
 				statusBar.draw(g2d, x0, y0, step);
 				
 				// versuch die korrekte position der zeichenfläche festzulegen(wird bald wegfallen)
-				// TODO: entfernen, nachdem es Benes "Seal of Approval" erhält
 				xMax = (int)Math.round(22*step);
 				yMax = (int)Math.round(13*step);
-//				g2d.setColor(new Color((int)(256*Math.random()), (int)(256*Math.random()), (int)(256*Math.random())));
-//				g2d.fillRect(x0, y0, xMax, yMax);
-
 				g2d.drawImage(surface, x0, y0, xMax, yMax, this);
 				g2d.setColor(Color.black);
 				
-				// Iterate over all objects and call draw method
-				ArrayList<CoreGameObjects> 	list = room.getContent();
-				
-				for(int i=0; i<list.size(); i++) {
-					list.get(i).draw(g2d, x0, y0, step);
+				for(int i=0; i<room.size(); i++) {
+					room.get(i).draw(g2d, x0, y0, step);
 				}
 				
 			}
 		};
-
+		
 		// initialize the game panel at an appropriate size, return to caller
 		game.setSize(gameWindow.getContentPane().getSize());
 		return game;
 	}
-	
+		
 
 	// remove a drawable object, thus not every enemy and wall needs to be called if it has been destroyed
 	void removeDrawableObject (CoreGameObjects toRemove) {
-		room.getContent().remove(toRemove);
+		room.remove(toRemove);
 	}
 	
 	// Tell the draw methods which location to draw
-	void setRoom(CoreRoom inRoom) {
+	void setRoom(ArrayList<CoreGameObjects> inRoom) {
 		room = inRoom;
 	}
 	
@@ -131,18 +121,17 @@ class CoreGameDrawer implements Runnable {
 		long 	time;
 		long 	temp;
 				
-		// game loop, TODO: repaint on screen synchronization (not sure if this is possible with our library)
+		// game loop
 		while (gameRunning) {
 			// get current system time, this will determine fps
 			time = System.currentTimeMillis();
-
 			// Repaint the game and wait
 			game.repaint();
 						
 			try {
 				// tries to set the draw method at 62.5fps
 				if((temp = System.currentTimeMillis()-time) < 16)	
-					Thread.sleep(16-temp);				
+				Thread.sleep(16-temp);				
 			} catch (InterruptedException e) {
 				System.err.println("Graphics Thread interrupted, continuing execution. ");
 			}

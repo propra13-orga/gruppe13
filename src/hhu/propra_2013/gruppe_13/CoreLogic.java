@@ -25,9 +25,8 @@ class CoreLogic implements Runnable {
 	static final int FIREDOWNRIGHT		= 18;
 	
 	// varibale for setting the running direction of the figure
-	private int 		direction	= NONE;
-
-	private int  		fireDirection		= FIRENONE;
+	private int 		direction		= NONE;
+	private int  		fireDirection	= FIRENONE;
 
 	// set square root of 2 and define a boolean variable for the game loop
 	private static final double SQRT_2 = 1.41421356237309504880168872420969807856967187537694807317667973799; // http://en.wikipedia.org/wiki/Square_root_of_2
@@ -37,7 +36,6 @@ class CoreLogic implements Runnable {
 
 	// Boolean variables for movement and collision detection, location counter for the room
 	private boolean 	down, up, right, left; // für die Bewegungsrichtungen
-	private boolean 	north, east, south, west, northwest, northeast, southwest, southeast; // zum schießen in die Himmelsrichtungen
 
 	// variables for collision detection
 	private boolean 	freeRight, freeUp, freeDown, freeLeft;
@@ -62,7 +60,7 @@ class CoreLogic implements Runnable {
 	private double 		figX, figY;
 	private double 		figVX, figVY;
 
-	private boolean 	aoe, esc, showMap, use; // für Aktionen map zeigt Map an
+	private boolean 	aoe, esc, showMap; // für Aktionen map zeigt Map an
 
 	// List of all Objects within the game
 	private CoreLevel 	level;
@@ -95,43 +93,9 @@ class CoreLogic implements Runnable {
 	void setEsc(boolean in){
 		if (!esc) {
 			esc = in;
-		}else esc = false;
-	}
-	
-	void setUse (boolean in) {
-		use = in;
-	}
-	
-	void setFireUp(boolean in) {
-		north = in;
-	}
-
-	void setFireRight(boolean in) {
-		east = in;
-	}
-
-	void setFireDown(boolean in) {
-		south = in;
-	}
-
-	void setFireLeft(boolean in) {
-		west = in;
-	}
-
-	void setFireUpLeft(boolean in) {
-		northwest = in;
-	}
-
-	void setFireUpRight(boolean in) {
-		northeast = in;
-	}
-
-	void setFireDownLeft(boolean in) {
-		southwest = in;
-	}
-
-	void setFireDownRight(boolean in) {
-		southeast = in;
+		}
+		else 
+			esc = false;
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
@@ -608,7 +572,7 @@ class CoreLogic implements Runnable {
 			System.out.println("You died!");
 		}
 		if (figure.getHP() <= 0 && figure.checkRes()) {
-			figure = saveFigure;
+			figure = saveFigure.copy();
 			figure.setHP(3);
 			figX = 11.5;
 			figY = 6.5;

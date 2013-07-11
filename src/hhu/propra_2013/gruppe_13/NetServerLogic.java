@@ -24,7 +24,6 @@ class NetServerLogic extends NetIO {
 
 	// information about the level
 	private int 		stage;
-//	private String 		boss;
 
 	// information about the room
 	private boolean 	finished; //to open doors once there are no enemies in the room, can be done by the collision	
@@ -78,11 +77,15 @@ class NetServerLogic extends NetIO {
 		
 		// create Level
 		this.level 	= level;
+		System.out.println("Level: "+level);
 		
 		// find out where in the level we are, switching rooms will be relative to this value
 		locationX	= level.getStartX();
 		locationY 	= level.getStartY();
 		currentRoom = level.getRoom(locationX, locationY);
+		
+		System.out.println("Locations: "+locationX+" "+locationY);
+		System.out.println(level.getRoom(locationX, locationY));
 		
 		// Get ArrayLists for all connections
 		this.incoming 	= incoming;
@@ -397,10 +400,16 @@ class NetServerLogic extends NetIO {
 			// iterate over all connections
 			for (int i=0; i<incoming.size(); i++) {
 				
-				// get the figure and map and the current room
+				// get the figure and check whether it has a valid value, otherwise repeat execution
 				figure 		= incoming.get(i).getFigure();
+				
+				if (figure == null) 
+					continue;
+				
+				// get map and the current room
 				map 		= incoming.get(i).getMap();
 				currentRoom = level.getRoom(incoming.get(i).getLocation(0), incoming.get(i).getLocation(1));
+				System.out.println(currentRoom);
 				
 				// update the room according to all changes made by the client
 				incoming.get(i).updateRoom(currentRoom.getContent(), figure.getPlayer());

@@ -1,9 +1,7 @@
 package hhu.propra_2013.gruppe_13;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 
 class NetServerIn extends NetIO {
@@ -19,7 +17,7 @@ class NetServerIn extends NetIO {
 	private ArrayList<Attack> 	attacks;
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
-	NetServerIn (Socket socket) {
+	NetServerIn (ObjectInputStream incoming) {
 		running 	= true;
 		
 		location 	= new int[2];
@@ -27,12 +25,7 @@ class NetServerIn extends NetIO {
 		map 		= null;
 		attacks		= null;
 		
-		try{
-			receiveObjects = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-		}
-		catch (IOException e) {
-			ProPra.errorOutput(CONNECTION_SERVER_OIS, e);
-		}
+		receiveObjects = incoming;
 	}
 
 	/*------------------------------------------------------------------------------------------------------------------------*/
@@ -116,7 +109,7 @@ class NetServerIn extends NetIO {
 					
 			} catch (ClassNotFoundException | IOException e) {
 				System.err.println("Object could not be read. ");
-				System.err.println(e.getMessage());
+				e.printStackTrace();
 			}
 		}
 	}

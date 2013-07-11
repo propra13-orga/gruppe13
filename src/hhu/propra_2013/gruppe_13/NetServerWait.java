@@ -16,6 +16,10 @@ class NetServerWait extends NetIO {
 	private ArrayList<Color> 	colors;
 	private ArrayList<String>	usernames;
 	
+	// array lists for saving all connections, this makes it easier to build a new game
+	private ArrayList<ObjectOutputStream> 	outgoingStreams;
+	private ArrayList<ObjectInputStream>	incomingStreams;
+	
 	// array list with all clients, needed for output
 	private ArrayList<NetServerClientCheck> 	clients;
 	
@@ -31,6 +35,9 @@ class NetServerWait extends NetIO {
 		this.clientCheck 	= new ArrayList<Boolean>();
 		this.usernames		= new ArrayList<String>();
 		this.clients		= new ArrayList<NetServerClientCheck>();
+		
+		this.outgoingStreams = new ArrayList<ObjectOutputStream>();
+		this.incomingStreams = new ArrayList<ObjectInputStream>();
 	}
 
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -70,6 +77,10 @@ class NetServerWait extends NetIO {
 		clientCheck.add(false);
 		colors.add(Color.BLACK);
 		usernames.add("user "+counter);
+		
+		// add both streams to their lists
+		outgoingStreams.add(output);
+		incomingStreams.add(input);
 
 		// build a new client and start it as a thread
 		NetServerClientCheck client = new NetServerClientCheck(counter, socket, output, input, this, connNo);
@@ -81,6 +92,46 @@ class NetServerWait extends NetIO {
 		counter++;
 	}
 
+	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+	void begin(String toSend, int mode) {
+		
+		// we need to build two new array lists, as the logic needs all connections as such
+		ArrayList<NetServerIn> inServers 	= new ArrayList<NetServerIn>();
+		ArrayList<NetServerOut> outServers	= new ArrayList<NetServerOut>();
+		
+		// first of all terminate the objects thread, we don't need it any more
+		waiting = false;
+		
+		// tell all clients to initiate a new game and terminate the associated threads
+		for (int i=0; i<clients.size(); i++) {
+			clients.get(i).sendObjects(toSend);
+			clients.get(i).setRunning(false);
+		}
+		
+		// Build a new level for the clients
+		CoreLevel level = new CoreLevel(mode);
+		
+		// iterate over all streams and build new server inputs and outputs
+		for (int i=0; i<incomingStreams.size(); i++) {
+			inServers.add(new NetServerIn(incomingStreams.get(i)));
+			outServers.add(new NetServerOut(outgoingStreams.get(i)));
+		}
+		
+		// build a new logic class on the server
+		NetServerLogic logic = new NetServerLogic(level, inServers, outServers);
+		
+		// start all objects in their separate thread
+		for (int i=0; i<inServers.size(); i++) {
+			new Thread(inServers.get(i)).start();
+			new Thread(outServers.get(i)).start();
+		}
+		
+		// last but not least start the logic thread
+		new Thread(logic).start();
+		
+		System.out.println("finished building server");
+	}
+	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	@Override
 	public void run() {

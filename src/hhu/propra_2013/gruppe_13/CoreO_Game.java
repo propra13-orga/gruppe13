@@ -1,29 +1,30 @@
 package hhu.propra_2013.gruppe_13;
 
+import java.awt.Color;
 import java.awt.KeyboardFocusManager;
 import javax.swing.JFrame;
 
 class CoreO_Game {
 	// Frame, graphic, logic and a figure for the actual game
-	JFrame 			gameWindow;
-	CoreLogic 		logic;
-	CoreGameDrawer 	graphics;
-	Figure 			figure;
-	MiscStatusBar	statusBar;
+	private JFrame 			gameWindow;
+	private CoreLogic 		logic;
+	private CoreGameDrawer 	graphics;
+	private Figure 			figure;
+	private MiscStatusBar	statusBar;
 	
 	// Build two lists, the graphics component will also receive the figure, which has a special function in the logic class
 	CoreLevel		level;
 	
 	// Initialize method for the actual game
-	CoreO_Game(JFrame inFrame , int mode) {
+	CoreO_Game (JFrame inFrame , int mode) {
 		// Initiate object variables
-		gameWindow 		= inFrame;
-		figure 			= new Figure(10.5, 6.5, 1, 1, 0);
+		gameWindow 	= inFrame;
+		figure 		= new Figure(10.5, 6.5, 1, 1, 0, Color.BLUE);
 		
 		// Initialize Logic and Graphics
 		logic 		= new CoreLogic(figure, this, mode);
 		level		= logic.getLevel();
-		statusBar	= new MiscStatusBar(figure, mode);
+		statusBar	= new MiscStatusBar(figure);
 		graphics 	= new CoreGameDrawer(level, gameWindow, statusBar);
 	
 		// set contentPane to JPanel returned by GameDrawer, set GameIO as keyboard manager
@@ -37,7 +38,7 @@ class CoreO_Game {
 		graphics.setRoom(inRoom);
 	}
 	
-	void end(boolean win ) {
+	void end(boolean win) {
 		logic.setGameRunning(false);
 		graphics.setGameRunning(false);
 		

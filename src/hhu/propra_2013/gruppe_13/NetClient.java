@@ -1,6 +1,7 @@
 package hhu.propra_2013.gruppe_13;
 
 import java.awt.Color;
+import java.awt.KeyboardFocusManager;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -8,6 +9,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+
+import javax.swing.JFrame;
+
 
 class NetClient extends NetIO {
 
@@ -113,6 +117,65 @@ class NetClient extends NetIO {
 	}
 	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+	private void initGame() {
+//		// Initiate object variables
+//				gameWindow 		= inFrame;
+//				figure 			= new Figure(10.5, 6.5, 1, 1, 0, Color.BLUE);
+//				
+//				// Initialize Logic and Graphics
+//				logic 		= new CoreLogic(figure, this, mode);
+//				level		= logic.getLevel();
+//				statusBar	= new MiscStatusBar(figure, mode);
+//				graphics 	= new CoreGameDrawer(level, gameWindow, statusBar);
+//			
+//				// set contentPane to JPanel returned by GameDrawer, set GameIO as keyboard manager
+//				gameWindow.setContentPane(graphics.init(logic));
+//				KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+//		        manager.addKeyEventDispatcher(new CoreGame_IO(logic));
+		
+		// build two handlers, one for incoming and one for outgoing objects
+		NetClientIn clientIn 	= new NetClientIn(incoming);
+		NetClientOut clientOut	= new NetClientOut(outgoing);
+		
+		// build a new Figure with the color specified by the user
+		Figure figure = new Figure(10.5, 6.5, 1, 1, 0, colors.get(clientNo));
+		
+		// tell the server about the figure before anything else happens
+		boolean isOut = false;
+		
+		while (!isOut) {
+			try {
+				outgoing.writeObject(figure);
+				isOut = true;
+			} catch (IOException e) {
+				System.out.println("Problem sending figure to server");
+				e.printStackTrace();
+			}
+		}
+		
+		// get the current frame, initialize a new status bar and a new drawer
+		JFrame gameWindow = ProPra.getGameWindow();
+		MiscStatusBar statusBar = new MiscStatusBar(figure);
+		NetClientGameDrawer drawer = new NetClientGameDrawer(gameWindow, statusBar);
+				
+		// initialize logic with all threadable objects, the idea is to let the logic terminate everthing
+		NetClientLogic logic = new NetClientLogic(figure, clientIn, clientOut, drawer);
+		
+		// set the windows content pane as the game drawer, build a new GameIO for keyboard input/output
+		gameWindow.setContentPane(drawer.init());
+		KeyboardFocusManager manager = KeyboardFocusManager.getCurrentKeyboardFocusManager();
+		manager.addKeyEventDispatcher(new NetClientGameIO(logic));
+		
+		// build new threads and start everything the client needs
+		new Thread(clientIn).start();
+		new Thread(clientOut).start();
+		new Thread(logic).start();
+		new Thread(drawer).start();
+		
+		System.out.println("initiated all client threads");
+	}
+	
+	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	@SuppressWarnings("unchecked")
 	@Override
 	public void run() {
@@ -147,9 +210,15 @@ class NetClient extends NetIO {
 						users	= (ArrayList<String>)list;
 				}
 				
-				// if we have a level we need to start the game
-				else if (inObject instanceof CoreLevel) {
-					// TODO: start the game
+				// if the string should match, begin the game
+				else if (inObject instanceof String) {
+					System.out.println((String)inObject);
+					if (((String)inObject).contentEquals("begin")) {
+						System.out.println("beginning in client");
+						
+						this.initGame();
+						this.running = false;
+					}
 				}
 				
 				// variable to set which user we are
@@ -165,5 +234,6 @@ class NetClient extends NetIO {
 				System.err.println(e.getMessage());
 			}
 		}
+		System.out.println("terminating client");
 	}
 }

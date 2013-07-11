@@ -14,8 +14,19 @@ class NetClientLogic extends NetIO implements Runnable {
 	static final int DOWNLEFT		= 7;
 	static final int DOWNRIGHT		= 8;
 	
+	static final int FIRENONE		= 10;
+	static final int FIREUP			= 11;
+	static final int FIREDOWN		= 12;
+	static final int FIRELEFT		= 13;
+	static final int FIRERIGHT		= 14;
+	static final int FIREUPLEFT		= 15;
+	static final int FIREUPRIGHT	= 16;
+	static final int FIREDOWNLEFT	= 17;
+	static final int FIREDOWNRIGHT	= 18;
+	
 	// variable for setting the running direction of the figure
-	private int 		direction	= NONE;
+	private int 		direction		= NONE;
+	private int  		fireDirection	= FIRENONE;
 
 	// set square root of 2 and define a boolean variable for the game loop
 	private static final double SQRT_2 = 1.41421356237309504880168872420969807856967187537694807317667973799; // http://en.wikipedia.org/wiki/Square_root_of_2
@@ -25,15 +36,13 @@ class NetClientLogic extends NetIO implements Runnable {
 
 	// Boolean variables for movement and collision detection, location counter for the room
 	private boolean 	down, up, right, left; // für die Bewegungsrichtungen
-	private boolean 	north, east, south, west, northwest, northeast, southwest, southeast; // zum schießen in die Himmelsrichtungen
 
 	// variables for collision detection
 	private boolean 	freeRight, freeUp, freeDown, freeLeft;
 	private double 		distDown, distUp, distRight, distLeft;
 
 	// variables for navigating in the level
-	private int 		locationX, locationY;
-	private CoreRoom 	currentRoom;
+	private ArrayList<CoreGameObjects> currentRoom;
 
 	// information about the room
 	private Figure 		figure;
@@ -52,6 +61,9 @@ class NetClientLogic extends NetIO implements Runnable {
 	private NetClientIn		incoming;
 	private NetClientOut 	outgoing;
 	
+	// the clients drawing class
+	private NetClientGameDrawer drawer;
+	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	@Override
 	void setRunning(boolean running) {
@@ -61,6 +73,10 @@ class NetClientLogic extends NetIO implements Runnable {
 	void setDirection (int input) {
 		direction 	= input;
 		figure.setDirection(input);
+	}
+	
+	void setFireDirection (int input) {
+		fireDirection 	= input;
 	}
 
 	void setBomb(boolean in) {
@@ -75,44 +91,11 @@ class NetClientLogic extends NetIO implements Runnable {
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
-	void setFireUp(boolean in) {
-		north = in;
-	}
-
-	void setFireRight(boolean in) {
-		east = in;
-	}
-
-	void setFireDown(boolean in) {
-		south = in;
-	}
-
-	void setFireLeft(boolean in) {
-		west = in;
-	}
-
-	void setFireUpLeft(boolean in) {
-		northwest = in;
-	}
-
-	void setFireUpRight(boolean in) {
-		northeast = in;
-	}
-
-	void setFireDownLeft(boolean in) {
-		southwest = in;
-	}
-
-	void setFireDownRight(boolean in) {
-		southeast = in;
-	}
-	
-	/*-----------------------------------------------------------------------------------------------------------------------*/
 	Figure getFigure () {
 		return figure;
 	}
 	
-	CoreRoom getRoom(){
+	ArrayList<CoreGameObjects> getRoom(){
 		return currentRoom;
 	}
 
@@ -120,21 +103,14 @@ class NetClientLogic extends NetIO implements Runnable {
 		return level;
 	}
 
-	int getCurrentX() {
-		return locationX;
-	}
-
-	int getCurrentY() {
-		return locationY;
-	}
-	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Initiate the current objects variables
-	NetClientLogic(Figure inFigure, CoreO_Game inGame, NetClientIn incoming, NetClientOut outgoing) {
+	NetClientLogic(Figure inFigure, NetClientIn incoming, NetClientOut outgoing, NetClientGameDrawer drawer) {
 		running = true;
 		
-		this.incoming = incoming;
-		this.outgoing = outgoing;		
+		this.incoming 	= incoming;
+		this.outgoing 	= outgoing;	
+		this.drawer		= drawer;
 		
 		figure = inFigure;
 		
@@ -144,6 +120,7 @@ class NetClientLogic extends NetIO implements Runnable {
 		freeDown 	= true;
 
 		bulletEnable = true;
+		currentRoom = null;
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
@@ -172,12 +149,11 @@ class NetClientLogic extends NetIO implements Runnable {
 
 		double collOne, collTwo, collThree, collFour;
 
-		ArrayList<CoreGameObjects> collidable = level.getRoom(locationX, locationY).getContent();
 		CoreGameObjects collided;
 
 		// iterate over all objects within the room, excepting the figure, of course
-		for (int i = 0; i < collidable.size(); i++) {
-			collided 	= collidable.get(i);
+		for (int i = 0; i < currentRoom.size(); i++) {
+			collided 	= currentRoom.get(i);
 			objX	 	= collided.getPosX();
 			objY	 	= collided.getPosY();
 			objR	 	= collided.getRad();
@@ -249,9 +225,7 @@ class NetClientLogic extends NetIO implements Runnable {
 		right 	= false;
 		left 	= false;
 
-		// convert diagonal movement into two horizontal components, diagonal
-		// movement is slowed,
-		// as it will take place into two directions
+		// convert diagonal movement into two horizontal components, diagonal movement is slowed, as it will take place into two directions
 		if (direction == UPLEFT) {
 			figVX /= SQRT_2;
 			figVY /= SQRT_2;
@@ -330,14 +304,11 @@ class NetClientLogic extends NetIO implements Runnable {
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Propagate all Bullets and create new Attacks
 	private void attacks() {
-		// Iterate over all Bullets and propagate them
-		ArrayList<CoreGameObjects> collidable = currentRoom.getContent();
-
 		// If the player has enough resources, create a new area of effect attack
 		if (aoe && figure.getChocolate() > 0) {
 			figure.setChocolate(figure.getChocolate()-1);
-			CoreGameObjects melee = new AttackMelee(figX, figY, 0, 0, Attack.PLAYER_MELEE_AOE, figure, collidable, figure.getPlayer());
-			currentRoom.getContent().add(melee);
+			CoreGameObjects melee = new AttackMelee(figX, figY, 0, 0, Attack.PLAYER_MELEE_AOE, figure, currentRoom, figure.getPlayer());
+			currentRoom.add(melee);
 		}
 		
 		// regardless of whether an attack has been fired we need to reset this variable
@@ -345,7 +316,7 @@ class NetClientLogic extends NetIO implements Runnable {
 
 		// Create new Bullets if the player wishes to do so, and the cooldown
 		// for shooting has expired
-		if (north || east || south || west || northeast || northwest || southeast || southwest) {
+		if (fireDirection != FIRENONE) {
 			
 			if (!bulletEnable) {
 				if (System.currentTimeMillis() - bulletCoolDown > figure.getBulletCoolDownTime())
@@ -360,49 +331,49 @@ class NetClientLogic extends NetIO implements Runnable {
 				int signVX = 0;
 				int signVY = 0;
 
-				if (north) {
+				if ( fireDirection == FIREUP ) {
 					signVX = 0;
 					signVY = -1;
 				}
 
-				else if (east) {
+				else if (fireDirection == FIRERIGHT) {
 					signVX = 1;
 					signVY = 0;
 				}
 
-				else if (south) {
+				else if (fireDirection == FIREDOWN) {
 					signVX = 0;
 					signVY = 1;
 				}
 
-				else if (west) {
+				else if (fireDirection == FIRELEFT) {
 					signVX = -1;
 					signVY = 0;
 				}
 
-				else if (northeast) {
+				else if (fireDirection == FIREUPRIGHT) {
 					signVX = 1;
 					signVY = -1;
 				}
 
-				else if (northwest) {
+				else if (fireDirection == FIREUPLEFT) {
 					signVX = -1;
 					signVY = -1;
 				}
 
-				else if (southeast) {
+				else if (fireDirection == FIREDOWNRIGHT) {
 					signVX = 1;
 					signVY = 1;
 				}
 
-				else if (southwest) {
+				else if (fireDirection == FIREDOWNLEFT) {
 					signVX = -1;
 					signVY = 1;
 				}
 
 				CoreGameObjects initBullet = new AttackBullet(figure.getBulletType(), figX, figY, figVX, figVY, signVX, signVY, figure.getPlayer());
 
-				currentRoom.getContent().add(initBullet);
+				currentRoom.add(initBullet);
 				bulletEnable = false;
 			}
 		}
@@ -418,8 +389,14 @@ class NetClientLogic extends NetIO implements Runnable {
 		while (running) {
 			time = System.currentTimeMillis();
 			
-			incoming.getList(currentRoom.getContent());
+			// get the current room from the server
+			incoming.getList(currentRoom, figure);
+			drawer.setRoom(currentRoom);
 
+			// check whether we actually have a list from the server yet, else we try to get one again
+			if (currentRoom == null) 
+				continue;
+			
 			// get current figure positions and velocities
 			figX = figure.getPosX();
 			figY = figure.getPosY();
@@ -433,7 +410,8 @@ class NetClientLogic extends NetIO implements Runnable {
 				this.attacks();
 			}
 
-			outgoing.sendList(currentRoom.getContent());
+			// send all modifications to the room and reset incoming list of the connection
+			outgoing.sendList(currentRoom);
 			incoming.resetList();
 			
 			// set the thread asleep, we don't need it too often

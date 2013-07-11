@@ -15,7 +15,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.text.AttributeSet;
@@ -126,8 +125,6 @@ class MenuMultiWaiting {
 		// build two new panels, one for listing all users and one for listing all relevant personal information
 		uPanel = new MenuMultiWaiting().new UserPanel();
 		iFrame = new MenuMultiWaiting().new InfoFrame();
-		//NetChatPanel chat = new NetChatPanel(gameFrame);
-		
 		
 		// build a thread to check all inputs and outputs to and from the server
 		CheckAll check = new MenuMultiWaiting().new CheckAll();
@@ -226,7 +223,7 @@ class MenuMultiWaiting {
 	
 	// initiate the actual game
 	private static void initGame() {
-		
+		server.begin(mode);
 	}
 	
 	/*--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -257,7 +254,7 @@ class MenuMultiWaiting {
 			this.setVisible(true);
 			this.setPreferredSize(new Dimension((int)(frameDimension.getWidth()/2.-60), (int)(frameDimension.getHeight()*3/4.-60)));
 			
-			layout = new GridBagConstraints();
+			layout 		= new GridBagConstraints();
 			frameLayout = new GridBagConstraints();
 			
 			namefield 	= new ArrayList<JTextField>();
@@ -332,7 +329,6 @@ class MenuMultiWaiting {
 			layout.anchor 	= GridBagConstraints.NORTH;
 			
 			// iterate over all clients, build their own little private space
-			//for (int i=0; i<clientStati.size(); i++) {
 			for (int i=0; i<connections; i++) {
 				// start at the beginning of the next line, with regular weights
 				layout.weighty = 1;
@@ -413,7 +409,6 @@ class MenuMultiWaiting {
 				else
 					color.get(i).setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
 					
-//				color.get(i).init();
 				users.add(color.get(i), layout);
 
 				// set all fields as non-editable, they should only be editable by the info field
@@ -421,7 +416,6 @@ class MenuMultiWaiting {
 				namefield.get(i).setFocusable(false);
 				namefield.get(i).setHighlighter(null);
 				
-//				color.get(i).setClickEnabled(false);
 				color.get(i).setFocusable(false);
 				color.get(i).setEnabled(false);
 					
@@ -440,9 +434,6 @@ class MenuMultiWaiting {
 			
 			// iterate over all panels already active
 			for (int i=0; i<clientStati.size(); i++) {
-//				// skip if we are looking at our own fields
-//				if (i == clientNo)
-//					continue;
 				
 				// set the names and colors of all fields
 				namefield.get(i).setText(usernames.get(i));

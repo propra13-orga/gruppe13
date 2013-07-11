@@ -58,6 +58,10 @@ public class ProPra {
 		gameWindow.setUndecorated(toggle);
 	}
 	
+	static JFrame getGameWindow() {
+		return gameWindow;
+	}
+	
 	/*-----------------------------------------------------------------------------------------------*/
 	public static void main(String[] args) {
 		// Initiate a new window to run the game in, default parameters are 800x600 and title "Propra 2013"
@@ -69,6 +73,4 @@ public class ProPra {
 		
 		initMenu();
 	}
-
-
 }

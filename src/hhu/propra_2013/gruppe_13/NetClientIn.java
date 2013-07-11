@@ -1,29 +1,26 @@
 package hhu.propra_2013.gruppe_13;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 
 class NetClientIn extends NetIO {
 
 	private ObjectInputStream			receiveObjects;
-	
 	private boolean 					running;
-	
 	private ArrayList<CoreGameObjects> 	allObjects;
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
-	NetClientIn (Socket socket, NetClientLogic logic) {
+	NetClientIn (ObjectInputStream inputStream) {
 		running 	= true;
 		allObjects 	= null;
+		receiveObjects = inputStream;
 		
-		try {
-			receiveObjects = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
-		} catch (IOException e) {
-			ProPra.errorOutput(CONNECTION_CLIENT_OIS, e);
-		}
+//		try {
+//			receiveObjects = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+//		} catch (IOException e) {
+//			ProPra.errorOutput(CONNECTION_CLIENT_OIS, e);
+//		}
 	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
@@ -36,16 +33,24 @@ class NetClientIn extends NetIO {
 		allObjects.clear();
 	}
 	
-	void getList(ArrayList<CoreGameObjects> currentRoom) {
+	void getList(ArrayList<CoreGameObjects> currentRoom, Figure figure) {
 		CoreGameObjects toCopy;
-		currentRoom.clear();
+		
+		// Check whether there is anything to work with in the first place
+		if (currentRoom != null)
+			currentRoom.clear();
+		
+		if (allObjects == null)
+			return;
 		
 		for (int i=0; i<allObjects.size(); i++) {
 			
 			toCopy = allObjects.get(i);
 			
-			if 		(toCopy instanceof Figure) 
+			if 		(toCopy instanceof Figure)  {
 				currentRoom.add(((Figure)toCopy).copy());
+				figure = ((Figure)toCopy).copy();
+			}
 			
 			else if	(toCopy instanceof Attack) 
 				currentRoom.add(((Attack)toCopy).copy());
@@ -73,8 +78,8 @@ class NetClientIn extends NetIO {
 				}
 				
 			} catch (ClassNotFoundException | IOException e) {
-				System.err.println("Object could not be read. ");
-				System.err.println(e.getMessage());
+				System.err.println("Client: Object could not be read. ");
+				e.printStackTrace();
 			}
 		}
 	}

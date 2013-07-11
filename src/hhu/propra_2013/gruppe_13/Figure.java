@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 class Figure extends CoreGameObjects {
-	private static final long serialVersionUID = 1988582549597278190L;
 	
+	private static final long serialVersionUID = 1L;
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// set these for the viewing direction of the figure
 	static final int NONE			= 0;
@@ -50,9 +50,12 @@ class Figure extends CoreGameObjects {
 	private int 	direction = CoreLogic.NONE;
 	private int 	activity;
 	
+	// set the current figures color
+	private Color	figureColor;
+	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// class constructor
-	Figure(double initX, double initY, double initHeight, double initWidth, int player) {
+	Figure(double initX, double initY, double initHeight, double initWidth, int player, Color figureColor) {
 		x 		= initX;
 		y 		= initY;
 		
@@ -78,6 +81,7 @@ class Figure extends CoreGameObjects {
 		bulletCoolDownTime = 500;
 		
 		this.player = player;
+		this.figureColor = figureColor;
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
@@ -256,7 +260,7 @@ class Figure extends CoreGameObjects {
 		/* Durch die Variable step ist eine Umrechnung auf den Screen möglich, ansonsten würde das Spiel immer unterschiedlich angezeigt werden, 
 		 * allerdings ist zu beachten, dass durch den Gebrauch von Math.round() eine Verzeichnung um einen Pixel unten oder rechts nicht Auftritt, 
 		 * wie es bei einem cast auf int passieren kann.  */
-		g.setColor(Color.BLUE);
+		g.setColor(figureColor);
 		g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 		// TODO: bilder anstelle des quadrats malen
 	}
@@ -287,7 +291,7 @@ class Figure extends CoreGameObjects {
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	Figure copy() {
 		// create a new figure object
-		Figure figure = new Figure(this.x, this.y, this.height, this.width, this.player);
+		Figure figure = new Figure(this.x, this.y, this.height, this.width, this.player, this.figureColor);
 		
 		// set the viewing direction of the new figure
 		figure.setDirection(this.direction);

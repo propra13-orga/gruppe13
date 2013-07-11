@@ -39,6 +39,10 @@ class NetServer extends NetIO {
 		waiting.setRunning(activity);
 		// TODO: terminate the thread blocking in accept
 	}
+	
+	void begin(int mode) {
+		waiting.begin("begin", mode);
+	}
 
 	/*------------------------------------------------------------------------------------------------------------------------*/
 	@Override
@@ -88,11 +92,16 @@ class NetServer extends NetIO {
 					// check whether the client wishes to initiate a new setting
 					if (test.contentEquals("the real deal")) {
 						waiting.add(connection, output, input, connNo);
+						count++;
 					}
 					
 				} catch (IOException | ClassNotFoundException e) {
 				}
-			}
+				
+				System.out.println("connNo: "+connNo);
+			} 
+			else
+				serverActive = false;
 		}
 		
 		// close socket

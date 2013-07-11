@@ -1,9 +1,7 @@
 package hhu.propra_2013.gruppe_13;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.*;
 import java.util.ArrayList;
 
 class NetServerOut extends NetIO {
@@ -18,15 +16,9 @@ class NetServerOut extends NetIO {
 
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
-	NetServerOut (Socket socket) {
+	NetServerOut (ObjectOutputStream outgoing) {
 		running 	= true;
-		
-		// open the output stream to send objects over
-		try {
-			sendObjects = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-		} catch (IOException e) {
-			ProPra.errorOutput(CONNECTION_SERVER_OOS, e);
-		}
+		sendObjects = outgoing;
 	}
 
 	/*------------------------------------------------------------------------------------------------------------------------*/
@@ -47,6 +39,10 @@ class NetServerOut extends NetIO {
 
 		while (running) {
 //			threadTimer = System.currentTimeMillis();
+			
+			// check whether we actually have anything to send
+			if (gameObjects == null)
+				continue;
 			
 			/* Iterate over all objects and send them. Since the servers logic should always overwrite anything at the clients 
 			 * the entire room will be sent. */ 

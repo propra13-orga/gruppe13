@@ -1,9 +1,7 @@
 package hhu.propra_2013.gruppe_13;
 
-import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.Socket;
 import java.util.ArrayList;
 
 class NetClientOut extends NetIO {
@@ -16,15 +14,16 @@ class NetClientOut extends NetIO {
 	private boolean 					running;
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
-	NetClientOut(Socket socket) {
+	NetClientOut(ObjectOutputStream outputStream) {
 		running = true;
-		sendList = null;
+		sendList = new ArrayList<CoreGameObjects>();
+		outgoing = outputStream;
 		
-		try {
-			outgoing = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-		} catch (IOException e) {
-			ProPra.errorOutput(CONNECTION_CLIENT_OOS, e);
-		}
+//		try {
+//			outgoing = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
+//		} catch (IOException e) {
+//			ProPra.errorOutput(CONNECTION_CLIENT_OOS, e);
+//		}
 	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/

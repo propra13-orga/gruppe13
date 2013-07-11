@@ -3,24 +3,26 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.KeyEventDispatcher;
 import java.awt.event.KeyEvent;
 
-
-class CoreGame_IO implements KeyEventDispatcher {
-	private int		move = 0;
-	private int		fire = 0;
-
-	private boolean up = false;
-	private boolean down = false;
-	private boolean left = false;
-	private boolean right = false;
+class NetClientGameIO implements KeyEventDispatcher { 
 	
-	private boolean fireup = false;
-	private boolean firedown = false;
-	private boolean fireleft = false;
-	private boolean fireright = false;
+	private int		move;
+	private int		fire;
 
-	// Logic used by the class, set within the constructor
-	CoreLogic logic;
-	CoreGame_IO (CoreLogic inLogic) {
+	private boolean up;
+	private boolean down;
+	private boolean left;
+	private boolean right;
+	
+	private boolean fireup;
+	private boolean firedown;
+	private boolean fireleft;
+	private boolean fireright;
+
+	private boolean esc;
+	
+	//Logic used by the class, set within the constructor
+	NetClientLogic logic;
+	NetClientGameIO (NetClientLogic inLogic) {
 		logic 	= inLogic;
 	}
 
@@ -56,6 +58,12 @@ class CoreGame_IO implements KeyEventDispatcher {
 			case 37: 									//65='Pfeil nach links'
 				fireleft = true;
 				break;		
+//			case 17:									//17='ctrl'
+//				logic.setPunch(true);					//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
+//				break;
+//			case 69:									//96='e'
+//				logic.setUse(true);						//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
+//				break;
 			case 32:									//32='space'
 				logic.setBomb(true);					//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
 				break;
@@ -70,10 +78,10 @@ class CoreGame_IO implements KeyEventDispatcher {
 				logic.setShowMap(true);
 
 				break;
-			case 27:									//77='esc'
-				logic.setEsc(true);						//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
-				break;	
-				
+//			case 27:									//77='esc'
+//				logic.setEsc(true);						//wird nicht zurück auf false gestetzt kümmert sich die Logic drum.
+//				break;	
+//				
 			}						
 			
 		} 
@@ -217,5 +225,4 @@ class CoreGame_IO implements KeyEventDispatcher {
 
 		return false;
 	}
-	
 }
