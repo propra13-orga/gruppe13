@@ -705,12 +705,12 @@ class CoreLogic implements Runnable {
 			}
 
 			// set the thread asleep, we don't need it too often
-			try {
-				if ((temp = System.currentTimeMillis() - time) < 16)
-					Thread.sleep(16 - temp);
-			} catch (InterruptedException e) {
-				// don't care if the thread is interrupted
-			}
+				try {
+					if ((temp = System.currentTimeMillis() - time) < 16)
+						Thread.sleep(16 - temp);
+				} catch (InterruptedException e) {
+					// don't care if the thread is interrupted
+				}
 		}
 	}
 }
