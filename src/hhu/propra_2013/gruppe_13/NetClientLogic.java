@@ -120,7 +120,7 @@ class NetClientLogic extends NetIO implements Runnable {
 		freeDown 	= true;
 
 		bulletEnable = true;
-		currentRoom = null;
+		currentRoom = new ArrayList<CoreGameObjects>();
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
@@ -393,6 +393,7 @@ class NetClientLogic extends NetIO implements Runnable {
 			incoming.getList(currentRoom, figure);
 			drawer.setRoom(currentRoom);
 			
+//			System.out.println(currentRoom);
 			// check whether we actually have a list from the server yet, else we try to get one again
 			if (currentRoom == null) 
 				continue;

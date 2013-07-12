@@ -55,7 +55,8 @@ public class ProPra {
 //	}
 	
 	static void errorOutput (int error, Exception e) {
-		
+		System.err.println("Brougth error to ProPra: "+error);
+		e.printStackTrace();		
 	}
 
 	static void setFullscreen(boolean toggle) {

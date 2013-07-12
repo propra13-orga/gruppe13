@@ -33,6 +33,8 @@ class NetClientIn extends NetIO {
 		// Check whether there is anything to work with in the first place
 		if (currentRoom != null)
 			currentRoom.clear();
+		else
+			return;
 		
 		if (allObjects == null)
 			return;
@@ -63,9 +65,9 @@ class NetClientIn extends NetIO {
 		while (running) {
 			// read objects from the stream
 			try {
-				System.out.println("reading in client");
+//				System.out.println("reading in client");
 				incoming = receiveObjects.readObject();
-				System.out.println(incoming);
+//				System.out.println(incoming);
 				
 				// if they are of the desired type, add them to the current arraylist
 				if (incoming instanceof CoreGameObjects){
@@ -74,7 +76,7 @@ class NetClientIn extends NetIO {
 				}
 				
 			} catch (ClassNotFoundException | IOException e) {
-				System.err.println("Client: Object could not be read. ");
+				System.err.println("Error in NetClientIn");
 				e.printStackTrace();
 			}
 		}

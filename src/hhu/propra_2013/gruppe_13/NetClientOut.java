@@ -64,10 +64,12 @@ class NetClientOut extends NetIO {
 				toSend = sendList.get(i);
 				
 				try {
+					outgoing.reset();
 					outgoing.writeObject(toSend);
 					outgoing.flush();
 				} catch (IOException e) {
-					ProPra.errorOutput(CONNECTION_CLIENT_WRITE, e);
+					System.err.println("Error in NetClientOut");
+					e.printStackTrace();
 				}
 			}
 			

@@ -124,7 +124,7 @@ class NetServerIn extends NetIO {
 					lock.unlock();
 
 				}
-				System.out.println("from client: "+incoming);
+//				System.out.println("from client: "+incoming);
 					
 			} catch (ClassNotFoundException | IOException e) {
 				System.err.println("Object could not be read. ");

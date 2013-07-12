@@ -89,7 +89,7 @@ class NetClientGameDrawer implements Runnable {
 				g2d.drawImage(surface, x0, y0, xMax, yMax, this);
 				g2d.setColor(Color.black);
 				
-				System.out.println("Room in Drawer: "+room);
+//				System.out.println("Room in Drawer: "+room);
 				
 				for(int i=0; i<room.size(); i++) {
 					room.get(i).draw(g2d, x0, y0, step);
