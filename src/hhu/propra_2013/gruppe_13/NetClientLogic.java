@@ -1,6 +1,7 @@
 package hhu.propra_2013.gruppe_13;
 
 import java.util.ArrayList;
+import java.util.concurrent.locks.Lock;
 
 class NetClientLogic extends NetIO implements Runnable {
 	// set these for the walking direction of the figure
@@ -61,8 +62,9 @@ class NetClientLogic extends NetIO implements Runnable {
 	private NetClientIn		incoming;
 	private NetClientOut 	outgoing;
 	
-	// the clients drawing class
+	// the clients drawing class and lock for synchronization
 	private NetClientGameDrawer drawer;
+	private Lock 				lock;
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	@Override
@@ -105,12 +107,13 @@ class NetClientLogic extends NetIO implements Runnable {
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Initiate the current objects variables
-	NetClientLogic(Figure inFigure, NetClientIn incoming, NetClientOut outgoing, NetClientGameDrawer drawer) {
+	NetClientLogic(Figure inFigure, NetClientIn incoming, NetClientOut outgoing, NetClientGameDrawer drawer, Lock lock) {
 		running = true;
 		
 		this.incoming 	= incoming;
 		this.outgoing 	= outgoing;	
 		this.drawer		= drawer;
+		this.lock		= lock;
 		
 		figure = inFigure;
 		
@@ -390,8 +393,10 @@ class NetClientLogic extends NetIO implements Runnable {
 			time = System.currentTimeMillis();
 			
 			// get the current room from the server
+			lock.lock();
 			incoming.getList(currentRoom, figure);
 			drawer.setRoom(currentRoom);
+			lock.unlock();
 			
 //			System.out.println(currentRoom);
 			// check whether we actually have a list from the server yet, else we try to get one again

@@ -26,7 +26,7 @@ class NetServerIn extends NetIO {
 		location 	= new int[2];
 		figure		= null;
 		map 		= null;
-		attacks		= null;
+		attacks		= new ArrayList<Attack>();
 		
 		receiveObjects = incoming;
 		
@@ -94,7 +94,9 @@ class NetServerIn extends NetIO {
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
 	void removeAttack(Attack attack) {
+		lock.lock();
 		attacks.remove(attack);
+		lock.unlock();
 	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/

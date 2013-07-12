@@ -3,18 +3,21 @@ package hhu.propra_2013.gruppe_13;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.concurrent.locks.Lock;
 
 class NetClientIn extends NetIO {
 
 	private ObjectInputStream			receiveObjects;
 	private boolean 					running;
 	private ArrayList<CoreGameObjects> 	allObjects;
+	private Lock 						lock;
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
-	NetClientIn (ObjectInputStream inputStream) {
+	NetClientIn (ObjectInputStream inputStream, Lock lock) {
 		running 	= true;
 		allObjects 	= new ArrayList<CoreGameObjects>();
 		receiveObjects = inputStream;
+		this.lock 	= lock;
 	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
@@ -24,7 +27,9 @@ class NetClientIn extends NetIO {
 	}
 	
 	void resetList() {
+		lock.lock();
 		allObjects.clear();
+		lock.unlock();
 	}
 	
 	void getList(ArrayList<CoreGameObjects> currentRoom, Figure figure) {
@@ -71,8 +76,10 @@ class NetClientIn extends NetIO {
 				
 				// if they are of the desired type, add them to the current arraylist
 				if (incoming instanceof CoreGameObjects){
+					lock.lock();
 					if (!allObjects.contains(incoming))
 						allObjects.add((CoreGameObjects)incoming);
+					lock.unlock();
 				}
 				
 			} catch (ClassNotFoundException | IOException e) {

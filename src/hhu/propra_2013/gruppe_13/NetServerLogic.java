@@ -269,11 +269,13 @@ class NetServerLogic extends NetIO {
 		Attack attack;
 		MiscWall wall;
 		boolean deleted;
+		int counter = 0;
 
 		for (int i=0; i < collidable.size(); i++) {
 			deleted = false;
 			// handle attack propagation and check whether the attack is finished
 			if (collidable.get(i) instanceof Attack) {
+				counter++;
 				attack = (Attack) collidable.get(i);
 				attack.propagate(collidable, true);
 
@@ -293,6 +295,7 @@ class NetServerLogic extends NetIO {
 					currentRoom.getContent().remove(wall);
 			}
 		}
+		System.out.println("Attacks in Server: "+counter);
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/

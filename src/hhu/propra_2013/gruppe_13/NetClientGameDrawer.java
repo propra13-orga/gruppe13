@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.concurrent.locks.Lock;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -23,8 +24,10 @@ class NetClientGameDrawer implements Runnable {
 	private MiscStatusBar statusBar;
 	private ArrayList<CoreGameObjects> room;
 	
+	private Lock lock;
+	
 	// Constructor for class
-	NetClientGameDrawer(JFrame inFrame, MiscStatusBar inStatusBar) {
+	NetClientGameDrawer(JFrame inFrame, MiscStatusBar inStatusBar, Lock lock) {
 		gameWindow 	= inFrame;
 		
 		background 	= Toolkit.getDefaultToolkit().getImage("Layout.jpg");
@@ -32,6 +35,8 @@ class NetClientGameDrawer implements Runnable {
 		
 		statusBar	= inStatusBar;
 		gameRunning = true;
+		
+		this.lock	= lock;
 		
 		room = null;
 	}
@@ -48,7 +53,10 @@ class NetClientGameDrawer implements Runnable {
 			
 			// Actual paint method, is great for painting stuff... and cookies
 			protected void paintComponent(Graphics g) {
+				// see that nothing happens to the array while we are working
+				lock.lock();
 				if (room == null) {
+					lock.unlock();
 					return;
 				}
 				
@@ -94,7 +102,7 @@ class NetClientGameDrawer implements Runnable {
 				for(int i=0; i<room.size(); i++) {
 					room.get(i).draw(g2d, x0, y0, step);
 				}
-				
+				lock.unlock();				
 			}
 		};
 		

@@ -9,6 +9,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.JFrame;
 
@@ -119,8 +121,11 @@ class NetClient extends NetIO {
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	private void initGame() {
 		
+		// build a new lock which will act as a synchronizing mechanism
+		Lock lock = new ReentrantLock();
+		
 		// build two handlers, one for incoming and one for outgoing objects
-		NetClientIn clientIn 	= new NetClientIn(incoming);
+		NetClientIn clientIn 	= new NetClientIn(incoming, lock);
 		NetClientOut clientOut	= new NetClientOut(outgoing);
 		
 		// build a new Figure with the color specified by the user
@@ -142,10 +147,10 @@ class NetClient extends NetIO {
 		// get the current frame, initialize a new status bar and a new drawer
 		JFrame gameWindow = ProPra.getGameWindow();
 		MiscStatusBar statusBar = new MiscStatusBar(figure);
-		NetClientGameDrawer drawer = new NetClientGameDrawer(gameWindow, statusBar);
+		NetClientGameDrawer drawer = new NetClientGameDrawer(gameWindow, statusBar, lock);
 				
 		// initialize logic with all threadable objects, the idea is to let the logic terminate everthing
-		NetClientLogic logic = new NetClientLogic(figure, clientIn, clientOut, drawer);
+		NetClientLogic logic = new NetClientLogic(figure, clientIn, clientOut, drawer, lock);
 		
 		// set the windows content pane as the game drawer, build a new GameIO for keyboard input/output
 		gameWindow.setContentPane(drawer.init());

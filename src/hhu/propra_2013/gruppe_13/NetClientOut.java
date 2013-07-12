@@ -3,6 +3,8 @@ package hhu.propra_2013.gruppe_13;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 class NetClientOut extends NetIO {
 
@@ -13,17 +15,17 @@ class NetClientOut extends NetIO {
 	// to check the threads liveliness
 	private boolean 					running;
 	
+	// build a new lock for synchronization
+	private Lock lock;
+	
 	/*------------------------------------------------------------------------------------------------------------------------*/
 	NetClientOut(ObjectOutputStream outputStream) {
 		running = true;
 		sendList = new ArrayList<CoreGameObjects>();
 		outgoing = outputStream;
 		
-//		try {
-//			outgoing = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-//		} catch (IOException e) {
-//			ProPra.errorOutput(CONNECTION_CLIENT_OOS, e);
-//		}
+		this.lock = new ReentrantLock();
+		
 	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
@@ -36,6 +38,7 @@ class NetClientOut extends NetIO {
 	void sendList(ArrayList<CoreGameObjects> toSend) {
 		CoreGameObjects toCopy;
 		
+		lock.lock();
 		sendList.clear();
 		
 		for (int i=0; i<toSend.size(); i++) {
@@ -47,6 +50,7 @@ class NetClientOut extends NetIO {
 			else if (toCopy instanceof Attack) 
 				sendList.add(((Attack)toCopy).copy());
 		}
+		lock.unlock();
 	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
@@ -60,6 +64,7 @@ class NetClientOut extends NetIO {
 		while (running) {
 			time = System.currentTimeMillis();
 			
+			lock.lock();
 			for (int i=0; i<sendList.size(); i++) {
 				toSend = sendList.get(i);
 				
@@ -72,11 +77,12 @@ class NetClientOut extends NetIO {
 					e.printStackTrace();
 				}
 			}
+			lock.unlock();
 			
 			// set the thread asleep, we don't need it too often
 			try {
-				if ((temp = System.currentTimeMillis() - time) < 8)
-					Thread.sleep(8 - temp);
+				if ((temp = System.currentTimeMillis() - time) < 16)
+					Thread.sleep(16 - temp);
 			} catch (InterruptedException e) {
 				// don't care if the thread is interrupted
 			}
