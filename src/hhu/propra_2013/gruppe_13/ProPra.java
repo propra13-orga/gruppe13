@@ -50,6 +50,11 @@ public class ProPra {
 		gameWindow.setVisible(true);
 	}
 	
+	static void initIntro(){
+		gameWindow.setContentPane(ScreenIntro.showIntro(gameWindow));
+		gameWindow.setVisible(true);
+	}
+	
 //	void initMapEditor(){
 //		gameWindow.setContentPane(CoreMapEditor.showMapCreator(gameWindow));
 //	}
@@ -76,6 +81,8 @@ public class ProPra {
 		gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		gameWindow.setUndecorated(windowMode);
 		
-		initMenu();
+		initIntro();
+		
+		//initMenu();
 	}
 }

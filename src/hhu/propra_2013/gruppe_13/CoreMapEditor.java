@@ -421,6 +421,8 @@ public class CoreMapEditor {
 					}//Ende if block
 				}//Ende edit Array
 				
+				//TODO Dokumentieren
+				
 				public MapElement(int i, int j) {
 					
 					final int x = i;
@@ -578,6 +580,9 @@ public class CoreMapEditor {
 					roomWriter.println("");//Zeilenumbruch
 					roomWriter.flush();
 				}
+				
+				roomWriter.close();
+				
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
