@@ -50,6 +50,7 @@ public class ProPra {
 		gameWindow.setVisible(true);
 	}
 	
+	//Method for showing an intro before the menu
 	static void initIntro(){
 		gameWindow.setContentPane(ScreenIntro.showIntro(gameWindow));
 		gameWindow.setVisible(true);
