@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 class ItemResurrect extends Item{
 
+	private long 	id;
 	private static final long serialVersionUID = 1L;
 	
 	private double 	x, y;
@@ -15,7 +16,7 @@ class ItemResurrect extends Item{
 	private int 	prize;
 //	private Figure 	figure;
 	
-	ItemResurrect(double initX, double initY, int initWidth, int initHeight) {
+	ItemResurrect(double initX, double initY, int initWidth, int initHeight, long id) {
 		x	= initX;
 		y	= initY;
 		r = Math.max(width, height);
@@ -23,6 +24,13 @@ class ItemResurrect extends Item{
 		width	= initHeight;
 		prize 	= 5;
 //		figure 	= inFigure;
+		
+		this.id = id;
+	}
+	
+	@Override
+	long getID() {
+		return id;
 	}
 	
 	int getPrize(){

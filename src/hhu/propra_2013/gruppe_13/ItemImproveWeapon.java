@@ -6,19 +6,26 @@ import java.util.ArrayList;
 
 class ItemImproveWeapon extends Item{
 
+	private long 	id;
 	private static final long serialVersionUID = 1L;
 	
 	private double 	x, y;
 	private double	r;
 	private double 	height, width;
 	
-	ItemImproveWeapon(double initX, double initY, int initWidth, int initHeight, int inHP) {
+	ItemImproveWeapon(double initX, double initY, int initWidth, int initHeight, int inHP, long id) {
 		x	= initX;
 		y	= initY;
 		r = Math.max(width, height);
 		height	= initWidth;
 		width	= initHeight;
 		
+		this.id = id;
+	}
+	
+	@Override
+	long getID() {
+		return id;
 	}
 	
 	@Override

@@ -7,8 +7,9 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.ImageObserver;
 
-class MiscWall extends CoreGameObjects implements ImageObserver {
+class MiscWall extends CoreGameObjects {
 	
+	private long 	id;
 	private static final long serialVersionUID = 1L;
 	/*-----------------------------------------------------------------------------------------------*/
 	// Hitpoints, position and collision radius
@@ -16,11 +17,12 @@ class MiscWall extends CoreGameObjects implements ImageObserver {
 	private double 	x, y, r;
 	private double 	height, width;
 	private double 	v_x, v_y;
-	private final Image wall;
+	private final 	String wall;
+	
+	MiscWall(double initX, double initY, double initWidth, double initHeight, int inHP, long id) {
 		
-	
-	
-	MiscWall(double initX, double initY, double initWidth, double initHeight, int inHP) {
+		this.id = id;
+		
 		x = initX;
 		y = initY;
 		v_x = 0;
@@ -32,10 +34,15 @@ class MiscWall extends CoreGameObjects implements ImageObserver {
 		r = Math.max(width, height);
 		hp = inHP;
 		
-		wall = Toolkit.getDefaultToolkit().getImage("wall66x66.png");
+		wall = "wall66x66.png";
 	}
 	
 	// Getter and Setter methods for above variables
+	@Override
+	long getID() {
+		return id;
+	}
+	
 	int getHP(){
 		return hp;
 	}
@@ -92,9 +99,12 @@ class MiscWall extends CoreGameObjects implements ImageObserver {
 	
 	
 	/*-----------------------------------------------------------------------------------------------*/
+	
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
+		Image imageOfWall = Toolkit.getDefaultToolkit().getImage(wall);
+		
 		g.setColor(Color.green);
-		g.drawImage(wall, xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height), null);
+		g.drawImage(imageOfWall, xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height), null);
 //		g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 	}
 	
@@ -111,10 +121,8 @@ class MiscWall extends CoreGameObjects implements ImageObserver {
 		}
 	}
 
-	@Override
-	public boolean imageUpdate(Image img, int infoflags, int x, int y,
-			int width, int height) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+//	@Override
+//	public boolean imageUpdate(Image img, int infoflags, int x, int y, int width, int height) {
+//		return false;
+//	}
 }

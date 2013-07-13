@@ -11,13 +11,15 @@ class NetClientIn extends NetIO {
 	private boolean 					running;
 	private ArrayList<CoreGameObjects> 	allObjects;
 	private Lock 						lock;
+	private int							clientNo;
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
-	NetClientIn (ObjectInputStream inputStream, Lock lock) {
+	NetClientIn (ObjectInputStream inputStream, Lock lock, int clientNo) {
 		running 	= true;
 		allObjects 	= new ArrayList<CoreGameObjects>();
 		receiveObjects = inputStream;
 		this.lock 	= lock;
+		this.clientNo = clientNo;
 	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
@@ -48,7 +50,7 @@ class NetClientIn extends NetIO {
 			
 			toCopy = allObjects.get(i);
 			
-			if 		(toCopy instanceof Figure)  {
+			if 		(toCopy instanceof Figure && ((Figure)toCopy).getPlayer() == clientNo)  {
 				currentRoom.add(((Figure)toCopy).copy());
 				figure = ((Figure)toCopy).copy();
 			}
@@ -65,9 +67,13 @@ class NetClientIn extends NetIO {
 	@Override
 	public void run() {
 		Object incoming;
+		boolean alreadyThere;
 		
 		// Game loop
 		while (running) {
+			// reset boolean value
+			alreadyThere = false;
+			
 			// read objects from the stream
 			try {
 //				System.out.println("reading in client");
@@ -77,8 +83,23 @@ class NetClientIn extends NetIO {
 				// if they are of the desired type, add them to the current arraylist
 				if (incoming instanceof CoreGameObjects){
 					lock.lock();
-					if (!allObjects.contains(incoming))
+					
+					loop:
+					for (int i=0; i<allObjects.size(); i++) {
+						if (((CoreGameObjects)incoming).getID() == allObjects.get(i).getID()) {
+							alreadyThere = true;
+							break loop;
+						}
+					}
+					
+					if (!alreadyThere) {						
 						allObjects.add((CoreGameObjects)incoming);
+						
+//						if (incoming instanceof Figure) {
+//							System.out.println(" (Client In) Coordinates of the figure: "+((Figure)incoming).getPosX()+" "+((Figure)incoming).getPosY());
+//						}
+//						System.out.println(((CoreGameObjects)incoming).getID());
+					}
 					lock.unlock();
 				}
 				

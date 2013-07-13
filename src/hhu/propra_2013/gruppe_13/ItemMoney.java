@@ -6,18 +6,26 @@ import java.util.ArrayList;
 
 class ItemMoney extends Item {
 
+	private long 	id;
 	private static final long serialVersionUID = 1L;
 	
 	private double 	height, width;
 	private double 	x, y;
 	private double	r;
 	
-	ItemMoney(double initX, double initY, int initHeight, int initWidth){
+	ItemMoney(double initX, double initY, int initHeight, int initWidth, long id){
 		x	= initX;
 		y	= initY;
 		r = Math.max(width, height);
 		height	= initWidth;
 		width	= initHeight;
+		
+		this.id = id;
+	}
+	
+	@Override
+	long getID() {
+		return id;
 	}
 	
 	@Override

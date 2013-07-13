@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 class EnemyRanged extends Enemy {
 	
+	private long 	id;
 	private static final long serialVersionUID = 1L;
 	// type, maximum hp and hp and a stationary variable for initial waiting as the player enters the room
 	private int 	type, maxHp, hp;
@@ -28,7 +29,7 @@ class EnemyRanged extends Enemy {
 	private long 	timeout;
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
-	EnemyRanged (double inx, double iny,double inWidth, double inHeight, int inType, int inStage, int inMode) {
+	EnemyRanged (double inx, double iny,double inWidth, double inHeight, int inType, int inStage, int inMode, long id) {
 		x = inx;
 		y = iny;
 		
@@ -55,9 +56,16 @@ class EnemyRanged extends Enemy {
 		rad = Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_weight)),2);
 		timeout = 16;
 		timer = System.currentTimeMillis();
+		
+		this.id = id;
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
+	@Override
+	long getID() {
+		return id;
+	}
+	
 	@Override
 	int getType() {
 		return type;
@@ -211,7 +219,7 @@ class EnemyRanged extends Enemy {
 		double vxBullet = (figX-x)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
 		double vyBullet = (figY-y)/Math.sqrt(figX*figX-2*figX*x+x*x+figY*figY-2*figY*y+y*y);
 		
-		CoreGameObjects initBullet = new AttackBullet(bulletType, x, y, vx, vy, vxBullet, vyBullet, figure.getPlayer());
+		CoreGameObjects initBullet = new AttackBullet(bulletType, x, y, vx, vy, vxBullet, vyBullet, figure.getPlayer(), CoreGameObjects.allIds++);
 		currentRoom.add(initBullet);
 	}
 	

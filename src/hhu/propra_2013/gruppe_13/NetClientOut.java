@@ -35,21 +35,23 @@ class NetClientOut extends NetIO {
 	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
-	void sendList(ArrayList<CoreGameObjects> toSend) {
-		CoreGameObjects toCopy;
+	void sendList(boolean newAttack, Attack attack, Figure figure) {
 		
+		// lock and clear the list, this way the list won't be corrupted while we are working with it
 		lock.lock();
 		sendList.clear();
 		
-		for (int i=0; i<toSend.size(); i++) {
-			toCopy = toSend.get(i);
-			
-			if 		(toCopy instanceof Figure)
-				sendList.add(((Figure)toCopy).copy());
-			
-			else if (toCopy instanceof Attack) 
-				sendList.add(((Attack)toCopy).copy());
+		// send the current Figure and the new Attack if there is one
+		sendList.add(figure);
+		
+		System.out.println("Coordinates of the figure: "+figure.getPosX()+" "+figure.getPosY());
+		
+		if (newAttack) {
+			sendList.add(attack);
+			System.out.println("Added an attack");
 		}
+		
+		// unlock the list so it can be sent
 		lock.unlock();
 	}
 	

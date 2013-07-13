@@ -43,19 +43,19 @@ class NetServerOut extends NetIO {
 	@Override
 	public void run() {
 		CoreGameObjects toSend;
-//		long threadTimer;
-//		long timerTemp;
+		long threadTimer;
+		long timerTemp;
 
 		while (running) {
-//			threadTimer = System.currentTimeMillis();
-//			
-//			// Try to set the thread asleep, so that other components also have a chance of using system time
-//			try {
-//				if ((timerTemp = System.currentTimeMillis()-threadTimer) < 8) 
-//					Thread.sleep(8-timerTemp);
-//			} catch (InterruptedException e) {
-//				// Do nothing as we don't care if the thread is interrupted
-//			}
+			threadTimer = System.currentTimeMillis();
+			
+			// Try to set the thread asleep, so that other components also have a chance of using system time
+			try {
+				if ((timerTemp = System.currentTimeMillis()-threadTimer) < 8) 
+					Thread.sleep(8-timerTemp);
+			} catch (InterruptedException e) {
+				// Do nothing as we don't care if the thread is interrupted
+			}
 			
 			/* Iterate over all objects and send them. Since the servers logic should always overwrite anything at the clients 
 			 * the entire room will be sent. */

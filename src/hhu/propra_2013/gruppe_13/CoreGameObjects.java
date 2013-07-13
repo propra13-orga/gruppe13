@@ -17,6 +17,8 @@ abstract class CoreGameObjects implements Serializable {
 
 	// serial version ID, the interface Serializable asks for it
 	private static final long serialVersionUID = 1L;
+	
+	static long allIds = 0;
 
 	// declare final variables in order to determine what bullet shall be fired 
 	static final int PLAYER_BULLET_STD 			= 0;
@@ -41,6 +43,12 @@ abstract class CoreGameObjects implements Serializable {
 	static final int ENEMY_FIRE_SHOOTING		= 80;
 	
 	// Getter and Setter methods for Objects used by Logic and GameDrawer classes
+	/**
+	 * Methode um die ID eines GameObject zu erfragen
+	 * @return Gibt die ID des GameObject zurück
+	 * 
+	 * */
+	abstract long 	getID();
 	/**
 	 * Methode um die HP eines GameObject zu erfragen
 	 * @return Gibt die HP des GameObject zurück

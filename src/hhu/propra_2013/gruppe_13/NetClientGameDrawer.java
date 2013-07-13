@@ -55,7 +55,8 @@ class NetClientGameDrawer implements Runnable {
 			protected void paintComponent(Graphics g) {
 				// see that nothing happens to the array while we are working
 				lock.lock();
-				if (room == null) {
+				if (room == null || room.size() == 0) {
+					System.out.println("reachable");
 					lock.unlock();
 					return;
 				}
@@ -98,6 +99,7 @@ class NetClientGameDrawer implements Runnable {
 				g2d.setColor(Color.black);
 				
 //				System.out.println("Room in Drawer: "+room);
+//				System.out.println("Elements in Room: "+room.size());
 				
 				for(int i=0; i<room.size(); i++) {
 					room.get(i).draw(g2d, x0, y0, step);
@@ -138,7 +140,9 @@ class NetClientGameDrawer implements Runnable {
 			time = System.currentTimeMillis();
 			
 			// Repaint the game and wait
-			game.repaint();
+			if ((room != null) && (room.size() != 0)) {
+				game.repaint();
+			}
 						
 			try {
 				// tries to set the draw method at 62.5fps

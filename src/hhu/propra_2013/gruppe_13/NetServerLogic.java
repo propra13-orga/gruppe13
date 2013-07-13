@@ -3,6 +3,8 @@ package hhu.propra_2013.gruppe_13;
 import java.util.ArrayList;
 
 class NetServerLogic extends NetIO {
+	
+	private static long mapID = Long.MAX_VALUE;
 
 	// set these for the running direction of the figure
 	static final int 	NONE		= 0;
@@ -70,6 +72,10 @@ class NetServerLogic extends NetIO {
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Initiate the current objects variables
 	NetServerLogic(CoreLevel level, ArrayList<NetServerIn> incoming, ArrayList<NetServerOut> outgoing) {
+		
+		// set the servers CoreGameObjects static counter to a different value than that of the client
+		CoreGameObjects.allIds = Long.MIN_VALUE;
+
 		running 	= true;
 		stage 		= 1;
 		
@@ -151,11 +157,14 @@ class NetServerLogic extends NetIO {
 		CoreGameObjects collided;
 
 		// check whether there are still enemies in the room
+		enemyCheck:
 		for (int i = 0; i < collidable.size(); i++) {
 			collided = collidable.get(i);
 			if (collided instanceof Enemy){
 				if (((Enemy) collided).leftForDead() == false && ((((Enemy)collided).getType() != Enemy.ENEMY_FIRE) || ((Enemy)collided).getType() != Enemy.ENEMY_FIRE_SHOOTING)) {
-				finished = false;
+					System.out.println("(Server) Enemy left");
+					finished = false;
+					break enemyCheck;
 				}				
 			} 
 		}
@@ -270,6 +279,8 @@ class NetServerLogic extends NetIO {
 		MiscWall wall;
 		boolean deleted;
 		int counter = 0;
+		
+//		System.out.println("Size of collidable array: "+collidable.size());
 
 		for (int i=0; i < collidable.size(); i++) {
 			deleted = false;
@@ -295,7 +306,7 @@ class NetServerLogic extends NetIO {
 					currentRoom.getContent().remove(wall);
 			}
 		}
-		System.out.println("Attacks in Server: "+counter);
+//		System.out.println("Attacks in Server: "+counter);
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
@@ -381,20 +392,20 @@ class NetServerLogic extends NetIO {
 	@Override
 	// Override run method from interface, this will have the game loop
 	public void run() {
-//		long time;
-//		long temp;
+		long time;
+		long temp;
 		boolean newLevel;
 		
 		// set the maps of all clients and add to internal array list
 		for (int i=0; i<incoming.size(); i++) {
-			incoming.get(i).setMap(new Map());
+			incoming.get(i).setMap(new Map(mapID--));
 			incoming.get(i).getMap().setRoom(level.getConstruction());
 		}
 		
 		// game loop
 		while (running) {
 			newLevel = true;
-//			time = System.currentTimeMillis();
+			time = System.currentTimeMillis();
 
 			// iterate over all connections
 			for (int i=0; i<incoming.size(); i++) {
@@ -436,13 +447,13 @@ class NetServerLogic extends NetIO {
 			if (newLevel) {
 				switchLevel();
 			}
-//			// set the thread asleep, we don't need it too often
-//			try {
-//				if ((temp = System.currentTimeMillis() - time) < 8)
-//					Thread.sleep(8 - temp);
-//			} catch (InterruptedException e) {
-//				// don't care if the thread is interrupted
-//			}
+			// set the thread asleep, we don't need it too often
+			try {
+				if ((temp = System.currentTimeMillis() - time) < 16)
+					Thread.sleep(16 - temp);
+			} catch (InterruptedException e) {
+				// don't care if the thread is interrupted
+			}
 		}
 	}
 }

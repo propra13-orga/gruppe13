@@ -19,7 +19,7 @@ class CoreO_Game {
 	CoreO_Game (JFrame inFrame , int mode) {
 		// Initiate object variables
 		gameWindow 	= inFrame;
-		figure 		= new Figure(10.5, 6.5, 1, 1, 0, Color.BLUE);
+		figure 		= new Figure(10.5, 6.5, 1, 1, 0, Color.BLUE, CoreGameObjects.allIds++);
 		
 		// Initialize Logic and Graphics
 		logic 		= new CoreLogic(figure, this, mode);

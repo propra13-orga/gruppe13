@@ -120,16 +120,19 @@ class NetClient extends NetIO {
 	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	private void initGame() {
+		//set an own room of values for the client
+		CoreGameObjects.allIds = (Long.MAX_VALUE/(connNo+1))*(clientNo+1);
+		System.out.println("Clients number range: "+CoreGameObjects.allIds);
 		
 		// build a new lock which will act as a synchronizing mechanism
 		Lock lock = new ReentrantLock();
 		
 		// build two handlers, one for incoming and one for outgoing objects
-		NetClientIn clientIn 	= new NetClientIn(incoming, lock);
+		NetClientIn clientIn 	= new NetClientIn(incoming, lock, clientNo);
 		NetClientOut clientOut	= new NetClientOut(outgoing);
 		
 		// build a new Figure with the color specified by the user
-		Figure figure = new Figure(10.5, 6.5, 1, 1, 0, colors.get(clientNo));
+		Figure figure = new Figure(10.5, 6.5, 1, 1, 0, colors.get(clientNo), CoreGameObjects.allIds++);
 		
 		// tell the server about the figure before anything else happens
 		boolean isOut = false;

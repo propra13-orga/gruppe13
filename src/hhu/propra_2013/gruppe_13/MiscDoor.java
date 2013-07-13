@@ -4,13 +4,15 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 class MiscDoor extends CoreGameObjects {
+	
+	private long 	id;
 	private static final long serialVersionUID = 1L;
 	
-	private double 		x,y,r;
-	private double 		height, width;
-	private int 		destination;
+	private double	x,y,r;
+	private double 	height, width;
+	private int 	destination;	
 	
-	MiscDoor (double initX, double initY, double initWidth, double initHeight, double initRadius, int inDestination){
+	MiscDoor (double initX, double initY, double initWidth, double initHeight, double initRadius, int inDestination, long id){
 		x 			= initX;
 		y 			= initY;
 		r			= 2*Math.max(initWidth, initHeight);
@@ -20,6 +22,12 @@ class MiscDoor extends CoreGameObjects {
 		
 		destination	= inDestination; //Destination stores where the door leads to. 0=goes up 1=goes right 2= goes down 3= goes left 4= Goes to the next Level
 
+		this.id = id;
+	}
+	
+	@Override
+	long getID() {
+		return id;
 	}
 	
 	int getDestination(){

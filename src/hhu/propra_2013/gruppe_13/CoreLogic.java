@@ -166,7 +166,7 @@ class CoreLogic implements Runnable {
 		locationY = level.getStartY();
 		
 		// create the Map
-		map	= new Map();
+		map	= new Map(CoreGameObjects.allIds++);
 		map.setRoom(level.getConstruction());
 		map.setVisited(locationX, locationY);
 		
@@ -530,7 +530,7 @@ class CoreLogic implements Runnable {
 		// If the player has enough resources, create a new area of effect attack
 		if (aoe && figure.getChocolate() > 0) {
 			figure.setChocolate(figure.getChocolate()-1);
-			CoreGameObjects melee = new AttackMelee(figX, figY, 0, 0, Attack.PLAYER_MELEE_AOE, figure, collidable, figure.getPlayer());
+			CoreGameObjects melee = new AttackMelee(figX, figY, 0, 0, Attack.PLAYER_MELEE_AOE, figure, collidable, figure.getPlayer(), CoreGameObjects.allIds++);
 			currentRoom.getContent().add(melee);
 		}
 		
@@ -595,7 +595,7 @@ class CoreLogic implements Runnable {
 					signVY = 1;
 				}
 
-				CoreGameObjects initBullet = new AttackBullet(figure.getBulletType(), figX, figY, figVX, figVY, signVX, signVY, figure.getPlayer());
+				CoreGameObjects initBullet = new AttackBullet(figure.getBulletType(), figX, figY, figVX, figVY, signVX, signVY, figure.getPlayer(), CoreGameObjects.allIds++);
 
 				currentRoom.getContent().add(initBullet);
 				bulletEnable = false;

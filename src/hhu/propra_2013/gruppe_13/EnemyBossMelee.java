@@ -7,6 +7,7 @@ import java.util.ArrayList;
 class EnemyBossMelee extends Enemy{
 
 	private static final long serialVersionUID = 1L;
+	private long 	id;
 	// Basic variables for the enemy
 	private double 	rad;
 	private int 	type, hp, stationary;
@@ -24,9 +25,9 @@ class EnemyBossMelee extends Enemy{
 	private long 	timer;
 	private long 	timeout;
 	
-	CoreRoom room;
+	private CoreRoom room;
 	
-	EnemyBossMelee(double inx, double iny,double inWidth, double inHeight, int inType, int inStage, CoreRoom inRoom, int inMode){
+	EnemyBossMelee(double inx, double iny,double inWidth, double inHeight, int inType, int inStage, CoreRoom inRoom, int inMode, long id){
 		x 			= inx;
 		y 			= iny;
 		
@@ -84,11 +85,19 @@ class EnemyBossMelee extends Enemy{
 		rad = Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_weight)),2);
 		timeout = 16;
 		timer = System.currentTimeMillis();
+		
+		this.id = id;
 	}
 		
 	
 	
 /*getter and setter methods for the melee enemy--------------------------------------------------------------------------------------------------------*/
+	
+	@Override
+	long getID() {
+		return id;
+	}
+	
 	@Override
 	int getType() {
 		return type;
@@ -200,7 +209,7 @@ class EnemyBossMelee extends Enemy{
 		// check whether the fucking thing is dead yet, initiate dying sequence if that is the case
 		if (hp <= 0) {
 			dying = true;
-			room.getContent().add(new MiscDoor(17, 6.5, 1, 1, 0.5, 4));
+			room.getContent().add(new MiscDoor(17, 6.5, 1, 1, 0.5, 4, CoreGameObjects.allIds++));
 		}
 		System.out.println("enemy hp: "+hp);
 

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 class ItemArmor extends Item{
 
+	private long 	id;
 	private static final long serialVersionUID = 1L;
 	
 	private double 	x, y;
@@ -13,13 +14,19 @@ class ItemArmor extends Item{
 	private double 	height, width;
 
 	
-	ItemArmor(double initX, double initY, int initWidth, int initHeight, int inHP) {
+	ItemArmor(double initX, double initY, int initWidth, int initHeight, int inHP, long id) {
 		x	= initX;
 		y	= initY;
 		r = Math.max(width, height);
 		height	= initWidth;
 		width	= initHeight;
+		this.id = id;
 		
+	}
+	
+	@Override
+	long getID() {
+		return id;
 	}
 	
 	@Override

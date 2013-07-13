@@ -23,16 +23,22 @@ class Map extends CoreGameObjects {
 	 * @param y Y-Coordinate in the Room array
 	 */
 
+	private long 	id;
 	private static final long serialVersionUID = 1L;
 	
-	private int x,y;
-	private int map [][] = new int[10][10];
-	private int minX, maxX, minY, maxY;
-	private int curX, curY;
+	private int 	x,y;
+	private int 	map [][] = new int[10][10];
+	private int 	minX, maxX, minY, maxY;
+	private int 	curX, curY;
 	private boolean now; //gets set by logic for drawing or not drawing the map
 	
 
 	/*------------------------------------------------------------------------------------------------------------------------*/
+	@Override
+	long getID() {
+		return id;
+	}
+	
 	@Override
 	int getHP() {
 		return 0;
@@ -188,7 +194,9 @@ class Map extends CoreGameObjects {
 	/**
 	 * here the consructor, it only initializes the array
 	 */
-	Map(){
+	Map(long id){
+		
+		this.id = id;
 		for (x = 0;x < 10; x++){
 			for (y = 0; y < 10; y++){
 				map[x][y] = 0; //nullen des map array
