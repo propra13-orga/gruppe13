@@ -20,15 +20,11 @@ import java.io.*;
 
 public class CoreMapEditor {
 	/**
-	 * Map Builder, records klicks and writes an array that is written in a textfile!
+	 * Bietet eine Grafische Oberfläche zum Designen einzelner Räume sowie die Möglichkeit diese zu speichern
 	 * @author	gruppe13
-	 * @param	char room[][]	Array that contains the room for writing it into the textfile
-	 * @param	wall			wall variable
-	 * @param	enemy(type)		
-	 * @param	type			type of the item or enemy
-	 * @param	door			
-	 * @param	item(type)
 	 */	
+	
+	//TODO Mehr Dokumentation
 	static char obj;
 	public char room[][] = new char[23][14];
 	private static JFrame game;
@@ -37,7 +33,10 @@ public class CoreMapEditor {
 //	private static RadioPane radioPane;
 	
 	
-	
+	/**
+	 * Grafische Oberfläche mit den Panels und Buttons zum setzen der Objekte
+	 * @param gameWindow Das Spielfenster
+	 */
 	
 	static void showMapCreator(JFrame gameWindow){
 		
