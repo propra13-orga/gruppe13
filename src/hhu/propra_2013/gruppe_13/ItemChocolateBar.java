@@ -4,6 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+/**
+ * Klasse für die "Munition" des AoE Angriffs
+ * @author Gruppe13
+ *
+ */
+
+
 class ItemChocolateBar extends Item{
 
 	private long 	id;
@@ -12,6 +19,17 @@ class ItemChocolateBar extends Item{
 	private double 	x, y;
 	private double	r;
 	private double 	height, width;
+	
+	/**
+	 * Konstruktor
+	 * @param initX			X-Position im Raum
+	 * @param initY			Y-Position im Raum
+	 * @param initWidth		Breite des Items
+	 * @param initHeight	Höhe des Items
+	 * @param inHP			'HP' des Items
+	 * @param id			Eindeutige ID (Multiplayer)
+	 */
+	
 	
 	ItemChocolateBar(double initX, double initY, int initWidth, int initHeight, int inHP, long id) {
 		x	= initX;
@@ -100,6 +118,13 @@ class ItemChocolateBar extends Item{
 	void setHP(int inHP) {
 	}
 
+	
+	/**
+	 * Änderung der Figur nach aufsammeln des Items
+	 * Der Figur wird ein Rüstungspunkt hinzugefügt
+	 * @param	room	Liste der Objekte im Raum, um das Item nach dem Aufheben aus dem Raum zu entfernen
+	 * @param	figure	Die Figur, um ihr den neuen Rüstungspunkt übergeben zu können
+	 */
 	
 	@Override
 	void modFigure(ArrayList<CoreGameObjects> room, Figure figure) {
