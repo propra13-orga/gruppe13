@@ -328,7 +328,7 @@ class NetClientLogic extends NetIO implements Runnable {
 		// for shooting has expired
 		if (fireDirection != FIRENONE) {
 			
-			System.out.println(fireDirection);
+//			System.out.println(fireDirection);
 			
 			if (!bulletEnable) {
 				if (System.currentTimeMillis() - bulletCoolDown > figure.getBulletCoolDownTime())

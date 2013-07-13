@@ -162,7 +162,7 @@ class NetServerLogic extends NetIO {
 			collided = collidable.get(i);
 			if (collided instanceof Enemy){
 				if (((Enemy) collided).leftForDead() == false && ((((Enemy)collided).getType() != Enemy.ENEMY_FIRE) || ((Enemy)collided).getType() != Enemy.ENEMY_FIRE_SHOOTING)) {
-					System.out.println("(Server) Enemy left");
+//					System.out.println("(Server) Enemy left");
 					finished = false;
 					break enemyCheck;
 				}				
@@ -348,6 +348,8 @@ class NetServerLogic extends NetIO {
 			figure.setActivity(FINISHED);
 			break;
 		}
+		
+		figure.setPos(figX, figY);
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/

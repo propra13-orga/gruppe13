@@ -122,7 +122,7 @@ class NetClient extends NetIO {
 	private void initGame() {
 		//set an own room of values for the client
 		CoreGameObjects.allIds = (Long.MAX_VALUE/(connNo+1))*(clientNo+1);
-		System.out.println("Clients number range: "+CoreGameObjects.allIds);
+//		System.out.println("Clients <number range: "+CoreGameObjects.allIds);
 		
 		// build a new lock which will act as a synchronizing mechanism
 		Lock lock = new ReentrantLock();
@@ -166,7 +166,7 @@ class NetClient extends NetIO {
 		new Thread(logic).start();
 		new Thread(drawer).start();
 		
-		System.out.println("initiated all client threads");
+//		System.out.println("initiated all client threads");
 	}
 	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -206,9 +206,9 @@ class NetClient extends NetIO {
 				
 				// if the string should match, begin the game
 				else if (inObject instanceof String) {
-					System.out.println((String)inObject);
+//					System.out.println((String)inObject);
 					if (((String)inObject).contentEquals("begin")) {
-						System.out.println("beginning in client");
+//						System.out.println("beginning in client");
 						
 						this.initGame();
 						this.running = false;
@@ -228,6 +228,6 @@ class NetClient extends NetIO {
 				System.err.println(e.getMessage());
 			}
 		}
-		System.out.println("terminating client");
+//		System.out.println("terminating client");
 	}
 }
