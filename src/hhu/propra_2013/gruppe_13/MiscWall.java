@@ -1,11 +1,17 @@
 package hhu.propra_2013.gruppe_13;
 
 import java.awt.Color;
-
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.ImageObserver;
+
+/**
+ * Die gemeine Wand
+ * @author Gruppe13
+ *
+ */
+
 
 class MiscWall extends CoreGameObjects {
 	
@@ -18,6 +24,18 @@ class MiscWall extends CoreGameObjects {
 	private double 	height, width;
 	private double 	v_x, v_y;
 	private final 	String wall;
+	
+	/**
+	 * Konstruktor
+	 * 
+	 * @param initX			X-Position der Wand
+	 * @param initY			Y-Position der Wand
+	 * @param initWidth		Breite der Wand
+	 * @param initHeight	Höhe der Wand
+	 * @param inHP			HP der Wand, sie kann mit der AoE Attacke zerstört werden
+	 * @param id			Eindeutige ID (Multiplayer)
+	 */
+	
 	
 	MiscWall(double initX, double initY, double initWidth, double initHeight, int inHP, long id) {
 		
@@ -109,7 +127,7 @@ class MiscWall extends CoreGameObjects {
 	}
 	
 	void attack() {
-		// Keep empty, Walls don't attack
+		// Keep empty, Walls don't attack (because they're lazy)
 	}
 
 	@Override

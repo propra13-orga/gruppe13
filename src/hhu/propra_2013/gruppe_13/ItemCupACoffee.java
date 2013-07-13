@@ -4,6 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+/**
+ * Das Heilungsitem
+ * @author Gruppe13
+ */
+
+
 class ItemCupACoffee extends Item {
 
 	private long id;
@@ -12,6 +18,17 @@ class ItemCupACoffee extends Item {
 	private double 	x, y;
 	private double	r;
 	private double 	height, width;
+	
+	/**
+	 * Konstruktor
+	 * @param initX			x-Position des Items
+	 * @param initY			Y-Position des Items
+	 * @param initWidth		Breite des Items
+	 * @param initHeight	Höhe des Items
+	 * @param inHP			"HP" des Items
+	 * @param id			Eindeutige ID (multiplayer)
+	 */
+	
 	
 	ItemCupACoffee(double initX, double initY, int initWidth, int initHeight, int inHP, long id) {
 		x	= initX;
