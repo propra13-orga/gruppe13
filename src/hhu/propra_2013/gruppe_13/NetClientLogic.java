@@ -66,6 +66,10 @@ class NetClientLogic extends NetIO implements Runnable {
 	private NetClientGameDrawer drawer;
 	private Lock 				lock;
 	
+	// for sending of new Attacks
+	private boolean newAttack;
+	private Attack 	attack;
+	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	@Override
 	void setRunning(boolean running) {
@@ -310,8 +314,11 @@ class NetClientLogic extends NetIO implements Runnable {
 		// If the player has enough resources, create a new area of effect attack
 		if (aoe && figure.getChocolate() > 0) {
 			figure.setChocolate(figure.getChocolate()-1);
-			CoreGameObjects melee = new AttackMelee(figX, figY, 0, 0, Attack.PLAYER_MELEE_AOE, figure, currentRoom, figure.getPlayer());
+			CoreGameObjects melee = new AttackMelee(figX, figY, 0, 0, Attack.PLAYER_MELEE_AOE, figure, currentRoom, figure.getPlayer(), CoreGameObjects.allIds++);
 			currentRoom.add(melee);
+			
+			attack = (Attack)melee;
+			newAttack = true;
 		}
 		
 		// regardless of whether an attack has been fired we need to reset this variable
@@ -320,6 +327,8 @@ class NetClientLogic extends NetIO implements Runnable {
 		// Create new Bullets if the player wishes to do so, and the cooldown
 		// for shooting has expired
 		if (fireDirection != FIRENONE) {
+			
+			System.out.println(fireDirection);
 			
 			if (!bulletEnable) {
 				if (System.currentTimeMillis() - bulletCoolDown > figure.getBulletCoolDownTime())
@@ -374,8 +383,11 @@ class NetClientLogic extends NetIO implements Runnable {
 					signVY = 1;
 				}
 
-				CoreGameObjects initBullet = new AttackBullet(figure.getBulletType(), figX, figY, figVX, figVY, signVX, signVY, figure.getPlayer());
+				CoreGameObjects initBullet = new AttackBullet(figure.getBulletType(), figX, figY, figVX, figVY, signVX, signVY, figure.getPlayer(), CoreGameObjects.allIds++);
 
+				attack = (Attack)initBullet;
+				newAttack = true;
+				
 				currentRoom.add(initBullet);
 				bulletEnable = false;
 			}
@@ -417,8 +429,12 @@ class NetClientLogic extends NetIO implements Runnable {
 			}
 
 			// send all modifications to the room and reset incoming list of the connection
-			outgoing.sendList(currentRoom);
+			outgoing.sendList(newAttack, attack, figure);
 			incoming.resetList();
+			
+			// reset variables for toggling attacks
+			newAttack = false;
+			attack = null;
 			
 			// set the thread asleep, we don't need it too often
 			try {

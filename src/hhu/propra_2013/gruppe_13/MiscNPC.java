@@ -3,7 +3,6 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.io.Serializable;
 
 /**
  * Enthält alle Informationen für Quest und Story NPCs, deren Text und dessen Anzeigedauer
@@ -14,6 +13,7 @@ import java.io.Serializable;
 
 class MiscNPC extends CoreGameObjects {
 
+	private long 	id;
 	private static final long serialVersionUID = 1L;
 
 	private boolean talk; //gibt an ob der NPC grade redet/reden darf
@@ -52,8 +52,9 @@ class MiscNPC extends CoreGameObjects {
 	 * @param inRoom Der gesamte Raum in dem der NPC sich befindet, genutzt um den NPC Gegner/Items spawnen zu lassen
 	 * @see	CoreRoom
 	 */
-	MiscNPC(double initX, double initY, double initHeight, double initWidth, String inBoss, int inStage, String inType, CoreRoom inRoom){
+	MiscNPC(double initX, double initY, double initHeight, double initWidth, String inBoss, int inStage, String inType, CoreRoom inRoom, long id){
 
+		this.id = id;
 		
 		x = initX;
 		y = initY;
@@ -88,6 +89,11 @@ class MiscNPC extends CoreGameObjects {
 
 	/*-----------------------------------------------------------------------------------------------------*/
 	//Getter
+	@Override
+	long getID() {
+		return id;
+	}
+	
 	@Override
 	int getHP() {
 		// TODO Auto-generated method stub
@@ -258,7 +264,7 @@ class MiscNPC extends CoreGameObjects {
 				case(0):
 
 					talk = false; 
-					currentRoom.getContent().add(new EnemyMelee(x, y, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, currentRoom.getMode()));
+					currentRoom.getContent().add(new EnemyMelee(x, y, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, currentRoom.getMode(), CoreGameObjects.allIds++));
 					currentRoom.getContent().remove(this);//NPC nach dem reden entfernen
 				
 				break;
@@ -266,10 +272,10 @@ class MiscNPC extends CoreGameObjects {
 				case(1):
 					
 					talk = false;
-					currentRoom.getContent().add(new EnemyMelee (0.51, 6.49, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, currentRoom.getMode()));//spawnt vor jeder der 4 möglichen Türpositionen einen Gegner
-					currentRoom.getContent().add(new EnemyMelee (21.49, 6.49, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, currentRoom.getMode()));
-					currentRoom.getContent().add(new EnemyMelee (10.49, 0.51, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, currentRoom.getMode()));
-					currentRoom.getContent().add(new EnemyMelee (10.49, 12.49, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, currentRoom.getMode()));
+					currentRoom.getContent().add(new EnemyMelee (0.51, 6.49, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, currentRoom.getMode(), CoreGameObjects.allIds++));//spawnt vor jeder der 4 möglichen Türpositionen einen Gegner
+					currentRoom.getContent().add(new EnemyMelee (21.49, 6.49, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, currentRoom.getMode(), CoreGameObjects.allIds++));
+					currentRoom.getContent().add(new EnemyMelee (10.49, 0.51, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, currentRoom.getMode(), CoreGameObjects.allIds++));
+					currentRoom.getContent().add(new EnemyMelee (10.49, 12.49, 1, 1, Enemy.ENEMY_FIGURE_RUN, stage, currentRoom.getMode(), CoreGameObjects.allIds++));
 					currentRoom.getContent().remove(this);
 					
 					
@@ -278,7 +284,7 @@ class MiscNPC extends CoreGameObjects {
 				case(2):
 					
 					talk = false;
-					currentRoom.getContent().add(new ItemImproveWeapon(x, y, 1, 1, 1));
+					currentRoom.getContent().add(new ItemImproveWeapon(x, y, 1, 1, 1, CoreGameObjects.allIds++));
 					currentRoom.getContent().remove(this);
 					
 				break;

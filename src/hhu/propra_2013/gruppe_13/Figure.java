@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 
 class Figure extends CoreGameObjects {
 	
+	private long id;
 	private static final long serialVersionUID = 1L;
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// set these for the viewing direction of the figure
@@ -55,7 +56,7 @@ class Figure extends CoreGameObjects {
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// class constructor
-	Figure(double initX, double initY, double initHeight, double initWidth, int player, Color figureColor) {
+	Figure(double initX, double initY, double initHeight, double initWidth, int player, Color figureColor, long id) {
 		x 		= initX;
 		y 		= initY;
 		
@@ -82,9 +83,15 @@ class Figure extends CoreGameObjects {
 		
 		this.player = player;
 		this.figureColor = figureColor;
+		this.id = id;
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
+	@Override
+	long getID() {
+		return id;
+	}
+	
 	int getBulletCoolDownTime() {
 		return bulletCoolDownTime;
 	}
@@ -291,7 +298,7 @@ class Figure extends CoreGameObjects {
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	Figure copy() {
 		// create a new figure object
-		Figure figure = new Figure(this.x, this.y, this.height, this.width, this.player, this.figureColor);
+		Figure figure = new Figure(this.x, this.y, this.height, this.width, this.player, this.figureColor, this.id);
 		
 		// set the viewing direction of the new figure
 		figure.setDirection(this.direction);

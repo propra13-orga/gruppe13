@@ -7,6 +7,7 @@ import java.util.ArrayList;
 class EnemyBomberman extends Enemy{
 	
 	private static final long serialVersionUID = 1L;
+	private long 	id;
 	// type, maximum hp and hp and a stationary variable for initial waiting as the player enters the room
 	private int 	type, maxHp, hp;
 	private int 	stationary;
@@ -28,7 +29,7 @@ class EnemyBomberman extends Enemy{
 	private long	timeout;
 	
 	// Standard constructor, build enemies according to input 
-	EnemyBomberman (double inx, double iny,double inWidth, double inHeight, int inType, int inStage){
+	EnemyBomberman (double inx, double iny,double inWidth, double inHeight, int inType, int inStage, long id){
 		x 			= inx;
 		y 			= iny;
 		
@@ -65,11 +66,18 @@ class EnemyBomberman extends Enemy{
 		rad = Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_weight)),2);
 		timeout = 16;
 		timer = System.currentTimeMillis();
+		
+		this.id = id;
 	}
 		
 	
 	
 /*getter and setter methods for the melee enemy--------------------------------------------------------------------------------------------------------*/
+	@Override
+	long getID() {
+		return id;
+	}
+	
 	@Override
 	int getType() {
 		return type;

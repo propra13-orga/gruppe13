@@ -137,45 +137,45 @@ class NetClientGameIO implements KeyEventDispatcher {
 		if (left) move++;
 		if (right) move++;
 		
-		if (move == 0) 	logic.setDirection(CoreLogic.NONE);
+		if (move == 0) 	logic.setDirection(NetClientLogic.NONE);
 		
 		if (move == 1) {
-			if (up) 		logic.setDirection(CoreLogic.UP);
-			else if (down)	logic.setDirection(CoreLogic.DOWN);
-			else if (right)	logic.setDirection(CoreLogic.RIGHT);
-			else if (left)	logic.setDirection(CoreLogic.LEFT);
+			if (up) 		logic.setDirection(NetClientLogic.UP);
+			else if (down)	logic.setDirection(NetClientLogic.DOWN);
+			else if (right)	logic.setDirection(NetClientLogic.RIGHT);
+			else if (left)	logic.setDirection(NetClientLogic.LEFT);
 		}
 		
 		else if (move == 2) {
 			if (up) {
-				if (down)		logic.setDirection(CoreLogic.NONE);
-				else if (right)	logic.setDirection(CoreLogic.UPRIGHT);
-				else			logic.setDirection(CoreLogic.UPLEFT);
+				if (down)		logic.setDirection(NetClientLogic.NONE);
+				else if (right)	logic.setDirection(NetClientLogic.UPRIGHT);
+				else			logic.setDirection(NetClientLogic.UPLEFT);
 			}
 			else if (down) {
-				if (right)		logic.setDirection(CoreLogic.DOWNRIGHT);
-				else			logic.setDirection(CoreLogic.DOWNLEFT);
+				if (right)		logic.setDirection(NetClientLogic.DOWNRIGHT);
+				else			logic.setDirection(NetClientLogic.DOWNLEFT);
 			}
 			else
-				logic.setDirection(CoreLogic.NONE);
+				logic.setDirection(NetClientLogic.NONE);
 		}
 		
 		else if (move == 3) {
 			if (up) {
 				if (down) {
-					if (right) 	logic.setDirection(CoreLogic.RIGHT);
-					else		logic.setDirection(CoreLogic.LEFT);
+					if (right) 	logic.setDirection(NetClientLogic.RIGHT);
+					else		logic.setDirection(NetClientLogic.LEFT);
 				}
 				else
-					logic.setDirection(CoreLogic.UP);
+					logic.setDirection(NetClientLogic.UP);
 			}
 			
 			else if (down) 
-				logic.setDirection(CoreLogic.DOWN);
+				logic.setDirection(NetClientLogic.DOWN);
 		}
 		
 		else
-			logic.setDirection(CoreLogic.NONE);
+			logic.setDirection(NetClientLogic.NONE);
 
 		
 		if (fireup) fire++;								//Zaehle Anzahl gleichzeitig gedrueckter Bewegungstasten
@@ -183,45 +183,45 @@ class NetClientGameIO implements KeyEventDispatcher {
 		if (fireleft) fire++;
 		if (fireright) fire++;
 		
-		if (fire == 0) 	logic.setFireDirection(CoreLogic.FIRENONE);
+		if (fire == 0) 	logic.setFireDirection(NetClientLogic.FIRENONE);
 		
 		if (fire == 1) {
-			if (fireup) 		logic.setFireDirection(CoreLogic.FIREUP);
-			else if (firedown)	logic.setFireDirection(CoreLogic.FIREDOWN);
-			else if (fireright)	logic.setFireDirection(CoreLogic.FIRERIGHT);
-			else if (fireleft)	logic.setFireDirection(CoreLogic.FIRELEFT);
+			if (fireup) 		logic.setFireDirection(NetClientLogic.FIREUP);
+			else if (firedown)	logic.setFireDirection(NetClientLogic.FIREDOWN);
+			else if (fireright)	logic.setFireDirection(NetClientLogic.FIRERIGHT);
+			else if (fireleft)	logic.setFireDirection(NetClientLogic.FIRELEFT);
 		}
 		
 		else if (fire == 2) {
 			if (fireup) {
-				if (firedown)		logic.setFireDirection(CoreLogic.FIRENONE);
-				else if (fireright)	logic.setFireDirection(CoreLogic.FIREUPRIGHT);
-				else			logic.setFireDirection(CoreLogic.FIREUPLEFT);
+				if (firedown)		logic.setFireDirection(NetClientLogic.FIRENONE);
+				else if (fireright)	logic.setFireDirection(NetClientLogic.FIREUPRIGHT);
+				else			logic.setFireDirection(NetClientLogic.FIREUPLEFT);
 			}
 			else if (firedown) {
-				if (fireright)		logic.setFireDirection(CoreLogic.FIREDOWNRIGHT);
-				else			logic.setFireDirection(CoreLogic.FIREDOWNLEFT);
+				if (fireright)		logic.setFireDirection(NetClientLogic.FIREDOWNRIGHT);
+				else			logic.setFireDirection(NetClientLogic.FIREDOWNLEFT);
 			}
 			else
-				logic.setFireDirection(CoreLogic.FIRENONE);
+				logic.setFireDirection(NetClientLogic.FIRENONE);
 		}
 		
 		else if (fire == 3) {
 			if (fireup) {
 				if (firedown) {
-					if (fireright) 	logic.setFireDirection(CoreLogic.FIRERIGHT);
-					else		logic.setFireDirection(CoreLogic.FIRELEFT);
+					if (fireright) 	logic.setFireDirection(NetClientLogic.FIRERIGHT);
+					else		logic.setFireDirection(NetClientLogic.FIRELEFT);
 				}
 				else
-					logic.setFireDirection(CoreLogic.FIREUP);
+					logic.setFireDirection(NetClientLogic.FIREUP);
 			}
 			
 			else if (firedown) 
-				logic.setFireDirection(CoreLogic.FIREDOWN);
+				logic.setFireDirection(NetClientLogic.FIREDOWN);
 		}
 		
 		else
-			logic.setFireDirection(CoreLogic.FIRENONE);
+			logic.setFireDirection(NetClientLogic.FIRENONE);
 
 		return false;
 	}

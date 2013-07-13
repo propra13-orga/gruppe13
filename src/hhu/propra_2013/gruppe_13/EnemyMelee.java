@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 class EnemyMelee extends Enemy{
 	
+	private long 	id;
 	private static final long serialVersionUID = 1L;
 	// type, maximum hp and hp and a stationary variable for initial waiting as the player enters the room
 	private int 	type, maxHp, hp;
@@ -29,7 +30,7 @@ class EnemyMelee extends Enemy{
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Standard constructor, build enemies according to input 
-	EnemyMelee(double inx, double iny,double inWidth, double inHeight, int inType, int inStage, int inMode){
+	EnemyMelee(double inx, double iny,double inWidth, double inHeight, int inType, int inStage, int inMode, long id){
 		x 			= inx;
 		y 			= iny;
 		
@@ -67,10 +68,17 @@ class EnemyMelee extends Enemy{
 		rad = Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_weight)),2);
 		timeout = 16;
 		timer = System.currentTimeMillis();
+		
+		this.id = id;
 	}
 	
 	
 /*getter and setter methods for the melee enemy--------------------------------------------------------------------------------------------------------*/
+	@Override
+	long getID() {
+		return id;
+	}
+	
 	@Override
 	int getType() {
 		return type;

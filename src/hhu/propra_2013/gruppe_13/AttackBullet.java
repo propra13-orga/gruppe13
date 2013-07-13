@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 class AttackBullet extends Attack {
 	
+	private long 	id;
+	
 	private static final long serialVersionUID = 1L;
 	private int 	player;
 	
@@ -41,7 +43,7 @@ class AttackBullet extends Attack {
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Bullet constructor
-	AttackBullet(int inType, double initX, double initY, double objVX, double objVY, double signVX, double signVY, int player) {
+	AttackBullet(int inType, double initX, double initY, double objVX, double objVY, double signVX, double signVY, int player, long id) {
 		// Save initial position and type data
 		posX		= initX;
 		posY		= initY;
@@ -98,12 +100,19 @@ class AttackBullet extends Attack {
 			break;
 		}
 		
+		this.id = id;
+		
 		rad	= Math.max(width, height) + Math.pow(Math.ceil(Math.abs(v_x)), 2)*Math.pow(Math.ceil(Math.abs(v_y)), 2);
 		timeout = 16;
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// Various getter methods
+	@Override
+	long getID() {
+		return id;
+	}
+	
 	@Override
 	int getHP() {
 		return hp;
@@ -416,7 +425,7 @@ class AttackBullet extends Attack {
 	@Override
 	Attack copy() {
 		// return a new bullet object with the same attributes as the old one
-		AttackBullet bullet = new AttackBullet(this.type, this.posX, this.posY, 0.0, 0.0, Math.signum(v_x), Math.signum(v_y), this.player);
+		AttackBullet bullet = new AttackBullet(this.type, this.posX, this.posY, 0.0, 0.0, Math.signum(v_x), Math.signum(v_y), this.player, this.id);
 		
 		// set all variables to as they are in the original
 		bullet.setSpeed(this.v_x, this.v_y);

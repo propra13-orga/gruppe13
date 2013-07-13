@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public class AttackMelee extends Attack {
+	private long 	id;
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,7 +25,7 @@ public class AttackMelee extends Attack {
 	private boolean destroyed;
 	
 	/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
-	AttackMelee (double inX, double inY, double inVX, double inVY, int inType, Figure inFigure, ArrayList<CoreGameObjects> InRoom, int player) {
+	AttackMelee (double inX, double inY, double inVX, double inVY, int inType, Figure inFigure, ArrayList<CoreGameObjects> InRoom, int player, long id) {
 		x	= inX;
 		y	= inY;
 		
@@ -32,6 +33,8 @@ public class AttackMelee extends Attack {
 		this.figure = inFigure;
 		this.room	= InRoom;
 		this.player = player;
+		
+		this.id 	= id;
 		
 		switch (type) {
 		case PLAYER_MELEE_AOE:
@@ -61,6 +64,11 @@ public class AttackMelee extends Attack {
 }
 	
 	/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+	@Override
+	long getID() {
+		return id;
+	}
+	
 	@Override
 	int getHP() {
 		return hp;
@@ -221,7 +229,7 @@ public class AttackMelee extends Attack {
 	@Override
 	Attack copy() {
 		// return a new bullet object with the same attributes as the old one
-		AttackMelee melee = new AttackMelee(this.x, this.y, this.vx, this.vy, this.type, this.figure, this.room, this.player);
+		AttackMelee melee = new AttackMelee(this.x, this.y, this.vx, this.vy, this.type, this.figure, this.room, this.player, this.id);
 		melee.setCounterOne(this.counter_one);
 		melee.setDestroyed(this.destroyed);
 		return melee;

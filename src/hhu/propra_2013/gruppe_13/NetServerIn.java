@@ -68,6 +68,9 @@ class NetServerIn extends NetIO {
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
 	void updateRoom(ArrayList<CoreGameObjects> content, int player) {
+		// boolean for checking whether an attack has already been transferred
+		boolean isPresent = false;
+		
 		// go over all content and delete the old figure and old attacks by that client
 		CoreGameObjects object;
 		for (int i=0; i<content.size(); i++) {
@@ -84,10 +87,21 @@ class NetServerIn extends NetIO {
 		if (attacks == null)
 		return;
 		
+//		System.out.println("Size of Attack list: "+attacks.size());
+//		System.out.println("Size of Collidable list: "+content.size());
+		
 		lock.lock();
+		check:
 		for (int i=0; i<attacks.size(); i++) {
-			if (!content.contains(attacks.get(i)))
-				content.add(attacks.get(i).copy());
+			for (int j=0; j<content.size(); j++) {
+				if (attacks.get(i).getID() == content.get(j).getID()) {
+					isPresent = true;
+					break check;
+				}
+			}
+			
+			if (!isPresent)
+				content.add(attacks.get(i));
 		}
 		lock.unlock();
 	}
@@ -122,6 +136,7 @@ class NetServerIn extends NetIO {
 					if  (!attacks.contains(((Attack)incoming))) {
 						attacks.add(((Attack)incoming));
 						((Attack)incoming).setTime();
+						System.out.println(incoming);
 					}
 					lock.unlock();
 
