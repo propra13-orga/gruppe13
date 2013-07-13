@@ -49,14 +49,14 @@
 \begin{minipage}{0.3\textwidth}
 \begin{flushleft} \large
 \emph{Author:}\\
-John \textsc{Sebastian}
+\textsc{Sebastian}
 \end{flushleft}
 \end{minipage}
 \hfill
 \begin{minipage}{0.6\textwidth}
 \begin{flushright} \large
 \emph{Gruppenmitglieder:} \\
- Alina, Aiko, Bene, Lukas, Sebastian\textsc{}
+ \textsc{Alina, Aiko, Bene, Lukas, Sebastian}
 \end{flushright}
 \end{minipage}
 
@@ -89,13 +89,32 @@ John \textsc{Sebastian}
       \item Tasttatur
       \item Für Mehrspielermodus: Internet
       \item Dedizirte Grafikkarte
+      \item oder Supercomputer
     \end{itemize}
     
 \chapter{Installation und Deinstallation}
 
   \section{Installation}
+      \begin{enumerate}
+	\item sich vor den PC setzen
+	\item PC mit Strom versorgen
+	\item PC starten
+	\item richtiges Betriebssystem booten
+	\item Speichermedium mit Spiel mounten
+	\item Entergreatgamename.jar irgendwo speichern
+	\item Entergreatgamename.jar ausführen
+      \end{enumerate}
+      
   \section{Deinstallation}
-
+      \begin{enumerate}
+	\item sich vor den PC setzen
+	\item PC mit Strom versorgen
+	\item PC starten
+	\item richtiges Betriebssystem booten
+	\item Entergreatgamename.jar suchen
+	\item Entergreatgamename.jar löschen
+	\item enttäucht sein weil man das Spiel nicht mehr spielen kann
+      \end{enumerate}
   
 \chapter{Vorgeschichte}
 
@@ -103,22 +122,41 @@ John \textsc{Sebastian}
 
   \section{Tastenbelegung}
     \subsection{Bewegungstasten}
-    \subsection{Feuertasten}
-    \subsection{Sonderangrifstasten}
+      Wie in der Gamer Welt üblich werden die Tasten "w" "a" "s" "d" zur Bewegung genutzt.\\
+      Die Bewegungstasten können zeitgleich gedrückt werden so das sich 8 Bewegungsrichtungen ergeben.
+    \subsection{Schusstasten}
+      Zum schießen werden die Pfeiltasten verwendet. 
+      Die Schusstasten können zeitgleich gedrückt werden so das sich 8 Schußrichtungen ergeben.
+    \subsection{Boomtaste}
+      Boom wird durch die Leertaste ausgelöst.
     \subsection{Weitere Tasten}
-
+      Mit "m" blendet man die Karte ein und pausiert das Spiel.
+      Mit "esc" Pausiert man das Spiel.
+      
 \chapter{Spielziel}
-
+      Töte die roten Kreise!!!
+      Auch ja und nebenbei löscht die Feuer.
+      
 \chapter{Caraktere und Items}
 
   \section{Spieler}
+      Blaues Quadrat welches für die quadratur des Keises kämpft. Es will sich damit von der Unterdrückung der $\pi$-Anhänger befreien.
   \section{Gegner}
+      Rote Kreise die mit den Ecken und Kanten des blauen Quadrats nicht leben können.
+      
   \section{Items}
-
+    \begin{enumerate}
+      \item "One More Boom" Wird durch einen weißen Kreis dargestellt. Beim aufsammeln wird ein weiterer "Boom" deinem Imvendtar hinzugefügt werden.
+      \item "Health Up" Wird durch einen cyan Kreis dargestellt. Beim aufsammeln wird deiner Gesundheit ein Balken hinzugefügt.
+      \item "Armor" Wird durch einem oragen Kreis dargestellt. Beim aufsammeln wird deiner Armor ein Balken hinzugefügt.
+      \item "rattattattattattatta" Wird durch ein gelbes Quadrat dargestellt. Beim aufsammeln wird deine Schussfrequenz erhöht.
+      \item "Sweet Jesus" Wird durch einen grauen Kreis dargestellt. Wenn du stribst stehst du am dritten Tage wieder auf.
+    \end{enumerate}
 
 \chapter{Spielmodi}
 
   \section{Singelplayer}
+      
   \section{Multiplayer}
 
 \chapter{Die Entwickler}

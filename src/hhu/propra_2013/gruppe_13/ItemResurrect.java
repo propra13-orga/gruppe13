@@ -3,6 +3,8 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 
 class ItemResurrect extends Item{
@@ -14,6 +16,7 @@ class ItemResurrect extends Item{
 	private double	r;
 	private double 	height, width;
 	private int 	prize;
+	private final 	String jesus;
 //	private Figure 	figure;
 	
 	ItemResurrect(double initX, double initY, int initWidth, int initHeight, long id) {
@@ -24,6 +27,7 @@ class ItemResurrect extends Item{
 		width	= initHeight;
 		prize 	= 5;
 //		figure 	= inFigure;
+		jesus = "jesus.jpeg";
 		
 		this.id = id;
 	}
@@ -74,8 +78,10 @@ class ItemResurrect extends Item{
 
 	@Override
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
-		g.setColor(Color.gray);
-		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
+		Image imageOfJesus = Toolkit.getDefaultToolkit().getImage(jesus);
+		g.drawImage(imageOfJesus, xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height), null);
+//		g.setColor(Color.gray);
+//		g.fillOval(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 		Font font = new Font("Arial", Font.PLAIN, (int)step/2);
 		g.setFont(font);
 //		if(figure.getGeld() >= prize){
@@ -84,7 +90,7 @@ class ItemResurrect extends Item{
 //		if(figure.getGeld() < prize){
 //			g.setColor(Color.red);
 //		}
-		g.drawString(prize + "#", xOffset+(int)Math.round(x*step), yOffset+(int)(y*step) );
+		g.drawString(prize + "#", xOffset+(int)Math.round((x+width/2.)*step), yOffset+(int)((y-height/2.)*step) );
 	}
 
 	@Override
