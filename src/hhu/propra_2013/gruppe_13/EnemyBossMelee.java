@@ -25,7 +25,7 @@ class EnemyBossMelee extends Enemy{
 	private long 	timer;
 	private long 	timeout;
 	
-	private CoreRoom room;
+	transient private CoreRoom room;
 	
 	EnemyBossMelee(double inx, double iny,double inWidth, double inHeight, int inType, int inStage, CoreRoom inRoom, int inMode, long id){
 		x 			= inx;

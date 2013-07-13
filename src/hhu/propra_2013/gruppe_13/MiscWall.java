@@ -121,7 +121,7 @@ class MiscWall extends CoreGameObjects {
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
 		Image imageOfWall = Toolkit.getDefaultToolkit().getImage(wall);
 		
-		g.setColor(Color.green);
+		//g.setColor(Color.green);
 		g.drawImage(imageOfWall, xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height), null);
 //		g.fillRect(xOffset+(int)Math.round((x-width/2.)*step),  yOffset+(int)Math.round((y-height/2.)*step), (int)Math.round(step*width), (int)Math.round(step*height));
 	}

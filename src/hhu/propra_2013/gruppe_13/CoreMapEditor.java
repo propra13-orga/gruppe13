@@ -246,9 +246,9 @@ public class CoreMapEditor {
 		mapCreator.add(save, layout);
 		
 //		layout.insets = new Insets(0,0,0,0);
-		layout.gridx		= 2;
-		layout.gridy 		= 9;
-		mapCreator.add(test, layout);
+//		layout.gridx		= 2;
+//		layout.gridy 		= 9;
+//		mapCreator.add(test, layout);
 		
 //		layout.insets = new Insets(0,0,0,0);
 		layout.gridx		= 4;

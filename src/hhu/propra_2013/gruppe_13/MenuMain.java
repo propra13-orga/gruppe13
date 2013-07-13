@@ -113,8 +113,8 @@ public class MenuMain{
 		cButtons.gridy = 3;
 		menu.add(options, cButtons);
 		
-		cButtons.gridy = 4;
-		menu.add(profil, cButtons);
+//		cButtons.gridy = 4;
+//		menu.add(profil, cButtons);
 		
 		cButtons.gridy = 5;
 		menu.add(edit, cButtons);

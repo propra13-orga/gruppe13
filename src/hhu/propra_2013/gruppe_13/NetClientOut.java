@@ -44,11 +44,11 @@ class NetClientOut extends NetIO {
 		// send the current Figure and the new Attack if there is one
 		sendList.add(figure);
 		
-		System.out.println("Coordinates of the figure: "+figure.getPosX()+" "+figure.getPosY());
+//		System.out.println("Coordinates of the figure: "+figure.getPosX()+" "+figure.getPosY());
 		
 		if (newAttack) {
 			sendList.add(attack);
-			System.out.println("Added an attack");
+//			System.out.println("Added an attack");
 		}
 		
 		// unlock the list so it can be sent
