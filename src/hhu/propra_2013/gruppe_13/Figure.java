@@ -3,6 +3,13 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+/**
+ * Enthält alle Informationen über die Spielfigur
+ * @author Gruppe13
+ *
+ */
+
+
 class Figure extends CoreGameObjects {
 	
 	private long id;
@@ -56,6 +63,18 @@ class Figure extends CoreGameObjects {
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// class constructor
+	
+	/**
+	 * Konstruktor
+	 * @param initX   		X-Startposition der Figur
+	 * @param initY	 		Y-Startposition der Figur
+	 * @param initHeight	Höhe der Figur
+	 * @param initWidth 	Breite der Figur
+	 * @param player		Die Nummer des Spielers dem die Figur gehört (Multiplayer)
+	 * @param figureColor	Farbe der Figur (Multiplayer)
+	 * @param id			Um die Figur für den Server eindeutig zu machen (Multiplayer)
+	 */
+	
 	Figure(double initX, double initY, double initHeight, double initWidth, int player, Color figureColor, long id) {
 		x 		= initX;
 		y 		= initY;
@@ -246,6 +265,13 @@ class Figure extends CoreGameObjects {
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
+	/**
+	 * Prüft ob der Spieler über das Resurrect-Item verfügt. Wird aufgerufen falls der Spieler tödlichen Schaden erleidet
+	 * @return	true Falls der Spieler das Item mindestens einmal besitzt, false wenn nicht
+	 * @see 	ItemResurrect
+	 */
+	
+	
 	boolean checkRes() {
 		if(item1 instanceof ItemResurrect){
 			return true;
@@ -274,12 +300,29 @@ class Figure extends CoreGameObjects {
 	
 	// this method can be called from the collision method, then later on be used
 	// TODO: Make that shit better
+	
+	/**
+	 * Fügt ein Item dem "Inventar" des Spielers im untersten freien der drei Slots hinzu
+	 * @param inItem	Das Hinzugefügte Item
+	 */
+	
+	
 	void pickUpItem(Item inItem) {
 		if		(item1 == null)	item1 = inItem;
 		else if	(item2 == null)	item2 = inItem;
 		else if	(item3 == null)	item3 = inItem;
 	}
 
+	/**
+	 * Lässt die Figur Schaden nehmen. 
+	 * Überprüft dabei erst ob die Figur vor kurzem angegriffen wurde (cooldown)
+	 * Falls nein wird entsprechend der Stärke des Angriffs die Armor (falls vorhanden)
+	 * oder die hp (falls nicht genug Armor vorhanden)
+	 * @param attackType	Typ des Schadens, für Stein-Schere-Papier
+	 * @param inStrength	Stärke des eingehenden Schadens
+	 */
+	
+	
 	// check whether there is any armor to destroy, else reduce hp
 	void takeDamage(int attackType, int inStrength) {
 		if(System.currentTimeMillis()-cooldown > 1000){
@@ -296,6 +339,8 @@ class Figure extends CoreGameObjects {
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
+	//TODO Dokumentier das mal jemand, aka Was zur Hölle ist das
+	
 	Figure copy() {
 		// create a new figure object
 		Figure figure = new Figure(this.x, this.y, this.height, this.width, this.player, this.figureColor, this.id);

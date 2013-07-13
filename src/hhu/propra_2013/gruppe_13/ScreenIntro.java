@@ -1,6 +1,7 @@
 package hhu.propra_2013.gruppe_13;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -10,6 +11,13 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+/**
+ * Malt das Intro beim starten des Spiels (bevor das menü angezeigt wird)
+ * @author Gruppe13
+ *
+ */
+
 
 class ScreenIntro {
 	
@@ -73,7 +81,7 @@ class ScreenIntro {
 					
 				
 				}//Ende for Schleife
-				ProPra.initMenu();
+				//ProPra.initMenu();
 			}
 		};
 		
