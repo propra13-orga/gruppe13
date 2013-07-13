@@ -4,6 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+/**
+ * Das Geld Item
+ * @author Gruppe13
+ *
+ */
+
+
 class ItemMoney extends Item {
 
 	private long 	id;
@@ -27,8 +34,17 @@ class ItemMoney extends Item {
 	long getID() {
 		return id;
 	}
-	
+
 	@Override
+
+	/**
+	 * Wird von der Logik aufgerufen wenn die Figur mit einem Item dieses Typs kollidiert
+	 * In diesem Fall wird das gesammelte Geld der Figur um eins erhöht
+	 * @param	room	Liste der Objekte im Raum, um das Geld nach dem aufnehmen vom Boden zu entfernen
+	 * @param figure	Die Figur, um das gesammelte Geld entsprechend zu lagern 
+	 */
+	
+	
 	void modFigure(ArrayList<CoreGameObjects> room, Figure figure) {
 		int geld;
 		geld = figure.getGeld();			
