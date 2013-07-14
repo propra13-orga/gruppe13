@@ -52,8 +52,10 @@ public class ProPra {
 	
 	//Method for showing an intro before the menu
 	static void initIntro(){
-		gameWindow.setContentPane(ScreenIntro.showIntro(gameWindow));
+		gameWindow.setContentPane(ScreenIntro.initIntro(gameWindow));
 		gameWindow.setVisible(true);
+
+		ScreenIntro.showIntro();
 	}
 	
 //	void initMapEditor(){
