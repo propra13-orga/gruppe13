@@ -4,6 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+/**
+ * Die Klasse für die Bosse (bis jetzt sind nur Melee Bosse vorhanden)
+ * TODO Dokumentieren der KI Methoden
+ * @author Gruppe13
+ *
+ */
+
 class EnemyBossMelee extends Enemy{
 
 	private static final long serialVersionUID = 1L;
@@ -26,6 +33,20 @@ class EnemyBossMelee extends Enemy{
 	private long 	timeout;
 	
 	transient private CoreRoom room;
+	
+	/**
+	 * Konstruktor
+	 * @param inx		Legt Startposition des Bosses fest (X-Koordinate)
+	 * @param iny		Legt Startposition des Bosses fest (Y-Koordinate)
+	 * @param inWidth	Breite des Bosses
+	 * @param inHeight	Höhe des Bosses
+	 * @param inType	'Typ' des Bosses, bis jetzt funtkionslos
+	 * @param inStage	Nummer des Levels in dem der Boss sich befindet, legt einige Eigenschaften des Bosses fest (hp/Schaden)
+	 * @param inRoom	Der Raum in dem sich der Boss befindet, um nach seinem ableben die Tür in den nächsten Level zu spawnen
+	 * @param inMode	Schwierigkeitsgrad, wirkt sich auf Eigenschaften des Bosses aus
+	 * @param id		Eindeutige ID (Multiplayer)
+	 */
+	
 	
 	EnemyBossMelee(double inx, double iny,double inWidth, double inHeight, int inType, int inStage, CoreRoom inRoom, int inMode, long id){
 		x 			= inx;
@@ -196,6 +217,12 @@ class EnemyBossMelee extends Enemy{
 	@Override
 	void attack(Figure figure) {
 	}
+	
+	/**
+	 * Lässt den Boss schaden nehmen, und spawnt die Tür in den nächsten Level falls er stirbt
+	 * @param attackType 	Art des ankommende Schadens
+	 * @param inStrength	Stärke des ankommenden Schadens
+	 */
 
 	@Override
 	void takeDamage(int attackType, int inStrength) {
@@ -226,6 +253,10 @@ class EnemyBossMelee extends Enemy{
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
+	/**
+	 * Methode um die Gegner agieren zu lassen
+	 */
+	
 	void artificialIntelligence(Figure figure, ArrayList<CoreGameObjects> currentRoom, boolean server){
 		
 		if (server && (System.currentTimeMillis()-timer)<timeout)
