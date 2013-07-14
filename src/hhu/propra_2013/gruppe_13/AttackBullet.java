@@ -4,6 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+/**
+ * Klasse für die Fernkampfangriffe
+ * @author Gruppe13
+ *
+ */
+
+
 class AttackBullet extends Attack {
 	
 	private long 	id;
@@ -42,6 +49,22 @@ class AttackBullet extends Attack {
 	private int 	timeout;
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
+	//TODO: objVX/Y entfernen oder besser Dokumentieren
+	/** 
+	 * Konstruktor
+	 * Es wird festgelegt in welche Richtung die Kugel fliegt, wie schnell sie ist
+	 * sowie Reichweite, Schaden und SChussfrequenz (die letzten 3 über den Typ)
+	 * @param inType	Typ (wird durch Waffenupgrades verändert)
+	 * @param initX		X-Koordinate Startposition
+	 * @param initY		Y-Koordinate Startposition
+	 * @param objVX		ungenutzt?
+	 * @param objVY		ungenutzt?
+	 * @param signVX	Gibt an ob sich die Kugel nach links oder rechts bewegt
+	 * @param signVY	Gibt an ob die Kugel sich nach oben oder unten bewegt
+	 * @param player	Der Spieler dem die Kugel 'gehört'
+	 * @param id		Eindeutige ID (Multiplayer)
+	 */
+	
 	// Bullet constructor
 	AttackBullet(int inType, double initX, double initY, double objVX, double objVY, double signVX, double signVY, int player, long id) {
 		// Save initial position and type data
@@ -237,6 +260,10 @@ class AttackBullet extends Attack {
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	@Override
+	/**
+	 * Wird aufgerufen wenn die Kugel etwas trifft
+	 * Stoppt sie und setzt fest dass sie etwas traf um sie zu löschen
+	 */
 	void attack() {
 		v_x = 0;
 		v_y = 0;
@@ -365,6 +392,10 @@ class AttackBullet extends Attack {
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	// check collisions with other objects and propagate the bullet accordingly
+	
+	
+	//TODO Dokumentieren
+	
 	void propagate(ArrayList<CoreGameObjects> room, boolean server) {
 		
 		if (server && (System.currentTimeMillis()-time) < timeout)

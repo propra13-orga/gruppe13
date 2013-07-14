@@ -4,9 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+//TODO Dokumentieren der KI Methoden
 /**
  * Die Klasse für die Bosse (bis jetzt sind nur Melee Bosse vorhanden)
- * TODO Dokumentieren der KI Methoden
+ * 
  * @author Gruppe13
  *
  */
