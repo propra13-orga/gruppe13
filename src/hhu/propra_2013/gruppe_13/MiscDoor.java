@@ -10,7 +10,8 @@ class MiscDoor extends CoreGameObjects {
 	
 	private double	x,y,r;
 	private double 	height, width;
-	private int 	destination;	
+	private int 	destination;
+	private int 	hp;
 	
 	MiscDoor (double initX, double initY, double initWidth, double initHeight, double initRadius, int inDestination, long id){
 		x 			= initX;
@@ -23,6 +24,7 @@ class MiscDoor extends CoreGameObjects {
 		destination	= inDestination; //Destination stores where the door leads to. 0=goes up 1=goes right 2= goes down 3= goes left 4= Goes to the next Level
 
 		this.id = id;
+		this.hp = 1;
 	}
 	
 	@Override
@@ -37,8 +39,7 @@ class MiscDoor extends CoreGameObjects {
 	
 	@Override
 	int getHP() {
-		// TODO Auto-generated method stub
-		return 0;
+		return hp;
 	}
 
 	@Override
@@ -91,8 +92,7 @@ class MiscDoor extends CoreGameObjects {
 
 	@Override
 	void setHP(int inHP) {
-		// TODO Auto-generated method stub
-
+		hp = inHP;
 	}
 
 	@Override

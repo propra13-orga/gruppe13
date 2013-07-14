@@ -26,7 +26,7 @@ class Map extends CoreGameObjects {
 	private long 	id;
 	private static final long serialVersionUID = 1L;
 	
-	private int 	x,y;
+	private int 	x,y, hp;
 	private int 	map [][] = new int[10][10];
 	private int 	minX, maxX, minY, maxY;
 	private int 	curX, curY;
@@ -41,7 +41,7 @@ class Map extends CoreGameObjects {
 	
 	@Override
 	int getHP() {
-		return 0;
+		return hp;
 	}
 
 	@Override
@@ -98,6 +98,7 @@ class Map extends CoreGameObjects {
 
 	@Override
 	void setHP(int inHP) {
+		hp = inHP;
 	}
 	/**
 	 * setVisited is the input method to handle the input from the logic
@@ -197,6 +198,8 @@ class Map extends CoreGameObjects {
 	Map(long id){
 		
 		this.id = id;
+		hp = 1;
+		
 		for (x = 0;x < 10; x++){
 			for (y = 0; y < 10; y++){
 				map[x][y] = 0; //nullen des map array

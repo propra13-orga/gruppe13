@@ -19,6 +19,8 @@ class ItemResurrect extends Item{
 	private final 	String jesus;
 //	private Figure 	figure;
 	
+	private int 	hp;
+	
 	ItemResurrect(double initX, double initY, int initWidth, int initHeight, long id) {
 		x	= initX;
 		y	= initY;
@@ -28,6 +30,8 @@ class ItemResurrect extends Item{
 		prize 	= 5;
 //		figure 	= inFigure;
 		jesus = "jesus.jpeg";
+		
+		hp = 1;
 		
 		this.id = id;
 	}
@@ -48,6 +52,9 @@ class ItemResurrect extends Item{
 			money = money - 5;
 			figure.setGeld(money);
 			figure.pickUpItem(this);
+			
+			hp = 0;
+			
 			room.remove(this);
 		}		
 	}
@@ -95,20 +102,17 @@ class ItemResurrect extends Item{
 
 	@Override
 	double getWidth() {
-		// TODO Auto-generated method stub
 		return width;
 	}
 
 	@Override
 	double getHeight() {
-		// TODO Auto-generated method stub
 		return height;
 	}
 
 	@Override
 	int getHP() {
-		// TODO Auto-generated method stub
-		return 0;
+		return hp;
 	}
 
 	@Override
@@ -137,8 +141,7 @@ class ItemResurrect extends Item{
 
 	@Override
 	void setHP(int inHP) {
-		// TODO Auto-generated method stub
-		
+		hp = inHP;
 	}
 
 	@Override

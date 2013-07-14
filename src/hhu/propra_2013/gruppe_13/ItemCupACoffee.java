@@ -19,6 +19,8 @@ class ItemCupACoffee extends Item {
 	private double	r;
 	private double 	height, width;
 	
+	private int 	hp;
+	
 	/**
 	 * Konstruktor
 	 * @param initX			x-Position des Items
@@ -37,6 +39,7 @@ class ItemCupACoffee extends Item {
 		height	= initWidth;
 		width	= initHeight;
 	
+		hp = 1;
 		this.id = id;
 	}
 	
@@ -89,7 +92,7 @@ class ItemCupACoffee extends Item {
 
 	@Override
 	int getHP() {
-		return 0;
+		return hp;
 	}
 
 	@Override
@@ -115,16 +118,19 @@ class ItemCupACoffee extends Item {
 
 	@Override
 	void setHP(int inHP) {
+		hp = inHP;
 	}
 
 	
 	@Override
 	void modFigure(ArrayList<CoreGameObjects> room, Figure figure) {
-		int hp;
-		hp = figure.getHP();
-		if(figure.getMaxHP()*2 > hp){				
-			hp++;
-			figure.setHP(hp);
+		int figHP;
+		figHP = figure.getHP();
+		
+		if(figure.getMaxHP()*2 > figHP){				
+			figHP++;
+			figure.setHP(figHP);
+			hp = 0;
 			room.remove(this);
 		}
 	}

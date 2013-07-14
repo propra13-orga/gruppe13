@@ -13,12 +13,16 @@ class ItemImproveWeapon extends Item{
 	private double	r;
 	private double 	height, width;
 	
+	private int		hp;
+	
 	ItemImproveWeapon(double initX, double initY, int initWidth, int initHeight, int inHP, long id) {
 		x	= initX;
 		y	= initY;
 		r = Math.max(width, height);
 		height	= initWidth;
 		width	= initHeight;
+		
+		hp = 1;
 		
 		this.id = id;
 	}
@@ -68,7 +72,7 @@ class ItemImproveWeapon extends Item{
 
 	@Override
 	int getHP() {
-		return 0;
+		return hp;
 	}
 
 	@Override
@@ -93,6 +97,7 @@ class ItemImproveWeapon extends Item{
 
 	@Override
 	void setHP(int inHP) {
+		hp = inHP;
 	}
 
 	
@@ -100,6 +105,7 @@ class ItemImproveWeapon extends Item{
 	void modFigure(ArrayList<CoreGameObjects> room, Figure figure) {
 		figure.setBulletType(AttackBullet.PLAYER_SPECIAL_BULLET_ONE);
 		figure.setBulletCoolDownTime(figure.getBulletCoolDownTime()/2);
+		hp = 0;
 		room.remove(this);
 	}
 

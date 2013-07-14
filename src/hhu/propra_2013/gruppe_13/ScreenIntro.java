@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 /**
  * Malt das Intro beim starten des Spiels (bevor das menü angezeigt wird)
  * @author Gruppe13
- *
  */
 
 
@@ -23,6 +22,7 @@ class ScreenIntro {
 	private static JPanel introPanel;
 	
 	private static String picture;
+	static boolean stopShowing;
 	
 	// Initializer method for the bluescreen
 	static JPanel initIntro(JFrame inWindow) {
@@ -75,6 +75,7 @@ class ScreenIntro {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				stopShowing = true;
 				ProPra.initMenu();
 			}
 
@@ -101,14 +102,16 @@ class ScreenIntro {
 	static void showIntro() {
 		
 		for (int i=1; i<=160; i++) {
+			if (stopShowing) 
+				return;
+			
 			picture = "intro/intro"+i+".png";
 			introPanel.repaint();
+			
 			
 			try {
 				Thread.sleep(42);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
 		

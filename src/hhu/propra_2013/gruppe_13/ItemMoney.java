@@ -20,6 +20,8 @@ class ItemMoney extends Item {
 	private double 	x, y;
 	private double	r;
 	
+	private int 	hp;
+	
 	ItemMoney(double initX, double initY, int initHeight, int initWidth, long id){
 		x	= initX;
 		y	= initY;
@@ -28,6 +30,8 @@ class ItemMoney extends Item {
 		width	= initHeight;
 		
 		this.id = id;
+		
+		hp = 1;
 	}
 	
 	@Override
@@ -50,6 +54,7 @@ class ItemMoney extends Item {
 		geld = figure.getGeld();			
 		geld++;
 		figure.setGeld(geld);
+		hp = 0;
 		room.remove(this);
 	}
 
@@ -97,8 +102,7 @@ class ItemMoney extends Item {
 
 	@Override
 	int getHP() {
-		// TODO Auto-generated method stub
-		return 0;
+		return hp;
 	}
 
 	@Override
@@ -127,8 +131,7 @@ class ItemMoney extends Item {
 
 	@Override
 	void setHP(int inHP) {
-		// TODO Auto-generated method stub
-		
+		hp = inHP;
 	}
 
 	@Override

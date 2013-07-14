@@ -430,7 +430,7 @@ class NetClientLogic extends NetIO implements Runnable {
 
 			// send all modifications to the room and reset incoming list of the connection
 			outgoing.sendList(newAttack, attack, figure);
-			incoming.resetList();
+//			incoming.resetList();
 			
 			// reset variables for toggling attacks
 			newAttack = false;

@@ -5,7 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.io.Serializable;
 
-public class MiscStatusBar implements Serializable {
+class MiscStatusBar implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	

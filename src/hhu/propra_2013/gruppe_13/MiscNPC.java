@@ -96,76 +96,64 @@ class MiscNPC extends CoreGameObjects {
 	
 	@Override
 	int getHP() {
-		// TODO Auto-generated method stub
 		return hp;
 	}
 
 	@Override
 	double getPosX() {
-		// TODO Auto-generated method stub
 		return x;
 	}
 
 	@Override
 	double getPosY() {
-		// TODO Auto-generated method stub
 		return y;
 	}
 
 	@Override
 	double getRad() {
-		// TODO Auto-generated method stub
 		return r;
 	}
 
 	@Override
 	double getVX() {
-		// TODO Auto-generated method stub
 		return v_x;
 	}
 
 	@Override
 	double getVY() {
-		// TODO Auto-generated method stub
 		return v_y;
 	}
 	
 	@Override
 	double getWidth() {
-		// TODO Auto-generated method stub
 		return width;
 	}
 
 	@Override
 	double getHeight() {
-		// TODO Auto-generated method stub
 		return height;
 	}
 	/*----------------------------------------------------------------------------------------------__*/
 	//Setter
 	@Override
 	void setPos(double inX, double inY) {
-		// TODO Auto-generated method stub
 		x = inX;
 		y = inY;
 	}
 
 	@Override
 	void setSpeed(double inVX, double inVY) {
-		// TODO Auto-generated method stub
 		v_x = inVX;
 		v_y = inVY;
 	}
 
 	@Override
 	void setRad(double inR) {
-		// TODO Auto-generated method stub
 		r = inR;
 	}
 
 	@Override
 	void setHP(int inHP) {
-		// TODO Auto-generated method stub
 		hp = inHP;
 	}
 	
@@ -179,13 +167,13 @@ class MiscNPC extends CoreGameObjects {
 		
 		
 		if(talk){
-		Font font = new Font("Arial", Font.PLAIN, (int)step/2);
-		g.setFont(font);
-		g.setColor(Color.white);
-		g.fillRect(xOffset-(int)step/2, yOffset+(int)(step*14), (int)(step*23), (int)step*3 );
-		g.setColor(Color.black);
-		g.drawString(text, xOffset, yOffset+(int)(step*14+step/2));
-		this.talkTimer();
+			Font font = new Font("Arial", Font.PLAIN, (int)step/2);
+			g.setFont(font);
+			g.setColor(Color.white);
+			g.fillRect(xOffset-(int)step/2, yOffset+(int)(step*14), (int)(step*23), (int)step*3 );
+			g.setColor(Color.black);
+			g.drawString(text, xOffset, yOffset+(int)(step*14+step/2));
+			this.talkTimer();
 		}
 	}
 
@@ -257,7 +245,7 @@ class MiscNPC extends CoreGameObjects {
 			if(System.currentTimeMillis() >= npcTalkTime + 5000) talk = false;
 		}
 		else if (type == "Quest"){ //Falls es ein Quest NPC ist
-			if(System.currentTimeMillis()>= npcTalkTime + 2500){
+			if(System.currentTimeMillis()>= npcTalkTime + 1500){
 				
 				switch (quest){
 				

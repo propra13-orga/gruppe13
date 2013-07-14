@@ -43,6 +43,9 @@ class NetServerLogic extends NetIO {
 	// list for checking if all players have finished the level
 	private ArrayList<Integer>		levelComplete;
 	
+	// list for all alterations to the current room
+	private ArrayList<CoreGameObjects> alteredList;
+	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	void setRunning(boolean boolIn) {
 		running = boolIn;
@@ -98,6 +101,13 @@ class NetServerLogic extends NetIO {
 			incoming.get(i).setLocation(locationX, locationY);
 			levelComplete.add(PLAYING);
 		}
+		
+		// initialize the list for alterations
+		this.alteredList = new ArrayList<>();
+		
+		for (int i=0; i<currentRoom.getContent().size(); i++) {
+			alteredList.add(currentRoom.getContent().get(i));
+		}
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
@@ -110,7 +120,8 @@ class NetServerLogic extends NetIO {
 		currentRoom = level.getRoom(locationX, locationY);
 		incoming.get(client).setLocation(locationX, locationY);
 		map.setVisited(locationX, locationY);
-
+		alteredList.add(map);
+		
 		// add the figure and the map to the game content
 		currentRoom.getContent().add(figure);
 		currentRoom.getContent().add(map);
@@ -132,6 +143,8 @@ class NetServerLogic extends NetIO {
 				if (enemy.stopDrawing()) {
 					currentRoom.getContent().remove(enemy);
 				}
+				
+				alteredList.add(enemy);
 			}
 		}
 	}
@@ -224,10 +237,12 @@ class NetServerLogic extends NetIO {
 
 		if (collided instanceof Item) {
 			((Item) collided).modFigure(collidable, (Figure) figure);
+			alteredList.add((Item)collided);
 		}
 		
 		if (collided instanceof MiscNPC){
 			((MiscNPC) collided).talk();
+			alteredList.add((MiscNPC)collided);
 		}
 		
 		if (collided instanceof MiscDoor) { //Doors MUST be checked last because of the new Method of Room-finishing
@@ -278,15 +293,11 @@ class NetServerLogic extends NetIO {
 		Attack attack;
 		MiscWall wall;
 		boolean deleted;
-		int counter = 0;
-		
-//		System.out.println("Size of collidable array: "+collidable.size());
 
 		for (int i=0; i < collidable.size(); i++) {
 			deleted = false;
 			// handle attack propagation and check whether the attack is finished
 			if (collidable.get(i) instanceof Attack) {
-				counter++;
 				attack = (Attack) collidable.get(i);
 				attack.propagate(collidable, true);
 
@@ -297,16 +308,19 @@ class NetServerLogic extends NetIO {
 
 					deleted = true;
 				}
+				
+				alteredList.add(attack);
 			}
 	
 			// handle all walls, remove them if they are "dead"
 			if (!deleted && collidable.get(i) instanceof MiscWall) {
 				wall = (MiscWall) collidable.get(i);
-				if (wall.getHP() == 0)
+				if (wall.getHP() == 0) {
 					currentRoom.getContent().remove(wall);
+					alteredList.add(wall);
+				}
 			}
 		}
-//		System.out.println("Attacks in Server: "+counter);
 	}
 
 	/*-----------------------------------------------------------------------------------------------------------------------*/
@@ -319,28 +333,60 @@ class NetServerLogic extends NetIO {
 			locationY--;
 			figY = 12.49;
 			
+			for (int i=0; i<currentRoom.getContent().size(); i++) {
+				currentRoom.getContent().get(i).setHP(0);
+				alteredList.add(currentRoom.getContent().get(i));
+			}
+			
 			this.setRoom(locationX, locationY, client);
+			
+			for (int i=0; i<currentRoom.getContent().size(); i++)
+				alteredList.add(currentRoom.getContent().get(i));
 			break;
 
 		case (1): // Door leads to the right
 			locationX++;
 			figX = 0.51; // linker Spielfeldrand
 			
-			this.setRoom(locationX, locationY, client); // neuen Raum and Grafik und Logik geben
+			for (int i=0; i<currentRoom.getContent().size(); i++) {
+				currentRoom.getContent().get(i).setHP(0);
+				alteredList.add(currentRoom.getContent().get(i));
+			}
+			
+			this.setRoom(locationX, locationY, client);
+			
+			for (int i=0; i<currentRoom.getContent().size(); i++)
+				alteredList.add(currentRoom.getContent().get(i));
 			break;
 
 		case (2): // Door leads down
 			locationY++;
 			figY = 0.51;
 			
+			for (int i=0; i<currentRoom.getContent().size(); i++) {
+				currentRoom.getContent().get(i).setHP(0);
+				alteredList.add(currentRoom.getContent().get(i));
+			}
+			
 			this.setRoom(locationX, locationY, client);
+			
+			for (int i=0; i<currentRoom.getContent().size(); i++)
+				alteredList.add(currentRoom.getContent().get(i));
 			break;
 
 		case (3): // Door leads left
 			locationX--;
 			figX = 21.49;// rechter Spielfeldrand
 			
+			for (int i=0; i<currentRoom.getContent().size(); i++) {
+				currentRoom.getContent().get(i).setHP(0);
+				alteredList.add(currentRoom.getContent().get(i));
+			}
+			
 			this.setRoom(locationX, locationY, client);
+			
+			for (int i=0; i<currentRoom.getContent().size(); i++)
+				alteredList.add(currentRoom.getContent().get(i));
 			break;
 
 		case (4):
@@ -385,6 +431,11 @@ class NetServerLogic extends NetIO {
 				this.setRoom(locationX, locationY, i);
 				incoming.get(i).getFigure().setPos((inX*(i+1)+0.5), inY);
 			}
+			
+			// write everything out to all clients
+			for (int i=0; i<outgoing.size(); i++) {
+				outgoing.get(i).setRoom(currentRoom.getContent());
+			}
 		} else {
 			// TODO: terminate the game
 		}
@@ -397,6 +448,9 @@ class NetServerLogic extends NetIO {
 		long time;
 		long temp;
 		boolean newLevel;
+		
+		ArrayList<CoreGameObjects> tempListOne = new ArrayList<>();
+		ArrayList<CoreGameObjects> tempListTwo = new ArrayList<>();
 		
 		// set the maps of all clients and add to internal array list
 		for (int i=0; i<incoming.size(); i++) {
@@ -411,7 +465,6 @@ class NetServerLogic extends NetIO {
 
 			// iterate over all connections
 			for (int i=0; i<incoming.size(); i++) {
-				
 				// get the figure and check whether it has a valid value, otherwise repeat execution
 				figure 		= incoming.get(i).getFigure();
 				
@@ -435,10 +488,42 @@ class NetServerLogic extends NetIO {
 				this.enemyAI();
 				this.checkFigure(i);
 				
+				alteredList.add(figure);
+
 				// set the objects to send back to the client
-				outgoing.get(i).setRoom(currentRoom.getContent());
+				outgoing.get(i).setTempList(alteredList);
+				
+				// reset list of all alterations
+				alteredList.clear();
+			}
+			
+			// finally alter the outlist of all connections synchronizing them with all alterations made by other clients
+			for (int i=0; i<outgoing.size(); i++) {
+				for (int j=i+1; j<outgoing.size(); j++) {
+					
+					// check whether both clients are in the same room
+					if (incoming.get(i).getLocation(0) == incoming.get(j).getLocation(0) && incoming.get(i).getLocation(1) == incoming.get(j).getLocation(1)) {
+						tempListOne = outgoing.get(i).getTempList();
+						tempListTwo = outgoing.get(j).getTempList();
+						
+						// append all objects of the one to the other
+						for (int k=0; k<tempListOne.size(); k++) {
+							outgoing.get(j).addToTempList(tempListOne.get(k));
+						}
+						
+						for (int k=0; k<tempListTwo.size(); k++) {
+							outgoing.get(i).addToTempList(tempListTwo.get(k));
+						}
+					}
+				}
+			}
+			
+			// at last we set the actual list to be sent to the client
+			for (int i=0; i<outgoing.size(); i++) {
+				outgoing.get(i).setRoom(outgoing.get(i).getTempList());
 			}
 
+			// check whether all players have decided to jump through the door
 			for (int i=0; i<levelComplete.size(); i++) {
 				if (levelComplete.get(i) == PLAYING) {
 					newLevel = false;
@@ -451,8 +536,8 @@ class NetServerLogic extends NetIO {
 			}
 			// set the thread asleep, we don't need it too often
 			try {
-				if ((temp = System.currentTimeMillis() - time) < 16)
-					Thread.sleep(16 - temp);
+				if ((temp = System.currentTimeMillis() - time) < 8)
+					Thread.sleep(8-temp);
 			} catch (InterruptedException e) {
 				// don't care if the thread is interrupted
 			}

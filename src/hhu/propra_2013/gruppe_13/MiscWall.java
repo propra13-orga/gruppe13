@@ -7,11 +7,10 @@ import java.awt.Toolkit;
 import java.awt.image.ImageObserver;
 
 /**
- * Die gemeine Wand
+ * Die gemeine Wand... verdammt ist die Böse
  * @author Gruppe13
  *
  */
-
 
 class MiscWall extends CoreGameObjects {
 	

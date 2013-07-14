@@ -13,6 +13,7 @@ class ItemArmor extends Item{
 	private double	r;
 	private double 	height, width;
 
+	private int 	hp;
 	
 	ItemArmor(double initX, double initY, int initWidth, int initHeight, int inHP, long id) {
 		x	= initX;
@@ -21,7 +22,7 @@ class ItemArmor extends Item{
 		height	= initWidth;
 		width	= initHeight;
 		this.id = id;
-		
+		hp = 1;
 	}
 	
 	@Override
@@ -72,7 +73,7 @@ class ItemArmor extends Item{
 
 	@Override
 	int getHP() {
-		return 0;
+		return hp;
 	}
 
 	@Override
@@ -97,6 +98,7 @@ class ItemArmor extends Item{
 
 	@Override
 	void setHP(int inHP) {
+		hp = inHP;
 	}
 
 	
@@ -106,6 +108,7 @@ class ItemArmor extends Item{
 		armor = figure.getArmor();				
 		armor++;
 		figure.setArmor(armor);
+		hp = 0;
 		room.remove(this);
 	}
 

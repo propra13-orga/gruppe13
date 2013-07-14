@@ -20,6 +20,8 @@ class ItemChocolateBar extends Item{
 	private double	r;
 	private double 	height, width;
 	
+	private int 	hp;
+	
 	/**
 	 * Konstruktor
 	 * @param initX			X-Position im Raum
@@ -38,6 +40,7 @@ class ItemChocolateBar extends Item{
 		height	= initWidth;
 		width	= initHeight;
 		this.id = id;
+		hp = 1;
 	}
 	
 	@Override
@@ -90,7 +93,7 @@ class ItemChocolateBar extends Item{
 
 	@Override
 	int getHP() {
-		return 0;
+		return hp;
 	}
 
 	@Override
@@ -116,6 +119,7 @@ class ItemChocolateBar extends Item{
 
 	@Override
 	void setHP(int inHP) {
+		hp = inHP;
 	}
 
 	
@@ -132,6 +136,7 @@ class ItemChocolateBar extends Item{
 		chocolate = figure.getChocolate();				
 		chocolate++;
 		figure.setChocolate(chocolate);
+		hp = 0;
 		room.remove(this);
 	}
 

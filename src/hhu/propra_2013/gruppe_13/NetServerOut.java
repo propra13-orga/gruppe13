@@ -12,6 +12,7 @@ class NetServerOut extends NetIO {
 	
 	// variables for objects to send
 	private ArrayList<CoreGameObjects> 	gameObjects;
+	private ArrayList<CoreGameObjects>	tempList;
 	
 	// variable for checking the threads liveliness
 	private boolean running;
@@ -24,6 +25,7 @@ class NetServerOut extends NetIO {
 		this.sendObjects = outgoing;
 		this.lock = new ReentrantLock();
 		this.gameObjects = new ArrayList<CoreGameObjects>();
+		this.tempList = new ArrayList<CoreGameObjects>();
 	}
 
 	/*------------------------------------------------------------------------------------------------------------------------*/
@@ -32,10 +34,29 @@ class NetServerOut extends NetIO {
 		running = inRunning;
 	}
 	
+	void setTempList(ArrayList<CoreGameObjects> incoming) {
+		tempList.clear();
+		
+		for (int i=0; i<incoming.size(); i++) {
+			tempList.add(incoming.get(i));
+		}
+	}
+	
+	void addToTempList(CoreGameObjects object) {
+		tempList.add(object);
+	}
+	
+	ArrayList<CoreGameObjects> getTempList() {
+		return tempList;
+	}
 	/*------------------------------------------------------------------------------------------------------------------------*/
 	void setRoom (ArrayList<CoreGameObjects> sendList) {
 		lock.lock();
-		gameObjects = sendList;
+		gameObjects.clear();
+		
+		for (int i=0; i<sendList.size(); i++) {
+			gameObjects.add(sendList.get(i));
+		}
 		lock.unlock();
 	}
 	
@@ -48,14 +69,6 @@ class NetServerOut extends NetIO {
 
 		while (running) {
 			threadTimer = System.currentTimeMillis();
-			
-			// Try to set the thread asleep, so that other components also have a chance of using system time
-			try {
-				if ((timerTemp = System.currentTimeMillis()-threadTimer) < 8) 
-					Thread.sleep(8-timerTemp);
-			} catch (InterruptedException e) {
-				// Do nothing as we don't care if the thread is interrupted
-			}
 			
 			/* Iterate over all objects and send them. Since the servers logic should always overwrite anything at the clients 
 			 * the entire room will be sent. */
@@ -74,6 +87,14 @@ class NetServerOut extends NetIO {
 				}
 			}
 			lock.unlock();
+			
+			// Try to set the thread asleep, so that other components also have a chance of using system time
+			try {
+				if ((timerTemp = System.currentTimeMillis()-threadTimer) < 8) 
+					Thread.sleep(8-timerTemp);
+			} catch (InterruptedException e) {
+				// Do nothing as we don't care if the thread is interrupted
+			}
 		}
 	}
 }
