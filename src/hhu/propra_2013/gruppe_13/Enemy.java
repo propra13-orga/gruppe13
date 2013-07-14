@@ -3,6 +3,16 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+/**
+ * Abstrakte Klasse für die Gegner
+ * @see EnemyMelee
+ * @see EnemyRanged
+ * @see EnemyBossMelee
+ * @author Gruppe13
+ *
+ */
+
+
 abstract class Enemy extends CoreGameObjects{
 	
 	private static final long serialVersionUID = 1L;

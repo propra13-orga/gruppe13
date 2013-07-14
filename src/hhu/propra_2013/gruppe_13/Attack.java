@@ -4,6 +4,15 @@ import java.awt.Graphics2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Abstrakte Klasse für die Angriffe
+ * @see AttackBullet
+ * @see Attackmelee
+ * @author Gruppe13
+ * 
+ */
+
+
 abstract class Attack extends CoreGameObjects implements Serializable {
 
 	private static final long serialVersionUID = 1L;
