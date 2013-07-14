@@ -4,6 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+/**
+ * Klasse für die Nahkampfangriffe
+ * @author Gruppe13
+ *
+ */
+
+
 public class AttackMelee extends Attack {
 	private long 	id;
 
@@ -25,6 +32,18 @@ public class AttackMelee extends Attack {
 	private boolean destroyed;
 	
 	/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+	/**
+	 * Konstruktor
+	 * @param inX		X-Position des Attack-Objekts
+	 * @param inY		Y-Position des Attack-Objekts
+	 * @param inVX		Geschwindigkeit in X-Richtung (ungenutzt)		
+	 * @param inVY		Geschwindigkeit in Y-Richtung (ungenutzt)
+	 * @param inType	Typ des Nahkampfangriffs, regelt Radius und Stärke
+	 * @param inFigure	Die ausführende Figur
+	 * @param InRoom	Der aktuelle Raum, um Wände, nun, sagen wir weg zu diskutieren
+	 * @param player	Der Spieler der die Attacke ausführt
+	 * @param id		Eindeutige ID (Multiplayer)
+	 */
 	AttackMelee (double inX, double inY, double inVX, double inVY, int inType, Figure inFigure, ArrayList<CoreGameObjects> InRoom, int player, long id) {
 		x	= inX;
 		y	= inY;
@@ -175,6 +194,14 @@ public class AttackMelee extends Attack {
 		}
 	}
 
+	
+	/**
+	 * Führt die Attacke aus
+	 * Erstellt eine Liste aller Objekte im Raum und prüft für jeden Gegner und jede Wand ob es in Reichweite ist
+	 * Ist ein Objekt in Reichweite nimmt es Schaden. Wände werden entfernt
+	 */
+	
+	
 	@Override
 	void attack() {
 		
