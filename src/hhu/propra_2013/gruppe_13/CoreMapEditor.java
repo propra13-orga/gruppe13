@@ -279,6 +279,11 @@ public class CoreMapEditor {
 		obj = inObj;
 	}
 	
+	/**
+	 * Methode zum Speichern des Raums in einer Textdatei
+	 * @see SaveClass
+	 */
+	
 	private static void save(){
 		
 		SaveClass saveIt;
@@ -292,12 +297,18 @@ public class CoreMapEditor {
 		//TODO:call propra init game
 	}
 	
+	/**
+	 * Innere Klasse zur Darstellung des 'Platzierungsbereichs' sowie der Überführung desselben in ein char Array
+	 * zur einfacheren Abspeicherung in einer Textdatei
+	 * @author Gruppe13
+	 *
+	 */
+	
+	
 	//panel to show the map
 	private class MapPane extends JPanel{
 		
-		/**
-		 * 
-		 */
+		
 		private static final long serialVersionUID = -5409709899594619477L;
 		//blabla make array of elements of type mapelements
 		public MapElement mapElement[][] = new MapElement[24][14];
@@ -337,9 +348,6 @@ public class CoreMapEditor {
 				private char actualState = ' ';
 				
 				
-				/**
-				 * 
-				 */
 				private static final long serialVersionUID = 1539840262942070244L;
 //				private int i, j;
 //				private char room[][] = new char[23][14];
@@ -349,8 +357,16 @@ public class CoreMapEditor {
 					return actualState;
 				}
 				
+				/**
+				 * Methode um das setzen eines Objekts im 'Platzierungsbereich' in das char Array zu übersetzen
+				 * @param x X-Koordinate des angeklickten Map-Elements im Editor
+				 * @param y Y-Koordinate des angeklickten Map-Elements im Editor
+				 */
+				
+				
 				public void editArray(int x, int y){
 					
+					//Klicks am Rand werden ignoriert da sich dort in der fertigen Datei nur die Begrenzungs-X'e befinden werden
 					if (x != 0 && x != 23 && y != 0 && y != 13){
 						
 
@@ -396,21 +412,6 @@ public class CoreMapEditor {
 							bg = Color.ORANGE;
 							break;
 							
-	//					case :
-	//						
-	//						break;
-	//						
-	//					case :
-	//						
-	//						break;
-	//						
-	//					case :
-	//						
-	//						break;
-	//						
-	//					case :
-	//						
-	//						break; 
 						default: //türen bei 7 (links rechts) und 11 (oben unten)
 							bg = Color.white;
 						}
@@ -420,7 +421,13 @@ public class CoreMapEditor {
 					}//Ende if block
 				}//Ende edit Array
 				
-				//TODO Dokumentieren
+				/**
+				 * Konstruktor
+				 * Die Ränder werden als Begrenzung gekennzeichnet und können nicht verändert werden
+				 * Ebenso werden die Positionen der Türen in den Wänden angegeben
+				 * @param i X-Koordinate des Map-Elements im Platzierungsbereich
+				 * @param j Y_Koordinate des Map-Elements im Platzierungsbereich
+				 */
 				
 				public MapElement(int i, int j) {
 					
@@ -498,35 +505,40 @@ public class CoreMapEditor {
 			
 	}
 	
-	
+	/**
+	 * Innere Klasse zum Abspeichern, da das Abspeichern in den anderen (statischen) Klassen nicht möglch war
+	 * Erst werden die vorhanden Dateien gezählt, dann ein Dateiname festgesetzt
+	 * und das Char Array per Outputstream in eine Datei geschrieben, wobei an den passenden Stellen die
+	 * Begrenzungswände und Türen automatisch gesetzt werden 
+	 * @author Gruppe13
+	 *
+	 */
 	
 	private class SaveClass {
 	
 		int anzahlRaum;
 		
-		
+		//Konstruktor
 		SaveClass() {
 			
 			anzahlRaum = this.countRaum();
 		}
 		
-		
+		//Methode zum speichern des erstellten Raums als Textdatei
 		private void makeRoom() {
 			
 			//PrintWriter roomWriter;
 			
 			char temp;
 			
-//			for (int i = 0;i<24;i++){
-//				for (int j = 0; j<14;j++){
-//					room[i][j] = 'T';
-//				}
-//			}
+
 			
 			try {
 				PrintWriter roomWriter = new PrintWriter (new FileWriter("Level/Raum/Raum"+anzahlRaum+".txt"), true);//das true lässt ihn an eine Datei anhängen statt sie zu überschreiben, sonst gäbe es knapp 200 dateien die alle von ihrem nachfolger überschrieben werden bis nurnoch ein println bleibt
+				//durchgehen des Arrays
 				for (int i = 0; i < 14;i++){
 					for (int j = 0; j < 24;j++){
+						//setzen der statischen Elemente
 						if (j == 0) { 
 							if (i == 7) roomWriter.print('D');
 							else roomWriter.print('X');
@@ -545,9 +557,9 @@ public class CoreMapEditor {
 						else if (i == 13 && j != 0 && j != 23){
 							if(j == 11) roomWriter.print('D');
 							else roomWriter.print('X');
-						} // Ab jetzt ist der Rand aus X'en behandelt
+						} // Ab jetzt sind der Rand aus X'en und die Türen behandelt
 						
-						
+						//Setzen der vom User festgelegten Raumelemente
 						else if (j != 0 && j != 23 && i != 0 && i != 13){
 							
 							temp = mapPane.getMapElement(j, i);
@@ -556,23 +568,6 @@ public class CoreMapEditor {
 							
 							
 
-//							if (room[i][j] == 'W' || room[i][j] == 'E' || room[i][j] == 'I' || room[i][j] == 'F'){//Damit die Datei in einem Editor geöffnet werden kann darf kein char darin null sein
-//							
-//								temp = room[i][j];
-//								System.out.println("Da war was!");
-//							
-//								roomWriter.print(temp);
-//								roomWriter.flush();
-//							}
-//							else{
-//								
-//								temp = ' ';
-//								System.out.println(temp);
-//								
-//								roomWriter.print(temp);
-//								roomWriter.flush();
-//								
-//							}
 						}
 					}//Ende innere for-Schleife
 					
