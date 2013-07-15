@@ -101,7 +101,7 @@ class ScreenIntro {
 	
 	static void showIntro() {
 		
-		for (int i=1; i<=160; i++) {
+		for (int i=1; i<=477; i++) {
 			if (stopShowing) 
 				return;
 			
