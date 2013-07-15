@@ -55,7 +55,9 @@ class NetClientIn extends NetIO {
 					if (allObjects.get(i) instanceof Figure) {
 						currentRoom.set(j, allObjects.get(i));
 						if (((Figure)allObjects.get(i)).getPlayer() == clientNo) 
-							figure = (Figure)allObjects.get(i);
+							figure = ((Figure)allObjects.get(i));
+						System.out.println("Figure armor: "+figure.getArmor());
+
 					}
 					
 					else if (allObjects.get(i) instanceof Item) {

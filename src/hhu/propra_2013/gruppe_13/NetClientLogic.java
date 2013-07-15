@@ -410,7 +410,8 @@ class NetClientLogic extends NetIO implements Runnable {
 			drawer.setRoom(currentRoom);
 			lock.unlock();
 			
-//			System.out.println(currentRoom);
+//			System.out.println("Figure armor: "+figure.getArmor());
+			
 			// check whether we actually have a list from the server yet, else we try to get one again
 			if (currentRoom == null) 
 				continue;
@@ -430,7 +431,6 @@ class NetClientLogic extends NetIO implements Runnable {
 
 			// send all modifications to the room and reset incoming list of the connection
 			outgoing.sendList(newAttack, attack, figure);
-//			incoming.resetList();
 			
 			// reset variables for toggling attacks
 			newAttack = false;

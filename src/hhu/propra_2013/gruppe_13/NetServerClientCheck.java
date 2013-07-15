@@ -68,17 +68,21 @@ class NetServerClientCheck extends NetIO {
 				inObject = incoming.readObject();
 				
 				// check whether the client wishes to begin the game
-				if (inObject instanceof String) {
+				if (inObject instanceof String && !((String)inObject).startsWith("01234567890123456789")) {
 					server.setUser((String)inObject, clientNo);
 				}
 				
-				if (inObject instanceof Boolean) {
+				else if (inObject instanceof String) {
+					server.sendText((String)inObject);
+				}
+				
+				else if (inObject instanceof Boolean) {
 					server.setReady((Boolean)inObject, clientNo);
 					this.setRunning(!(Boolean)inObject);
 				}
 				
 				// set the clients game figure color
-				if (inObject instanceof Color) {
+				else if (inObject instanceof Color) {
 					server.setColor((Color)inObject, clientNo);
 				}
 				

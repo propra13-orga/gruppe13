@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 class NetServerWait extends NetIO {
 	
@@ -26,6 +28,9 @@ class NetServerWait extends NetIO {
 	// counter for all connections
 	private int counter;
 	
+	// build a lock to synchronize sending of items
+	private Lock lock;
+	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	NetServerWait () {
 		waiting = true;
@@ -38,6 +43,8 @@ class NetServerWait extends NetIO {
 		
 		this.outgoingStreams = new ArrayList<ObjectOutputStream>();
 		this.incomingStreams = new ArrayList<ObjectInputStream>();
+		
+		lock = new ReentrantLock();
 	}
 
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -48,6 +55,14 @@ class NetServerWait extends NetIO {
 		for (int i=0; i<clients.size(); i++) {
 			clients.get(i).setRunning(running);
 		}
+	}
+	
+	void sendText(String toSend) {
+		lock.lock();
+		for (int i=0; i<clients.size(); i++) {
+			clients.get(i).sendObjects(toSend);
+		}
+		lock.unlock();
 	}
 	
 	void setColor (Color color, int client) {
@@ -137,12 +152,14 @@ class NetServerWait extends NetIO {
 	public void run() {
 		
 		while (waiting) {
+			lock.lock();
 			// iterate over all clients, send them the colors, statuses (and usernames) of all players 
 			for (int i=0; i<clients.size(); i++) {
 				clients.get(i).sendObjects(colors);
 				clients.get(i).sendObjects(clientCheck);
 				clients.get(i).sendObjects(usernames);
 			}
+			lock.unlock();
 
 			// let the thread sleep to give computation time to other processes
 			try {

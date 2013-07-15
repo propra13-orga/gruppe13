@@ -46,6 +46,9 @@ class MenuMultiWaiting {
 	private static UserPanel uPanel;
 	private static InfoFrame iFrame;
 	
+	// add a chat panel for interlcient communication
+	private static NetChatPanel chatPanel;
+	
 	// Client and server which are needed to show all connections and start the game
 	private static NetClient client = null;
 	private static NetServer server = null;
@@ -126,6 +129,9 @@ class MenuMultiWaiting {
 		uPanel = new MenuMultiWaiting().new UserPanel();
 		iFrame = new MenuMultiWaiting().new InfoFrame();
 		
+		// build the chat panel
+		chatPanel = new NetChatPanel(frameDimension, client, clientNo);
+		
 		// build a thread to check all inputs and outputs to and from the server
 		CheckAll check = new MenuMultiWaiting().new CheckAll();
 		Thread thread = new Thread(check);
@@ -133,6 +139,11 @@ class MenuMultiWaiting {
 		
 		uPanel.initPanel();
 		iFrame.initPanel();
+		chatPanel.initPanel();
+		
+		// tell the client we have a chatpanel
+		
+		client.setChatPanel(chatPanel);
 
 		
 		/*----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -209,11 +220,10 @@ class MenuMultiWaiting {
 		waitingArea.add(menu, layout);
 		
 		// last of all add the chat area
-		/*
-		 * layout.gridwith = 4;
-		 * layout.gridx = 0;
-		 * layout.gridy = 3;
-		 * waitingArea.add(chat, layout);*/
+		layout.gridwidth = 4;
+		layout.gridx = 0;
+		layout.gridy = 3;
+		waitingArea.add(chatPanel, layout);
 		
 
 		// set the actual content pane and show the panel
@@ -486,7 +496,7 @@ class MenuMultiWaiting {
 		private JTextArea	gameInfo;
 		
 		InfoFrame() {
-			this.setBackground(Color.GRAY);
+			this.setBackground(new Color(1.0f, 1.0f, 1.0f, 0.0f));
 			this.setVisible(true);
 			this.setPreferredSize(new Dimension((int)(frameDimension.getWidth()/2.-60), (int)(frameDimension.getHeight()/2.-60)));
 		}
@@ -807,6 +817,7 @@ class MenuMultiWaiting {
 					// if the variables have changed, reset the servers values
 					if (!ownUsername.contentEquals(usernames.get(clientNo))) { 
 						client.setUsername(ownUsername);
+						chatPanel.setUsername(ownUsername);
 						usernames.set(clientNo, ownUsername);
 					}
 					

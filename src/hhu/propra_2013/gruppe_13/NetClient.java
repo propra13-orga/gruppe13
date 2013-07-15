@@ -34,6 +34,9 @@ class NetClient extends NetIO {
 	private int clientNo;
 	private int connNo;
 	
+	// the chatpanel in the menu
+	private NetChatPanel chatPanel;
+	
 	/*---------------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 	NetClient(int port, String ip) {
 
@@ -64,6 +67,10 @@ class NetClient extends NetIO {
 		this.running = running;
 	}
 	
+	void setChatPanel (NetChatPanel chatPanel) {
+		this.chatPanel = chatPanel;
+	}
+	
 	void setColor (Color color) {
 		// output variable to server
 		try {
@@ -91,6 +98,17 @@ class NetClient extends NetIO {
 		try {
 			outgoing.reset();
 			outgoing.writeObject(username);
+			outgoing.flush();
+		} catch (IOException e) {
+			ProPra.errorOutput(CONNECTION_CLIENT_WRITE, e);
+		}
+	}
+	
+	void setChatText (String text) {
+		// output username to server
+		try {
+			outgoing.reset();
+			outgoing.writeObject(text);
 			outgoing.flush();
 		} catch (IOException e) {
 			ProPra.errorOutput(CONNECTION_CLIENT_WRITE, e);
@@ -206,12 +224,15 @@ class NetClient extends NetIO {
 				
 				// if the string should match, begin the game
 				else if (inObject instanceof String) {
-//					System.out.println((String)inObject);
 					if (((String)inObject).contentEquals("begin")) {
-//						System.out.println("beginning in client");
-						
 						this.initGame();
 						this.running = false;
+					}
+					
+					else if (((String)inObject).startsWith("01234567890123456789")) {
+						System.out.println("for chat");
+						if (chatPanel != null)
+							chatPanel.addText(((String)inObject).substring(20));
 					}
 				}
 				
@@ -228,6 +249,5 @@ class NetClient extends NetIO {
 				System.err.println(e.getMessage());
 			}
 		}
-//		System.out.println("terminating client");
 	}
 }
