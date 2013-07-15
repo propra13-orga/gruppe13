@@ -3,6 +3,12 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+/**
+ * Klasse der Türen zum Raum bzw Levelwechsel
+ * @author Gruppe13
+ *
+ */
+
 class MiscDoor extends CoreGameObjects {
 	
 	private long 	id;
@@ -12,6 +18,17 @@ class MiscDoor extends CoreGameObjects {
 	private double 	height, width;
 	private int 	destination;
 	private int 	hp;
+	
+	/**
+	 * Konstruktor, 
+	 * @param initX			X-Position
+	 * @param initY			Y-Position
+	 * @param initWidth		Breite
+	 * @param initHeight	Höhe
+	 * @param initRadius	Radius (für Kollisionen)
+	 * @param inDestination	'Richtung' der Tür (führt nach oben, unten, links, rechts)
+	 * @param id			Eindeutige ID (Mulitplayer)
+	 */
 	
 	MiscDoor (double initX, double initY, double initWidth, double initHeight, double initRadius, int inDestination, long id){
 		x 			= initX;

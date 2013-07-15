@@ -4,6 +4,10 @@ import java.awt.Color;
 import java.awt.KeyboardFocusManager;
 import javax.swing.JFrame;
 
+
+
+
+
 class CoreO_Game {
 	// Frame, graphic, logic and a figure for the actual game
 	private JFrame 			gameWindow;

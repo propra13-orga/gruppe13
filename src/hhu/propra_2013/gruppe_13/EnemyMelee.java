@@ -4,6 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+
+
+/**
+ * Klasse für den Nahkampfgegner
+ * @author Gruppe13
+ *
+ */
+
 class EnemyMelee extends Enemy{
 	
 	private long 	id;
@@ -29,7 +37,21 @@ class EnemyMelee extends Enemy{
 	private long 	timeout;
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
-	// Standard constructor, build enemies according to input 
+	// Standard constructor, build enemies according to input
+	
+	/**
+	 * Konstruktor, legt außer den übergebenen Werten auch Angriffsstärke, Geschwindigkeit
+	 * und HP über den Typ und den Schwierigkeitsgrad
+	 * @param inx		X-Koordinate der Startposition
+	 * @param iny		Y-Koordinate der Startposition
+	 * @param inWidth	Breite des Gegners
+	 * @param inHeight	Höhe des Gegeners
+	 * @param inType	Gegnertyp
+	 * @param inStage	Nummer des Levels
+	 * @param inMode	Schwierigkeitsgrad
+	 * @param id		Eindeutige ID (Multiplayer)
+	 */
+	
 	EnemyMelee(double inx, double iny,double inWidth, double inHeight, int inType, int inStage, int inMode, long id){
 		x 			= inx;
 		y 			= iny;
@@ -184,6 +206,12 @@ class EnemyMelee extends Enemy{
 		}
 	}
 
+	/**
+	 * Angriffsmethode des Gegners, wird bei Kollision mit der Figur aufgerufen 
+	 * (oder der Kollsion der Kugeln mit der Figur)
+	 * Ruft die takeDamage Methode der Figur auf
+	 */
+	
 	@Override
 	void attack(Figure figure) {
 		switch (type) {
@@ -197,6 +225,12 @@ class EnemyMelee extends Enemy{
 			break;
 		}
 	}
+	
+	/**
+	 * Lässt den Gegner schaden nehmen, und gibt ihn zur Löschung frei falls er stirbt
+	 * @param attackType 	Art des ankommende Schadens
+	 * @param inStrength	Stärke des ankommenden Schadens
+	 */
 
 	@Override
 	void takeDamage(int attackType, int inStrength) {
@@ -375,6 +409,8 @@ class EnemyMelee extends Enemy{
 	}
 	
 	/*-----------------------------------------------------------------------------------------------------------------------------------------------------*/
+
+	
 	private void propagateToFigure (ArrayList<CoreGameObjects> room, Figure figure) {
 		
 		// check whether the enemy is still alive move toward figure if this is the case

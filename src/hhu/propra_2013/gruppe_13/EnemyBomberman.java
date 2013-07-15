@@ -4,6 +4,12 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+/**
+ * Weiterer Gegnertyp - ungenutzt
+ * @author Gruppe
+ *
+ */
+
 class EnemyBomberman extends Enemy{
 	
 	private static final long serialVersionUID = 1L;
