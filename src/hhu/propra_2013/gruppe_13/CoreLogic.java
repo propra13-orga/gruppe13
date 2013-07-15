@@ -3,13 +3,13 @@ package hhu.propra_2013.gruppe_13;
 import java.util.ArrayList;
 
 
-//NOCH NICHT VOLLSTÄNDIG DOKUMENTIERT!!!!
+
 /**
- * Enthält die Spiellogik mit
- * -Gameloop
- * -Kollision
- * -verwaltet Gameobjects (Figur, Gegner, Items...)
- * TODO more Documentation
+ * Enthält die Spiellogik:
+ * - enthält die Gameloop
+ * - regelt Kollisionen
+ * - verwaltet Gameobjects (Figur, Gegner, Items...)
+ * - setzt die von der IO geschickten Eingaben um
  * @author Gruppe13
  *
  */
@@ -234,6 +234,8 @@ class CoreLogic implements Runnable {
 	/*-----------------------------------------------------------------------------------------------------------------------*/
 	
 	//TODO Dokumentieren
+	
+	
 	
 	private void checkCollision() {
 		// reset collision values

@@ -4,6 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+/**
+ * Klasse für das Schießende Feuer
+ * @author Gruppe13
+ *
+ */
+
+
 class EnemyRanged extends Enemy {
 	
 	private long 	id;
@@ -29,6 +36,18 @@ class EnemyRanged extends Enemy {
 	private long 	timeout;
 	
 	/*-----------------------------------------------------------------------------------------------------------------------*/
+	/**
+	 * Konstruktor
+	 * @param inx		X-Position
+	 * @param iny		Y-Position
+	 * @param inWidth	Breite
+	 * @param inHeight	Höhe
+	 * @param inType	Typ (festgesetzt auf ENEMY_FIRE_SHOOTING, sonst wäre diese Klasse nicht aufgerufen worden)
+	 * @param inStage	Levelnummer
+	 * @param inMode	Schwierigkeitsgrad
+	 * @param id		Eindeutige ID (Multiplayer)
+	 */
+	
 	EnemyRanged (double inx, double iny,double inWidth, double inHeight, int inType, int inStage, int inMode, long id) {
 		x = inx;
 		y = iny;

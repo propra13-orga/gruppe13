@@ -3,6 +3,11 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.KeyEventDispatcher;
 import java.awt.event.KeyEvent;
 
+/**
+ * Klasse die Eingaben entgegen nimmt und sie für die Weiterverarbeitung in der Logik aufbereitet
+ * @author Gruppe13
+ *
+ */
 
 class CoreGame_IO implements KeyEventDispatcher {
 	private int		move = 0;
@@ -20,10 +25,24 @@ class CoreGame_IO implements KeyEventDispatcher {
 
 	// Logic used by the class, set within the constructor
 	CoreLogic logic;
+	
+	/**
+	 * Konstruktor
+	 * @param inLogic Die Spiellogik, um die Eingaben weitergeben zu können
+	 */
+	
 	CoreGame_IO (CoreLogic inLogic) {
 		logic 	= inLogic;
 	}
 
+	/**
+	 * Die Aufbereitung von Tastendrücken zu für die Logik verständlichen Variablen
+	 * Beim Drücken von bestimmten Tasten wird die jeweilige Variable in der Logik auf true gesetzt,
+	 * beim Loslassen entsprechend wieder auf false 
+	 * @see CoreLogic
+	 */
+	
+	
 	@Override //reacts to any key event no matter where the focus is. Thus it doesn't matter in what order objects are drawn to the screen
 	public boolean dispatchKeyEvent(KeyEvent e) {
 		

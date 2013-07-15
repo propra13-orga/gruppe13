@@ -5,7 +5,12 @@ import java.awt.KeyboardFocusManager;
 import javax.swing.JFrame;
 
 
-
+/**
+ * Zentrale Spiel Klasse
+ * Hier werden Logikund GameDrawer, sowie die Figur und die Statusbar initialisiert
+ * @author Gruppe13
+ *
+ */
 
 
 class CoreO_Game {
@@ -18,6 +23,14 @@ class CoreO_Game {
 	
 	// Build two lists, the graphics component will also receive the figure, which has a special function in the logic class
 	CoreLevel		level;
+	
+	/**
+	 * Konstruktor
+	 * Generiert Figur, Logik (die dann ein Level generiert), Statusbar und Grafik
+	 * Erzeugt außerdem KeyListener und die IO
+	 * @param inFrame	Das Fenster in dem das Spiel läuft
+	 * @param mode		Der Schwierigkeitsgrad, wird vom Menü an die Spielelemente weitergereicht
+	 */
 	
 	// Initialize method for the actual game
 	CoreO_Game (JFrame inFrame , int mode) {
@@ -42,6 +55,11 @@ class CoreO_Game {
 		graphics.setRoom(inRoom);
 	}
 	
+	/**
+	 * Beendet das Spiel, wird von der Logik aufgerufen falls man durch die letzte Bosstür geht oder stirbt
+	 * @param win	Info ob der Spieler gewonnen oder verloren hat
+	 */
+	
 	void end(boolean win) {
 		logic.setGameRunning(false);
 		graphics.setGameRunning(false);
@@ -49,6 +67,10 @@ class CoreO_Game {
 		if (win == true)	ProPra.win();
 		else				ProPra.blueScreen();		
 	}
+	
+	/**
+	 * Erzeugt Threads für Logik und Grafik und startet diese
+	 */
 	
 	void start() {
 		// Build two new threads, one for logic and one for graphics
