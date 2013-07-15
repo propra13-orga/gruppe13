@@ -4,6 +4,14 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+/**
+ * Klasse für das Rüsungsitem
+ * Rüstung bietet dem Spieler einen weiteren  Schutz bevor seine verringert werden
+ * @author lukas
+ *
+ */
+
+
 class ItemArmor extends Item{
 
 	private long 	id;
@@ -14,6 +22,16 @@ class ItemArmor extends Item{
 	private double 	height, width;
 
 	private int 	hp;
+	
+	/**
+	 * Konstruktor
+	 * @param initX			X-Position des Armor-Items
+	 * @param initY			Y-Position des Armor Items
+	 * @param initWidth		Breite des Items
+	 * @param initHeight	Höhe des Items
+	 * @param inHP			hp
+	 * @param id			Eindeutige ID (Mulitplayer)
+	 */
 	
 	ItemArmor(double initX, double initY, int initWidth, int initHeight, int inHP, long id) {
 		x	= initX;
@@ -101,6 +119,12 @@ class ItemArmor extends Item{
 		hp = inHP;
 	}
 
+	
+	/**
+	 * Beim Aufsammeln wird der Figur ein Armorpunkt hinzugefügt
+	 * @param room		Der Raum um das Item nach dem aufsammeln entfernen zu können
+	 * @param figure	Die Figur, um ihr die Rüstung übergeben zu können
+	 */
 	
 	@Override
 	void modFigure(ArrayList<CoreGameObjects> room, Figure figure) {

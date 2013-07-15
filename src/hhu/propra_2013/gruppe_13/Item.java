@@ -3,6 +3,13 @@ package hhu.propra_2013.gruppe_13;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+/**
+ * Abstrakte Klasse für Items
+ * @author Gruppe13
+ *
+ */
+
+
 abstract class Item extends CoreGameObjects {
 	private static final long serialVersionUID = 1L;
 	

@@ -13,8 +13,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 /**
- * Menü für Tastenbelegung und Fullscreen (falls es denn existieren würde)
- * @author lukas
+ * Äquivalent zu MenuOptions, ungenutzt
+ * @author Gruppe13
+ * @see MenuOptions
  *
  */
 
