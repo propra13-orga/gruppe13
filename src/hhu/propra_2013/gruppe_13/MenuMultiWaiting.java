@@ -25,7 +25,7 @@ import javax.swing.text.PlainDocument;
  * Menü in dem vor dem Start einer Multiplayersession 
  * Hier kann jeder Spieler seinen Namen und die Farbe seiner Spielfigur wählen
  * Wenn sich alle bereit gemeldet haben kann das Spiel gestartet werden
- * @author lukas
+ * @author Gruppe13
  *
  */
 

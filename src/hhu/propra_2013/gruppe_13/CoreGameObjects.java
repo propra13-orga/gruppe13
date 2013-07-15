@@ -124,7 +124,7 @@ abstract class CoreGameObjects implements Serializable {
 	
 	/**
 	 * Gibt die Höhe eines Objekts zurück
-	 * @returnDie Höhe des Objekts
+	 * @return Die Höhe des Objekts
 	 */
 	abstract double getHeight();
 	

@@ -38,7 +38,7 @@ Company: Taschek Jörg </p>
  *
  * @author Taschek Joerg
  * @version 1.0 Erstversion 10.08.2007
- * @versoin 2.0 28.08.2007 Kleine Änderungen an der Klasse selbst - liegt jetzt auf noch einem Panel um den schwarzen Rand zu haben
+ * @version 2.0 28.08.2007 Kleine Änderungen an der Klasse selbst - liegt jetzt auf noch einem Panel um den schwarzen Rand zu haben
  * desweiteren gibt es einen Einfüg Modus, ist keine vollständige IP ausgefüllt, so wird null zurückgegeben und eine kleine main
  * zum Testen ist in der Klasse
  *******************************************************************************************************************************/
