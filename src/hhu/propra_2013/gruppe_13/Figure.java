@@ -326,7 +326,6 @@ class Figure extends CoreGameObjects {
 	// check whether there is any armor to destroy, else reduce hp
 	void takeDamage(int attackType, int inStrength) {
 		if(System.currentTimeMillis()-cooldown > 1000){
-			System.out.println("taking damage");
 			switch (attackType) {
 			default:
 				if (armor > 0)

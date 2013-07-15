@@ -39,6 +39,9 @@ class NetClientIn extends NetIO {
 		
 		boolean inList = false;
 		
+		// lock the list, so we don't loose information
+		lock.lock();
+		
 		// iterate over all objects within the incoming array
 		for (int i=0; i<allObjects.size(); i++) {
 			
@@ -99,6 +102,9 @@ class NetClientIn extends NetIO {
 		}
 		
 		allObjects.clear();
+		
+		// unlock the list, we are finished with it
+		lock.unlock();
 	}
 	
 	/*------------------------------------------------------------------------------------------------------------------------*/
