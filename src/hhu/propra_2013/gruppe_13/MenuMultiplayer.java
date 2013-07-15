@@ -30,6 +30,14 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+/**
+ * Menü für den Mehrspieler, hier legt der Spieler IP und Port des Servers fest
+ * den er starten bzw mit dem er sich verbinden will
+ * Nachdem die Verbingund steht wird MenuMultiWaiting aufgerufen
+ * @see MenuMultiWaiting
+ * @author Gruppe13
+ *
+ */
 
 class MenuMultiplayer {
 	

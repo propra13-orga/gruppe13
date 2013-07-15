@@ -4,6 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 
+/**
+ * Klasse für das DMG-UP Item 
+ * @author Gruppe13
+ *
+ */
+
+
 class ItemImproveWeapon extends Item{
 
 	private long 	id;
@@ -14,6 +21,17 @@ class ItemImproveWeapon extends Item{
 	private double 	height, width;
 	
 	private int		hp;
+	
+	/**
+	 * Konstruktor
+	 * @param initX			X-Position
+	 * @param initY			Y-Position
+	 * @param initWidth		Breite
+	 * @param initHeight	Höhe
+	 * @param inHP			hp
+	 * @param id			Eindeutige ID (Multiplayer)
+	 */
+	
 	
 	ItemImproveWeapon(double initX, double initY, int initWidth, int initHeight, int inHP, long id) {
 		x	= initX;
@@ -100,6 +118,12 @@ class ItemImproveWeapon extends Item{
 		hp = inHP;
 	}
 
+	/**
+	 * Ändert beim aufnehmen den BulletType des Spielers (Größe der Kugel, Schaden) sowie die Schussfrequenz
+	 * @param room 			Raum, um das Item nach dem Aufsammeln vom Boden zu entfernen
+	 * @param figure		Der Spieler, um seine Kugeln modifizieren zu können
+	 * @see AttackBullet	Für mehr infos über den BulletType	
+	 */
 	
 	@Override
 	void modFigure(ArrayList<CoreGameObjects> room, Figure figure) {

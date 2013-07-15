@@ -12,6 +12,12 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Menü für Tastenbelegung und Fullscreen (beides nicht implementiert)
+ * @author Gruppe13
+ */
+
+
 public class MenuOptions{
 	
 	// Initializer method for the menu

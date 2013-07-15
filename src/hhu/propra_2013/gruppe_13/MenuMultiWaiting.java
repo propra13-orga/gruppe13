@@ -21,6 +21,15 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+/**
+ * Menü in dem vor dem Start einer Multiplayersession 
+ * Hier kann jeder Spieler seinen Namen und die Farbe seiner Spielfigur wählen
+ * Wenn sich alle bereit gemeldet haben kann das Spiel gestartet werden
+ * @author Gruppe13
+ *
+ */
+
+
 class MenuMultiWaiting {
 
 	// boolean to know whether this is a host or client

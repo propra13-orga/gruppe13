@@ -12,6 +12,14 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Äquivalent zu MenuOptions, ungenutzt
+ * @author Gruppe13
+ * @see MenuOptions
+ *
+ */
+
+
 public class MenuProfil {
 
 	// Initializer method for the menu

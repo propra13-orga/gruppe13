@@ -11,6 +11,13 @@ import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Zeigt das Victory-Bild an falls der Spieler den letzten Boss besiegt und den letzten Level verlässt
+ * @author Gruppe13
+ *
+ */
+
+
 class ScreenWegi {
 	
 	private static	Image win;

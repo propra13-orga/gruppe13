@@ -11,6 +11,15 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Klasse für das Hauptmenü
+ * Hier hat der Spieler die Wahl den Single- oder Multiplayer zu starten,
+ * die Optionen zu bearbeiten (theoretisch) sowie den Mapeditor zu nutzen oder das Programm zu verlassen
+ * @author Gruppe13
+ *
+ */
+
+
 public class MenuMain{
 	
 	// Initializer method for the menu

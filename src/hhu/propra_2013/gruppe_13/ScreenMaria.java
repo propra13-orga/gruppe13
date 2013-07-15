@@ -11,6 +11,12 @@ import java.awt.event.MouseListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Zeigt ein Bild an falls der Spieler ums Leben kommt
+ * @author Gruppe13
+ *
+ */
+
 class ScreenMaria {
 	
 	private static	Image blau;

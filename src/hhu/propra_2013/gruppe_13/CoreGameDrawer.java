@@ -10,6 +10,12 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Klasse für die Grafische Darstellung des Spiels
+ * @author Gruppe13
+ *
+ */
+
 class CoreGameDrawer implements Runnable {
 	
 	// List of all Objects within the game, JPanel and the number of locations
@@ -24,7 +30,12 @@ class CoreGameDrawer implements Runnable {
 	private final	Image surface;
 	private MiscStatusBar statusBar;
 
-	
+	/**
+	 * Konstruktor
+	 * @param inLevel		Das aktuelle Level
+	 * @param inFrame		Der Frame in dem das Spiel läuft
+	 * @param inStatusBar	Die Statusbar
+	 */
 	// Constructor for class
 	CoreGameDrawer(CoreLevel inLevel, JFrame inFrame, MiscStatusBar inStatusBar) {
 		level 		= inLevel;
@@ -36,6 +47,14 @@ class CoreGameDrawer implements Runnable {
 		statusBar	= inStatusBar;
 		gameRunning = true;
 	}
+	/**
+	 * JPanel in dem gezeichnet wird
+	 * Nachdem das Format des Fensters bestimmt wird (Hoch oder Querformat, entsprechend wird das Spielfeld im Fenster platziert)
+	 * Dann werden der Hintergrund und die Statusbar gemalt
+	 * zuletzt wird über alle Objekte des aktuellen Raums iteriert und deren Zeichenmethode aufgerufen
+	 * @param inLogic	Die Spiellogik, um die Position des zu zeichnenden Raums im Level zu erhalten
+	 * 
+	 */
 	
 	// Initiate current objects variables, returns constructed JPanel
 	JPanel init(CoreLogic inLogic) {
@@ -126,6 +145,12 @@ class CoreGameDrawer implements Runnable {
 	}
 	
 	@Override // Override Thread method run, this will implement the game loop
+	
+	/**
+	 * Run-Methode
+	 * Solange das Spiel läuft wird weitergezeichnet
+	 */
+	
 	public void run() {
 		long 	time;
 		long 	temp;

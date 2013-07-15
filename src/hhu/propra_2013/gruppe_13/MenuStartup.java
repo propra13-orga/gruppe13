@@ -14,6 +14,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+/**
+ * Menüklasse für das 'Spielmenü'
+ * Hier kann der Spieler noch den Schwierigkeitsgrad festlegen bevor er das Spiel startet
+ * @author Gruppe13
+ *
+ */
+
+
 public class MenuStartup {
 	
 //	private static Icon easyImage;

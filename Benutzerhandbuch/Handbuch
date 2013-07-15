@@ -43,7 +43,8 @@
 
 \HRule \\[1.5cm]
 
-\includegraphics[width=1\textwidth]{./logo.jpg}\\[1cm]
+
+\includegraphics[width=1\textwidth]{../intro/intro434.png}\\[0,5cm]
 
 % Author and supervisor
 \begin{minipage}{0.3\textwidth}
@@ -153,12 +154,14 @@
       \item "Sweet Jesus" Wird durch einen grauen Kreis dargestellt. Wenn du stribst stehst du am dritten Tage wieder auf.
     \end{enumerate}
 
-\chapter{Spielmodi}
-
-  \section{Singelplayer}
-      
-  \section{Multiplayer}
-
 \chapter{Die Entwickler}
+    
+    \begin{itemize} 
+      \item Alina Hoppe
+      \item Aiko Bernehed
+      \item Benedikt Schlosza
+      \item Lukas Hering
+      \item Sebastian Derendorf
+    \end{itemize}
 
 \end{document}

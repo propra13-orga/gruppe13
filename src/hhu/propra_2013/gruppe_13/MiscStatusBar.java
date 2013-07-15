@@ -5,6 +5,13 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.io.Serializable;
 
+/**
+ * Klasse um die Statusleiste mit Spielerinformationen während des Spiels anzuzeigen
+ * @author Gruppe13
+ *
+ */
+
+
 class MiscStatusBar implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
@@ -19,6 +26,10 @@ class MiscStatusBar implements Serializable {
 	//coordinates for initializing the draw
 	private double	hpx, hpy, mhpx, mhpy, ax, ay, chocolateX, chocolateY;
 	
+	/**
+	 * Konstruktor
+	 * @param inFigure	Figur von der die dargestellten Werte stammen 
+	 */
 	public MiscStatusBar(Figure inFigure) {
 		figure 	= inFigure;
 //		mode = inMode;
@@ -52,6 +63,7 @@ class MiscStatusBar implements Serializable {
 	void talkTo(String inString){
 		
 	}
+	
 	
 	void draw(Graphics2D g, int xOffset, int yOffset, double step) {
 //		for(int i = 1; i <= mode; i++){

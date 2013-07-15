@@ -18,11 +18,13 @@ import javax.swing.JRadioButton;
 
 import java.io.*;
 
+/**
+ * Bietet eine Grafische Oberfläche zum Designen einzelner Räume sowie die Möglichkeit diese zu speichern
+ * @author	gruppe13
+ */	
+
 public class CoreMapEditor {
-	/**
-	 * Bietet eine Grafische Oberfläche zum Designen einzelner Räume sowie die Möglichkeit diese zu speichern
-	 * @author	gruppe13
-	 */	
+
 	
 	//TODO Mehr Dokumentation
 	static char obj;

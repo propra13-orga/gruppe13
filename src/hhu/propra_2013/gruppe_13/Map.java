@@ -4,11 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 /**
- * 
- * @Author : gp13
- *
  * This class creates and shows our map.
- * 
+ * @author : gp13
  */
 
 class Map extends CoreGameObjects {
@@ -19,8 +16,6 @@ class Map extends CoreGameObjects {
 	 * min and max values are looked up for knowing the drawing range of the map
 	 * cur values are set for knowing the currently visited room
 	 * now is set by logic / player to know when it is time to show the map
-	 * @param x X-Coordinate in the Room array 
-	 * @param y Y-Coordinate in the Room array
 	 */
 
 	private long 	id;
@@ -102,7 +97,8 @@ class Map extends CoreGameObjects {
 	}
 	/**
 	 * setVisited is the input method to handle the input from the logic
-	 * @param inLocation is the location of the room in the level array
+	 * @param inLocationX X-Koordinate des Raums im Levelarray
+	 * @param inLocationY Y-Koordinate des Raums im Levelarray
 	 */
 	void setVisited(int inLocationX, int inLocationY){
 		map[inLocationX][inLocationY] = map[inLocationX][inLocationY]+10;

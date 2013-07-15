@@ -7,6 +7,13 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 
+/**
+ * Klasse für das Item mit dem der Spieler respawnen kann
+ * @author Gruppe13
+ *
+ */
+
+
 class ItemResurrect extends Item{
 
 	private long 	id;
@@ -20,6 +27,16 @@ class ItemResurrect extends Item{
 //	private Figure 	figure;
 	
 	private int 	hp;
+	
+	/**
+	 * Konstruktor
+	 * @param initX			X-Position
+	 * @param initY			Y-Position
+	 * @param initWidth		Breite
+	 * @param initHeight	Höhe
+	 * @param id			Eindeutige ID (Multiplayer)
+	 */
+	
 	
 	ItemResurrect(double initX, double initY, int initWidth, int initHeight, long id) {
 		x	= initX;
@@ -45,6 +62,15 @@ class ItemResurrect extends Item{
 		return prize;
 	}
 
+	/**
+	 * Fügt dem Spieler das Item hinzu
+	 * Genutzt wird das Item über checkFigure in der Logik
+	 * @param room 		Um das Item vom boden zu entfernen falls es aufgehoben wurde
+	 * @param figure	Um der Figur das Item zu übergeben
+	 */
+	
+	
+	
 	@Override
 	void modFigure(ArrayList<CoreGameObjects> room, Figure figure) {
 		int money = figure.getGeld();
