@@ -149,12 +149,14 @@
       \item "One More Boom" Wird durch einen weißen Kreis dargestellt. Beim aufsammeln wird ein weiterer "Boom" deinem Imvendtar hinzugefügt werden.
       \item "Health Up" Wird durch einen cyan Kreis dargestellt. Beim aufsammeln wird deiner Gesundheit ein Balken hinzugefügt.
       \item "Armor" Wird durch einem oragen Kreis dargestellt. Beim aufsammeln wird deiner Armor ein Balken hinzugefügt.
-      \item "rattattattattattattattattattattattattattattattattattattattattattattattattattattattattattattatt"
+      \item "rattattattattattatta" Wird durch ein gelbes Quadrat dargestellt. Beim aufsammeln wird deine Schussfrequenz erhöht.
+      \item "Sweet Jesus" Wird durch einen grauen Kreis dargestellt. Wenn du stribst stehst du am dritten Tage wieder auf.
     \end{enumerate}
 
 \chapter{Spielmodi}
 
   \section{Singelplayer}
+      
   \section{Multiplayer}
 
 \chapter{Die Entwickler}

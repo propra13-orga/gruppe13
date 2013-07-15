@@ -16,7 +16,4 @@
 \contentsline {section}{\numberline {6.1}Spieler}{7}
 \contentsline {section}{\numberline {6.2}Gegner}{7}
 \contentsline {section}{\numberline {6.3}Items}{7}
-\contentsline {chapter}{\numberline {7}Spielmodi}{8}
-\contentsline {section}{\numberline {7.1}Singelplayer}{8}
-\contentsline {section}{\numberline {7.2}Multiplayer}{8}
-\contentsline {chapter}{\numberline {8}Die Entwickler}{9}
+\contentsline {chapter}{\numberline {7}Die Entwickler}{8}
